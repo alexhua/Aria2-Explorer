@@ -1,0 +1,50 @@
+{
+   "appName": {
+      "message": "YAAW2 for Chrome"
+   },
+   "description": {
+      "message": "Yet Another Aria2 WebUI in pure HTML/CSS/Javascirpt, supporting Baidu disk download.(forked from YAAW and import Aria2 WebUI)"
+   },
+   "contextmenuTitle":{
+      "message":"Export to "
+   },
+   "configPageTitle":{
+      "message":"YAAW2 Option Page"
+   },
+   "contextmenuStr":{
+      "message":"Context Menu"
+   },
+   "contextmenuDes":{
+      "message":"Add capture item to context menu"
+   },
+   "downloadCaptureStr":{
+      "message":"Download Capture"
+   },
+   "downloadCaptureDes":{
+      "message":" Enable auto capture when download file size ≥"
+   },
+   "bdPanDownloadDes":{
+      "message":"Enable download Baidu cloud disk large file"
+   },
+   "captureFinalUrlDes":{
+      "message":"Capture the final URL to exclude multi-redirect"
+   },
+   "whiteListStr":{
+      "message":"Website White-list"
+   },
+   "BlackListStr":{
+      "message":"Website Black-list"
+   },
+   "exportFailedStr":{
+      "message":"Export Failed"
+   },
+   "exportFailedDes":{
+      "message":"Could not connect to Aria2, task export failed!"
+   },
+   "exportSucceedStr":{
+      "message":"Export Succeed"
+   },
+   "exportSucceedDes":{
+      "message":"\nDownload task is beginning."
+   }
+}

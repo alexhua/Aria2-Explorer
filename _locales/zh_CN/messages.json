@@ -1,0 +1,51 @@
+{
+   "appName": {
+      "message": "YAAW2 for Chrome"
+   },
+   "description": {
+      "message": "Aria2 WebUI for Chrome,支持手动添加和自动拦截下载任务到Aria2，支持百度网盘大文件下载。（分叉自YAAW）"
+   },
+   "contextmenuTitle":{
+      "message":"导出到 "
+   },
+   "configPageTitle":{
+      "message":"YAAW2 选项配置页面"
+   },
+   "contextmenuStr":{
+      "message":"右键菜单"
+   },
+   "contextmenuDes":{
+      "message":"启用右键菜单拦截项"
+   },
+   "downloadCaptureStr":{
+      "message":"下载拦截"
+   },
+   "downloadCaptureDes":{
+      "message":"自动拦截下载任务到Aria2c，当文件大小 ≥"
+   },
+   "bdPanDownloadDes":{
+      "message":"下载百度网盘大文件 （刷新或重新打开网盘页面后生效）"
+   },
+   "captureFinalUrlDes":{
+      "message":"拦截最终下载地址 （排除多重跳转导致下载不正常的情况）"
+   },
+   "whiteListStr":{
+      "message":"网站白名单"
+   },
+   "BlackListStr":{
+      "message":"网站黑名单"
+   },
+   "exportFailedStr":{
+      "message":"导出失败"
+   },
+   "exportFailedDes":{
+      "message":"\n无法连接到Aria2,导出下载任务失败!"
+   },
+   "exportSucceedStr":{
+      "message":"导出成功"
+   },
+   "exportSucceedDes":{
+      "message":"\nAria2已经开始任务下载。"
+   }
+   
+}
