@@ -48,14 +48,6 @@ var HttpSendRead = function(info) {
     );
 };
 
-//生成右键菜单
-function addContextMenu(id, title) {
-    chrome.contextMenus.create({
-        id: id,
-        title: title,
-        contexts: ['link']
-    });
-}
 //弹出chrome通知
 function showNotification(id, opt) {
     var notification = chrome.notifications.create(id, opt, function(notifyId) {
@@ -134,8 +126,8 @@ function aria2Send(link, rpcUrl, downloadItem) {
             }
         };
         HttpSendRead(parameter).done(function(json, textStatus, jqXHR) {
-			var title = chrome.i18n.getMessage("exportSucceedStr");
-			var des = chrome.i18n.getMessage("exportSucceedDes");
+            var title = chrome.i18n.getMessage("exportSucceedStr");
+            var des = chrome.i18n.getMessage("exportSucceedDes");
             var opt = {
                 type: "basic",
                 title: title,
@@ -147,8 +139,8 @@ function aria2Send(link, rpcUrl, downloadItem) {
             showNotification(id, opt);
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR);
-			var title = chrome.i18n.getMessage("exportFailedStr");
-			var des = chrome.i18n.getMessage("exportFailedDes");			
+            var title = chrome.i18n.getMessage("exportFailedStr");
+            var des = chrome.i18n.getMessage("exportFailedDes");
             var opt = {
                 type: "basic",
                 title: title,
@@ -202,23 +194,84 @@ function isCaptureFinalUrl() {
     return finalUrl == "true";
 
 }
-chrome.contextMenus.onClicked.addListener(function(info, tab) {
-    var uri = decodeURIComponent(info.linkUrl);
-    var referrer = info.frameUrl || info.pageUrl;
-    
-	// mock a DownloadItem
-	var downloadItem = {
-        url: uri,
-        referrer: referrer,
-        filename: ""
-    };
-    aria2Send(uri, info.menuItemId, downloadItem);
+
+chrome.downloads.onDeterminingFilename.addListener(function(downloadItem) {
+    var integration = localStorage.getItem("integration");
+    var askBeforeDownload = localStorage.getItem("askBeforeDownload");
+    if (integration == "true" && isCapture(downloadItem)) {
+        if (askBeforeDownload == "true") {
+            if (isCaptureFinalUrl()) {
+                launchUI(downloadItem.finalUrl);
+            } else {
+                launchUI(downloadItem.url);
+            }
+        } else {
+            var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || defaultRPC);
+            if (isCaptureFinalUrl()) {
+                aria2Send(downloadItem.finalUrl, rpc_list[0]['url'], downloadItem);
+            } else {
+                aria2Send(downloadItem.url, rpc_list[0]['url'], downloadItem);
+            }
+        }
+        chrome.downloads.cancel(downloadItem.id);
+    }
 });
+
+chrome.browserAction.onClicked.addListener(launchUI);
+
+function launchUI(downloadURL) {
+    var index = chrome.extension.getURL('ui/ariang/index.html');
+    var url = (typeof downloadURL === "string") ? index + "#!/new?url=" + btoa(downloadURL) : index;
+    chrome.tabs.getAllInWindow(undefined, function(tabs) {
+        for (var i = 0, tab; tab = tabs[i]; i++) {
+            if (tab.url && tab.url.startsWith(index)) {
+                chrome.tabs.update(tab.id, {
+                    selected: true,
+                    url: url
+                });
+                return;
+            }
+        }
+        chrome.tabs.create({
+            url: url
+        });
+    });
+
+}
+
+//add Context Menu
+function addContextMenu(id, title) {
+    chrome.contextMenus.create({
+        id: id,
+        title: title,
+        contexts: ['link']
+    });
+}
+
+function createOptionMenu() {
+    var strAddtoWhiteList = chrome.i18n.getMessage("addToWhiteListStr");
+    chrome.contextMenus.create({
+        "type": "normal",
+        "id": "updateWhiteSite",
+        "title": strAddtoWhiteList,
+        "contexts": ["browser_action"]
+    });
+    var strAddtoBlackList = chrome.i18n.getMessage("addToBlackListStr");
+    chrome.contextMenus.create({
+        "type": "normal",
+        "id": "updateBlackSite",
+        "title": strAddtoBlackList,
+        "contexts": ["browser_action"]
+    });
+
+}
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     var strExport = chrome.i18n.getMessage("contextmenuTitle");
     if (changeInfo.status === 'loading') {
         chrome.contextMenus.removeAll();
+        createOptionMenu();
+        updateOptionMenu(tab);
         var contextMenus = localStorage.getItem("contextMenus");
         if (contextMenus == "true" || contextMenus == null) {
             var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || defaultRPC);
@@ -231,48 +284,105 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 
 });
 
-chrome.downloads.onDeterminingFilename.addListener(function(downloadItem) {
-    var integration = localStorage.getItem("integration");
-    if (integration == "true" && isCapture(downloadItem)) {
-        var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || defaultRPC);
-        if (isCaptureFinalUrl()) {
-            aria2Send(downloadItem.finalUrl, rpc_list[0]['url'], downloadItem);
-        } else {
-            aria2Send(downloadItem.url, rpc_list[0]['url'], downloadItem);
-        }
-        chrome.downloads.cancel(downloadItem.id);
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+    chrome.tabs.get(activeInfo.tabId, function(tab) {
+        updateOptionMenu(tab);
+    });
+
+});
+
+chrome.contextMenus.onClicked.addListener(function(info, tab) {
+    var uri = decodeURIComponent(info.linkUrl);
+    var referrer = info.frameUrl || info.pageUrl;
+    // mock a DownloadItem
+    var downloadItem = {
+        url: uri,
+        referrer: referrer,
+        filename: ""
+    };
+
+    if (info.menuItemId == "updateBlackSite") {
+        updateBlackSite(tab);
+        updateOptionMenu(tab)
+    } else if (info.menuItemId == "updateWhiteSite") {
+        updateWhiteSite(tab);
+        updateOptionMenu(tab)
+    } else {
+        aria2Send(uri, info.menuItemId, downloadItem);
     }
 });
 
-chrome.browserAction.onClicked.addListener(launchUI);
-
-function launchUI() {
-    var webui = localStorage.getItem('webui') || "AriaNG";
-    var index = chrome.extension.getURL('webui/index.html');
-    if (webui === "WebUI") {
-        index = chrome.extension.getURL('ui/webui/index.html');
-    } else if (webui === "AriaNG") {
-        index = chrome.extension.getURL('ui/ariang/index.html');
+function updateOptionMenu(tab) {
+    var black_site = JSON.parse(localStorage.getItem("black_site"));
+    var black_site_set = new Set(black_site);
+    var white_site = JSON.parse(localStorage.getItem("white_site"));
+    var white_site_set = new Set(white_site);
+    var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+    if (tab == null || tab.url == null) {
+        console.warn("Could not get active tab url, update option menu failed.");
+    }
+    if (!tab.active || tab.url.startsWith("chrome"))
+        return;
+    var domain = parse_url.exec(tab.url)[3];
+    if (black_site_set.has(domain)) {
+        var updateBlackSiteStr = chrome.i18n.getMessage("removeFromBlackListStr");
+        chrome.contextMenus.update("updateBlackSite", {
+            "title": updateBlackSiteStr
+        }, function() {});
     } else {
-        console.warn("Can not get webui config from storage！");
+        var updateBlackSiteStr = chrome.i18n.getMessage("addToBlackListStr");
+        chrome.contextMenus.update("updateBlackSite", {
+            "title": updateBlackSiteStr
+        }, function() {});
+    }
+    if (white_site_set.has(domain)) {
+        var updateWhiteSiteStr = chrome.i18n.getMessage("removeFromWhiteListStr");
+        chrome.contextMenus.update("updateWhiteSite", {
+            "title": updateWhiteSiteStr
+        }, function() {});
+    } else {
+        var updateWhiteSiteStr = chrome.i18n.getMessage("addToWhiteListStr");
+        chrome.contextMenus.update("updateWhiteSite", {
+            "title": updateWhiteSiteStr
+        }, function() {});
     }
 
-    chrome.tabs.getAllInWindow(undefined, function(tabs) {
-        for (var i = 0, tab; tab = tabs[i]; i++) {
-            if (tab.url && tab.url == index) {
-                chrome.tabs.update(tab.id, {
-                    selected: true
-                });
-                return;
-            }
-        }
-        chrome.tabs.create({
-            url: index
-        });
-    });
+}
+function updateWhiteSite(tab) {
+    if (tab == null || tab.url == null) {
+        console.warn("Could not get active tab url, update option menu failed.");
+    }
+    if (!tab.active || tab.url.startsWith("chrome"))
+        return;
+    var white_site = JSON.parse(localStorage.getItem("white_site"));
+    var white_site_set = new Set(white_site);
+    var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+    var domain = parse_url.exec(tab.url)[3];
+    if (white_site_set.has(domain)) {
+        white_site_set.delete(domain);
+    } else {
+        white_site_set.add(domain);
+    }
+    localStorage.setItem("white_site", JSON.stringify(Array.from(white_site_set)));
+}
+function updateBlackSite(tab) {
+    if (tab == null || tab.url == null) {
+        console.warn("Could not get active tab url, update option menu failed.");
+    }
+    if (!tab.active || tab.url.startsWith("chrome"))
+        return;
+    var black_site = JSON.parse(localStorage.getItem("black_site"));
+    var black_site_set = new Set(black_site);
+    var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+    var domain = parse_url.exec(tab.url)[3];
+    if (black_site_set.has(domain)) {
+        black_site_set.delete(domain);
+    } else {
+        black_site_set.add(domain);
+    }
+    localStorage.setItem("black_site", JSON.stringify(Array.from(black_site_set)));
 
 }
-
 chrome.notifications.onClicked.addListener(function(id) {
     launchUI();
     chrome.notifications.clear(id, function() {});
@@ -293,3 +403,5 @@ if (previousVersion == "" || previousVersion != manifest.version) {
     //showNotification(id, opt);
     localStorage.setItem("version", manifest.version);
 }
+
+createOptionMenu();

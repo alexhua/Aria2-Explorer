@@ -15,22 +15,12 @@ $(function() {
                 if (finalUrl == "true") {
                     $("#finalUrl").prop('checked', true);
                 }
-				var webui = localStorage.getItem('webui')||"WebUI";
-				if (webui == "AriaNG") {
-                    $("#webui2").prop('checked', true);
-                }else if(webui =="WebUI"){
-					$("#webui1").prop('checked', true);
-				}
+                var askBeforeDownload = localStorage.getItem("askBeforeDownload");
+                if (askBeforeDownload == "true") {
+                    $("#askBeforeDownload").prop('checked', true);
+                }
 
-                chrome.storage.local.get({
-                    bdpanDownload: true
-                }, function({bdpanDownload}) {
-                    if (bdpanDownload == true) {
-                        $("#bdpanDownload").prop('checked', true);
-                    }
-                });
-
-                var fileSize = localStorage.getItem("fileSize") || 100;
+                var fileSize = localStorage.getItem("fileSize") || 10;
                 $("#fileSize").val(fileSize);
                 var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc"}]');
                 for (var i in rpc_list) {
@@ -95,51 +85,46 @@ $(function() {
                 } else {
                     localStorage.setItem("finalUrl", false);
                 }
-				if ($("#webui1").prop('checked') == true) {
-                    localStorage.setItem("webui", "WebUI");
+                if ($("#askBeforeDownload").prop('checked') == true) {
+                    localStorage.setItem("askBeforeDownload", true);
                 } else {
-                    localStorage.setItem("webui", "AriaNG");
-                }
-                if ($("#bdpanDownload").prop('checked') == true) {
-                    chrome.storage.local.set({
-                        bdpanDownload: true
-                    }, function() {});
-                } else {
-                    chrome.storage.local.set({
-                        bdpanDownload: false
-                    }, function() {});
+                    localStorage.setItem("askBeforeDownload", false);
                 }
                 var fileSize = $("#fileSize").val();
                 localStorage.setItem("fileSize", fileSize);
                 var black_site = $("#black-site").val().split("\n");
-                localStorage.setItem("black_site", JSON.stringify(black_site));
+                var black_site_set = new Set(black_site);
+                // clear the repeat record using Set object
+                if (black_site_set.has(""))
+                    black_site_set.delete("");
+                localStorage.setItem("black_site", JSON.stringify(Array.from(black_site_set)));
                 var white_site = $("#white-site").val().split("\n");
-                localStorage.setItem("white_site", JSON.stringify(white_site));
+                var white_site_set = new Set(white_site);
+                // clear the repeat record using Set object
+                if (white_site_set.has(""))
+                    white_site_set.delete("");
+                localStorage.setItem("white_site", JSON.stringify(Array.from(white_site_set)));
             }
         };
     }
     )();
     config.init();
-	
+
 });
 localizeHtmlPage();
 
-function localizeHtmlPage()
-{
+function localizeHtmlPage() {
     //Localize by replacing __MSG_***__ meta tags
     var objects = document.getElementsByTagName('html');
-    for (var j = 0; j < objects.length; j++)
-    {
+    for (var j = 0; j < objects.length; j++) {
         var obj = objects[j];
 
         var valStrH = obj.innerHTML.toString();
-        var valNewH = valStrH.replace(/__MSG_(\w+)__/g, function(match, v1)
-        {
+        var valNewH = valStrH.replace(/__MSG_(\w+)__/g, function(match, v1) {
             return v1 ? chrome.i18n.getMessage(v1) : "";
         });
 
-        if(valNewH != valStrH)
-        {
+        if (valNewH != valStrH) {
             obj.innerHTML = valNewH;
         }
     }

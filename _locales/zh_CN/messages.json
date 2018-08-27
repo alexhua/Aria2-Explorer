@@ -3,7 +3,7 @@
       "message": "YAAW2 for Chrome"
    },
    "description": {
-      "message": "Aria2 WebUI for Chrome,支持手动添加和自动拦截下载任务到Aria2，支持百度网盘大文件下载。（分叉自YAAW）"
+      "message": "Aria2 Web UI 支持手动添加和自动拦截下载任务到Aria2。（分叉自YAAW）"
    },
    "contextmenuTitle":{
       "message":"导出到 "
@@ -23,8 +23,8 @@
    "downloadCaptureDes":{
       "message":"自动拦截下载任务到Aria2c，当文件大小 ≥"
    },
-   "bdPanDownloadDes":{
-      "message":"下载百度网盘大文件 （刷新或重新打开网盘页面后生效）"
+   "askBeforeDownloadDes":{
+      "message":"自动下载前询问详细设置（无法附带Cookies和Referrer信息）"
    },
    "captureFinalUrlDes":{
       "message":"拦截最终下载地址 （排除多重跳转导致下载不正常的情况）"
@@ -34,6 +34,18 @@
    },
    "BlackListStr":{
       "message":"网站黑名单"
+   },
+   "addToWhiteListStr":{
+      "message":"当前网站->白名单"
+   },
+   "addToBlackListStr":{
+      "message":"当前网站->黑名单"
+   },
+   "removeFromWhiteListStr":{
+      "message":"移出白名单"
+   },
+   "removeFromBlackListStr":{
+      "message":"移出黑名单"
    },
    "exportFailedStr":{
       "message":"导出失败"
@@ -46,6 +58,9 @@
    },
    "exportSucceedDes":{
       "message":"\nAria2已经开始任务下载。"
+   },
+   "placeHolderTipStr":{
+      "message":"每行一个网址"
    }
    
 }

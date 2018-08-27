@@ -94,8 +94,8 @@
               </label>
 			  
 			  <label class="checkbox">
-                <input type="checkbox" id="bdpanDownload">
-                __MSG_bdPanDownloadDes__
+                <input type="checkbox" id="askBeforeDownload">
+                __MSG_askBeforeDownloadDes__
               </label>
 			  
               <label class="checkbox">
@@ -104,23 +104,16 @@
               </label>			  
             </div>
           </div>
-		  <div class="control-group">
-            <label class="control-label" for="webui">Aria2 UI</label>
-				<div class="controls">
-					<input type="radio" id="webui1" name="webui" value="WebUI"> WebUI <br>
-					<input type="radio" id="webui2" name="webui" value="AriaNG" checked> AriaNG 
-				</div>			
-          </div>
           <div class="control-group">
             <label class="control-label" for="white-site">__MSG_whiteListStr__</label>
             <div class="controls">
-              <textarea rows="6" id="white-site"></textarea>
+              <textarea rows="6" id="white-site" placeholder="__MSG_placeHolderTipStr__"></textarea>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="black-site">__MSG_blackListStr__</label>
             <div class="controls">
-              <textarea rows="6" id="black-site"></textarea>
+              <textarea rows="6" id="black-site" placeholder="__MSG_placeHolderTipStr__"></textarea>
             </div>
           </div>
         </fieldset>

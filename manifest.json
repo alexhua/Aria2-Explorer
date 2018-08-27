@@ -4,7 +4,7 @@
    "short_name": "Aria2 WebUI",
    "options_page": "options.html",
    "permissions": [ "cookies", "tabs", "notifications", "activeTab", "contextMenus", "downloads","<all_urls>","storage"],
-   "version": "1.1.4",
+   "version": "1.2.0",
    "minimum_chrome_version": "50.0.0",
    
    "background": {
@@ -23,13 +23,5 @@
       "128": "images/logo128.png",
       "32": "images/logo32.png",
       "64": "images/logo64.png"
-   },
-
-   "content_scripts": [
-		{
-			"run_at": "document_start",
-			"matches" : ["*://pan.baidu.com/*","*://yun.baidu.com/*"],
-			"js"      : ["bdpan.js"]
-		}
-	]
+   }
 }
