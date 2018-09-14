@@ -195,9 +195,10 @@ function isCaptureFinalUrl() {
 
 }
 
-chrome.downloads.onDeterminingFilename.addListener(function(downloadItem) {
+chrome.downloads.onDeterminingFilename.addListener(function(downloadItem, suggest) {
     var integration = localStorage.getItem("integration");
     var askBeforeDownload = localStorage.getItem("askBeforeDownload");
+	
     if (integration == "true" && isCapture(downloadItem)) {
         if (askBeforeDownload == "true") {
             if (isCaptureFinalUrl()) {
@@ -215,6 +216,8 @@ chrome.downloads.onDeterminingFilename.addListener(function(downloadItem) {
         }
         chrome.downloads.cancel(downloadItem.id);
     }
+	suggest();
+	//return true;
 });
 
 chrome.browserAction.onClicked.addListener(launchUI);
