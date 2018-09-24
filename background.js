@@ -195,11 +195,16 @@ function isCaptureFinalUrl() {
 
 }
 
-chrome.downloads.onDeterminingFilename.addListener(function(downloadItem, suggest) {
+//chrome.downloads.onChanged.addListener(function (downloadItem){
+//    console.log(downloadItem);
+//});
+
+chrome.downloads.onCreated.addListener(function(downloadItem) {
     var integration = localStorage.getItem("integration");
     var askBeforeDownload = localStorage.getItem("askBeforeDownload");
-	
+
     if (integration == "true" && isCapture(downloadItem)) {
+        chrome.downloads.cancel(downloadItem.id);
         if (askBeforeDownload == "true") {
             if (isCaptureFinalUrl()) {
                 launchUI(downloadItem.finalUrl);
@@ -214,10 +219,7 @@ chrome.downloads.onDeterminingFilename.addListener(function(downloadItem, sugges
                 aria2Send(downloadItem.url, rpc_list[0]['url'], downloadItem);
             }
         }
-        chrome.downloads.cancel(downloadItem.id);
     }
-	suggest();
-	//return true;
 });
 
 chrome.browserAction.onClicked.addListener(launchUI);
@@ -320,14 +322,13 @@ function updateOptionMenu(tab) {
     var black_site_set = new Set(black_site);
     var white_site = JSON.parse(localStorage.getItem("white_site"));
     var white_site_set = new Set(white_site);
-    var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
     if (tab == null || tab.url == null) {
         console.warn("Could not get active tab url, update option menu failed.");
     }
     if (!tab.active || tab.url.startsWith("chrome"))
         return;
-    var domain = parse_url.exec(tab.url)[3];
-    if (black_site_set.has(domain)) {
+    var url = new URL(tab.url);
+    if (black_site_set.has(url.hostname)) {
         var updateBlackSiteStr = chrome.i18n.getMessage("removeFromBlackListStr");
         chrome.contextMenus.update("updateBlackSite", {
             "title": updateBlackSiteStr
@@ -338,7 +339,7 @@ function updateOptionMenu(tab) {
             "title": updateBlackSiteStr
         }, function() {});
     }
-    if (white_site_set.has(domain)) {
+    if (white_site_set.has(url.hostname)) {
         var updateWhiteSiteStr = chrome.i18n.getMessage("removeFromWhiteListStr");
         chrome.contextMenus.update("updateWhiteSite", {
             "title": updateWhiteSiteStr
@@ -359,12 +360,11 @@ function updateWhiteSite(tab) {
         return;
     var white_site = JSON.parse(localStorage.getItem("white_site"));
     var white_site_set = new Set(white_site);
-    var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
-    var domain = parse_url.exec(tab.url)[3];
-    if (white_site_set.has(domain)) {
-        white_site_set.delete(domain);
+    var url = new URL(tab.url);
+    if (white_site_set.has(url.hostname)) {
+        white_site_set.delete(url.hostname);
     } else {
-        white_site_set.add(domain);
+        white_site_set.add(url.hostname);
     }
     localStorage.setItem("white_site", JSON.stringify(Array.from(white_site_set)));
 }
@@ -376,12 +376,11 @@ function updateBlackSite(tab) {
         return;
     var black_site = JSON.parse(localStorage.getItem("black_site"));
     var black_site_set = new Set(black_site);
-    var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
-    var domain = parse_url.exec(tab.url)[3];
-    if (black_site_set.has(domain)) {
-        black_site_set.delete(domain);
+    var url = new URL(tab.url);
+    if (black_site_set.has(url.hostname)) {
+        black_site_set.delete(url.hostname);
     } else {
-        black_site_set.add(domain);
+        black_site_set.add(url.hostname);
     }
     localStorage.setItem("black_site", JSON.stringify(Array.from(black_site_set)));
 
@@ -398,13 +397,11 @@ if (previousVersion == "" || previousVersion != manifest.version) {
     var opt = {
         type: "basic",
         title: "更新",
-        message: "版本更新到" + manifest.version + "啦\nAriaNG支持在Chrome中浏览下载目录，需要在扩展管理页面勾选“允许访问文件地址”选项！",
+        message: "版本更新到" + manifest.version + "啦\n解决了一个文件名乱码问题，AriaNG更新到0.5.0了。",
         iconUrl: "images/logo64.png",
         requireInteraction: true
     };
     var id = new Date().getTime().toString();
-    //showNotification(id, opt);
+    showNotification(id, opt);
     localStorage.setItem("version", manifest.version);
 }
-
-createOptionMenu();
