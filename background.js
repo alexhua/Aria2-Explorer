@@ -196,13 +196,18 @@ function isCaptureFinalUrl() {
 }
 
 //chrome.downloads.onChanged.addListener(function (downloadItem){
+//	console.log("onChanged");
 //    console.log(downloadItem);
 //});
 
-chrome.downloads.onCreated.addListener(function(downloadItem) {
+chrome.downloads.onDeterminingFilename.addListener(function(downloadItem, suggestion) {
     var integration = localStorage.getItem("integration");
     var askBeforeDownload = localStorage.getItem("askBeforeDownload");
 
+	if(downloadItem.byExtensionId=="gbdinbbamaniaidalikeiclecfbpgphh"){
+		//workaround for filename ignorant assigned by extension "音视频下载"
+		return true;
+	}
     if (integration == "true" && isCapture(downloadItem)) {
         chrome.downloads.cancel(downloadItem.id);
         if (askBeforeDownload == "true") {
@@ -402,6 +407,6 @@ if (previousVersion == "" || previousVersion != manifest.version) {
         requireInteraction: true
     };
     var id = new Date().getTime().toString();
-    showNotification(id, opt);
+    //showNotification(id, opt);
     localStorage.setItem("version", manifest.version);
 }
