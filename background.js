@@ -212,9 +212,9 @@ chrome.downloads.onDeterminingFilename.addListener(function(downloadItem, sugges
         chrome.downloads.cancel(downloadItem.id);
         if (askBeforeDownload == "true") {
             if (isCaptureFinalUrl()) {
-                launchUI(downloadItem.finalUrl);
+                launchUI(downloadItem.finalUrl, downloadItem.referrer);
             } else {
-                launchUI(downloadItem.url);
+                launchUI(downloadItem.url, downloadItem.referrer);
             }
         } else {
             var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || defaultRPC);
@@ -229,9 +229,16 @@ chrome.downloads.onDeterminingFilename.addListener(function(downloadItem, sugges
 
 chrome.browserAction.onClicked.addListener(launchUI);
 
-function launchUI(downloadURL) {
+function launchUI(downloadURL, referrer) {
     var index = chrome.extension.getURL('ui/ariang/index.html');
-    var url = (typeof downloadURL === "string") ? index + "#!/new?url=" + btoa(downloadURL) : index;
+	if (typeof downloadURL === "string"){
+		url = index + "#!/new?url=" + btoa(downloadURL);
+		if  (typeof referrer === "string" && referrer!=""){
+			url = url + "&referer="+referrer;
+		}
+	}else{
+		url = index; //clicked from notification or sbrowserAction icon, only launch UI.
+	}
     chrome.tabs.getAllInWindow(undefined, function(tabs) {
         for (var i = 0, tab; tab = tabs[i]; i++) {
             if (tab.url && tab.url.startsWith(index)) {
@@ -402,11 +409,11 @@ if (previousVersion == "" || previousVersion != manifest.version) {
     var opt = {
         type: "basic",
         title: "更新",
-        message: "版本更新到" + manifest.version + "啦\n解决了一个文件名乱码问题，AriaNG更新到0.5.0了。",
+        message: "YAAW2版本更新到" + manifest.version + "啦\n更新内容：AriaNG升级到1.0.0。",
         iconUrl: "images/logo64.png",
         requireInteraction: true
     };
     var id = new Date().getTime().toString();
-    //showNotification(id, opt);
+    showNotification(id, opt);
     localStorage.setItem("version", manifest.version);
 }
