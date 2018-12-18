@@ -409,7 +409,7 @@ if (previousVersion == "" || previousVersion != manifest.version) {
     var opt = {
         type: "basic",
         title: "更新",
-        message: "YAAW2版本更新到" + manifest.version + "啦\n更新内容：AriaNG升级到1.0.0。",
+        message: "\n提示：YAAW2已更名为Aria2 for chrome。",
         iconUrl: "images/logo64.png",
         requireInteraction: true
     };

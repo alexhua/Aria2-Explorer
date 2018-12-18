@@ -1,21 +1,21 @@
 {
    "appName": {
-      "message": "YAAW2 for Chrome"
+      "message":"Aria2 for Chrome"
    },
    "description": {
-      "message": "Aria2 Web UI 支持手动添加和自动拦截下载任务到Aria2。（分叉自YAAW）"
+      "message":"Aria2 Web UI 支持手动添加和自动拦截下载任务到Aria2。（分叉自YAAW）"
    },
    "contextmenuTitle":{
       "message":"导出到 "
    },
    "configPageTitle":{
-      "message":"YAAW2 选项配置页面"
+      "message":"Aria2 选项配置页面"
    },
    "contextmenuStr":{
       "message":"右键菜单"
    },
    "contextmenuDes":{
-      "message":"启用右键菜单拦截项"
+      "message":"启用右键菜单导出项"
    },
    "downloadCaptureStr":{
       "message":"下载拦截"
@@ -51,7 +51,7 @@
       "message":"导出失败"
    },
    "exportFailedDes":{
-      "message":"\n无法连接到Aria2,导出下载任务失败!"
+      "message":"\n无法连接到Aria2c,导出下载任务失败!"
    },
    "exportSucceedStr":{
       "message":"导出成功"
@@ -61,6 +61,5 @@
    },
    "placeHolderTipStr":{
       "message":"每行一个网址"
-   }
-   
+   }   
 }

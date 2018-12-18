@@ -1,6 +1,6 @@
 {
    "appName": {
-      "message": "YAAW2 for Chrome"
+      "message":"Aria2 for Chrome"
    },
    "description": {
       "message": "Aria2 Web UI in pure HTML/CSS/Javascirpt for chrome.(forked from YAAW and imports Aria2NG UI)"
@@ -9,7 +9,7 @@
       "message":"Export to "
    },
    "configPageTitle":{
-      "message":"YAAW2 Option Page"
+      "message":"Aria2 Option Page"
    },
    "contextmenuStr":{
       "message":"Context Menu"
@@ -51,7 +51,7 @@
       "message":"Export Failed"
    },
    "exportFailedDes":{
-      "message":"Could not connect to Aria2, task export failed!"
+      "message":"Could not connect to Aria2c, task export failed!"
    },
    "exportSucceedStr":{
       "message":"Export Succeed"
