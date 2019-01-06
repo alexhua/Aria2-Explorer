@@ -61,5 +61,17 @@
    },
    "placeHolderTipStr":{
       "message":"每行一个网址"
-   }   
+   },
+   "WebUIOpenStyleStr":{
+      "message":"AriaNG打开方式"
+   },
+	"WebUIOpenStyle1":{
+      "message":"弹窗"
+   },
+   "WebUIOpenStyle2":{
+      "message":"新标签页"
+   },
+   "openWebUIStr":{
+      "message":"打开AriaNG"
+   }
 }

@@ -195,19 +195,14 @@ function isCaptureFinalUrl() {
 
 }
 
-//chrome.downloads.onChanged.addListener(function (downloadItem){
-//	console.log("onChanged");
-//    console.log(downloadItem);
-//});
-
 chrome.downloads.onDeterminingFilename.addListener(function(downloadItem, suggestion) {
     var integration = localStorage.getItem("integration");
     var askBeforeDownload = localStorage.getItem("askBeforeDownload");
 
-	if(downloadItem.byExtensionId=="gbdinbbamaniaidalikeiclecfbpgphh"){
-		//workaround for filename ignorant assigned by extension "音视频下载"
-		return true;
-	}
+    if (downloadItem.byExtensionId == "gbdinbbamaniaidalikeiclecfbpgphh") {
+        //workaround for filename ignorant assigned by extension "音视频下载"
+        return true;
+    }
     if (integration == "true" && isCapture(downloadItem)) {
         chrome.downloads.cancel(downloadItem.id);
         if (askBeforeDownload == "true") {
@@ -231,14 +226,14 @@ chrome.browserAction.onClicked.addListener(launchUI);
 
 function launchUI(downloadURL, referrer) {
     var index = chrome.extension.getURL('ui/ariang/index.html');
-	if (typeof downloadURL === "string"){
-		url = index + "#!/new?url=" + btoa(downloadURL);
-		if  (typeof referrer === "string" && referrer!=""){
-			url = url + "&referer="+referrer;
-		}
-	}else{
-		url = index; //clicked from notification or sbrowserAction icon, only launch UI.
-	}
+    if (typeof downloadURL === "string") {
+        url = index + "#!/new?url=" + btoa(downloadURL);
+        if (typeof referrer === "string" && referrer != "") {
+            url = url + "&referer=" + referrer;
+        }
+    } else {
+        url = index;  //clicked from notification or sbrowserAction icon, only launch UI.
+    }
     chrome.tabs.getAllInWindow(undefined, function(tabs) {
         for (var i = 0, tab; tab = tabs[i]; i++) {
             if (tab.url && tab.url.startsWith(index)) {
@@ -266,6 +261,13 @@ function addContextMenu(id, title) {
 }
 
 function createOptionMenu() {
+    var strOpenWebUI = chrome.i18n.getMessage("openWebUIStr");
+    chrome.contextMenus.create({
+        "type": "normal",
+        "id": "openWebUI",
+        "title": strOpenWebUI,
+        "contexts": ["browser_action"]
+    });
     var strAddtoWhiteList = chrome.i18n.getMessage("addToWhiteListStr");
     chrome.contextMenus.create({
         "type": "normal",
@@ -318,7 +320,9 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
         filename: ""
     };
 
-    if (info.menuItemId == "updateBlackSite") {
+    if (info.menuItemId == "openWebUI") {
+        launchUI();
+    } else if (info.menuItemId == "updateBlackSite") {
         updateBlackSite(tab);
         updateOptionMenu(tab)
     } else if (info.menuItemId == "updateWhiteSite") {
@@ -409,11 +413,20 @@ if (previousVersion == "" || previousVersion != manifest.version) {
     var opt = {
         type: "basic",
         title: "更新",
-        message: "\n提示：YAAW2已更名为Aria2 for chrome。",
+        message: "\n支持在弹出窗口中打开AriaNG。",
         iconUrl: "images/logo64.png",
         requireInteraction: true
     };
     var id = new Date().getTime().toString();
-    showNotification(id, opt);
+    //showNotification(id, opt);
     localStorage.setItem("version", manifest.version);
+}
+
+//init popup url
+var webUIOpenStyle = localStorage.getItem("webUIOpenStyle");
+if (webUIOpenStyle == "popup") {
+    var index = chrome.extension.getURL('ui/ariang/popup.html');
+    chrome.browserAction.setPopup({
+        popup: index
+    });
 }

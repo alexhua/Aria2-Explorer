@@ -61,5 +61,17 @@
    },
    "placeHolderTipStr":{
       "message":"one website per line"
+   },
+   "WebUIOpenStyleStr":{
+      "message":"AriaNG Open in"
+   },
+   "WebUIOpenStyle1":{
+      "message":"Popup window"
+   },
+   "WebUIOpenStyle2":{
+      "message":"New tab"
+   },
+   "openWebUIStr":{
+      "message":"Open AriaNG"
    }
 }
