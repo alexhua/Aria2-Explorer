@@ -19,7 +19,10 @@ $(function() {
                 if (askBeforeDownload == "true") {
                     $("#askBeforeDownload").prop('checked', true);
                 }
-
+                var webUIOpenStyle = localStorage.getItem("webUIOpenStyle");
+                if (webUIOpenStyle == "popup") {
+                    $("#openstyle1").prop('checked', true);
+                }
                 var fileSize = localStorage.getItem("fileSize") || 10;
                 $("#fileSize").val(fileSize);
                 var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc"}]');
@@ -89,6 +92,18 @@ $(function() {
                     localStorage.setItem("askBeforeDownload", true);
                 } else {
                     localStorage.setItem("askBeforeDownload", false);
+                }
+                if ($("#openstyle1").prop('checked') == true) {
+                    localStorage.setItem("webUIOpenStyle", $("#openstyle1").val());
+                    var index = chrome.extension.getURL('ui/ariang/popup.html');
+                    chrome.browserAction.setPopup({
+                        popup: index
+                    });
+                } else {
+                    localStorage.setItem("webUIOpenStyle", $("#openstyle2").val());
+                    chrome.browserAction.setPopup({
+                        popup: ''
+                    });
                 }
                 var fileSize = $("#fileSize").val();
                 localStorage.setItem("fileSize", fileSize);

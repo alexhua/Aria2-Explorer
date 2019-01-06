@@ -27,7 +27,7 @@
       "message":"自動下載前詢問詳細設定（無法附帶Cookies資訊）"
    },
    "captureFinalUrlDes":{
-      "message":"攔截最終下載位址 （排除多重跳轉導致下載不正常的情況）"
+      "message":"攔截最終下載位址 （排除多重跳轉導致下載不正常的狀況）"
    },
    "whiteListStr":{
       "message":"網站白名單"
@@ -61,5 +61,17 @@
    },
    "placeHolderTipStr":{
       "message":"每行一個網址"
-   }   
+   },
+   "WebUIOpenStyleStr":{
+      "message":"AriaNG打開樣式"
+   },
+   "WebUIOpenStyle1":{
+      "message":"彈窗"
+   },
+   "WebUIOpenStyle2":{
+      "message":"新分頁"
+   },
+   "openWebUIStr":{
+      "message":"打開AriaNG"
+   }
 }
