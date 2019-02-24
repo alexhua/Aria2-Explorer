@@ -90,7 +90,7 @@
                 <input type="checkbox" id="integration">
                 __MSG_downloadCaptureDes__
                 <input type="text" class="input-small"  placeholder="File Size" id="fileSize">
-                MB
+                MB  &nbsp&nbsp&nbsp(Alt+A)
               </label>
 			  
 			  <label class="checkbox">
@@ -106,7 +106,7 @@
           </div>
 		  
           <div class="control-group">
-            <label class="control-label" for="white-site">__MSG_WebUIOpenStyleStr__</label>
+            <label class="control-label" for="webui-open-style">__MSG_WebUIOpenStyleStr__</label>
             <div class="controls">
               <input type="radio" id="openstyle1" name="webUIOpenStyle" value="popup"> __MSG_WebUIOpenStyle1__ <br>
 			  <input type="radio" id="openstyle2" name="webUIOpenStyle" value="newtab" checked> __MSG_WebUIOpenStyle2__ 
@@ -123,6 +123,16 @@
             <label class="control-label" for="black-site">__MSG_blackListStr__</label>
             <div class="controls">
               <textarea rows="6" id="black-site" placeholder="__MSG_placeHolderTipStr__"></textarea>
+            </div>
+          </div>
+
+          <div class="control-group">
+          <label class="control-label" for="config-sync">__MSG_configCloudSync__</label>
+            <div class="controls">
+              <button class="btn" id="uploadConfig">Upload</button>
+              <button class="btn" id="downloadConfig">Download</button>
+              <em>(__MSG_configCloudSyncDes__)</em>
+              <div id="sync-result"></div>
             </div>
           </div>
         </fieldset>

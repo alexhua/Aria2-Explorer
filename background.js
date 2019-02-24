@@ -195,10 +195,36 @@ function isCaptureFinalUrl() {
 
 }
 
-chrome.downloads.onDeterminingFilename.addListener(function(downloadItem, suggestion) {
-    var integration = localStorage.getItem("integration");
-    var askBeforeDownload = localStorage.getItem("askBeforeDownload");
+function enableCapture() {
+    chrome.downloads.onDeterminingFilename.addListener(captureDownload);
+    chrome.browserAction.setIcon({
+        path: {
+            '32': "images/logo32.png",
+            '64': "images/logo64.png",
+            '128': "images/logo128.png",
+            '256': "images/logo256.png"
+        }
+    });
+}
 
+function disableCapture() {
+    if (chrome.downloads.onDeterminingFilename.hasListener(captureDownload)) {
+        chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
+    }
+    chrome.browserAction.setIcon({
+        path: {
+            '32': "images/logo32-gray.png",
+            '64': "images/logo64-gray.png",
+            '128': "images/logo128-gray.png",
+            '256': "images/logo256-gray.png"
+        }
+    });
+}
+
+function captureDownload(downloadItem, suggestion) {
+
+    var askBeforeDownload = localStorage.getItem("askBeforeDownload");
+    var integration = localStorage.getItem("integration");
     if (downloadItem.byExtensionId == "gbdinbbamaniaidalikeiclecfbpgphh") {
         //workaround for filename ignorant assigned by extension "音视频下载"
         return true;
@@ -220,7 +246,8 @@ chrome.downloads.onDeterminingFilename.addListener(function(downloadItem, sugges
             }
         }
     }
-});
+
+}
 
 chrome.browserAction.onClicked.addListener(launchUI);
 
@@ -232,7 +259,8 @@ function launchUI(downloadURL, referrer) {
             url = url + "&referer=" + referrer;
         }
     } else {
-        url = index;  //clicked from notification or sbrowserAction icon, only launch UI.
+        url = index;
+        //clicked from notification or sbrowserAction icon, only launch UI.
     }
     chrome.tabs.getAllInWindow(undefined, function(tabs) {
         for (var i = 0, tab; tab = tabs[i]; i++) {
@@ -368,6 +396,7 @@ function updateOptionMenu(tab) {
     }
 
 }
+
 function updateWhiteSite(tab) {
     if (tab == null || tab.url == null) {
         console.warn("Could not get active tab url, update option menu failed.");
@@ -406,6 +435,30 @@ chrome.notifications.onClicked.addListener(function(id) {
     chrome.notifications.clear(id, function() {});
 });
 
+chrome.commands.onCommand.addListener(function(command) {
+    if (command === "toggle-capture") {
+        var integration = localStorage.getItem("integration");
+        if (integration == "false" || integration == null) {
+            localStorage.setItem("integration", "true");
+            enableCapture();
+        } else if (integration == "true") {
+            localStorage.setItem("integration", "false");
+            disableCapture();
+        }
+    }
+});
+
+window.addEventListener('storage', function(se) {
+    //console.log(se);
+    if (se.key == "integration") {
+        if (se.newValue == "true") {
+            enableCapture();
+        } else if (se.newValue == "false") {
+            disableCapture();
+        }
+    }
+});
+
 //软件版本更新提示
 var manifest = chrome.runtime.getManifest();
 var previousVersion = localStorage.getItem("version");
@@ -422,11 +475,17 @@ if (previousVersion == "" || previousVersion != manifest.version) {
     localStorage.setItem("version", manifest.version);
 }
 
-//init popup url
+//init popup url icon and capture
 var webUIOpenStyle = localStorage.getItem("webUIOpenStyle");
 if (webUIOpenStyle == "popup") {
     var index = chrome.extension.getURL('ui/ariang/popup.html');
     chrome.browserAction.setPopup({
         popup: index
     });
+}
+var integration = localStorage.getItem("integration");
+if (integration == "true") {
+    enableCapture();
+} else if (integration == "false") {
+    disableCapture();
 }

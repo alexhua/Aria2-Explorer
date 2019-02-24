@@ -4,7 +4,7 @@
    "short_name": "Aria2 WebUI",
    "options_page": "options.html",
    "permissions": [ "cookies", "tabs", "notifications", "activeTab", "contextMenus", "downloads","<all_urls>","storage"],
-   "version": "1.2.5",
+   "version": "1.2.6",
    "minimum_chrome_version": "50.0.0",
    
    "background": {
@@ -17,11 +17,19 @@
    },
    
    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-   "default_locale": "zh_CN",
+   "default_locale": "en",
    "description": "__MSG_description__",
    "icons": {
       "128": "images/logo128.png",
       "32": "images/logo32.png",
       "64": "images/logo64.png"
+   },
+   "commands": {
+          "toggle-capture": {
+            "suggested_key": {
+              "default": "Alt+A"
+            },
+            "description": "__MSG_toggleCapture__"
+          }
    }
 }

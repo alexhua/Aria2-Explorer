@@ -47,6 +47,12 @@ $(function() {
                     var rpc_form = '<div class="control-group rpc_list">' + '<label class="control-label">JSON-RPC</label>' + '<div class="controls">' + '<input type="text" class="input-small"  placeholder="RPC Name">' + '<input type="text" class="input-xlarge rpc-path"  placeholder="RPC Path"></div></div>';
                     $(rpc_form).insertAfter($(".rpc_list")[0]);
                 });
+                $("#uploadConfig").on("click", function() {
+                    self.uploadConfig();
+                });
+                $("#downloadConfig").on("click", function() {
+                    self.downloadConfig();
+                });
                 $("#save").on("click", function() {
                     self.save();
                 });
@@ -119,6 +125,77 @@ $(function() {
                 if (white_site_set.has(""))
                     white_site_set.delete("");
                 localStorage.setItem("white_site", JSON.stringify(Array.from(white_site_set)));
+            },
+            uploadConfig: function() {
+                var self = this;
+                var ExtConfig = {
+                    AriaNgConfig: {
+                        Options: ""
+                    },
+                    AriaExtConfig: {
+                        askBeforeDownload: "",
+                        black_site: "",
+                        contextMenus: "",
+                        fileSize: "",
+                        finalUrl: "",
+                        integration: "",
+                        jsonrpc_history: "",
+                        rpc_list: "",
+                        version: "",
+                        webUIOpenStyle: "",
+                        white_site: ""
+                    }
+                };
+
+                for (var key in localStorage) {
+                    if (key == "AriaNg.Language.zh_Hans") {
+                        continue;
+                    } else if (key == "AriaNg.Options") {
+                        ExtConfig.AriaNgConfig.Options = localStorage.getItem(key);
+                    } else {
+                        ExtConfig.AriaExtConfig[key] = localStorage.getItem(key);
+                    }
+                }
+                //check the validility of local config
+                if (ExtConfig.AriaExtConfig.integration == "") {
+                    var str = chrome.i18n.getMessage("uploadConfigWarn");
+                    if (!confirm(str))
+                        return;
+                }
+                chrome.storage.sync.set(ExtConfig, function() {
+                    if (chrome.runtime.lastError) {
+                        var str = chrome.i18n.getMessage("uploadConfigFailed");
+                        self.displaySyncResult(str + chrome.runtime.lastError.message);
+                    } else {
+                        var str = chrome.i18n.getMessage("uploadConfigSucceed");
+                        self.displaySyncResult(str);
+                    }
+                });
+            },
+            downloadConfig: function() {
+                var self = this;
+                chrome.storage.sync.get(null, function(extConfig) {
+                    if (extConfig && extConfig.AriaExtConfig) {
+                        if (extConfig.AriaNgConfig.Options != "") {
+                            localStorage.setItem("AriaNg.Options", extConfig.AriaNgConfig.Options);
+                        }
+                        for (var key in extConfig.AriaExtConfig) {
+                            localStorage[key] = extConfig.AriaExtConfig[key];
+                        }
+                        location.reload();
+                        var str = chrome.i18n.getMessage("downloadConfigSucceed");
+                        self.displaySyncResult(str);
+                    } else {
+                        var str = chrome.i18n.getMessage("downloadConfigFailed");
+                        self.displaySyncResult(str);
+                    }
+                });
+            },
+            displaySyncResult: function(msg) {
+                $("#sync-result").text(msg);
+                setTimeout(function() {
+                    $("#sync-result").text("");
+                }, 2000);
             }
         };
     }
@@ -127,7 +204,6 @@ $(function() {
 
 });
 localizeHtmlPage();
-
 function localizeHtmlPage() {
     //Localize by replacing __MSG_***__ meta tags
     var objects = document.getElementsByTagName('html');
