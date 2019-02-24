@@ -147,15 +147,11 @@ $(function() {
                     }
                 };
 
-                for (var key in localStorage) {
-                    if (key == "AriaNg.Language.zh_Hans") {
-                        continue;
-                    } else if (key == "AriaNg.Options") {
-                        ExtConfig.AriaNgConfig.Options = localStorage.getItem(key);
-                    } else {
-                        ExtConfig.AriaExtConfig[key] = localStorage.getItem(key);
-                    }
+                ExtConfig.AriaNgConfig.Options = localStorage.getItem("AriaNg.Options");
+                for (var key in ExtConfig.AriaExtConfig) {
+                    ExtConfig.AriaExtConfig[key] = localStorage.getItem(key);
                 }
+                
                 //check the validility of local config
                 if (ExtConfig.AriaExtConfig.integration == "") {
                     var str = chrome.i18n.getMessage("uploadConfigWarn");

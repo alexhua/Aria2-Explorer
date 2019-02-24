@@ -486,6 +486,6 @@ if (webUIOpenStyle == "popup") {
 var integration = localStorage.getItem("integration");
 if (integration == "true") {
     enableCapture();
-} else if (integration == "false") {
+} else if (integration == "false" || integration == null) {
     disableCapture();
 }
