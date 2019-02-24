@@ -73,5 +73,29 @@
    },
    "openWebUIStr":{
       "message":"打开AriaNG"
+   },
+   "toggleCapture":{
+      "message":"开关下载自动拦截"
+   },
+   "configCloudSync":{
+      "message":"配置云端同步"
+   },
+   "configCloudSyncDes":{
+      "message":"同步AriaNG和扩展配置到当前登陆的Google账号"
+   },
+   "uploadConfigWarn":{
+      "message":"本地配置为空或无效，仍然继续？"
+   },
+   "uploadConfigSucceed":{
+      "message":"上传配置成功"
+   },
+   "uploadConfigFailed":{
+      "message":"上传配置失败: "
+   },
+   "downloadConfigSucceed":{
+      "message":"下载配置成功"
+   },
+   "downloadConfigFailed":{
+      "message":"下载配置失败：云端数据无效或无网络连接"
    }
 }

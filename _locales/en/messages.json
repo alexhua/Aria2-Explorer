@@ -73,5 +73,29 @@
    },
    "openWebUIStr":{
       "message":"Open AriaNG"
+   },
+   "toggleCapture":{
+      "message":"Toggle download capture"
+   },
+   "configCloudSync":{
+      "message":"Config Cloud Sync"
+   },
+   "configCloudSyncDes":{
+      "message":"Sync AriaNg and extension config to current loged-in Google account"
+   },
+   "uploadConfigWarn":{
+      "message":"Invlid or empty local config data, still continue?"
+   },
+   "uploadConfigSucceed":{
+      "message":"Upload config succeed"
+   },
+   "uploadConfigFailed":{
+      "message":"Upload config failed: "
+   },
+   "downloadConfigSucceed":{
+      "message":"Download config successfully"
+   },
+   "downloadConfigFailed":{
+      "message":"Download config failed: Data invalid or network disconnected "
    }
 }

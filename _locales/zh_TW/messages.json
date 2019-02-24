@@ -73,5 +73,29 @@
    },
    "openWebUIStr":{
       "message":"打開AriaNG"
+   },
+   "toggleCapture":{
+      "message":"開關下載自動攔截"
+   },
+   "configCloudSync":{
+      "message":"配寘雲端同步"
+   },
+   "configCloudSyncDes":{
+      "message":"同步AriaNG和擴展配寘到當前登入的Google帳號"
+   },
+   "uploadConfigWarn":{
+      "message":"本地配寘為空或無效，仍然繼續？"
+   },
+   "uploadConfigSucceed":{
+      "message":"上傳配寘成功"
+   },
+   "uploadConfigFailed":{
+      "message":"上傳配寘失敗: "
+   },
+   "downloadConfigSucceed":{
+      "message":"下載配寘成功"
+   },
+   "downloadConfigFailed":{
+      "message":"下載配寘失敗：雲端數據無效或無網絡連接"
    }
 }
