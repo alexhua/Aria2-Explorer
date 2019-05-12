@@ -25,4 +25,4 @@ License
 -------
 ![GPLv3](https://www.gnu.org/graphics/gplv3-127x51.png)
 
-YAAW-for-Chrome is licensed under [GNU General Public License](https://www.gnu.org/licenses/gpl.html) Version 3 or later.
+Aria2-for-Chrome is licensed under [GNU General Public License](https://www.gnu.org/licenses/gpl.html) Version 3 or later.

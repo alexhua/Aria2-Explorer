@@ -21,7 +21,7 @@
       "message":"Download Capture"
    },
    "downloadCaptureDes":{
-      "message":" Enable auto capture when download file size ≥"
+      "message":"Enable auto capture when download file size ≥"
    },
    "askBeforeDownloadDes":{
       "message":"Ask detail settings before auto downloading"
@@ -54,7 +54,7 @@
       "message":"Could not connect to Aria2c, task export failed!"
    },
    "exportSucceedStr":{
-      "message":"Export Succeed"
+      "message":"Export Successful"
    },
    "exportSucceedDes":{
       "message":"\nDownload task is beginning."
@@ -87,13 +87,13 @@
       "message":"Invlid or empty local config data, still continue?"
    },
    "uploadConfigSucceed":{
-      "message":"Upload config succeed"
+      "message":"Upload config successful"
    },
    "uploadConfigFailed":{
       "message":"Upload config failed: "
    },
    "downloadConfigSucceed":{
-      "message":"Download config successfully"
+      "message":"Download config successful"
    },
    "downloadConfigFailed":{
       "message":"Download config failed: Data invalid or network disconnected "

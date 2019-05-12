@@ -60,7 +60,7 @@
       "message":"\nAria2已经开始任务下载。"
    },
    "placeHolderTipStr":{
-      "message":"每行一个网址"
+      "message":"每行一个网站"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打开方式"
