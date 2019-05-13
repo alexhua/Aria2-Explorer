@@ -1,25 +1,23 @@
-#YAAW2 WebUI for Chrome
+### Aria2 for Chrome
 
-简单的把YAAW打包发布到Chrome上,安装之后会出现YAAW的图标.
+引入AriaNG打包发布到Chrome上，安装之后会出现Aria2的图标。
 在YAAW的基础上做了一些修改。
 
-#Usage
-
-
-点击YAAW图标便会出现YAAW的管理界面,设置好 JSON-RPC Path即可.
+### Usage
+点击Aria2图标便会出现AriaNG的管理界面，设置好 JSON-RPC Path即可。
 
 右键点击图标,打开选项菜单.可以设置是否开启右键菜单 和 下载拦截
 
-如果Chrome设置了下载之前不询问下载位置的话,可以自动取消Chrome下载 使用Aria2c下载.
-
 并且可以设置多大的文件使用导出下载,小文件使用Chrome自带的下载功能,拦截下载默认使用第一个RPC地址.
 
-开启右键菜单之后任意链接都可以右键导出到YAAW进行下载.
+开启右键菜单之后任意链接都可以右键导出到Aria2进行下载.
 
 
-#Install
-作为chrome扩展安装即可.
+### Install
 
+作为chrome扩展安装即可。
+
+[Chrome Web Store 安装地址](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn)
 
 License
 -------
