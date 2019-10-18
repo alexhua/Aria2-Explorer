@@ -20,7 +20,7 @@ Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自
 
 # Privacy policy
 
-This extension just captures chrome download task and related website cookies for the user's specific connecting aria2c to download the  network resource. Aria2c connection and config infomation will be just stored locally or upload to user's Google cloud by choice. It will never collect any user's personal data, network activity or share it to 3rd party.
+This extension just captures chrome download task and related website cookies for the user's specific connecting aria2c to download the  network resource. Aria2c connection and config infomation will be just stored locally or uploaded to user's Google cloud by choice. It will never collect any user's personal data, network activity or share it to 3rd party.
 
 License
 -------
