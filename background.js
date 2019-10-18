@@ -1,4 +1,5 @@
 const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc"}]';
+var CurrentTabUrl = "";
 var HttpSendRead = function(info) {
     Promise.prototype.done = Promise.prototype.then;
     Promise.prototype.fail = Promise.prototype.catch;
@@ -161,23 +162,21 @@ function isCapture(downloadItem) {
     var fileSize = localStorage.getItem("fileSize");
     var white_site = JSON.parse(localStorage.getItem("white_site"));
     var black_site = JSON.parse(localStorage.getItem("black_site"));
-    var url = downloadItem.referrer || downloadItem.url;
+    var currentTabUrl = new URL(CurrentTabUrl);
+    var url = new URL(downloadItem.referrer || downloadItem.url);
 
-    if (downloadItem.error || downloadItem.state != "in_progress" || url.startsWith("http") == false) {
+    if (downloadItem.error || downloadItem.state != "in_progress") {
         return false;
     }
 
-    var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
-    var result = parse_url.exec(url)[3];
-
     for (var i = 0; i < white_site.length; i++) {
-        if (matchRule(result, white_site[i])) {
+        if (matchRule(currentTabUrl.hostname, white_site[i]) || matchRule(url.hostname, white_site[i])) {
             return true;
         }
     }
 
     for (var i = 0; i < black_site.length; i++) {
-        if (matchRule(result, black_site[i])) {
+        if (matchRule(currentTabUrl.hostname, black_site[i]) || matchRule(url.hostname, black_site[i])) {
             return false;
         }
     }
@@ -279,15 +278,6 @@ function launchUI(downloadURL, referrer) {
 
 }
 
-//add Context Menu
-function addContextMenu(id, title) {
-    chrome.contextMenus.create({
-        id: id,
-        title: title,
-        contexts: ['link']
-    });
-}
-
 function createOptionMenu() {
     var strOpenWebUI = chrome.i18n.getMessage("openWebUIStr");
     chrome.contextMenus.create({
@@ -313,6 +303,15 @@ function createOptionMenu() {
 
 }
 
+//add Context Menu
+function addContextMenu(id, title) {
+    chrome.contextMenus.create({
+        id: id,
+        title: title,
+        contexts: ['link', 'selection']
+    });
+}
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     var strExport = chrome.i18n.getMessage("contextmenuTitle");
     if (changeInfo.status === 'loading') {
@@ -328,18 +327,20 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
             localStorage.setItem("contextMenus", true);
         }
     }
+    CurrentTabUrl = tab.url;
 
 });
 
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     chrome.tabs.get(activeInfo.tabId, function(tab) {
         updateOptionMenu(tab);
+        CurrentTabUrl = tab.url;
     });
 
 });
 
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
-    var uri = decodeURIComponent(info.linkUrl);
+    var uri = decodeURIComponent(info.linkUrl || info.selectionText);
     var referrer = info.frameUrl || info.pageUrl;
     // mock a DownloadItem
     var downloadItem = {
