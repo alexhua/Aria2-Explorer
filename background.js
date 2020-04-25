@@ -1,5 +1,6 @@
 const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc"}]';
 var CurrentTabUrl = "";
+const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
 var HttpSendRead = function(info) {
     Promise.prototype.done = Promise.prototype.then;
     Promise.prototype.fail = Promise.prototype.catch;
@@ -490,3 +491,18 @@ if (integration == "true") {
 } else if (integration == "false" || integration == null) {
     disableCapture();
 }
+
+// receive request from other extension
+/**
+ * @typedef downloadItem
+ * @type {Object}
+ * @property {String} url
+ * @property {String} filename
+ * @property {String} referer
+ */
+chrome.runtime.onMessageExternal.addListener(
+    function (downloadItem) {
+        const rpc_list = fetchRpcList()
+        aria2Send(downloadItem.url, rpc_list[0]['url'], downloadItem)
+    }
+);
