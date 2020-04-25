@@ -10,7 +10,19 @@ Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自
 并且可以设置多大的文件使用导出下载,小文件使用Chrome自带的下载功能,拦截下载默认使用第一个RPC地址.
 
 开启右键菜单之后任意链接都可以右键导出到Aria2进行下载.
+## Integration
+允許其他擴展使用這個擴展作為與 Aria2 的中介軟體來下載檔案。
 
+Allow other extensions use this extension as middleware to download file with Aria2.
+```js
+const downloadItem = {
+    "url": "https://sample.com/image.jpg",
+    "filename": "image_from_sample.jpg",
+    "referer": "https://sample.com"
+}
+
+chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
+```
 
 # Install
 
