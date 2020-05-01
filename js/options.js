@@ -35,9 +35,9 @@ $(function() {
                         $(row).insertAfter($("fieldset").children().eq(2));
                     }
                 }
-                var custom_rules_list = JSON.parse(localStorage.getItem("custom_rules_list"));
+                var custom_rules_list = JSON.parse(localStorage.getItem("custom_rules_list") || '[{"url":"","rpc":""}]');
                 if (custom_rules_list.length == 0) {
-                    custom_rules_list = JSON.parse('[{"url":"*","rpc":"ARIA2 RPC"}]');
+                    custom_rules_list = JSON.parse('[{"url":"","rpc":"ARIA2 RPC"}]');
                 }
                 var rpc_list_select = '';
                 for (var i in rpc_list) {
