@@ -50,9 +50,9 @@ $(function() {
 
                     var row = row_start + rpc_list_select + '</select>' + addBtn + row_end;
                     if ($(".custom_rules_list").length > 0) {
-                        $(row).insertAfter($(".custom_rules_list").eq(i-1));
+                        $(row).insertAfter($(".custom_rules_list").eq(i - 1));
                     } else {
-                        $(row).insertAfter($('fieldset').children().eq(5));
+                        $(row).insertAfter($('fieldset').children().eq(3 + rpc_list.length));
                     }
 
                     $(".custom-rule-rpc").val(custom_rules_list[i]['rpc']);
