@@ -35,6 +35,28 @@ $(function() {
                         $(row).insertAfter($("fieldset").children().eq(2));
                     }
                 }
+                var custom_rules_list = JSON.parse(localStorage.getItem("custom_rules_list"));
+                if (custom_rules_list.length == 0) {
+                    custom_rules_list = JSON.parse('[{"url":"*","rpc":"ARIA2 RPC"}]');
+                }
+                var rpc_list_select = '';
+                for (var i in rpc_list) {
+                    rpc_list_select += '<option value="' + rpc_list[i]['name'] + '">' + rpc_list[i]['name'] + '</option>';
+                }
+                for (var i in custom_rules_list) {
+                    var addBtn = 0 == i ? '<button class="btn" id="add-custom-rule">Add Rule</button>' : '';
+                    var row_start = '<div class="control-group custom_rules_list"><label class="control-label">Custom Rule</label><div class="controls"><input type="text" class="input-xlarge" value="' + custom_rules_list[i]['url'] + '" placeholder="URL"><select class="input-small custom-rule-rpc">'
+                    var row_end = '</div></div>';
+
+                    var row = row_start + rpc_list_select + '</select>' + addBtn + row_end;
+                    if ($(".custom_rules_list").length > 0) {
+                        $(row).insertAfter($(".custom_rules_list").eq(i-1));
+                    } else {
+                        $(row).insertAfter($('fieldset').children().eq(5));
+                    }
+
+                    $(".custom-rule-rpc").val(custom_rules_list[i]['rpc']);
+                }
                 var black_site = JSON.parse(localStorage.getItem("black_site"));
                 if (black_site) {
                     $("#black-site").val(black_site.join("\n"));
@@ -46,6 +68,10 @@ $(function() {
                 $("#add-rpc").on("click", function() {
                     var rpc_form = '<div class="control-group rpc_list">' + '<label class="control-label">JSON-RPC</label>' + '<div class="controls">' + '<input type="text" class="input-small"  placeholder="RPC Name">' + '<input type="text" class="input-xlarge rpc-path"  placeholder="RPC Path"></div></div>';
                     $(rpc_form).insertAfter($(".rpc_list")[0]);
+                });
+                $("#add-custom-rule").on("click", function() {
+                    var custom_rule_form = '<div class="control-group custom_rules_list"><label class="control-label">Custom Rule</label><div class="controls"><input type="text" class="input-xlarge" value="" placeholder="URL"><select class="input-small custom-rule-rpc">' + rpc_list_select + '</select>' + '</div></div>';
+                    $(custom_rule_form).insertAfter($('.custom_rules_list')[0]);
                 });
                 $("#uploadConfig").on("click", function() {
                     self.uploadConfig();
@@ -66,7 +92,9 @@ $(function() {
             },
             save: function() {
                 var rpc_list = [];
+                var custom_rules_list = [];
                 var jsonrpc_history = [];
+                var jsoncustomrule_history = [];
                 for (var i = 0; i < $(".rpc_list").length; i++) {
                     var child = $(".rpc_list").eq(i).children().eq(1).children();
                     if (child.eq(0).val() != "" && child.eq(1).val() != "") {
@@ -77,8 +105,20 @@ $(function() {
                         jsonrpc_history.push(child.eq(1).val());
                     }
                 }
+                for (var i = 0; i < $('.custom_rules_list').length; i++) {
+                  var child = $('.custom_rules_list').eq(i).children().eq(1).children();
+                  if (child.eq(0).val() != '' && child.eq(1).val() != '') {
+                    custom_rules_list.push({
+                      url: child.eq(0).val(),
+                      rpc: child.eq(1).val(),
+                    });
+                    jsoncustomrule_history.push(child.eq(1).val());
+                  }
+                }
                 localStorage.setItem("rpc_list", JSON.stringify(rpc_list));
+                localStorage.setItem("custom_rules_list", JSON.stringify(custom_rules_list));
                 localStorage.setItem("jsonrpc_history", JSON.stringify(jsonrpc_history));
+                localStorage.setItem("jsoncustomrule_history", JSON.stringify(jsoncustomrule_history));
                 if ($("#contextMenus").prop('checked') == true) {
                     localStorage.setItem("contextMenus", true);
                 } else {
@@ -141,6 +181,8 @@ $(function() {
                         integration: "",
                         jsonrpc_history: "",
                         rpc_list: "",
+                        custom_rules_list: "",
+                        jsoncustomrule_history: "",
                         version: "",
                         webUIOpenStyle: "",
                         white_site: ""

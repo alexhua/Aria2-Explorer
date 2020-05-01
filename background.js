@@ -1,6 +1,7 @@
 const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc"}]';
 var CurrentTabUrl = "";
 const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
+const fetchCustomRulesList = () => JSON.parse(localStorage.getItem("custom_rules_list"))
 var HttpSendRead = function(info) {
     Promise.prototype.done = Promise.prototype.then;
     Promise.prototype.fail = Promise.prototype.catch;
@@ -156,6 +157,31 @@ function aria2Send(link, rpcUrl, downloadItem) {
     });
 
 }
+
+function getRpcUrl(url, rpc_list) {
+    var custom_rules_list = fetchCustomRulesList();
+    if (custom_rules_list.length === 0) {
+        return rpc_list[0]['url'];
+    }
+    var rpc_name = '';
+    for (var i in custom_rules_list) {
+        if(matchRule(url, custom_rules_list[i]['url'])) {
+            rpc_name = custom_rules_list[i]['rpc'];
+            break;
+        }
+    }
+    if (rpc_name === '') {
+        return rpc_list[0]['url']
+    } else {
+        for (var i in rpc_list) {
+            if (rpc_name === rpc_list[i]['name']) {
+                return rpc_list[i]['url'];
+            }
+        }
+    }
+    return rpc_list[0]['url'];
+}
+
 function matchRule(str, rule) {
     return new RegExp("^" + rule.split("*").join(".*") + "$").test(str);
 }
@@ -240,9 +266,11 @@ function captureDownload(downloadItem, suggestion) {
         } else {
             var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || defaultRPC);
             if (isCaptureFinalUrl()) {
-                aria2Send(downloadItem.finalUrl, rpc_list[0]['url'], downloadItem);
+                var rpc_url = getRpcUrl(downloadItem.finalUrl, rpc_list);
+                aria2Send(downloadItem.finalUrl, rpc_url, downloadItem);
             } else {
-                aria2Send(downloadItem.url, rpc_list[0]['url'], downloadItem);
+                var rpc_url = getRpcUrl(downloadItem.url, rpc_list);
+                aria2Send(downloadItem.url, rpc_url, downloadItem);
             }
         }
     }
@@ -502,7 +530,8 @@ if (integration == "true") {
  */
 chrome.runtime.onMessageExternal.addListener(
     function (downloadItem) {
-        const rpc_list = fetchRpcList()
-        aria2Send(downloadItem.url, rpc_list[0]['url'], downloadItem)
+        const rpc_list = fetchRpcList();
+        var rpc_url = getRpcUrl(downloadItem.url, rpc_list);
+        aria2Send(downloadItem.url, rpc_url, downloadItem);
     }
 );
