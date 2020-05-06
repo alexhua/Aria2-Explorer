@@ -166,7 +166,7 @@ function isCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
-    if (downloadItem.error || downloadItem.state != "in_progress") {
+    if (downloadItem.error || downloadItem.state != "in_progress" || !url.protocol.startsWith("http")) {
         return false;
     }
 
@@ -371,7 +371,7 @@ function updateOptionMenu(tab) {
     if (tab == null || tab.url == null) {
         console.warn("Could not get active tab url, update option menu failed.");
     }
-    if (!tab.active || tab.url.startsWith("chrome"))
+    if (!tab.active || !tab.url.startsWith("http"))
         return;
     var url = new URL(tab.url);
     if (black_site_set.has(url.hostname)) {
@@ -498,7 +498,7 @@ if (integration == "true") {
  * @type {Object}
  * @property {String} url
  * @property {String} filename
- * @property {String} referer
+ * @property {String} referrer
  */
 chrome.runtime.onMessageExternal.addListener(
     function (downloadItem) {
