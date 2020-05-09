@@ -29,6 +29,9 @@
    "captureFinalUrlDes":{
       "message":"Capture the final URL to exclude multi-redirect"
    },
+   "allowExternalRequestDes":{
+      "message":"Receive download task from other extension"
+   },
    "whiteListStr":{
       "message":"Website White-list"
    },

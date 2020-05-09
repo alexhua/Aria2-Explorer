@@ -29,6 +29,9 @@
    "captureFinalUrlDes":{
       "message":"攔截最終下載位址 （排除多重跳轉導致下載不正常的狀況）"
    },
+   "allowExternalRequestDes":{
+      "message":"接受來自其他擴展的下載請求"
+   },
    "whiteListStr":{
       "message":"網站白名單"
    },

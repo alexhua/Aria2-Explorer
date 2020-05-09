@@ -500,9 +500,12 @@ if (integration == "true") {
  * @property {String} filename
  * @property {String} referrer
  */
-chrome.runtime.onMessageExternal.addListener(
+chrome.runtime.onMessageExternal.addListener (
     function (downloadItem) {
-        const rpc_list = fetchRpcList()
-        aria2Send(downloadItem.url, rpc_list[0]['url'], downloadItem)
+        var allowExternalRequest = localStorage.getItem("allowExternalRequest");
+        if (allowExternalRequest == "true"){
+            const rpc_list = fetchRpcList();
+            aria2Send(downloadItem.url, rpc_list[0]['url'], downloadItem);
+        }
     }
 );

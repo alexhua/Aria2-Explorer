@@ -15,6 +15,10 @@ $(function() {
                 if (finalUrl == "true") {
                     $("#finalUrl").prop('checked', true);
                 }
+                var allowExternalRequest = localStorage.getItem("allowExternalRequest");
+                if (allowExternalRequest == "true") {
+                    $("#allowExternalRequest").prop('checked', true);
+                }
                 var askBeforeDownload = localStorage.getItem("askBeforeDownload");
                 if (askBeforeDownload == "true") {
                     $("#askBeforeDownload").prop('checked', true);
@@ -94,6 +98,11 @@ $(function() {
                 } else {
                     localStorage.setItem("finalUrl", false);
                 }
+                if ($("#allowExternalRequest").prop('checked') == true) {
+                    localStorage.setItem("allowExternalRequest", true);
+                } else {
+                    localStorage.setItem("allowExternalRequest", false);
+                }
                 if ($("#askBeforeDownload").prop('checked') == true) {
                     localStorage.setItem("askBeforeDownload", true);
                 } else {
@@ -138,6 +147,7 @@ $(function() {
                         contextMenus: "",
                         fileSize: "",
                         finalUrl: "",
+                        allowExternalRequest: "",
                         integration: "",
                         jsonrpc_history: "",
                         rpc_list: "",

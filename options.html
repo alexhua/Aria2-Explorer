@@ -1,154 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset=utf-8 />
-    <title>Aria2 for Chrome Settings</title>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, width=device-width">
-    <link href="images/favicon.ico" rel="shortcut icon" type="image/ico" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
-    <link href="css/options.css" rel="stylesheet" />
-    <style type="text/css">
-    body,html {
+
+<head>
+  <meta charset=utf-8 />
+  <title>Aria2 for Chrome Settings</title>
+  <meta name="viewport"
+    content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, width=device-width">
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/ico" />
+  <link href="css/bootstrap.min.css" rel="stylesheet" />
+  <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <link href="css/options.css" rel="stylesheet" />
+  <style type="text/css">
+    body,
+    html {
       height: 100%;
     }
-    #copyright{
+
+    #copyright {
       float: left;
       margin-top: 10px;
     }
-	#acknowledgment{
+
+    #acknowledgment {
       float: right;
       margin-top: 10px;
     }
-    #logo{
+
+    #logo {
       margin-left: 100px;
       background-image: url(images/logo64.png);
       background-size: 64px 64px;
       width: 320px;
       height: 64px;
-	  line-height:64px;
-	  background-repeat: no-repeat;
-	  text-align: right;
-	  font-size: x-large;
-	  text-shadow: 0 0 12px black;
+      line-height: 64px;
+      background-repeat: no-repeat;
+      text-align: right;
+      font-size: x-large;
+      text-shadow: 0 0 12px black;
     }
-    .navbar{
+
+    .navbar {
       background-color: #0faad8;
       padding: 5px 5px 0 5px;
       color: white;
       z-index: 200;
-      box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+      box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
     }
-    legend{
+
+    legend {
       margin-bottom: 0px;
     }
-    .rpc-path{
+
+    .rpc-path {
       margin-left: 10px;
     }
-    #add-rpc{
+
+    #add-rpc {
       margin-left: 10px;
     }
+
     .footer {
       position: fixed;
-	  padding: 14px 15px 15px;
+      padding: 14px 15px 15px;
       bottom: 0;
       width: 100%;
       background-color: #f5f5f5;
       text-align: center;
-	  border-top: 1px solid #ddd;
-	  border-radius: 0 0 6px 6px;
-	  box-shadow: inset 0 1px 0 #fff;
-	  text-shadow: 0 0 15px black;
+      border-top: 1px solid #ddd;
+      border-radius: 0 0 6px 6px;
+      box-shadow: inset 0 1px 0 #fff;
+      text-shadow: 0 0 15px black;
     }
-    </style>
+  </style>
 
-  </head>
-  <body>
-    <nav class="navbar">
-      <div class="container">
-        <div id="logo">__MSG_configPageTitle__</div>         		
-      </div>
-    </nav>
+</head>
+
+<body>
+  <nav class="navbar">
     <div class="container">
-      <div class="form-horizontal">
-        <fieldset>
-          <legend>Aria2 for Chrome Settings</legend>
-          <div class="control-group">
-            <label class="control-label" for="contextMenus">__MSG_contextmenuStr__</label>
-            <div class="controls">
-              <label class="checkbox">
-                <input type="checkbox" id="contextMenus">
-                __MSG_contextmenuDes__
-              </label>
-            </div>			
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="integration">__MSG_downloadCaptureStr__</label>            
-			<div class="controls">
-			
-              <label class="checkbox">
-                <input type="checkbox" id="integration">
-                __MSG_downloadCaptureDes__
-                <input type="text" class="input-small"  placeholder="File Size" id="fileSize">
-                MB
-              </label>
-			  
-			  <label class="checkbox">
-                <input type="checkbox" id="askBeforeDownload">
-                __MSG_askBeforeDownloadDes__
-              </label>
-			  
-              <label class="checkbox">
-                <input type="checkbox" id="finalUrl">
-                __MSG_captureFinalUrlDes__
-              </label>			  
-            </div>
-          </div>
-		  
-          <div class="control-group">
-            <label class="control-label" for="webui-open-style">__MSG_WebUIOpenStyleStr__</label>
-            <div class="controls">
-              <input type="radio" id="openstyle1" name="webUIOpenStyle" value="popup"> __MSG_WebUIOpenStyle1__ <br>
-			  <input type="radio" id="openstyle2" name="webUIOpenStyle" value="newtab" checked> __MSG_WebUIOpenStyle2__ 
-            </div>
-          </div>
-		  
-          <div class="control-group">
-            <label class="control-label" for="white-site">__MSG_whiteListStr__</label>
-            <div class="controls">
-              <textarea rows="6" id="white-site" placeholder="__MSG_placeHolderTipStr__"></textarea>
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="black-site">__MSG_blackListStr__</label>
-            <div class="controls">
-              <textarea rows="6" id="black-site" placeholder="__MSG_placeHolderTipStr__"></textarea>
-            </div>
-          </div>
-
-          <div class="control-group">
-          <label class="control-label" for="config-sync">__MSG_configCloudSync__</label>
-            <div class="controls">
-              <button class="btn" id="uploadConfig">Upload</button>
-              <button class="btn" id="downloadConfig">Download</button>
-              <em>(__MSG_configCloudSyncDes__)</em>
-              <div id="sync-result"></div>
-            </div>
-          </div>
-        </fieldset>
-      </div>
+      <div id="logo">__MSG_configPageTitle__</div>
     </div>
-    <footer class="footer">
-      <div class="container">
-            <div id="copyright">© Copyleft Alex Hua</div>
-            <button type="btn" class="btn btn-success" id="save">Save</button>
-            <button class="btn" id="reset">Reset</button>
-			<div id="acknowledgment"><a href="acknowledgment.txt" style="float:right">Acknowledgment</a></div>
-      </div>
-	  
-    </footer>
-    <script src="js/jquery-3.5.0.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/options.js"></script>
-  </body>
+  </nav>
+  <div class="container">
+    <div class="form-horizontal">
+      <fieldset>
+        <legend>Aria2 for Chrome Settings</legend>
+        <div class="control-group">
+          <label class="control-label" for="contextMenus">__MSG_contextmenuStr__</label>
+          <div class="controls">
+            <label class="checkbox">
+              <input type="checkbox" id="contextMenus">
+              __MSG_contextmenuDes__
+            </label>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="integration">__MSG_downloadCaptureStr__</label>
+          <div class="controls">
+
+            <label class="checkbox">
+              <input type="checkbox" id="integration">
+              __MSG_downloadCaptureDes__
+              <input type="text" class="input-small" placeholder="File Size" id="fileSize">
+              MB
+            </label>
+
+            <label class="checkbox">
+              <input type="checkbox" id="askBeforeDownload">
+              __MSG_askBeforeDownloadDes__
+            </label>
+
+            <label class="checkbox">
+              <input type="checkbox" id="finalUrl">
+              __MSG_captureFinalUrlDes__
+            </label>
+
+            <label class="checkbox">
+              <input type="checkbox" id="allowExternalRequest">
+              __MSG_allowExternalRequestDes__
+            </label>
+
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="webui-open-style">__MSG_WebUIOpenStyleStr__</label>
+          <div class="controls">
+            <input type="radio" id="openstyle1" name="webUIOpenStyle" value="popup"> __MSG_WebUIOpenStyle1__ <br>
+            <input type="radio" id="openstyle2" name="webUIOpenStyle" value="newtab" checked> __MSG_WebUIOpenStyle2__
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="white-site">__MSG_whiteListStr__</label>
+          <div class="controls">
+            <textarea rows="6" id="white-site" placeholder="__MSG_placeHolderTipStr__"></textarea>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="black-site">__MSG_blackListStr__</label>
+          <div class="controls">
+            <textarea rows="6" id="black-site" placeholder="__MSG_placeHolderTipStr__"></textarea>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="config-sync">__MSG_configCloudSync__</label>
+          <div class="controls">
+            <button class="btn" id="uploadConfig">Upload</button>
+            <button class="btn" id="downloadConfig">Download</button>
+            <em>(__MSG_configCloudSyncDes__)</em>
+            <div id="sync-result"></div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="container">
+      <div id="copyright">© Copyleft Alex Hua</div>
+      <button type="btn" class="btn btn-success" id="save">Save</button>
+      <button class="btn" id="reset">Reset</button>
+      <div id="acknowledgment"><a href="acknowledgment.txt" style="float:right">Acknowledgment</a></div>
+    </div>
+
+  </footer>
+  <script src="js/jquery-3.5.0.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/options.js"></script>
+</body>
+
 </html>
