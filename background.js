@@ -1,7 +1,6 @@
-const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc"}]';
+const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc","pattern": "*"}]';
 var CurrentTabUrl = "";
 const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
-const fetchCustomRulesList = () => JSON.parse(localStorage.getItem("custom_rules_list"))
 var HttpSendRead = function(info) {
     Promise.prototype.done = Promise.prototype.then;
     Promise.prototype.fail = Promise.prototype.catch;
@@ -159,22 +158,13 @@ function aria2Send(link, rpcUrl, downloadItem) {
 }
 
 function getRpcUrl(url, rpc_list) {
-    var custom_rules_list = fetchCustomRulesList();
-    if (custom_rules_list.length === 0) {
-        return rpc_list[0]['url'];
-    }
     var rpc_name = '';
-    for (var i in custom_rules_list) {
-        if(matchRule(url, custom_rules_list[i]['url'])) {
-            rpc_name = custom_rules_list[i]['rpc'];
-            break;
-        }
-    }
-    if (rpc_name === '') {
-        return rpc_list[0]['url']
-    } else {
-        for (var i in rpc_list) {
-            if (rpc_name === rpc_list[i]['name']) {
+    for (var i=1; i<rpc_list.length; i++) {
+        var patterns = rpc_list[i]['pattern'].split(',');
+        for (var j in patterns) {
+            var pattern = patterns[j].trim();
+            console.log(pattern);
+            if(matchRule(url, pattern)) {
                 return rpc_list[i]['url'];
             }
         }
