@@ -162,7 +162,6 @@ function getRpcUrl(url, rpc_list) {
       var patterns = rpc_list[i]['pattern'].split(',');
       for (var j in patterns) {
         var pattern = patterns[j].trim();
-        console.log(pattern);
         if (matchRule(url, pattern)) {
           return rpc_list[i]['url'];
         }
