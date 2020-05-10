@@ -32,7 +32,14 @@ $(function() {
                 var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc"}]');
                 for (var i in rpc_list) {
                     var addBtn = 0 == i ? '<button class="btn" id="add-rpc">Add RPC</button>' : '';
-                    var row = '<div class="control-group rpc_list"><label class="control-label">JSON-RPC</label><div class="controls"><input type="text" class="input-small" value="' + rpc_list[i]['name'] + '" placeholder="RPC Name"><input type="text" class="input-xlarge rpc-path" value="' + rpc_list[i]['url'] + '" placeholder="RPC Path">' + addBtn + '</div></div>';
+                    var row = '<div class="control-group rpc_list">' +
+                                '<label class="control-label">JSON-RPC</label>' +
+                                '<div class="controls">' +
+                                    '<input type="text" class="input-small" value="' + rpc_list[i]['name'] + '" placeholder="RPC Name">' +
+                                    '<input type="text" class="input-small secretKey" value="' + parseUrl(rpc_list[i]['url'])[1] + '" placeholder="Secret Key">' +
+                                    '<input type="text" class="input-xlarge rpc-path" value="' + parseUrl(rpc_list[i]['url'])[0] + '" placeholder="RPC Path">' + addBtn +
+                                '</div>' +
+                               '</div>';
                     if ($(".rpc_list").length > 0) {
                         $(row).insertAfter($(".rpc_list").eq(i - 1));
                     } else {
@@ -48,7 +55,14 @@ $(function() {
                     $("#white-site").val(white_site.join("\n"));
                 }
                 $("#add-rpc").on("click", function() {
-                    var rpc_form = '<div class="control-group rpc_list">' + '<label class="control-label">JSON-RPC</label>' + '<div class="controls">' + '<input type="text" class="input-small"  placeholder="RPC Name">' + '<input type="text" class="input-xlarge rpc-path"  placeholder="RPC Path"></div></div>';
+                    var rpc_form = '<div class="control-group rpc_list">' +
+                                    '<label class="control-label">JSON-RPC</label>' +
+                                    '<div class="controls">' +
+                                        '<input type="text" class="input-small"  placeholder="RPC Name">' +
+                                        '<input type="text" class="input-small secretKey"  placeholder="Secret Key">' +
+                                        '<input type="text" class="input-xlarge rpc-path"  placeholder="RPC Path">' +
+                                     '</div>' +
+                                    '</div>';
                     $(rpc_form).insertAfter($(".rpc_list")[0]);
                 });
                 $("#uploadConfig").on("click", function() {
@@ -71,14 +85,16 @@ $(function() {
             save: function() {
                 var rpc_list = [];
                 var jsonrpc_history = [];
+                var rpcUrl = null;
                 for (var i = 0; i < $(".rpc_list").length; i++) {
                     var child = $(".rpc_list").eq(i).children().eq(1).children();
-                    if (child.eq(0).val() != "" && child.eq(1).val() != "") {
+                    if (child.eq(0).val() != "" && child.eq(2).val() != "") {
+                        rpcUrl = combineUrl(child.eq(1).val(), child.eq(2).val());
                         rpc_list.push({
                             "name": child.eq(0).val(),
-                            "url": child.eq(1).val()
+                            "url": rpcUrl
                         });
-                        jsonrpc_history.push(child.eq(1).val());
+                        jsonrpc_history.push(rpcUrl);
                     }
                 }
                 localStorage.setItem("rpc_list", JSON.stringify(rpc_list));
@@ -225,4 +241,35 @@ function localizeHtmlPage() {
             obj.innerHTML = valNewH;
         }
     }
+}
+
+function parseUrl(rpcUrl) {
+    var url = null;
+    var urlPath = null;
+    var secretKey = null;
+    try {
+        url = new URL(rpcUrl);
+        urlPath = url.origin+url.pathname;
+        secretKey = url.password;
+    } catch (error){
+        console.warn('Stored Rpc Url is invalid! RpcUrl ="' + rpcUrl +'"');
+        return ["", ""];
+    }
+    return [urlPath, secretKey];
+}
+
+function combineUrl(secretKey, urlPath) {
+    var url = null;
+    try {
+        url = new URL(urlPath);
+        if (secretKey && secretKey != ""){
+            url.username = "token";
+            url.password = secretKey;
+        }
+    } catch (error) {
+        console.warn('Input a invalid Url Path! UrlPath ="' + urlPath +'"');
+        return null;
+    }
+    return url.toString(); 
+    
 }
