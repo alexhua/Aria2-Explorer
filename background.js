@@ -156,9 +156,25 @@ function aria2Send(link, rpcUrl, downloadItem) {
     });
 
 }
+
+function getRpcUrl(url, rpc_list) {
+    for (var i = 1; i < rpc_list.length; i++) {
+      var patterns = rpc_list[i]['pattern'].split(',');
+      for (var j in patterns) {
+        var pattern = patterns[j].trim();
+        console.log(pattern);
+        if (matchRule(url, pattern)) {
+          return rpc_list[i]['url'];
+        }
+      }
+    }
+    return rpc_list[0]['url'];
+}
+
 function matchRule(str, rule) {
     return new RegExp("^" + rule.split("*").join(".*") + "$").test(str);
 }
+
 function isCapture(downloadItem) {
     var fileSize = localStorage.getItem("fileSize");
     var white_site = JSON.parse(localStorage.getItem("white_site"));
@@ -240,9 +256,11 @@ function captureDownload(downloadItem, suggestion) {
         } else {
             var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || defaultRPC);
             if (isCaptureFinalUrl()) {
-                aria2Send(downloadItem.finalUrl, rpc_list[0]['url'], downloadItem);
+                var rpc_url = getRpcUrl(downloadItem.finalUrl, rpc_list);
+                aria2Send(downloadItem.finalUrl, rpc_url, downloadItem);
             } else {
-                aria2Send(downloadItem.url, rpc_list[0]['url'], downloadItem);
+                var rpc_url = getRpcUrl(downloadItem.url, rpc_list);
+                aria2Send(downloadItem.url, rpc_url, downloadItem);
             }
         }
     }
@@ -505,7 +523,8 @@ chrome.runtime.onMessageExternal.addListener (
         var allowExternalRequest = localStorage.getItem("allowExternalRequest");
         if (allowExternalRequest == "true"){
             const rpc_list = fetchRpcList();
-            aria2Send(downloadItem.url, rpc_list[0]['url'], downloadItem);
+            var rpc_url = getRpcUrl(downloadItem.url, rpc_list);
+            aria2Send(downloadItem.url, rpc_url, downloadItem);
         }
     }
 );
