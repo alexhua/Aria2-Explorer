@@ -279,21 +279,46 @@ function launchUI(downloadURL, referrer) {
         url = index;
         //clicked from notification or sbrowserAction icon, only launch UI.
     }
-    chrome.tabs.getAllInWindow(undefined, function(tabs) {
-        for (var i = 0, tab; tab = tabs[i]; i++) {
-            if (tab.url && tab.url.startsWith(index)) {
-                chrome.tabs.update(tab.id, {
-                    selected: true,
-                    url: url
-                });
-                return;
-            }
+    chrome.tabs.query({ "url": index }, function (tabs) {
+        for (var i in tabs) {
+            chrome.windows.update(tabs[i].windowId, {
+                focused: true
+            });
+            chrome.tabs.update(tabs[i].id, {
+                selected: true,
+                url: url
+            });
+            return;
         }
-        chrome.tabs.create({
-            url: url
+        var webUIOpenStyle = localStorage.getItem("webUIOpenStyle") || "newtab";
+        if (webUIOpenStyle == "newwindow") {
+            openInWindow(url);
+        } else if (webUIOpenStyle == "newtab") {
+            chrome.tabs.create({
+                url: url
+            });
+        }
+    });
+}
+
+function openInWindow(url) {
+    var w = 1280, h = 720;
+    var left = (screen.width / 2) - (w / 2);
+    var top = (screen.height / 2) - (h / 2);
+
+    chrome.windows.create({
+        url: url,
+        width: w,
+        height: h,
+        'left': left,
+        'top': top,
+        type: 'popup',
+        focused: false
+    }, function (window) {
+        chrome.windows.update(window.id, {
+            focused: true
         });
     });
-
 }
 
 function createOptionMenu() {

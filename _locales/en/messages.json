@@ -69,10 +69,13 @@
       "message":"AriaNG Open in"
    },
    "WebUIOpenStyle1":{
-      "message":"Popup window"
+      "message":"Popup"
    },
    "WebUIOpenStyle2":{
       "message":"New tab"
+   },
+   "WebUIOpenStyle3":{
+      "message":"New window"
    },
    "openWebUIStr":{
       "message":"Open AriaNG"

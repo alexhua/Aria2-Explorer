@@ -74,6 +74,9 @@
    "WebUIOpenStyle2":{
       "message":"新分頁"
    },
+   "WebUIOpenStyle3":{
+      "message":"新視窗"
+   },
    "openWebUIStr":{
       "message":"打開AriaNG"
    },

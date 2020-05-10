@@ -26,12 +26,14 @@ $(function() {
                 var webUIOpenStyle = localStorage.getItem("webUIOpenStyle");
                 if (webUIOpenStyle == "popup") {
                     $("#openstyle1").prop('checked', true);
+                } else if (webUIOpenStyle == "newwindow") {
+                    $("#openstyle3").prop('checked', true);
                 }
                 var fileSize = localStorage.getItem("fileSize") || 10;
                 $("#fileSize").val(fileSize);
                 var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]');
                 for (var i in rpc_list) {
-                    var addBtnOrPattern = 0 == i ? '<button class="btn" id="add-rpc">Add RPC</button>' : '<input type="text" class="input-large rpc-url-pattern" value="' + rpc_list[i]['pattern'] + '"placeholder="URL pattern(s) (separated by ,)">';
+                    var addBtnOrPattern = 0 == i ? '<button class="btn" id="add-rpc">Add RPC</button>' : '<input type="text" class="input-large rpc-url-pattern" value="' + (rpc_list[i]['pattern']||"") + '"placeholder="URL pattern(s) (separated by ,)">';
                     var row = '<div class="control-group rpc_list">' +
                                 '<label class="control-label">JSON-RPC</label>' +
                                 '<div class="controls">' +
@@ -132,8 +134,13 @@ $(function() {
                     chrome.browserAction.setPopup({
                         popup: index
                     });
-                } else {
+                } else if ($("#openstyle2").prop('checked') == true){
                     localStorage.setItem("webUIOpenStyle", $("#openstyle2").val());
+                    chrome.browserAction.setPopup({
+                        popup: ''
+                    });
+                } else if ($("#openstyle3").prop('checked') == true){
+                    localStorage.setItem("webUIOpenStyle", $("#openstyle3").val());
                     chrome.browserAction.setPopup({
                         popup: ''
                     });
