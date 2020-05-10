@@ -1,4 +1,4 @@
-const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc"}]';
+const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]';
 var CurrentTabUrl = "";
 const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
 var HttpSendRead = function(info) {

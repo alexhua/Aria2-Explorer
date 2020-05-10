@@ -29,7 +29,7 @@ $(function() {
                 }
                 var fileSize = localStorage.getItem("fileSize") || 10;
                 $("#fileSize").val(fileSize);
-                var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc"}]');
+                var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]');
                 for (var i in rpc_list) {
                     var addBtnOrPattern = 0 == i ? '<button class="btn" id="add-rpc">Add RPC</button>' : '<input type="text" class="input-large rpc-url-pattern" value="' + rpc_list[i]['pattern'] + '"placeholder="URL pattern(s) (separated by ,)">';
                     var row = '<div class="control-group rpc_list">' +
