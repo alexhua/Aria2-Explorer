@@ -29,15 +29,15 @@ $(function() {
                 }
                 var fileSize = localStorage.getItem("fileSize") || 10;
                 $("#fileSize").val(fileSize);
-                var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc"}]');
+                var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]');
                 for (var i in rpc_list) {
-                    var addBtn = 0 == i ? '<button class="btn" id="add-rpc">Add RPC</button>' : '';
+                    var addBtnOrPattern = 0 == i ? '<button class="btn" id="add-rpc">Add RPC</button>' : '<input type="text" class="input-large rpc-url-pattern" value="' + rpc_list[i]['pattern'] + '"placeholder="URL pattern(s) (separated by ,)">';
                     var row = '<div class="control-group rpc_list">' +
                                 '<label class="control-label">JSON-RPC</label>' +
                                 '<div class="controls">' +
                                     '<input type="text" class="input-small" value="' + rpc_list[i]['name'] + '" placeholder="RPC Name">' +
                                     '<input type="text" class="input-small secretKey" value="' + parseUrl(rpc_list[i]['url'])[1] + '" placeholder="Secret Key">' +
-                                    '<input type="text" class="input-xlarge rpc-path" value="' + parseUrl(rpc_list[i]['url'])[0] + '" placeholder="RPC Path">' + addBtn +
+                                    '<input type="text" class="input-xlarge rpc-path" value="' + parseUrl(rpc_list[i]['url'])[0] + '" placeholder="RPC Path">' + addBtnOrPattern +
                                 '</div>' +
                                '</div>';
                     if ($(".rpc_list").length > 0) {
@@ -61,6 +61,7 @@ $(function() {
                                         '<input type="text" class="input-small"  placeholder="RPC Name">' +
                                         '<input type="text" class="input-small secretKey"  placeholder="Secret Key">' +
                                         '<input type="text" class="input-xlarge rpc-path"  placeholder="RPC Path">' +
+                                        '<input type="text" class="input-large rpc-url-pattern" placeholder="URL pattern(s) (separated by ,)">' +
                                      '</div>' +
                                     '</div>';
                     $(rpc_form).insertAfter($(".rpc_list")[0]);
@@ -92,7 +93,8 @@ $(function() {
                         rpcUrl = combineUrl(child.eq(1).val(), child.eq(2).val());
                         rpc_list.push({
                             "name": child.eq(0).val(),
-                            "url": rpcUrl
+                            "url": rpcUrl,
+                            "pattern": child.eq(3).val()
                         });
                         jsonrpc_history.push(rpcUrl);
                     }
