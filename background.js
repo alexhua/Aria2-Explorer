@@ -84,7 +84,7 @@ function aria2Send(link, rpcUrl, downloadItem) {
     if (downloadItem != null) {
         filename = downloadItem.filename;
         referrer = downloadItem.referrer;
-        cookiesLink = downloadItem.url;
+        cookiesLink = link;
     } else {
         cookiesLink = link;
     }
@@ -181,7 +181,7 @@ function isCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
-    if (downloadItem.error || downloadItem.state != "in_progress" || !url.protocol.startsWith("http")) {
+    if (downloadItem.error || downloadItem.state != "in_progress" || !downloadItem.finalUrl.startsWith("http")) {
         return false;
     }
 
@@ -244,6 +244,7 @@ function captureDownload(downloadItem, suggestion) {
         //workaround for filename ignorant assigned by extension "音视频下载"
         return true;
     }
+    suggestion();
     if (integration == "true" && isCapture(downloadItem)) {
         chrome.downloads.cancel(downloadItem.id);
         if (askBeforeDownload == "true") {
