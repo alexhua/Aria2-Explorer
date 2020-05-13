@@ -78,19 +78,8 @@ function parse_url(url) {
 }
 
 function aria2Send(link, rpcUrl, downloadItem) {
-    var filename = null;
-    var referrer = null;
-    var cookiesLink = null;
-    if (downloadItem != null) {
-        filename = downloadItem.filename;
-        referrer = downloadItem.referrer;
-        cookiesLink = link;
-    } else {
-        cookiesLink = link;
-    }
-
     chrome.cookies.getAll({
-        "url": cookiesLink
+        "url": link
     }, function(cookies) {
         var format_cookies = [];
         for (var i in cookies) {
@@ -104,8 +93,8 @@ function aria2Send(link, rpcUrl, downloadItem) {
 
         var options = {
                 "header": header,
-                "referer": referrer,
-                "out": filename
+                "referer": downloadItem.referrer,
+                "out": downloadItem.filename
         };
         if(downloadItem.hasOwnProperty('options')){
             options = Object.assign(options, downloadItem.options);
