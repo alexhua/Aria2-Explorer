@@ -78,19 +78,8 @@ function parse_url(url) {
 }
 
 function aria2Send(link, rpcUrl, downloadItem) {
-    var filename = null;
-    var referrer = null;
-    var cookiesLink = null;
-    if (downloadItem != null) {
-        filename = downloadItem.filename;
-        referrer = downloadItem.referrer;
-        cookiesLink = link;
-    } else {
-        cookiesLink = link;
-    }
-
     chrome.cookies.getAll({
-        "url": cookiesLink
+        "url": link
     }, function(cookies) {
         var format_cookies = [];
         for (var i in cookies) {
@@ -102,15 +91,20 @@ function aria2Send(link, rpcUrl, downloadItem) {
         header.push("User-Agent: " + navigator.userAgent);
         header.push("Connection: keep-alive");
 
+        var options = {
+                "header": header,
+                "referer": downloadItem.referrer,
+                "out": downloadItem.filename
+        };
+        if(downloadItem.hasOwnProperty('options')){
+            options = Object.assign(options, downloadItem.options);
+        }
+
         var rpc_data = {
             "jsonrpc": "2.0",
             "method": "aria2.addUri",
             "id": new Date().getTime(),
-            "params": [[link], {
-                "header": header,
-                "referer": referrer,
-                "out": filename
-            }]
+            "params": [[link], options]
         };
         var result = parse_url(rpcUrl);
         var auth = result[1];

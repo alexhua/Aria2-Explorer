@@ -18,7 +18,11 @@ Allow other extensions use this extension as middleware to download file with Ar
 const downloadItem = {
     "url": "https://sample.com/image.jpg",
     "filename": "image_from_sample.jpg",
-    "referrer": "https://sample.com"
+    "referrer": "https://sample.com",
+    "options": { // 此处为aria2 的原生参数
+        "split": "10",
+        "...": "..."
+    }
 }
 
 chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
