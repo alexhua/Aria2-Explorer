@@ -32,11 +32,17 @@
    "allowExternalRequestDes":{
       "message":"接受来自其他扩展的下载请求"
    },
+   "websiteStr":{
+      "message":"网站"
+   },
+   "fileExtStr":{
+      "message":"扩展名"
+   },
    "whiteListStr":{
-      "message":"网站白名单"
+      "message":"白名单"
    },
    "BlackListStr":{
-      "message":"网站黑名单"
+      "message":"黑名单"
    },
    "addToWhiteListStr":{
       "message":"当前网站->白名单"
@@ -62,8 +68,11 @@
    "exportSucceedDes":{
       "message":"\nAria2已经开始任务下载。"
    },
-   "placeHolderTipStr":{
+   "websitePlaceholderDes":{
       "message":"每行一个网站"
+   },
+   "fileExtPlaceholderDes":{
+      "message":"每行一个扩展名"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打开方式"

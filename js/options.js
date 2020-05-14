@@ -35,10 +35,10 @@ $(function() {
                 for (var i in rpc_list) {
                     var addBtnOrPattern = 0 == i ? '<button class="btn" id="add-rpc">Add RPC</button>' : '<input type="text" class="input-large rpc-url-pattern" value="' + (rpc_list[i]['pattern']||"") + '"placeholder="URL pattern(s) (separated by ,)">';
                     var row = '<div class="control-group rpc_list">' +
-                                '<label class="control-label">JSON-RPC</label>' +
+                                '<label class="control-label text-info">' + (i==0? 'JSON-RPC' : '') + '</label>' +
                                 '<div class="controls">' +
                                     '<input type="text" class="input-small" value="' + rpc_list[i]['name'] + '" placeholder="RPC Name">' +
-                                    '<input type="text" class="input-small secretKey" value="' + parseUrl(rpc_list[i]['url'])[1] + '" placeholder="Secret Key">' +
+                                    '<input type="text" class="input-medium secretKey" value="' + parseUrl(rpc_list[i]['url'])[1] + '" placeholder="Secret Key">' +
                                     '<input type="text" class="input-xlarge rpc-path" value="' + parseUrl(rpc_list[i]['url'])[0] + '" placeholder="RPC Path">' + addBtnOrPattern +
                                 '</div>' +
                                '</div>';
@@ -56,12 +56,20 @@ $(function() {
                 if (white_site) {
                     $("#white-site").val(white_site.join("\n"));
                 }
+                var black_ext = JSON.parse(localStorage.getItem("black_ext"));
+                if (black_ext) {
+                    $("#black-ext").val(black_ext.join("\n"));
+                }
+                var white_ext = JSON.parse(localStorage.getItem("white_ext"));
+                if (white_ext) {
+                    $("#white-ext").val(white_ext.join("\n"));
+                }
                 $("#add-rpc").on("click", function() {
                     var rpc_form = '<div class="control-group rpc_list">' +
-                                    '<label class="control-label">JSON-RPC</label>' +
+                                    '<label class="control-label text-info "></label>' +
                                     '<div class="controls">' +
                                         '<input type="text" class="input-small"  placeholder="RPC Name">' +
-                                        '<input type="text" class="input-small secretKey"  placeholder="Secret Key">' +
+                                        '<input type="text" class="input-medium secretKey"  placeholder="Secret Key">' +
                                         '<input type="text" class="input-xlarge rpc-path"  placeholder="RPC Path">' +
                                         '<input type="text" class="input-large rpc-url-pattern" placeholder="URL pattern(s) (separated by ,)">' +
                                      '</div>' +
@@ -159,6 +167,19 @@ $(function() {
                 if (white_site_set.has(""))
                     white_site_set.delete("");
                 localStorage.setItem("white_site", JSON.stringify(Array.from(white_site_set)));
+
+                var black_ext = $("#black-ext").val().split("\n");
+                var black_ext_set = new Set(black_ext);
+                // clear the repeat record using Set object
+                if (black_ext_set.has(""))
+                    black_ext_set.delete("");
+                localStorage.setItem("black_ext", JSON.stringify(Array.from(black_ext_set)));
+                var white_ext = $("#white-ext").val().split("\n");
+                var white_ext_set = new Set(white_ext);
+                // clear the repeat record using Set object
+                if (white_ext_set.has(""))
+                    white_ext_set.delete("");
+                localStorage.setItem("white_ext", JSON.stringify(Array.from(white_ext_set)));
             },
             uploadConfig: function() {
                 var self = this;
@@ -168,7 +189,6 @@ $(function() {
                     },
                     AriaExtConfig: {
                         askBeforeDownload: "",
-                        black_site: "",
                         contextMenus: "",
                         fileSize: "",
                         finalUrl: "",
@@ -178,7 +198,10 @@ $(function() {
                         rpc_list: "",
                         version: "",
                         webUIOpenStyle: "",
-                        white_site: ""
+                        white_site: "",
+                        black_site: "",
+                        white_ext: "",
+                        black_ext: "",
                     }
                 };
 
@@ -196,10 +219,10 @@ $(function() {
                 chrome.storage.sync.set(ExtConfig, function() {
                     if (chrome.runtime.lastError) {
                         var str = chrome.i18n.getMessage("uploadConfigFailed");
-                        self.displaySyncResult(str + chrome.runtime.lastError.message);
+                        self.displaySyncResult(str + chrome.runtime.lastError.message, "label-important");
                     } else {
                         var str = chrome.i18n.getMessage("uploadConfigSucceed");
-                        self.displaySyncResult(str);
+                        self.displaySyncResult(str, "label-success");
                     }
                 });
             },
@@ -215,18 +238,20 @@ $(function() {
                         }
                         location.reload();
                         var str = chrome.i18n.getMessage("downloadConfigSucceed");
-                        self.displaySyncResult(str);
+                        self.displaySyncResult(str, "label-success");
                     } else {
                         var str = chrome.i18n.getMessage("downloadConfigFailed");
-                        self.displaySyncResult(str);
+                        self.displaySyncResult(str, "label-important");
                     }
                 });
             },
-            displaySyncResult: function(msg) {
+            displaySyncResult: function(msg, style) {
+                $("#sync-result").addClass(style);
                 $("#sync-result").text(msg);
                 setTimeout(function() {
                     $("#sync-result").text("");
-                }, 2000);
+                    $("#sync-result").removeClass(style);
+                }, 3000);
             }
         };
     }

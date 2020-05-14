@@ -32,11 +32,17 @@
    "allowExternalRequestDes":{
       "message":"接受來自其他擴展的下載請求"
    },
+   "websiteStr":{
+      "message":"網站"
+   },
+   "fileExtStr":{
+      "message":"副檔名"
+   },
    "whiteListStr":{
-      "message":"網站白名單"
+      "message":"白名單"
    },
    "BlackListStr":{
-      "message":"網站黑名單"
+      "message":"黑名單"
    },
    "addToWhiteListStr":{
       "message":"當前網站->白名單"
@@ -62,8 +68,11 @@
    "exportSucceedDes":{
       "message":"\nAria2已經開始下載工作。"
    },
-   "placeHolderTipStr":{
-      "message":"每行一個網址"
+   "websitePlaceholderDes":{
+      "message":"每行一個站點"
+   },
+   "fileExtPlaceholderDes":{
+      "message":"每行一個附檔名"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打開樣式"
