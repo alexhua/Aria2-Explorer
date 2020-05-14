@@ -32,11 +32,17 @@
    "allowExternalRequestDes":{
       "message":"Receive download task from other extension"
    },
+   "websiteStr":{
+      "message":"Website"
+   },
+   "fileExtStr":{
+      "message":"File Extension"
+   },
    "whiteListStr":{
-      "message":"Website White-list"
+      "message":"White-list"
    },
    "BlackListStr":{
-      "message":"Website Black-list"
+      "message":"Black-list"
    },
       "addToWhiteListStr":{
       "message":"Current URL -> White-List"
@@ -62,8 +68,11 @@
    "exportSucceedDes":{
       "message":"\nDownload task is beginning."
    },
-   "placeHolderTipStr":{
+   "websitePlaceholderDes":{
       "message":"one website per line"
+   },
+   "fileExtPlaceholderDes":{
+      "message":"one file extension per line"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG Open in"

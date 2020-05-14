@@ -1,5 +1,5 @@
 const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]';
-var CurrentTabUrl = "";
+var CurrentTabUrl = "about:blank";
 const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
 var HttpSendRead = function(info) {
     Promise.prototype.done = Promise.prototype.then;
@@ -170,8 +170,10 @@ function matchRule(str, rule) {
 
 function isCapture(downloadItem) {
     var fileSize = localStorage.getItem("fileSize");
-    var white_site = JSON.parse(localStorage.getItem("white_site"));
-    var black_site = JSON.parse(localStorage.getItem("black_site"));
+    var whiteSiteList = JSON.parse(localStorage.getItem("white_site"));
+    var blackSiteList = JSON.parse(localStorage.getItem("black_site"));
+    var whiteExtList = JSON.parse(localStorage.getItem("white_ext"));
+    var blackExtList = JSON.parse(localStorage.getItem("black_ext"));
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
@@ -179,14 +181,24 @@ function isCapture(downloadItem) {
         return false;
     }
 
-    for (var i = 0; i < white_site.length; i++) {
-        if (matchRule(currentTabUrl.hostname, white_site[i]) || matchRule(url.hostname, white_site[i])) {
+    for (var i in whiteSiteList) {
+        if (matchRule(currentTabUrl.hostname, whiteSiteList[i]) || matchRule(url.hostname, whiteSiteList[i])) {
             return true;
         }
     }
+    for (var i in blackSiteList) {
+        if (matchRule(currentTabUrl.hostname, blackSiteList[i]) || matchRule(url.hostname, blackSiteList[i])) {
+            return false;
+        }
+    }
 
-    for (var i = 0; i < black_site.length; i++) {
-        if (matchRule(currentTabUrl.hostname, black_site[i]) || matchRule(url.hostname, black_site[i])) {
+    for (var i in whiteExtList) {
+        if (downloadItem.filename.endsWith(whiteExtList[i])) {
+            return true;
+        }
+    }
+    for (var i in blackExtList) {
+        if (downloadItem.filename.endsWith(blackExtList[i])) {
             return false;
         }
     }

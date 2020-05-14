@@ -10,77 +10,6 @@
   <link href="css/bootstrap.min.css" rel="stylesheet" />
   <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
   <link href="css/options.css" rel="stylesheet" />
-  <style type="text/css">
-    body,
-    html {
-      height: 100%;
-    }
-
-    #copyright {
-      float: left;
-      margin-top: 10px;
-    }
-
-    #acknowledgment {
-      float: right;
-      margin-top: 10px;
-    }
-
-    #logo {
-      margin-left: 100px;
-      background-image: url(images/logo64.png);
-      background-size: 64px 64px;
-      width: 320px;
-      height: 64px;
-      line-height: 64px;
-      background-repeat: no-repeat;
-      text-align: right;
-      font-size: x-large;
-      text-shadow: 0 0 12px black;
-    }
-
-    .navbar {
-      background-color: #0faad8;
-      padding: 5px 5px 0 5px;
-      color: white;
-      z-index: 200;
-      box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
-    }
-
-    legend {
-      margin-bottom: 0px;
-    }
-
-    .rpc-path {
-      margin-left: 10px;
-    }
-
-    .rpc-url-pattern {
-      margin-left: 10px;
-    }
-
-    .secretKey {
-      margin-left: 10px;
-    }
-
-    #add-rpc {
-      margin-left: 10px;
-    }
-
-    .footer {
-      position: fixed;
-      padding: 14px 15px 15px;
-      bottom: 0;
-      width: 100%;
-      background-color: #f5f5f5;
-      text-align: center;
-      border-top: 1px solid #ddd;
-      border-radius: 0 0 6px 6px;
-      box-shadow: inset 0 1px 0 #fff;
-      text-shadow: 0 0 15px black;
-    }
-  </style>
-
 </head>
 
 <body>
@@ -92,9 +21,9 @@
   <div class="container">
     <div class="form-horizontal">
       <fieldset>
-        <legend>Aria2 for Chrome Settings</legend>
+        <legend></legend>
         <div class="control-group">
-          <label class="control-label" for="contextMenus">__MSG_contextmenuStr__</label>
+          <label class="control-label text-info" for="contextMenus">__MSG_contextmenuStr__</label>
           <div class="controls">
             <label class="checkbox">
               <input type="checkbox" id="contextMenus">
@@ -103,7 +32,7 @@
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="integration">__MSG_downloadCaptureStr__</label>
+          <label class="control-label text-info" for="integration">__MSG_downloadCaptureStr__</label>
           <div class="controls">
 
             <label class="checkbox">
@@ -132,48 +61,70 @@
         </div>
 
         <div class="control-group">
-          <label class="control-label" for="webui-open-style">__MSG_WebUIOpenStyleStr__</label>
+          <label class="control-label text-info" for="webui-open-style">__MSG_WebUIOpenStyleStr__</label>
           <div class="controls">
-            <input type="radio" id="openstyle1" name="webUIOpenStyle" value="popup"> __MSG_WebUIOpenStyle1__ <br>
-            <input type="radio" id="openstyle2" name="webUIOpenStyle" value="newtab" checked> __MSG_WebUIOpenStyle2__<br>
-            <input type="radio" id="openstyle3" name="webUIOpenStyle" value="newwindow"> __MSG_WebUIOpenStyle3__
+            <label class="radio">
+              <input type="radio" id="openstyle1" name="webUIOpenStyle" value="popup"> __MSG_WebUIOpenStyle1__
+            </label>
+            <label class="radio">
+              <input type="radio" id="openstyle2" name="webUIOpenStyle" value="newtab" checked> __MSG_WebUIOpenStyle2__
+            </label>
+            <label class="radio">
+              <input type="radio" id="openstyle3" name="webUIOpenStyle" value="newwindow"> __MSG_WebUIOpenStyle3__
+            </label>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label text-info">__MSG_fileExtStr__</label>
+          <div class="controls row-fluid">
+            <div class="span3">
+              <label for="white-ext">__MSG_whiteListStr__</label>
+              <textarea rows="8" id="white-ext" placeholder="__MSG_fileExtPlaceholderDes__"></textarea>
+            </div>
+            <div class="span3">
+              <label for="black-ext">__MSG_blackListStr__</label>
+              <textarea rows="8" id="black-ext" placeholder="__MSG_fileExtPlaceholderDes__"></textarea>
+            </div>
           </div>
         </div>
 
         <div class="control-group">
-          <label class="control-label" for="white-site">__MSG_whiteListStr__</label>
-          <div class="controls">
-            <textarea rows="6" id="white-site" placeholder="__MSG_placeHolderTipStr__"></textarea>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="black-site">__MSG_blackListStr__</label>
-          <div class="controls">
-            <textarea rows="6" id="black-site" placeholder="__MSG_placeHolderTipStr__"></textarea>
+          <label class="control-label text-info">__MSG_websiteStr__</label>
+          <div class="controls row-fluid">
+            <div class="controls span4">
+              <label for="white-site">__MSG_whiteListStr__</label>
+              <textarea rows="6" id="white-site" placeholder="__MSG_websitePlaceholderDes__"></textarea>
+            </div>
+            <div class="controls span4">
+              <label for="black-site">__MSG_blackListStr__</label>
+              <textarea rows="6" id="black-site" placeholder="__MSG_websitePlaceholderDes__"></textarea>
+            </div>
           </div>
         </div>
 
         <div class="control-group">
-          <label class="control-label" for="config-sync">__MSG_configCloudSync__</label>
+          <label class="control-label text-info" for="config-sync">__MSG_configCloudSync__</label>
           <div class="controls">
             <button class="btn" id="uploadConfig">Upload</button>
             <button class="btn" id="downloadConfig">Download</button>
             <em>(__MSG_configCloudSyncDes__)</em>
-            <div id="sync-result"></div>
+            <div class="label" id="sync-result"></div>
           </div>
         </div>
       </fieldset>
     </div>
   </div>
+
   <footer class="footer">
     <div class="container">
       <div id="copyright">© Copyleft Alex Hua</div>
       <button type="btn" class="btn btn-success" id="save">Save</button>
-      <button class="btn" id="reset">Reset</button>
+      <button type="btn" class="btn btn-warning offset1" id="reset">Reset</button>
       <div id="acknowledgment"><a href="acknowledgment.txt" style="float:right">Acknowledgment</a></div>
     </div>
-
   </footer>
+
   <script src="js/jquery-3.5.0.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/options.js"></script>

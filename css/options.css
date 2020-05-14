@@ -1,6 +1,78 @@
-textarea{
-	width: 45%;
-}
-fieldset{
-	margin-bottom: 50px;
-}
+body{
+	  height: 100%;
+	  background-color: #f5f4f4;
+	  padding-bottom: 80px;
+    }
+
+    #copyright {
+      float: left;
+      margin-top: 10px;
+    }
+
+    #acknowledgment {
+      float: right;
+      margin-top: 10px;
+    }
+
+    #logo {
+      margin-left: 100px;
+      background-image: url(../images/logo64.png);
+      background-size: 64px 64px;
+      width: 320px;
+      height: 64px;
+      line-height: 64px;
+      background-repeat: no-repeat;
+      text-align: right;
+      font-size: x-large;
+      text-shadow: 0 0 12px black;
+    }
+
+    .navbar {
+      background-color: #0faad8;
+      padding: 5px 5px 0 5px;
+      color: white;
+      z-index: 200;
+      box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+    }
+
+    legend {
+      margin-bottom: 0px;
+	}
+	fieldset {
+		background-color: white;
+	}
+    textarea{
+	    width: 100%;
+    }
+    .rpc-path {
+      margin-left: 10px;
+    }
+
+    .rpc-url-pattern {
+      margin-left: 10px;
+    }
+
+    .secretKey {
+      margin-left: 10px;
+    }
+
+    .control-lable {
+      font-weight: bold;
+    }
+
+    #add-rpc {
+      margin-left: 10px;
+    }
+
+    .footer {
+      position: fixed;
+      padding: 14px 15px 15px;
+      bottom: 0;
+	  width: 100%;
+      background-color: #f5f5f5;
+      text-align: center;
+      border-top: 1px solid #ddd;
+      border-radius: 0 0 6px 6px;
+      box-shadow: inset 0 1px 0 #fff;
+      text-shadow: 0 0 15px black;
+    }
