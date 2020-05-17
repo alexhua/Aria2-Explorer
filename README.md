@@ -1,6 +1,6 @@
-# Aria2 for Chrome <span style="float:right">[[中文]](README.cn.md)</span>
+# Aria2 for Edge <span style="float:right">[[中文]](README.cn.md)</span>
 
-**Aria2 for Chrome** is an extension that could export URLs to Aria2 to complete downloads and imports [AriaNG](https://www.github.com/mayswind/AriaNg/) as a built-in management frontend.
+**Aria2 for Edge** is an extension that could export URLs to Aria2 to complete downloads and imports [AriaNG](https://www.github.com/mayswind/AriaNg/) as a built-in management frontend.
 
 ## 📑How to use
 
@@ -56,14 +56,13 @@ const downloadItem = {
     }
 }
 
-chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
+chrome.runtime.sendMessage(`Aria2 for Edge extension ID`, downloadItem)
 
 ```
 
 ## 🔗 Installation
 
-[![Chrome Web Store](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 for Chrome")
-[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 for Edge")
+[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=65 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 for Edge")
 
 ## 💡 Tips & FAQs
 
@@ -71,10 +70,10 @@ chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
 
 ## 🔒 Privacy policy
 
-This extension just captures Chrome download tasks and related website cookies for the purpose of the user's specific connecting aria2 to download the network resources. Aria2 connections and config information will be only stored locally or uploaded to the user's Google Cloud by choice. It will never collect any personal data or network activity from the user, nor will it share with 3rd parties.
+This extension just captures Edge download tasks and related website cookies for the purpose of the user's specific connecting aria2 to download the network resources. Aria2 connections and config information will be only stored locally or uploaded to the user's Microsoft Cloud by choice. It will never collect any personal data or network activity from the user, nor will it share with 3rd parties.
 
 ## 📜 License
 
 ![GPLv3](https://www.gnu.org/graphics/gplv3-127x51.png)
 
-Aria2-for-Chrome is licensed under [GNU General Public License](https://www.gnu.org/licenses/gpl.html) Version 3 or later.
+Aria2-for-Edge is licensed under [GNU General Public License](https://www.gnu.org/licenses/gpl.html) Version 3 or later.

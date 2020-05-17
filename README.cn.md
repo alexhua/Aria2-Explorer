@@ -1,6 +1,6 @@
-# Aria2 for Chrome <span style="float:right">[[返回]](README.md)</span>
+# Aria2 for Edge <span style="float:right">[[返回]](README.md)</span>
 
-**Aria2 for Chrome** 是一款为 Chrome 定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到 Aria2 来完成网络资源下载。同时，引入了 [AriaNG](https://www.github.com/mayswind/AriaNg/) 作为前端，方便用户对 Aria2 进行操作和管理。
+**Aria2 for Edge** 是一款为 Edge 定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到 Aria2 来完成网络资源下载。同时，引入了 [AriaNG](https://www.github.com/mayswind/AriaNg/) 作为前端，方便用户对 Aria2 进行操作和管理。
 
 ## 📑 如何使用
 
@@ -9,7 +9,7 @@
 3. 从[在线商店](#-安装地址)安装浏览器扩展
 4. 在扩展选项中打开 `自动拦截下载`，并根据需求配置其他选项
 
-完成后，既可在Chrome中享受高速下载体验。
+完成后，既可在Edge中享受高速下载体验。
 
 ## ⭐ 功能特性
 
@@ -56,13 +56,12 @@ const downloadItem = {
     }
 }
 
-chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
+chrome.runtime.sendMessage(`Aria2 for Edge extension ID`, downloadItem)
 
 ```
 
 ## 🔗 安装地址
 
-[![Chrome Web Store](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 for Chrome")
 [<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 for Edge")
 
 ## 💡 常见问题
@@ -77,4 +76,4 @@ chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
 
 ![GPLv3](https://www.gnu.org/graphics/gplv3-127x51.png)
 
-Aria2-for-Chrome is licensed under [GNU General Public License](https://www.gnu.org/licenses/gpl.html) Version 3 or later.
+Aria2-for-Edge is licensed under [GNU General Public License](https://www.gnu.org/licenses/gpl.html) Version 3 or later.

@@ -1,7 +1,7 @@
 {
    "manifest_version": 2,
    "name": "__MSG_appName__",
-   "short_name": "Aria2-for-Chrome",
+   "short_name": "Aria2-for-Edge",
    "options_page": "options.html",
    "permissions": [ "cookies", "tabs", "notifications", "contextMenus", "downloads","<all_urls>","storage"],
    "version": "1.5.11",

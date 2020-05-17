@@ -1,6 +1,6 @@
 {
    "appName": {
-      "message":"Aria2 for Chrome"
+      "message":"Aria2 for Edge"
    },
    "description": {
       "message": "Speed up your downloads with Aria2，manage your download tasks easily."
@@ -120,7 +120,7 @@
       "message":"Cloud Sync"
    },
    "configCloudSyncDes":{
-      "message":"Sync AriaNg and extension configs to current logged-in Google account"
+      "message":"Sync AriaNg and extension configs to current logged-in Microsoft account"
    },
    "uploadConfigWarn":{
       "message":"Invalid or empty local config data, still continue?"
