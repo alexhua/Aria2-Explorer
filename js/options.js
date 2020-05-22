@@ -33,9 +33,9 @@ $(function() {
                 $("#fileSize").val(fileSize);
                 var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]');
                 for (var i in rpc_list) {
-                    var addBtnOrPattern = 0 == i ? '<button class="btn" id="add-rpc">Add RPC</button>' : '<input type="text" class="input-large rpc-url-pattern" value="' + (rpc_list[i]['pattern']||"") + '"placeholder="URL pattern(s) (separated by ,)">';
+                    var addBtnOrPattern = 0 == i ? '<button class="btn" id="add-rpc"><i class="icon-plus-sign"></i> Add RPC</button>' : '<input type="text" class="input-large rpc-url-pattern" value="' + (rpc_list[i]['pattern']||"") + '"placeholder="URL pattern(s) (separated by ,)">';
                     var row = '<div class="control-group rpc_list">' +
-                                '<label class="control-label text-info">' + (i==0? 'JSON-RPC' : '') + '</label>' +
+                                '<label class="control-label text-info">' + (i==0? '<i class="icon-tasks"></i> JSON-RPC' : '') + '</label>' +
                                 '<div class="controls">' +
                                     '<input type="text" class="input-small" value="' + rpc_list[i]['name'] + '" placeholder="RPC Name">' +
                                     '<input type="text" class="input-medium secretKey" value="' + parseUrl(rpc_list[i]['url'])[1] + '" placeholder="Secret Key">' +

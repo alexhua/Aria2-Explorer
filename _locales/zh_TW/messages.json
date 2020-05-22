@@ -9,13 +9,13 @@
       "message":"匯出到 "
    },
    "configPageTitle":{
-      "message":"Aria2 選項配置頁面"
+      "message":"擴展配置頁面"
    },
    "contextmenuStr":{
       "message":"右鍵菜單"
    },
    "contextmenuDes":{
-      "message":"啟用右鍵菜單匯出項"
+      "message":"右鍵菜單匯出項"
    },
    "downloadCaptureStr":{
       "message":"下載攔截"

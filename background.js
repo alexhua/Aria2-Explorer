@@ -377,17 +377,26 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
             localStorage.setItem("contextMenus", true);
         }
     }
-    CurrentTabUrl = tab.url;
+    CurrentTabUrl = tab.url || "about:blank";
 
 });
 
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     chrome.tabs.get(activeInfo.tabId, function(tab) {
         updateOptionMenu(tab);
-        CurrentTabUrl = tab.url;
+        CurrentTabUrl = tab.url || "about:blank";
     });
 
 });
+
+chrome.windows.onFocusChanged.addListener(function(windowId) {
+    chrome.tabs.query({ windowId: windowId, active: true }, function(tabs) {
+        if (tabs.length > 0) {
+            CurrentTabUrl = tabs[0].url || "about:blank";
+            updateOptionMenu(tabs[0]);
+        }
+    });
+})
 
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
     var uri = decodeURIComponent(info.linkUrl || info.selectionText);

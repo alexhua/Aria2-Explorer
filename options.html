@@ -3,7 +3,7 @@
 
 <head>
   <meta charset=utf-8 />
-  <title>Aria2 for Chrome Settings</title>
+  <title>__MSG_configPageTitle__</title>
   <meta name="viewport"
     content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, width=device-width">
   <link href="images/favicon.ico" rel="shortcut icon" type="image/ico" />
@@ -13,9 +13,9 @@
 </head>
 
 <body>
-  <nav class="navbar">
+  <nav class="navbar-inner">
     <div class="container">
-      <div id="logo">__MSG_configPageTitle__</div>
+      <div id="logo"><img src="images/logo64.png"> __MSG_configPageTitle__</div>
     </div>
   </nav>
   <div class="container">
@@ -23,7 +23,7 @@
       <fieldset>
         <legend></legend>
         <div class="control-group">
-          <label class="control-label text-info" for="contextMenus">__MSG_contextmenuStr__</label>
+          <label class="control-label text-info" for="contextMenus"><i class="icon-th-list"></i> __MSG_contextmenuStr__</label>
           <div class="controls">
             <label class="checkbox">
               <input type="checkbox" id="contextMenus">
@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label text-info" for="integration">__MSG_downloadCaptureStr__</label>
+          <label class="control-label text-info" for="integration"><i class="icon-download-alt"></i> __MSG_downloadCaptureStr__</label>
           <div class="controls">
 
             <label class="checkbox">
@@ -61,7 +61,7 @@
         </div>
 
         <div class="control-group">
-          <label class="control-label text-info" for="webui-open-style">__MSG_WebUIOpenStyleStr__</label>
+          <label class="control-label text-info" for="webui-open-style"><i class="icon-th-large"></i> __MSG_WebUIOpenStyleStr__</label>
           <div class="controls">
             <label class="radio">
               <input type="radio" id="openstyle1" name="webUIOpenStyle" value="popup"> __MSG_WebUIOpenStyle1__
@@ -76,7 +76,7 @@
         </div>
         
         <div class="control-group">
-          <label class="control-label text-info">__MSG_fileExtStr__</label>
+          <label class="control-label text-info"><i class="icon-file"></i> __MSG_fileExtStr__</label>
           <div class="controls row-fluid">
             <div class="span3">
               <label for="white-ext">__MSG_whiteListStr__</label>
@@ -90,7 +90,7 @@
         </div>
 
         <div class="control-group">
-          <label class="control-label text-info">__MSG_websiteStr__</label>
+          <label class="control-label text-info"><i class="icon-globe"></i> __MSG_websiteStr__</label>
           <div class="controls row-fluid">
             <div class="controls span4">
               <label for="white-site">__MSG_whiteListStr__</label>
@@ -104,10 +104,10 @@
         </div>
 
         <div class="control-group">
-          <label class="control-label text-info" for="config-sync">__MSG_configCloudSync__</label>
+          <label class="control-label text-info" for="config-sync"><i class="icon-retweet"></i> __MSG_configCloudSync__</label>
           <div class="controls">
-            <button class="btn" id="uploadConfig">Upload</button>
-            <button class="btn" id="downloadConfig">Download</button>
+            <button class="btn" id="uploadConfig"><i class="icon-arrow-up"></i> Upload</button>
+            <button class="btn" id="downloadConfig"><i class="icon-arrow-down"></i> Download</button>
             <em>(__MSG_configCloudSyncDes__)</em>
             <div class="label" id="sync-result"></div>
           </div>
@@ -118,10 +118,14 @@
 
   <footer class="footer">
     <div class="container">
-      <div id="copyright">© Copyleft Alex Hua</div>
-      <button type="btn" class="btn btn-success" id="save">Save</button>
-      <button type="btn" class="btn btn-warning offset1" id="reset">Reset</button>
-      <div id="acknowledgment"><a href="acknowledgment.txt" style="float:right">Acknowledgment</a></div>
+      <span id="copyright" class="span2">© Copyleft Alex Hua</span>
+      <span class="span8 text-center">
+        <button type="btn" class="btn btn-success " id="save"><i class="icon-ok-sign icon-white"></i> Save</button>
+        <button type="btn" class="btn btn-warning offset1" id="reset"><i class="icon-remove-sign icon-white"></i> Reset</button>
+      </span>
+      <span id="acknowledgment" class="span1 text-right">
+        <a href="acknowledgment.txt">Acknowledgment</a>
+      </span>
     </div>
   </footer>
 
