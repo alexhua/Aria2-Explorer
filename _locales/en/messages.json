@@ -9,7 +9,7 @@
       "message":"Export to "
    },
    "configPageTitle":{
-      "message":"Aria2 Option Page"
+      "message":"Extension Option Settings"
    },
    "contextmenuStr":{
       "message":"Context Menu"
@@ -31,6 +31,9 @@
    },
    "allowExternalRequestDes":{
       "message":"Receive download task from other extension"
+   },
+   "monitorAria2Str":{
+      "message":"Monitor Aria2c state"
    },
    "websiteStr":{
       "message":"Website"

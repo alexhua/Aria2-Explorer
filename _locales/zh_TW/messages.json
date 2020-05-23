@@ -9,13 +9,13 @@
       "message":"匯出到 "
    },
    "configPageTitle":{
-      "message":"Aria2 選項配置頁面"
+      "message":"擴展配置頁面"
    },
    "contextmenuStr":{
       "message":"右鍵菜單"
    },
    "contextmenuDes":{
-      "message":"啟用右鍵菜單匯出項"
+      "message":"右鍵菜單匯出項"
    },
    "downloadCaptureStr":{
       "message":"下載攔截"
@@ -31,6 +31,9 @@
    },
    "allowExternalRequestDes":{
       "message":"接受來自其他擴展的下載請求"
+   },
+   "monitorAria2Str":{
+      "message":"監測Aria2c狀態"
    },
    "websiteStr":{
       "message":"網站"

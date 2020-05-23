@@ -9,13 +9,13 @@
       "message":"导出到 "
    },
    "configPageTitle":{
-      "message":"Aria2 选项配置页面"
+      "message":"扩展配置页面"
    },
    "contextmenuStr":{
       "message":"右键菜单"
    },
    "contextmenuDes":{
-      "message":"启用右键菜单导出项"
+      "message":"右键菜单导出项"
    },
    "downloadCaptureStr":{
       "message":"下载拦截"
@@ -31,6 +31,9 @@
    },
    "allowExternalRequestDes":{
       "message":"接受来自其他扩展的下载请求"
+   },
+   "monitorAria2Str":{
+      "message":"监测Aria2c状态"
    },
    "websiteStr":{
       "message":"网站"
