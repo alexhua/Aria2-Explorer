@@ -19,6 +19,10 @@ $(function() {
                 if (allowExternalRequest == "true") {
                     $("#allowExternalRequest").prop('checked', true);
                 }
+                var monitorAria2 = localStorage.getItem("monitorAria2");
+                if (monitorAria2 == "true") {
+                    $("#monitorAria2").prop('checked', true);
+                }
                 var askBeforeDownload = localStorage.getItem("askBeforeDownload");
                 if (askBeforeDownload == "true") {
                     $("#askBeforeDownload").prop('checked', true);
@@ -131,6 +135,11 @@ $(function() {
                 } else {
                     localStorage.setItem("allowExternalRequest", false);
                 }
+                if ($("#monitorAria2").prop('checked') == true) {
+                    localStorage.setItem("monitorAria2", true);
+                } else {
+                    localStorage.setItem("monitorAria2", false);
+                }
                 if ($("#askBeforeDownload").prop('checked') == true) {
                     localStorage.setItem("askBeforeDownload", true);
                 } else {
@@ -193,6 +202,7 @@ $(function() {
                         fileSize: "",
                         finalUrl: "",
                         allowExternalRequest: "",
+                        monitorAria2:"",
                         integration: "",
                         jsonrpc_history: "",
                         rpc_list: "",

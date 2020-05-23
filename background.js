@@ -1,5 +1,7 @@
 const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]';
 var CurrentTabUrl = "about:blank";
+var MonitorId = -1;
+var MonitorRate = 3000;
 const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
 var HttpSendRead = function(info) {
     Promise.prototype.done = Promise.prototype.then;
@@ -226,6 +228,8 @@ function enableCapture() {
             '256': "images/logo256.png"
         }
     });
+    localStorage.setItem("integration", true);
+    chrome.contextMenus.update("captureDownload", { checked: true });
 }
 
 function disableCapture() {
@@ -240,6 +244,8 @@ function disableCapture() {
             '256': "images/logo256-gray.png"
         }
     });
+    localStorage.setItem("integration", false);
+    chrome.contextMenus.update("captureDownload", { checked: false });
 }
 
 function captureDownload(downloadItem, suggestion) {
@@ -329,6 +335,29 @@ function openInWindow(url) {
 }
 
 function createOptionMenu() {
+    var strDownloadCapture = chrome.i18n.getMessage("downloadCaptureStr");
+    var isCaptureDownload =localStorage.getItem("integration") == "true";
+    chrome.contextMenus.create({
+        "type": "checkbox",
+        "checked":isCaptureDownload,
+        "id": "captureDownload",
+        "title": strDownloadCapture,
+        "contexts": ["browser_action"]
+    });
+    var strMonitorAria2 = chrome.i18n.getMessage("monitorAria2Str");
+    var isMonitorAria2 =localStorage.getItem("monitorAria2") == "true";
+    chrome.contextMenus.create({
+        "type": "checkbox",
+        "checked": isMonitorAria2,
+        "id": "monitorAria2",
+        "title": strMonitorAria2,
+        "contexts": ["browser_action"]
+    });
+    chrome.contextMenus.create({
+        "type": "separator",
+        "id": "separator",
+        "contexts": ["browser_action"]
+    });
     var strOpenWebUI = chrome.i18n.getMessage("openWebUIStr");
     chrome.contextMenus.create({
         "type": "normal",
@@ -410,12 +439,24 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 
     if (info.menuItemId == "openWebUI") {
         launchUI();
+    } else if (info.menuItemId == "captureDownload") {
+        if (info.checked) {
+            enableCapture();
+        } else {
+            disableCapture();
+        }
+    } else if (info.menuItemId == "monitorAria2") {
+        if (info.checked) {
+            enableMonitor();
+        } else {
+            disableMonitor();
+        }
     } else if (info.menuItemId == "updateBlackSite") {
         updateBlackSite(tab);
-        updateOptionMenu(tab)
+        updateOptionMenu(tab);
     } else if (info.menuItemId == "updateWhiteSite") {
         updateWhiteSite(tab);
-        updateOptionMenu(tab)
+        updateOptionMenu(tab);
     } else {
         aria2Send(uri, info.menuItemId, downloadItem);
     }
@@ -499,10 +540,8 @@ chrome.commands.onCommand.addListener(function(command) {
     if (command === "toggle-capture") {
         var integration = localStorage.getItem("integration");
         if (integration == "false" || integration == null) {
-            localStorage.setItem("integration", "true");
             enableCapture();
         } else if (integration == "true") {
-            localStorage.setItem("integration", "false");
             disableCapture();
         }
     }
@@ -517,38 +556,15 @@ window.addEventListener('storage', function(se) {
             disableCapture();
         }
     }
+
+    if (se.key == "monitorAria2") {
+        if (se.newValue == "true") {
+            enableMonitor();
+        } else if (se.newValue == "false") {
+            disableMonitor();
+        }
+    }
 });
-
-//软件版本更新提示
-var manifest = chrome.runtime.getManifest();
-var previousVersion = localStorage.getItem("version");
-if (previousVersion == "" || previousVersion != manifest.version) {
-    var opt = {
-        type: "basic",
-        title: "更新",
-        message: "\n支持在弹出窗口中打开AriaNG。",
-        iconUrl: "images/logo64.png",
-        requireInteraction: true
-    };
-    var id = new Date().getTime().toString();
-    //showNotification(id, opt);
-    localStorage.setItem("version", manifest.version);
-}
-
-//init popup url icon and capture
-var webUIOpenStyle = localStorage.getItem("webUIOpenStyle");
-if (webUIOpenStyle == "popup") {
-    var index = chrome.extension.getURL('ui/ariang/popup.html');
-    chrome.browserAction.setPopup({
-        popup: index
-    });
-}
-var integration = localStorage.getItem("integration");
-if (integration == "true") {
-    enableCapture();
-} else if (integration == "false" || integration == null) {
-    disableCapture();
-}
 
 // receive request from other extension
 /**
@@ -568,3 +584,108 @@ chrome.runtime.onMessageExternal.addListener (
         }
     }
 );
+
+function enableMonitor(){
+    if (MonitorId > -1) {
+        console.log("Warn: Monitor has already started.");
+        return;
+    }
+    monitorAria2();
+    MonitorId = setInterval(monitorAria2, MonitorRate);
+    localStorage.setItem("monitorAria2", true);
+    chrome.contextMenus.update("monitorAria2", { checked: true });
+}
+
+function disableMonitor(){
+    clearInterval(MonitorId);
+    MonitorId = -1;
+    chrome.browserAction.setBadgeText({text:""});
+    localStorage.setItem("monitorAria2", false);
+    chrome.contextMenus.update("monitorAria2", { checked: false });
+}
+
+function monitorAria2(){
+    var rpc_data = {
+        "jsonrpc": "2.0",
+        "method": "aria2.getGlobalStat",
+        "id": new Date().getTime(),
+        "params": []
+    };
+    const rpc_list = fetchRpcList();
+    var rpcUrl =getRpcUrl("",rpc_list);
+    var result = parse_url(rpcUrl);
+    var auth = result[1];
+    if (auth && auth.indexOf('token:') == 0) {
+        rpc_data.params.unshift(auth);
+    }
+
+    var parameter = {
+        'url': result[0],
+        'dataType': 'json',
+        type: 'POST',
+        data: JSON.stringify(rpc_data),
+        'headers': {
+            'Authorization': auth
+        }
+    };
+    HttpSendRead(parameter).done(function(json, textStatus, jqXHR) {
+        var numActive = json.result.numActive;
+        var numStopped = json.result.numStopped;
+        var numWaitting = json.result.numWaiting;
+        /* Tune the monitor rate dynamiclly */
+        if (numActive > 0 && MonitorRate == 3000) {
+            MonitorRate = 1000;
+            disableMonitor();
+            enableMonitor();
+        } else if (numActive == 0 && MonitorRate == 1000) {
+            MonitorRate = 3000;
+            disableMonitor();
+            enableMonitor();
+        }
+        chrome.browserAction.setBadgeBackgroundColor({ color: "green" });
+        chrome.browserAction.setBadgeText({ text: numActive });
+        chrome.browserAction.setTitle({ title: `Active: ${numActive} Wait: ${numWaitting} Stop: ${numStopped}` });
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        chrome.browserAction.setBadgeBackgroundColor({ color: "red" });
+        chrome.browserAction.setBadgeText({ text: "E" });
+    });
+}
+
+/******** init popup url icon, capture and aria2 monitor ********/
+var webUIOpenStyle = localStorage.getItem("webUIOpenStyle");
+if (webUIOpenStyle == "popup") {
+    var index = chrome.extension.getURL('ui/ariang/popup.html');
+    chrome.browserAction.setPopup({
+        popup: index
+    });
+}
+chrome.contextMenus.removeAll();
+createOptionMenu();
+var integration = localStorage.getItem("integration");
+if (integration == "true") {
+    enableCapture();
+} else if (integration == "false" || integration == null) {
+    disableCapture();
+}
+var integration = localStorage.getItem("monitorAria2");
+if (integration == "true") {
+    enableMonitor();
+} else if (integration == "false" || integration == null) {
+    disableMonitor();
+}
+
+//软件版本更新提示
+var manifest = chrome.runtime.getManifest();
+var previousVersion = localStorage.getItem("version");
+if (previousVersion == "" || previousVersion != manifest.version) {
+    var opt = {
+        type: "basic",
+        title: "更新",
+        message: "\n支持在弹出窗口中打开AriaNG。",
+        iconUrl: "images/logo64.png",
+        requireInteraction: true
+    };
+    var id = new Date().getTime().toString();
+    //showNotification(id, opt);
+    localStorage.setItem("version", manifest.version);
+}

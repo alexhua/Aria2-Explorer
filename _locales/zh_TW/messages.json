@@ -32,6 +32,9 @@
    "allowExternalRequestDes":{
       "message":"接受來自其他擴展的下載請求"
    },
+   "monitorAria2Str":{
+      "message":"監測Aria2c狀態"
+   },
    "websiteStr":{
       "message":"網站"
    },

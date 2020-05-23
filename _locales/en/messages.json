@@ -32,6 +32,9 @@
    "allowExternalRequestDes":{
       "message":"Receive download task from other extension"
    },
+   "monitorAria2Str":{
+      "message":"Monitor Aria2c state"
+   },
    "websiteStr":{
       "message":"Website"
    },
