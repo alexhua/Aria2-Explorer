@@ -225,7 +225,7 @@ $(function() {
                 for (var key in ExtConfig.AriaExtConfig) {
                     ExtConfig.AriaExtConfig[key] = localStorage.getItem(key);
                 }
-                
+
                 //check the validility of local config
                 if (ExtConfig.AriaExtConfig.integration == "") {
                     var str = chrome.i18n.getMessage("uploadConfigWarn");
@@ -320,6 +320,6 @@ function combineUrl(secretKey, urlPath) {
         console.warn('Input a invalid Url Path! UrlPath ="' + urlPath +'"');
         return null;
     }
-    return url.toString(); 
-    
+    return url.toString();
+
 }
