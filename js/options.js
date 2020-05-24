@@ -99,7 +99,6 @@ $(function() {
             },
             save: function() {
                 var rpc_list = [];
-                var jsonrpc_history = [];
                 var rpcUrl = null;
                 for (var i = 0; i < $(".rpc_list").length; i++) {
                     var child = $(".rpc_list").eq(i).children().eq(1).children();
@@ -110,11 +109,9 @@ $(function() {
                             "url": rpcUrl,
                             "pattern": child.eq(3).val()
                         });
-                        jsonrpc_history.push(rpcUrl);
                     }
                 }
                 localStorage.setItem("rpc_list", JSON.stringify(rpc_list));
-                localStorage.setItem("jsonrpc_history", JSON.stringify(jsonrpc_history));
                 if ($("#contextMenus").prop('checked') == true) {
                     localStorage.setItem("contextMenus", true);
                 } else {
@@ -204,7 +201,6 @@ $(function() {
                         allowExternalRequest: "",
                         monitorAria2:"",
                         integration: "",
-                        jsonrpc_history: "",
                         rpc_list: "",
                         version: "",
                         webUIOpenStyle: "",
