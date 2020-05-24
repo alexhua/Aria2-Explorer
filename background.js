@@ -54,6 +54,8 @@ var HttpSendRead = function(info) {
 
 //弹出chrome通知
 function showNotification(id, opt) {
+    var allowNotification = localStorage.getItem("allowNotification");
+    if (allowNotification == "false") return;
     var notification = chrome.notifications.create(id, opt, function(notifyId) {
         return notifyId
     });
@@ -290,7 +292,7 @@ function launchUI(downloadURL, referrer) {
         }
     } else {
         url = index;
-        //clicked from notification or sbrowserAction icon, only launch UI.
+        //clicked from notification or browserAction icon, only launch UI.
     }
     chrome.tabs.query({ "url": index }, function (tabs) {
         for (var i in tabs) {
@@ -306,7 +308,7 @@ function launchUI(downloadURL, referrer) {
         var webUIOpenStyle = localStorage.getItem("webUIOpenStyle") || "newtab";
         if (webUIOpenStyle == "newwindow") {
             openInWindow(url);
-        } else if (webUIOpenStyle == "newtab") {
+        } else {
             chrome.tabs.create({
                 url: url
             });

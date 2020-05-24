@@ -32,6 +32,9 @@
    "allowExternalRequestDes":{
       "message":"接受来自其他扩展的下载请求"
    },
+   "allowNotificationDes":{
+      "message":"启用拦截通知"
+   },
    "monitorAria2Str":{
       "message":"监测Aria2c状态"
    },

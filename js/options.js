@@ -23,6 +23,10 @@ $(function() {
                 if (monitorAria2 == "true") {
                     $("#monitorAria2").prop('checked', true);
                 }
+                var allowNotification = localStorage.getItem("allowNotification");
+                if (allowNotification == "true") {
+                    $("#allowNotification").prop('checked', true);
+                }
                 var askBeforeDownload = localStorage.getItem("askBeforeDownload");
                 if (askBeforeDownload == "true") {
                     $("#askBeforeDownload").prop('checked', true);
@@ -122,6 +126,11 @@ $(function() {
                 } else {
                     localStorage.setItem("integration", false);
                 }
+                if ($("#askBeforeDownload").prop('checked') == true) {
+                    localStorage.setItem("askBeforeDownload", true);
+                } else {
+                    localStorage.setItem("askBeforeDownload", false);
+                }
                 if ($("#finalUrl").prop('checked') == true) {
                     localStorage.setItem("finalUrl", true);
                 } else {
@@ -137,10 +146,10 @@ $(function() {
                 } else {
                     localStorage.setItem("monitorAria2", false);
                 }
-                if ($("#askBeforeDownload").prop('checked') == true) {
-                    localStorage.setItem("askBeforeDownload", true);
+                if ($("#allowNotification").prop('checked') == true) {
+                    localStorage.setItem("allowNotification", true);
                 } else {
-                    localStorage.setItem("askBeforeDownload", false);
+                    localStorage.setItem("allowNotification", false);
                 }
                 if ($("#openstyle1").prop('checked') == true) {
                     localStorage.setItem("webUIOpenStyle", $("#openstyle1").val());
@@ -194,13 +203,14 @@ $(function() {
                         Options: ""
                     },
                     AriaExtConfig: {
-                        askBeforeDownload: "",
                         contextMenus: "",
+                        integration: "",
                         fileSize: "",
+                        askBeforeDownload: "",
                         finalUrl: "",
                         allowExternalRequest: "",
-                        monitorAria2:"",
-                        integration: "",
+                        monitorAria2: "",
+                        allowNotification: "",
                         rpc_list: "",
                         version: "",
                         webUIOpenStyle: "",

@@ -35,6 +35,9 @@
    "monitorAria2Str":{
       "message":"監測Aria2c狀態"
    },
+   "allowNotificationDes":{
+      "message":"啓用攔截通知"
+   },
    "websiteStr":{
       "message":"網站"
    },
