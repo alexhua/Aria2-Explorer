@@ -96,7 +96,7 @@
       "message":"開關下載自動攔截"
    },
    "configCloudSync":{
-      "message":"設定雲端同步"
+      "message":"雲端同步設定"
    },
    "configCloudSyncDes":{
       "message":"同步AriaNG和擴充功能設定到當前登入的Google帳號"
