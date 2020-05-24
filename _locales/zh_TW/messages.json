@@ -3,19 +3,19 @@
       "message":"Aria2 for Chrome"
    },
    "description": {
-      "message":"Aria2 Web UI 支持手動添加和自動攔截下載工作到Aria2。（分叉自YAAW）"
+      "message":"Aria2 Web UI 支援手動添加和自動攔截下載工作到Aria2。（分叉自YAAW）"
    },
    "contextmenuTitle":{
       "message":"匯出到 "
    },
    "configPageTitle":{
-      "message":"擴展配置頁面"
+      "message":"擴充功能設定頁面"
    },
    "contextmenuStr":{
-      "message":"右鍵菜單"
+      "message":"右鍵選單"
    },
    "contextmenuDes":{
-      "message":"右鍵菜單匯出項"
+      "message":"右鍵選單匯出項目"
    },
    "downloadCaptureStr":{
       "message":"下載攔截"
@@ -30,7 +30,7 @@
       "message":"攔截最終下載位址 （排除多重跳轉導致下載不正常的狀況）"
    },
    "allowExternalRequestDes":{
-      "message":"接受來自其他擴展的下載請求"
+      "message":"接受來自其他擴充功能的下載請求"
    },
    "monitorAria2Str":{
       "message":"監測Aria2c狀態"
@@ -81,7 +81,7 @@
       "message":"AriaNG打開樣式"
    },
    "WebUIOpenStyle1":{
-      "message":"彈窗"
+      "message":"彈出視窗"
    },
    "WebUIOpenStyle2":{
       "message":"新分頁"
@@ -96,24 +96,24 @@
       "message":"開關下載自動攔截"
    },
    "configCloudSync":{
-      "message":"配寘雲端同步"
+      "message":"設定雲端同步"
    },
    "configCloudSyncDes":{
-      "message":"同步AriaNG和擴展配寘到當前登入的Google帳號"
+      "message":"同步AriaNG和擴充功能設定到當前登入的Google帳號"
    },
    "uploadConfigWarn":{
-      "message":"本地配寘為空或無效，仍然繼續？"
+      "message":"本機設定為空或無效，仍然繼續？"
    },
    "uploadConfigSucceed":{
-      "message":"上傳配寘成功"
+      "message":"上傳設定成功"
    },
    "uploadConfigFailed":{
-      "message":"上傳配寘失敗: "
+      "message":"上傳設定失敗: "
    },
    "downloadConfigSucceed":{
-      "message":"下載配寘成功"
+      "message":"下載設定成功"
    },
    "downloadConfigFailed":{
-      "message":"下載配寘失敗：雲端數據無效或無網絡連接"
+      "message":"下載設定失敗：雲端數據無效或無網絡連接"
    }
 }
