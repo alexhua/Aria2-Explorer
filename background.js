@@ -399,14 +399,6 @@ function createContextMenu() {
     }
 }
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    if (changeInfo.status === 'loading') {
-        updateOptionMenu(tab);
-    }
-    CurrentTabUrl = tab.url || "about:blank";
-
-});
-
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     chrome.tabs.get(activeInfo.tabId, function(tab) {
         updateOptionMenu(tab);
@@ -464,33 +456,32 @@ function updateOptionMenu(tab) {
     var black_site_set = new Set(black_site);
     var white_site = JSON.parse(localStorage.getItem("white_site"));
     var white_site_set = new Set(white_site);
-    if (tab == null || tab.url == null) {
+    if (tab == null || !tab.active) {
         console.warn("Could not get active tab url, update option menu failed.");
-    }
-    if (!tab.active || !tab.url.startsWith("http"))
         return;
-    var url = new URL(tab.url);
+    }
+    var url = new URL(tab.url || "about:blank");
     if (black_site_set.has(url.hostname)) {
         var updateBlackSiteStr = chrome.i18n.getMessage("removeFromBlackListStr");
         chrome.contextMenus.update("updateBlackSite", {
             "title": updateBlackSiteStr
-        }, function() {});
+        });
     } else {
         var updateBlackSiteStr = chrome.i18n.getMessage("addToBlackListStr");
         chrome.contextMenus.update("updateBlackSite", {
             "title": updateBlackSiteStr
-        }, function() {});
+        });
     }
     if (white_site_set.has(url.hostname)) {
         var updateWhiteSiteStr = chrome.i18n.getMessage("removeFromWhiteListStr");
         chrome.contextMenus.update("updateWhiteSite", {
             "title": updateWhiteSiteStr
-        }, function() {});
+        });
     } else {
         var updateWhiteSiteStr = chrome.i18n.getMessage("addToWhiteListStr");
         chrome.contextMenus.update("updateWhiteSite", {
             "title": updateWhiteSiteStr
-        }, function() {});
+        });
     }
 
 }
