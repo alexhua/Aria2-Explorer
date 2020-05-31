@@ -38,6 +38,9 @@
    "monitorAria2Str":{
       "message":"Monitor Aria2c state"
    },
+   "captureMagnetDes":{
+      "message":"Capture magnet link"
+   },
    "websiteStr":{
       "message":"Website"
    },

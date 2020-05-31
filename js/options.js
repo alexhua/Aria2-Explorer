@@ -3,6 +3,7 @@ $(function() {
         return {
             init: function() {
                 var self = this;
+                $('input[type=checkbox]').prop("checked", false);
                 var contextMenus = localStorage.getItem("contextMenus");
                 if (contextMenus == "true") {
                     $("#contextMenus").prop('checked', true);
@@ -10,6 +11,10 @@ $(function() {
                 var integration = localStorage.getItem("integration");
                 if (integration == "true") {
                     $("#integration").prop('checked', true);
+                }
+                var askBeforeDownload = localStorage.getItem("askBeforeDownload");
+                if (askBeforeDownload == "true") {
+                    $("#askBeforeDownload").prop('checked', true);
                 }
                 var finalUrl = localStorage.getItem("finalUrl");
                 if (finalUrl == "true") {
@@ -27,18 +32,23 @@ $(function() {
                 if (allowNotification == "true") {
                     $("#allowNotification").prop('checked', true);
                 }
-                var askBeforeDownload = localStorage.getItem("askBeforeDownload");
-                if (askBeforeDownload == "true") {
-                    $("#askBeforeDownload").prop('checked', true);
+                var captureMagnet = localStorage.getItem("captureMagnet");
+                if (captureMagnet == "true") {
+                    $("#captureMagnet").prop('checked', true);
                 }
                 var webUIOpenStyle = localStorage.getItem("webUIOpenStyle");
                 if (webUIOpenStyle == "popup") {
                     $("#openstyle1").prop('checked', true);
                 } else if (webUIOpenStyle == "newwindow") {
                     $("#openstyle3").prop('checked', true);
+                } else {
+                    $("#openstyle2").prop('checked', true);
                 }
                 var fileSize = localStorage.getItem("fileSize") || 10;
                 $("#fileSize").val(fileSize);
+                if ($(".rpc_list").length !== 0) {
+                    $(".rpc_list").remove();
+                }
                 var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]');
                 for (var i in rpc_list) {
                     var addBtnOrPattern = 0 == i ? '<button class="btn" id="add-rpc"><i class="icon-plus-sign"></i> Add RPC</button>' : '<input type="text" class="input-large rpc-url-pattern" value="' + (rpc_list[i]['pattern']||"") + '"placeholder="URL pattern(s) (separated by ,)">';
@@ -82,7 +92,7 @@ $(function() {
                                         '<input type="text" class="input-large rpc-url-pattern" placeholder="URL pattern(s) (separated by ,)">' +
                                      '</div>' +
                                     '</div>';
-                    $(rpc_form).insertAfter($(".rpc_list")[0]);
+                    $(rpc_form).insertAfter($(".rpc_list")[$(".rpc_list").length - 1]);
                 });
                 $("#uploadConfig").on("click", function() {
                     self.uploadConfig();
@@ -94,8 +104,9 @@ $(function() {
                     self.save();
                 });
                 $("#reset").on("click", function() {
+                    toggleMagnetHandler(false);
                     localStorage.clear();
-                    location.reload();
+                    self.init();
                     chrome.storage.local.clear(function() {
                         console.log("Settings storage is cleared!");
                     });
@@ -150,6 +161,13 @@ $(function() {
                     localStorage.setItem("allowNotification", true);
                 } else {
                     localStorage.setItem("allowNotification", false);
+                }
+                if ($("#captureMagnet").prop('checked') == true) {
+                    toggleMagnetHandler(true);
+                    localStorage.setItem("captureMagnet", true);                    
+                } else {
+                    toggleMagnetHandler(false);
+                    localStorage.setItem("captureMagnet", false);
                 }
                 if ($("#openstyle1").prop('checked') == true) {
                     localStorage.setItem("webUIOpenStyle", $("#openstyle1").val());
@@ -211,6 +229,7 @@ $(function() {
                         allowExternalRequest: "",
                         monitorAria2: "",
                         allowNotification: "",
+                        captureMagnet: "",
                         rpc_list: "",
                         version: "",
                         webUIOpenStyle: "",
@@ -250,9 +269,16 @@ $(function() {
                             localStorage.setItem("AriaNg.Options", extConfig.AriaNgConfig.Options);
                         }
                         for (var key in extConfig.AriaExtConfig) {
+                            if (key == "captureMagnet") {
+                                if (extConfig.AriaExtConfig[key] == "false") {
+                                    toggleMagnetHandler(false);
+                                } else if (extConfig.AriaExtConfig[key] == "true") {
+                                    toggleMagnetHandler(true);
+                                }
+                            }
                             localStorage[key] = extConfig.AriaExtConfig[key];
                         }
-                        location.reload();
+                        self.init();
                         var str = chrome.i18n.getMessage("downloadConfigSucceed");
                         self.displaySyncResult(str, "label-success");
                     } else {
@@ -323,3 +349,22 @@ function combineUrl(secretKey, urlPath) {
     return url.toString();
 
 }
+
+/**
+ * toggle magnet protocol hanlder before changing the captureMagnet storage value
+ *
+ * @param {boolean} flag new value
+ */
+function toggleMagnetHandler(flag) {
+    var magnetPage = chrome.runtime.getURL("magnet.html") + "?action=magnet&url=%s";
+    var captureMagnet = localStorage.getItem("captureMagnet") || "false";
+    if (flag && captureMagnet == "false") {
+        navigator.registerProtocolHandler("magnet", magnetPage, "Capture Magnet");
+    } else if (!flag && captureMagnet == "true") {
+        navigator.unregisterProtocolHandler("magnet", magnetPage);
+    }
+}
+
+window.addEventListener('storage', function (se) {
+    window.location.reload();
+})

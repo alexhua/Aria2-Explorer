@@ -588,6 +588,14 @@ chrome.runtime.onMessageExternal.addListener (
     }
 );
 
+chrome.runtime.onMessage.addListener(
+    function (downloadItem) {
+        const rpc_list = fetchRpcList();
+        var rpc_url = getRpcUrl(downloadItem.url, rpc_list);
+        aria2Send(downloadItem.url, rpc_url, downloadItem);
+    }
+);
+
 function enableMonitor(){
     if (MonitorId !== -1) {
         console.log("Warn: Monitor has already started.");

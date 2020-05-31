@@ -38,6 +38,9 @@
    "allowNotificationDes":{
       "message":"啓用攔截通知"
    },
+   "captureMagnetDes":{
+      "message":"攔截磁力連結"
+   },
    "websiteStr":{
       "message":"網站"
    },

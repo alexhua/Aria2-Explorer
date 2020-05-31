@@ -38,6 +38,9 @@
    "monitorAria2Str":{
       "message":"监测Aria2c状态"
    },
+   "captureMagnetDes":{
+      "message":"拦截磁力链接"
+   },
    "websiteStr":{
       "message":"网站"
    },
