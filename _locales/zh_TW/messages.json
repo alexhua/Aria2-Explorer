@@ -24,7 +24,7 @@
       "message":"自動攔截下載工作到Aria2c，當檔案大小 ≥"
    },
    "askBeforeDownloadDes":{
-      "message":"自動下載前詢問詳細設定（無法附帶Cookies資訊）"
+      "message":"自動下載前詢問詳細設定"
    },
    "captureFinalUrlDes":{
       "message":"攔截最終下載位址 （排除多重跳轉導致下載不正常的狀況）"

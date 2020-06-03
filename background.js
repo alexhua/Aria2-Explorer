@@ -283,16 +283,32 @@ function captureDownload(downloadItem, suggestion) {
 
 chrome.browserAction.onClicked.addListener(launchUI);
 
-function launchUI(downloadURL, referrer) {
+function getCookies(url) {
+    return new Promise(resolve =>{
+        chrome.cookies.getAll({ "url": url }, function (cookies) {
+            var format_cookies = [];
+            for (var i in cookies) {
+                var cookie = cookies[i];
+                format_cookies.push(cookie.name + "=" + cookie.value);
+            }
+            resolve(format_cookies);
+        })
+    })
+}
+
+async function launchUI(downloadURL, referrer) {
     var index = chrome.extension.getURL('ui/ariang/index.html');
     if (typeof downloadURL === "string") {
         url = index + "#!/new?url=" + btoa(downloadURL);
         if (typeof referrer === "string" && referrer != "") {
             url = url + "&referer=" + referrer;
         }
-    } else {
+        let cookies = await getCookies(downloadURL);
+        if (cookies.length > 0) {
+            url = url + "&header=Cookie:" + cookies.join(";");
+        }
+    } else { //clicked from notification,option menu or extension icon, launch main page.
         url = index;
-        //clicked from notification or browserAction icon, only launch UI.
     }
     chrome.tabs.query({ "url": index }, function (tabs) {
         for (var i in tabs) {
@@ -457,7 +473,7 @@ function updateOptionMenu(tab) {
     var white_site = JSON.parse(localStorage.getItem("white_site"));
     var white_site_set = new Set(white_site);
     if (tab == null || !tab.active) {
-        console.warn("Could not get active tab url, update option menu failed.");
+        console.log("Could not get active tab url, update option menu failed.");
         return;
     }
     var url = new URL(tab.url || "about:blank");
