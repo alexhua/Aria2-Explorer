@@ -3,48 +3,35 @@ var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
 var MonitorRate = 3000; // Aria2c monitor interval 3000ms
 const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
-var HttpSendRead = function(info) {
+var HttpSendRead = function(request) {
     Promise.prototype.done = Promise.prototype.then;
     Promise.prototype.fail = Promise.prototype.catch;
     return new Promise(function(resolve, reject) {
         var http = new XMLHttpRequest();
-        var contentType = "application/x-www-form-urlencoded; charset=UTF-8";
-        var timeout = 3000;
-        if (info.contentType != null) {
-            contentType = info.contentType;
-        }
-        if (info.timeout != null) {
-            timeout = info.timeout;
-        }
-        var timeId = setTimeout(httpclose, timeout);
-        function httpclose() {
-            http.abort();
-        }
+        var contentType = request.contentType || "application/x-www-form-urlencoded; charset=UTF-8";
+        http.timeout = request.timeout || 3000;
         http.onreadystatechange = function() {
             if (http.readyState == 4) {
                 if ((http.status == 200 && http.status < 300) || http.status == 304) {
-                    clearTimeout(timeId);
-                    if (info.dataType == "json") {
-                        resolve(JSON.parse(http.responseText), http.status, http);
-                    } else if (info.dataType == "SCRIPT") {
-                        // eval(http.responseText);
-                        resolve(http.responseText, http.status, http);
-                    }
+                    resolve(JSON.parse(http.responseText), http.status, http);
                 } else {
-                    clearTimeout(timeId);
-                    reject(http, http.statusText, http.status);
+                    let response = null;
+                    if (http.responseText) {
+                        response = JSON.parse(http.responseText);
+                    }
+                    reject(response, http.status, http);
                 }
             }
         }
-        http.open(info.type, info.url, true);
+        http.open(request.method, request.url, true);
         http.setRequestHeader("Content-type", contentType);
-        for (h in info.headers) {
-            if (info.headers[h]) {
-                http.setRequestHeader(h, info.headers[h]);
+        for (h in request.headers) {
+            if (request.headers[h]) {
+                http.setRequestHeader(h, request.headers[h]);
             }
         }
-        if (info.type == "POST") {
-            http.send(info.data);
+        if (request.method == "POST") {
+            http.send(request.data);
         } else {
             http.send();
         }
@@ -116,16 +103,16 @@ function aria2Send(link, rpcUrl, downloadItem) {
             rpc_data.params.unshift(auth);
         }
 
-        var parameter = {
-            'url': result[0],
-            'dataType': 'json',
-            type: 'POST',
+        var request = {
+            url: result[0],
+            dataType: 'json',
+            method: 'POST',
             data: JSON.stringify(rpc_data),
-            'headers': {
+            headers: {
                 'Authorization': auth
             }
         };
-        HttpSendRead(parameter).done(function(json, textStatus, jqXHR) {
+        HttpSendRead(request).done(function(response, statusCode, jqXHR) {
             var title = chrome.i18n.getMessage("exportSucceedStr");
             var des = chrome.i18n.getMessage("exportSucceedDes");
             var opt = {
@@ -137,10 +124,13 @@ function aria2Send(link, rpcUrl, downloadItem) {
             }
             var id = new Date().getTime().toString();
             showNotification(id, opt);
-        }).fail(function(jqXHR, textStatus, errorThrown) {
+        }).fail(function(response, statusCode, jqXHR) {
             console.log(jqXHR);
             var title = chrome.i18n.getMessage("exportFailedStr");
             var des = chrome.i18n.getMessage("exportFailedDes");
+            if (response && response.error && response.error.message) {
+                des += ` Error: ${response.error.message}.`;
+            }
             var opt = {
                 type: "basic",
                 title: title,
@@ -647,19 +637,19 @@ function monitorAria2() {
         rpc_data.params.unshift(auth);
     }
 
-    var parameter = {
-        'url': result[0],
-        'dataType': 'json',
-        type: 'POST',
+    var request = {
+        url: result[0],
+        dataType: 'json',
+        method: 'POST',
         data: JSON.stringify(rpc_data),
-        'headers': {
+        headers: {
             'Authorization': auth
         }
     };
-    HttpSendRead(parameter).done(function (json, textStatus, jqXHR) {
-        var numActive = json.result.numActive;
-        var numStopped = json.result.numStopped;
-        var numWaitting = json.result.numWaiting;
+    HttpSendRead(request).done(function (response, statusCode, jqXHR) {
+        var numActive = response.result.numActive;
+        var numStopped = response.result.numStopped;
+        var numWaitting = response.result.numWaiting;
         /* Tune the monitor rate dynamiclly */
         if (numActive > 0 && MonitorRate == 3000) {
             MonitorRate = 1000;
@@ -673,7 +663,7 @@ function monitorAria2() {
         chrome.browserAction.setBadgeBackgroundColor({ color: "green" });
         chrome.browserAction.setBadgeText({ text: numActive });
         chrome.browserAction.setTitle({ title: `Active: ${numActive} Wait: ${numWaitting} Finish: ${numStopped}` });
-    }).fail(function (jqXHR, textStatus, errorThrown) {
+    }).fail(function (response, statusCode, jqXHR) {
         chrome.browserAction.setBadgeBackgroundColor({ color: "red" });
         chrome.browserAction.setBadgeText({ text: "E" });
         chrome.browserAction.setTitle({ title: "Error: Failed to connect with Aria2c." });
