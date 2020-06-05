@@ -36,7 +36,7 @@
       "message":"Enable capture notification"
    },
    "monitorAria2Str":{
-      "message":"Monitor Aria2c state"
+      "message":"Monitor Aria2 state"
    },
    "captureMagnetDes":{
       "message":"Capture magnet link"

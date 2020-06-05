@@ -1,35 +1,35 @@
 # Aria2 for Chrome
 
-Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到Aria2来完成网络资源下载。
-同时，引入了AriaNG作为前端方便用户对Aria2进行操作和管理。
+Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到Aria2来完成网络资源下载。同时，引入了AriaNG作为前端方便用户对Aria2进行操作和管理。
 
 Aria2 for chrome is an extension that could capture chrome download task to Aria2 and imports AriaNG as built-in management frontend.
 
 ## Usage
 
-扩展和AriaNG分别需要配置RPC地址
+> 扩展和AriaNG分别需要配置RPC地址
 
-右键单击扩展图标并点击“选项”选单，可以设置是否开启右键菜单和下载拦截，默认使用Alt+A可以开关下载拦截功能。
+> 右键单击扩展图标并点击“选项”选单，可以设置是否开启右键菜单和下载拦截，默认使用Alt+A可以开关下载拦截功能。
 
-用户可以设置扩展名、网站黑白名单或文件大小来决定拦截哪些下载任务。同时还可以添加多个JSON-RPC地址并设置不同的URL匹配规则，让扩展自动选择对应的JSON-RPC地址。下载任务默认发送到第一个JSON-RPC地址，用户可以使用 * 作为匹配规则来更改默认JSON-RPC地址。
+> 用户可以设置扩展名、网站黑白名单或文件大小来决定拦截哪些下载任务。同时还可以添加多个JSON-RPC地址并设置不同的URL匹配规则，让扩展自动选择对应的JSON-RPC地址。下载任务默认发送到第一个JSON-RPC地址，用户可以使用 * 作为匹配规则来更改默认JSON-RPC地址。
 
-过滤优先级:网站 -> 扩展名 -> 文件大小，优先处理白名单。
+> 过滤优先级:网站 -> 扩展名 -> 文件大小，优先处理白名单。
 
-开启右键菜单之后任意链接都可以右键导出到Aria2进行下载.
+> 开启右键菜单之后任意链接都可以右键导出到Aria2进行下载.
 
-User should config auto-capture function in extension option page. AND config aria2 remote management function in AriaNG settings page. Shortcut Alt+A could toggle auto-capture function in chrome.
+---
 
-User could set file extension or website white/black list to filter download task. User could add more JSON-RPC and set URL reg-exp patterns to let extension select among them automatically. The first JSON-RPC will be select as default. Also user could set pattern as * to change the default JSON-RPC.
+> User should config auto-capture function in extension option page. AND config aria2 remote management function in AriaNG settings page. Shortcut Alt+A could toggle auto-capture function in Edge.
 
-Filter priority: Website -> File-ext -> File-size, White-list -> Black-list.
+> User could set file extension or website white/black list to filter download task. User could add more JSON-RPC and set URL reg-exp patterns to let extension select among them automatically. The first JSON-RPC will be select as default. Also user could set pattern as * to change the default JSON-RPC.
 
-After enable context menu, user could right-click the link in the web page and export it to specific aria2 manually.
+> Filter priority: Website -> File-ext -> File-size, White-list -> Black-list.
+
+> After enable context menu, user could right-click the link in the web page and export it to specific aria2 manually.
 
 ## Integration
 
-允許其他擴展使用這個擴展作為與 Aria2c 的中介軟體來下載檔案。
-
-Allow other extensions use this extension as middleware to download file with Aria2c.
+允許其他擴展使用這個擴展作為與 Aria2 的中介軟體來下載檔案。  
+Allow other extensions use this extension as middleware to download file with Aria2.
 
 ```js
 
@@ -37,7 +37,7 @@ const downloadItem = {
     "url": "https://sample.com/image.jpg",
     "filename": "image_from_sample.jpg",
     "referrer": "https://sample.com",
-    "options": { // aria2c RPC options here
+    "options": { // aria2 RPC options here
         "split": "10",
         "...": "..."
     }

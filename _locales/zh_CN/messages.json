@@ -21,7 +21,7 @@
       "message":"下载拦截"
    },
    "downloadCaptureDes":{
-      "message":"自动拦截下载任务到Aria2c，当文件大小 ≥"
+      "message":"自动拦截下载任务到Aria2，当文件大小 ≥"
    },
    "askBeforeDownloadDes":{
       "message":"自动下载前询问详细设置"
@@ -36,7 +36,7 @@
       "message":"启用拦截通知"
    },
    "monitorAria2Str":{
-      "message":"监测Aria2c状态"
+      "message":"监测Aria2状态"
    },
    "captureMagnetDes":{
       "message":"拦截磁力链接"

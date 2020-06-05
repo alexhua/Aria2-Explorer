@@ -1,7 +1,7 @@
 const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]';
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
-var MonitorRate = 3000; // Aria2c monitor interval 3000ms
+var MonitorRate = 3000; // Aria2 monitor interval 3000ms
 const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
 var HttpSendRead = function(request) {
     Promise.prototype.done = Promise.prototype.then;
@@ -666,7 +666,7 @@ function monitorAria2() {
     }).fail(function (response, statusCode, jqXHR) {
         chrome.browserAction.setBadgeBackgroundColor({ color: "red" });
         chrome.browserAction.setBadgeText({ text: "E" });
-        chrome.browserAction.setTitle({ title: "Error: Failed to connect with Aria2c." });
+        chrome.browserAction.setTitle({ title: "Error: Failed to connect with Aria2." });
     });
 }
 
