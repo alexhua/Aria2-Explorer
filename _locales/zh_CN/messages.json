@@ -69,7 +69,7 @@
       "message":"导出失败"
    },
    "exportFailedDes":{
-      "message":"\n无法连接到Aria2c,导出下载任务失败!"
+      "message":"\n无法连接到Aria2,导出下载任务失败!"
    },
    "exportSucceedStr":{
       "message":"导出成功"
@@ -78,10 +78,10 @@
       "message":"\nAria2已经开始任务下载。"
    },
    "websitePlaceholderDes":{
-      "message":"每行一个网站"
+      "message":"每行一个网站，支持正则表达式。"
    },
    "fileExtPlaceholderDes":{
-      "message":"每行一个扩展名"
+      "message":"每行一个扩展名，* 代表所有。"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打开方式"

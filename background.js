@@ -187,12 +187,12 @@ function isCapture(downloadItem) {
     }
 
     for (var i in whiteExtList) {
-        if (downloadItem.filename.endsWith(whiteExtList[i])) {
+        if (downloadItem.filename.endsWith(whiteExtList[i]) || whiteExtList[i] == "*") {
             return true;
         }
     }
     for (var i in blackExtList) {
-        if (downloadItem.filename.endsWith(blackExtList[i])) {
+        if (downloadItem.filename.endsWith(blackExtList[i]) || blackExtList[i] == "*") {
             return false;
         }
     }

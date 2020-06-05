@@ -24,7 +24,7 @@
       "message":"Enable auto capture when download file size ≥"
    },
    "askBeforeDownloadDes":{
-      "message":"Ask detail settings before auto downloading"
+      "message":"Ask detail settings before auto download"
    },
    "captureFinalUrlDes":{
       "message":"Capture the final URL to exclude multi-redirect"
@@ -69,7 +69,7 @@
       "message":"Export Failed"
    },
    "exportFailedDes":{
-      "message":"Could not connect to Aria2c, task export failed!"
+      "message":"Could not connect to Aria2, task export failed!"
    },
    "exportSucceedStr":{
       "message":"Export Successful"
@@ -78,10 +78,10 @@
       "message":"\nDownload task is beginning."
    },
    "websitePlaceholderDes":{
-      "message":"one website per line"
+      "message":"one website per line, supports regexp."
    },
    "fileExtPlaceholderDes":{
-      "message":"one file extension per line"
+      "message":"one file extension per line, * means all"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG Open in"

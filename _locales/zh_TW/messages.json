@@ -33,7 +33,7 @@
       "message":"接受來自其他擴充功能的下載請求"
    },
    "monitorAria2Str":{
-      "message":"監測Aria2c狀態"
+      "message":"監測Aria2狀態"
    },
    "allowNotificationDes":{
       "message":"啓用攔截通知"
@@ -69,7 +69,7 @@
       "message":"匯出失敗"
    },
    "exportFailedDes":{
-      "message":"\n無法連接到Aria2c，匯出下載工作失敗!"
+      "message":"\n無法連接到Aria2，匯出下載工作失敗!"
    },
    "exportSucceedStr":{
       "message":"匯出成功"
@@ -78,10 +78,10 @@
       "message":"\nAria2已經開始下載工作。"
    },
    "websitePlaceholderDes":{
-      "message":"每行一個站點"
+      "message":"每行一個站點，支援規則運算式。"
    },
    "fileExtPlaceholderDes":{
-      "message":"每行一個附檔名"
+      "message":"每行一個附檔名，* 代表所有。"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打開樣式"
