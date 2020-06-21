@@ -251,6 +251,9 @@ function captureDownload(downloadItem, suggestion) {
     suggestion();
     if (integration == "true" && isCapture(downloadItem)) {
         chrome.downloads.cancel(downloadItem.id);
+        if (downloadItem.referrer == "about:blank"){
+            downloadItem.referrer = "";
+        }
         if (askBeforeDownload == "true") {
             if (isCaptureFinalUrl()) {
                 launchUI(downloadItem.finalUrl, downloadItem.referrer);
