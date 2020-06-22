@@ -4,27 +4,59 @@ Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自
 
 Aria2 for chrome is an extension that could capture chrome download task to Aria2 and imports AriaNG as built-in management frontend.
 
-## Usage
+## Features
 
-> 扩展和AriaNG分别需要配置RPC地址
+1. 自动拦截浏览器下载任务
 
-> 右键单击扩展图标并点击“选项”选单，可以设置是否开启右键菜单和下载拦截，默认使用Alt+A可以开关下载拦截功能。
+    - 拦截通知
+    - 快捷键开关自动拦截 (<kbd>Alt</kbd>+<kbd>A</kbd>)
+    - 下载前手动设置各种详细参数
+    - 通过域名、扩展名或文件大小过滤下载任务
+    > 过滤优先级：网站 > 扩展名 > 文件大小，优先处理白名单
 
-> 用户可以设置扩展名、网站黑白名单或文件大小来决定拦截哪些下载任务。同时还可以添加多个JSON-RPC地址并设置不同的URL匹配规则，让扩展自动选择对应的JSON-RPC地址。下载任务默认发送到第一个JSON-RPC地址，用户可以使用 * 作为匹配规则来更改默认JSON-RPC地址。
+2. 设置URL模式规则以自动配置不同的Aria2 RPC
 
-> 过滤优先级:网站 -> 扩展名 -> 文件大小，优先处理白名单。
+3. 内置Aria2前端：AriaNG
 
-> 开启右键菜单之后任意链接都可以右键导出到Aria2进行下载.
+4. 多种前端打开方式：弹窗，新标签，新窗口
+
+5. 所有配置云同步
+
+6. 中英双语支持
+
+7. Aria2下载状态监测
+
+8. 上下文菜单导出下载任务
+
+9. 接受来自其他扩展的下载请求
+
+10. 支持磁力链接
 
 ---
 
-> User should config auto-capture function in extension option page. AND config aria2 remote management function in AriaNG settings page. Shortcut Alt+A could toggle auto-capture function in Edge.
+1. Auto capture browser download task
+    - Capture notification
+    - Switch auto-capture by shortcut (<kbd>Alt</kbd>+<kbd>A</kbd>)
+    - Manually set all aria2 options before download
+    - Filter task by domain, file extension or file size
+    > Filter priority: domain > file-ext > file-size, white-list > black-list
+2. Auto match multiple aria2 RPCs by URL pattern
 
-> User could set file extension or website white/black list to filter download task. User could add more JSON-RPC and set URL reg-exp patterns to let extension select among them automatically. The first JSON-RPC will be select as default. Also user could set pattern as * to change the default JSON-RPC.
+3. Built-in Aria2 front-end AriaNG
 
-> Filter priority: Website -> File-ext -> File-size, White-list -> Black-list.
+4. Multiple front-end WebUI present style: popup, new tab, new window
 
-> After enable context menu, user could right-click the link in the web page and export it to specific aria2 manually.
+5. Synchronize and store all settings on cloud
+
+6. Support zh-cn/zh-tw/en language
+
+7. Aria2 download state monitor on badge icon
+
+8. Export download task by context menu
+
+9. Receive download request from other extension
+
+10. Support magnet link
 
 ## Integration
 
@@ -34,12 +66,12 @@ Allow other extensions use this extension as middleware to download file with Ar
 ```js
 
 const downloadItem = {
-    "url": "https://sample.com/image.jpg",
-    "filename": "image_from_sample.jpg",
-    "referrer": "https://sample.com",
-    "options": { // aria2 RPC options here
-        "split": "10",
-        "...": "..."
+    url: "https://sample.com/image.jpg",
+    filename: "image_from_sample.jpg",
+    referrer: "https://sample.com",
+    options: { 
+        split: "10", // aria2 RPC options here
+        xxxxx: "oooo"
     }
 }
 
