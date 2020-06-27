@@ -323,7 +323,7 @@ function parseUrl(rpcUrl) {
     try {
         url = new URL(rpcUrl);
         urlPath = url.origin + url.pathname;
-        secretKey = url.password;
+        secretKey = decodeURIComponent(url.password);
     } catch (error) {
         console.warn('Stored Rpc Url is invalid! RpcUrl ="' + rpcUrl + '"');
         return ["", ""];
@@ -343,7 +343,7 @@ function combineUrl(secretKey, urlPath) {
         console.warn('Input a invalid Url Path! UrlPath ="' + urlPath + '"');
         return null;
     }
-    return url.toString();
+    return decodeURIComponent(url.toString());
 
 }
 
