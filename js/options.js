@@ -245,7 +245,7 @@ var config =
             ExtConfig.AriaExtConfig[key] = localStorage.getItem(key);
         }
 
-        //check the validility of local config
+        //check the validity of local config
         if (!ExtConfig.AriaExtConfig.rpc_list) {
             var str = chrome.i18n.getMessage("uploadConfigWarn");
             if (!confirm(str))
@@ -344,11 +344,10 @@ function combineUrl(secretKey, urlPath) {
         return null;
     }
     return decodeURIComponent(url.toString());
-
 }
 
 /**
- * toggle magnet protocol hanlder before changing the captureMagnet storage value
+ * toggle magnet protocol handler before changing the captureMagnet storage value
  *
  * @param {boolean} flag new value
  */

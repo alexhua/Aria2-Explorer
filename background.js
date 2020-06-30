@@ -408,10 +408,17 @@ function createContextMenu() {
     }
 }
 
-chrome.tabs.onActivated.addListener(function(activeInfo) {
-    chrome.tabs.get(activeInfo.tabId, function(tab) {
-        updateOptionMenu(tab);
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (changeInfo.status == "loading") {
         CurrentTabUrl = tab.url || "about:blank";
+        updateOptionMenu(tab);
+    }
+});
+
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+    chrome.tabs.get(activeInfo.tabId, function(tab) {        
+        CurrentTabUrl = tab.url || "about:blank";
+        updateOptionMenu(tab);
     });
 
 });
@@ -466,7 +473,9 @@ function updateOptionMenu(tab) {
     var white_site = JSON.parse(localStorage.getItem("white_site"));
     var white_site_set = new Set(white_site);
     if (tab == null || !tab.active) {
-        console.log("Could not get active tab url, update option menu failed.");
+        if (!tab) {
+            console.log("Could not get active tab, update option menu failed.")
+        };
         return;
     }
     var url = new URL(tab.url || "about:blank");
