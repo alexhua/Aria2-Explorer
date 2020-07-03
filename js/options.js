@@ -1,7 +1,6 @@
 var config =
 {
     init: function () {
-        var self = this;
         localizeHtmlPage();
         $('input[type=checkbox]').prop("checked", false);
         var contextMenus = localStorage.getItem("contextMenus");
@@ -95,22 +94,22 @@ var config =
             $(rpc_form).insertAfter($(".rpc_list")[$(".rpc_list").length - 1]);
         });
         $("#uploadConfig").off().on("click", function () {
-            self.uploadConfig();
+            config.uploadConfig();
         });
         $("#downloadConfig").off().on("click", function () {
-            self.downloadConfig();
+            config.downloadConfig();
         });
         $("#save").off().on("click", function () {
-            self.save();
+            config.save();
         });
         $("#reset").off().on("click", function () {
-            toggleMagnetHandler(false);
-            localStorage.clear();
-            self.init();
-            chrome.storage.local.clear(function () {
-                console.log("Settings storage is cleared!");
-            });
-        });        
+            config.reset();
+        });
+    },
+    reset: function () {
+        toggleMagnetHandler(false);
+        localStorage.clear();
+        config.init()
     },
     save: function () {
         var rpc_list = [];
@@ -215,7 +214,6 @@ var config =
         localStorage.setItem("white_ext", JSON.stringify(Array.from(white_ext_set)));
     },
     uploadConfig: function () {
-        var self = this;
         var ExtConfig = {
             AriaNgConfig: {
                 Options: ""
@@ -254,15 +252,14 @@ var config =
         chrome.storage.sync.set(ExtConfig, function () {
             if (chrome.runtime.lastError) {
                 var str = chrome.i18n.getMessage("uploadConfigFailed");
-                self.displaySyncResult(str + chrome.runtime.lastError.message, "label-important");
+                config.displaySyncResult(str + chrome.runtime.lastError.message, "label-important");
             } else {
                 var str = chrome.i18n.getMessage("uploadConfigSucceed");
-                self.displaySyncResult(str, "label-success");
+                config.displaySyncResult(str, "label-success");
             }
         });
     },
     downloadConfig: function () {
-        var self = this;
         chrome.storage.sync.get(null, function (extConfig) {
             if (extConfig && extConfig.AriaExtConfig) {
                 if (extConfig.AriaNgConfig.Options != "") {
@@ -278,12 +275,12 @@ var config =
                     }
                     localStorage[key] = extConfig.AriaExtConfig[key];
                 }
-                self.init();
+                config.init();
                 var str = chrome.i18n.getMessage("downloadConfigSucceed");
-                self.displaySyncResult(str, "label-success");
+                config.displaySyncResult(str, "label-success");
             } else {
                 var str = chrome.i18n.getMessage("downloadConfigFailed");
-                self.displaySyncResult(str, "label-important");
+                config.displaySyncResult(str, "label-important");
             }
         });
     },
@@ -297,7 +294,24 @@ var config =
     }
 };
 
-window.onload = config.init();
+window.onload = window.onstorage = config.init;
+
+window.onkeyup = function (e) {
+    if (e.altKey) {
+        if (e.key == 's') {
+            config.save();
+        } else if (e.key == 'r') {
+            if (confirm("Clear all local settings?")) {
+                config.reset();
+            };
+        } else if (e.key == 'u') {
+            config.uploadConfig();
+
+        } else if (e.key == 'j') {
+            config.downloadConfig();
+        }
+    }
+}
 
 function localizeHtmlPage() {
     //Localize by replacing __MSG_***__ meta tags
@@ -360,7 +374,3 @@ function toggleMagnetHandler(flag) {
         navigator.unregisterProtocolHandler("magnet", magnetPage);
     }
 }
-
-window.addEventListener('storage', function (se) {
-    config.init();
-})
