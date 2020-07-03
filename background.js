@@ -68,7 +68,7 @@ function parse_url(url) {
     return [url_path, auth];
 }
 
-function aria2Send(link, rpcUrl, downloadItem) {
+function send2Aria(link, rpc, downloadItem) {
     chrome.cookies.getAll({
         "url": link
     }, function(cookies) {
@@ -87,8 +87,8 @@ function aria2Send(link, rpcUrl, downloadItem) {
                 "referer": downloadItem.referrer,
                 "out": downloadItem.filename
         };
-        if (getDownloadLocation(rpcUrl)) {
-            options.dir = getDownloadLocation(rpcUrl);
+        if (rpc.location) {
+            options.dir = rpc.location;
         }
         if(downloadItem.hasOwnProperty('options')){
             options = Object.assign(options, downloadItem.options);
@@ -100,7 +100,7 @@ function aria2Send(link, rpcUrl, downloadItem) {
             "id": new Date().getTime(),
             "params": [[link], options]
         };
-        var result = parse_url(rpcUrl);
+        var result = parse_url(rpc.url);
         var auth = result[1];
         if (auth && auth.indexOf('token:') == 0) {
             rpc_data.params.unshift(auth);
@@ -148,37 +148,18 @@ function aria2Send(link, rpcUrl, downloadItem) {
 
 }
 
-function getRpcUrl(url, rpc_list) {
-    for (var i = 1; i < rpc_list.length; i++) {
-      var patterns = rpc_list[i]['pattern'].split(',');
+function getRpcServer(url) {
+    const rpcList = fetchRpcList();
+    for (var i = 1; i < rpcList.length; i++) {
+      var patterns = rpcList[i]['pattern'].split(',');
       for (var j in patterns) {
         var pattern = patterns[j].trim();
         if (matchRule(url, pattern)) {
-          return rpc_list[i]['url'];
+          return rpcList[i];
         }
       }
     }
-    return rpc_list[0]['url'];
-}
-
-function getRpcName(rpcUrl) {
-    rpcList = fetchRpcList();
-    for (var rpc of rpcList) {
-        if (rpc.url == rpcUrl) {
-            return rpc.name;
-        }
-    }
-    return ""
-}
-
-function getDownloadLocation(rpcUrl) {
-    rpcList = fetchRpcList();
-    for (var rpc of rpcList) {
-        if (rpc.url == rpcUrl) {
-            return rpc.location;
-        }
-    }
-    return ""
+    return rpcList[0];
 }
 
 function matchRule(str, rule) {
@@ -284,13 +265,12 @@ function captureDownload(downloadItem, suggestion) {
                 launchUI(downloadItem.url, downloadItem.referrer);
             }
         } else {
-            var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || defaultRPC);
             if (isCaptureFinalUrl()) {
-                var rpc_url = getRpcUrl(downloadItem.finalUrl, rpc_list);
-                aria2Send(downloadItem.finalUrl, rpc_url, downloadItem);
+                let rpc = getRpcServer(downloadItem.finalUrl);
+                send2Aria(downloadItem.finalUrl, rpc, downloadItem);
             } else {
-                var rpc_url = getRpcUrl(downloadItem.url, rpc_list);
-                aria2Send(downloadItem.url, rpc_url, downloadItem);
+                let rpc = getRpcServer(downloadItem.url);
+                send2Aria(downloadItem.url, rpc, downloadItem);
             }
         }
     }
@@ -419,11 +399,11 @@ function createContextMenu() {
     var contextMenus = localStorage.getItem("contextMenus");
     var strExport = chrome.i18n.getMessage("contextmenuTitle");
     if (contextMenus == "true" || contextMenus == null) {
-        var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || defaultRPC);
-        for (var i in rpc_list) {
+        const rpcList = fetchRpcList();
+        for (var i in rpcList) {
             chrome.contextMenus.create({
-                id: rpc_list[i]['url'],
-                title: strExport + rpc_list[i]['name'],
+                id: i,
+                title: strExport + rpcList[i]['name'],
                 contexts: ['link', 'selection']
             });
         }
@@ -486,7 +466,8 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
         updateWhiteSite(tab);
         updateOptionMenu(tab);
     } else {
-        aria2Send(uri, info.menuItemId, downloadItem);
+        let rpc = fetchRpcList()[info.menuItemId];
+        send2Aria(uri, rpc, downloadItem);
     }
 });
 
@@ -594,7 +575,7 @@ window.addEventListener('storage', function(se) {
     }
 
     if (se.key == "rpc_list") {
-        exportRpc2AriaNg(getRpcUrl("*", fetchRpcList()));
+        exportRpc2AriaNg(getRpcServer("*"));
     }
 
     if (se.key == "integration") {
@@ -627,18 +608,16 @@ chrome.runtime.onMessageExternal.addListener (
     function (downloadItem) {
         var allowExternalRequest = localStorage.getItem("allowExternalRequest");
         if (allowExternalRequest == "true"){
-            const rpc_list = fetchRpcList();
-            var rpc_url = getRpcUrl(downloadItem.url, rpc_list);
-            aria2Send(downloadItem.url, rpc_url, downloadItem);
+            var rpc = getRpcServer(downloadItem.url);
+            send2Aria(downloadItem.url, rpc, downloadItem);
         }
     }
 );
 
 chrome.runtime.onMessage.addListener(
     function (downloadItem) {
-        const rpc_list = fetchRpcList();
-        var rpc_url = getRpcUrl(downloadItem.url, rpc_list);
-        aria2Send(downloadItem.url, rpc_url, downloadItem);
+        var rpc = getRpcServer(downloadItem.url);
+        send2Aria(downloadItem.url, rpc, downloadItem);
     }
 );
 
@@ -669,9 +648,8 @@ function monitorAria2() {
         "id": new Date().getTime(),
         "params": []
     };
-    const rpc_list = fetchRpcList();
-    var rpcUrl = getRpcUrl("*", rpc_list);
-    var result = parse_url(rpcUrl);
+    var rpc = getRpcServer("*");
+    var result = parse_url(rpc.url);
     var auth = result[1];
     if (auth && auth.indexOf('token:') == 0) {
         rpc_data.params.unshift(auth);
@@ -710,7 +688,7 @@ function monitorAria2() {
     });
 }
 
-function exportRpc2AriaNg(rpcUrl) {
+function exportRpc2AriaNg(rpc) {
     var ariaNgOptions = null;
     var rpcOptions = {
         httpMethod: "POST",
@@ -723,22 +701,22 @@ function exportRpc2AriaNg(rpcUrl) {
     }
 
     try {
-        let url = new URL(rpcUrl);
-        rpcOptions.rpcAlias = getRpcName(rpcUrl);
+        let url = new URL(rpc.url);
+        rpcOptions.rpcAlias = rpc.name;
         rpcOptions.protocol = url.protocol.replace(':','');
         rpcOptions.rpcHost = url.hostname;
         rpcOptions.rpcPort = url.port;
         rpcOptions.rpcInterface = url.pathname.replace('/','');
         rpcOptions.secret = btoa(decodeURIComponent(url.password));
     } catch (error) {
-        console.warn('exportRpc2AriaNg: Rpc Url is invalid! RpcUrl ="' + rpcUrl + '"');
+        console.warn('exportRpc2AriaNg: Rpc Url is invalid! RpcUrl ="' + rpc.url + '"');
         return
     }
 
     if (!localStorage["AriaNg.Options"]){
         ariaNgOptions = rpcOptions;
     }else{
-        ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);        
+        ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);
     }
     for (var key in rpcOptions){
         ariaNgOptions[key] = rpcOptions[key];
