@@ -23,23 +23,27 @@ textarea {
 }
 
 .rpc-path {
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 .rpc-url-pattern {
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 .secretKey {
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
-.control-lable {
+.location {
+  margin-left: 8px;
+}
+
+.control-label {
   font-weight: bold;
 }
 
 #add-rpc {
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 .footer {

@@ -52,11 +52,12 @@ var config =
         for (var i in rpc_list) {
             var addBtnOrPattern = 0 == i ? '<button class="btn" id="add-rpc"><i class="icon-plus-sign"></i> Add RPC</button>' : '<input type="text" class="input-large rpc-url-pattern" value="' + (rpc_list[i]['pattern'] || "") + '"placeholder="URL pattern(s) (separated by ,)">';
             var row = '<div class="control-group rpc_list">' +
-                '<label class="control-label text-info">' + (i == 0 ? '<i class="icon-tasks"></i> JSON-RPC' : '') + '</label>' +
+                '<label class="control-label text-info">' + (i == 0 ? '<i class="icon-tasks"></i> Aria2-RPC-Server' : '') + '</label>' +
                 '<div class="controls">' +
                 '<input type="text" class="input-small" value="' + rpc_list[i]['name'] + '" placeholder="RPC Name">' +
                 '<input type="password" class="input-medium secretKey" value="' + parseUrl(rpc_list[i]['url'])[1] + '" placeholder="Secret Key">' +
-                '<input type="text" class="input-xlarge rpc-path" value="' + parseUrl(rpc_list[i]['url'])[0] + '" placeholder="RPC Path">' + addBtnOrPattern +
+                '<input type="text" class="input-xlarge rpc-path" value="' + parseUrl(rpc_list[i]['url'])[0] + '" placeholder="RPC Path">' +
+                '<input type="text" class="input-medium location" value="' + (rpc_list[i]['location'] || "") + '" placeholder="Download Location">' + addBtnOrPattern +
                 '</div>' +
                 '</div>';
             if ($(".rpc_list").length > 0) {
@@ -88,6 +89,7 @@ var config =
                 '<input type="text" class="input-small"  placeholder="RPC Name">' +
                 '<input type="text" class="input-medium secretKey"  placeholder="Secret Key">' +
                 '<input type="text" class="input-xlarge rpc-path"  placeholder="RPC Path">' +
+                '<input type="text" class="input-medium location"  placeholder="Download Location">' +
                 '<input type="text" class="input-large rpc-url-pattern" placeholder="URL pattern(s) (separated by ,)">' +
                 '</div>' +
                 '</div>';
@@ -121,7 +123,8 @@ var config =
                 rpc_list.push({
                     "name": child.eq(0).val(),
                     "url": rpcUrl,
-                    "pattern": child.eq(3).val()
+                    "location": child.eq(3).val(),
+                    "pattern": child.eq(4).val()
                 });
             }
         }

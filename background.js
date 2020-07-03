@@ -87,6 +87,9 @@ function aria2Send(link, rpcUrl, downloadItem) {
                 "referer": downloadItem.referrer,
                 "out": downloadItem.filename
         };
+        if (getDownloadLocation(rpcUrl)) {
+            options.dir = getDownloadLocation(rpcUrl);
+        }
         if(downloadItem.hasOwnProperty('options')){
             options = Object.assign(options, downloadItem.options);
         }
@@ -163,6 +166,16 @@ function getRpcName(rpcUrl) {
     for (var rpc of rpcList) {
         if (rpc.url == rpcUrl) {
             return rpc.name;
+        }
+    }
+    return ""
+}
+
+function getDownloadLocation(rpcUrl) {
+    rpcList = fetchRpcList();
+    for (var rpc of rpcList) {
+        if (rpc.url == rpcUrl) {
+            return rpc.location;
         }
     }
     return ""
