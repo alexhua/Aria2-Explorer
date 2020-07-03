@@ -158,6 +158,16 @@ function getRpcUrl(url, rpc_list) {
     return rpc_list[0]['url'];
 }
 
+function getRpcName(rpcUrl) {
+    rpcList = fetchRpcList();
+    for (var rpc of rpcList) {
+        if (rpc.url == rpcUrl) {
+            return rpc.name;
+        }
+    }
+    return ""
+}
+
 function matchRule(str, rule) {
     return new RegExp("^" + rule.split("*").join(".*") + "$").test(str);
 }
@@ -561,12 +571,17 @@ window.addEventListener('storage', function(se) {
         createOptionMenu();
         disableCapture();
         disableMonitor();
+        return
     }
 
     if (se.key == "contextMenus" || se.key == "rpc_list") {
         chrome.contextMenus.removeAll();
         createOptionMenu();
         createContextMenu();
+    }
+
+    if (se.key == "rpc_list") {
+        exportRpc2AriaNg(getRpcUrl("*", fetchRpcList()));
     }
 
     if (se.key == "integration") {
@@ -661,8 +676,8 @@ function monitorAria2() {
     HttpSendRead(request).done(function (response, statusCode, jqXHR) {
         var numActive = response.result.numActive;
         var numStopped = response.result.numStopped;
-        var numWaitting = response.result.numWaiting;
-        /* Tune the monitor rate dynamiclly */
+        var numWaiting = response.result.numWaiting;
+        /* Tune the monitor rate dynamically */
         if (numActive > 0 && MonitorRate == 3000) {
             MonitorRate = 1000;
             disableMonitor();
@@ -674,12 +689,48 @@ function monitorAria2() {
         }
         chrome.browserAction.setBadgeBackgroundColor({ color: "green" });
         chrome.browserAction.setBadgeText({ text: numActive });
-        chrome.browserAction.setTitle({ title: `Active: ${numActive} Wait: ${numWaitting} Finish: ${numStopped}` });
+        chrome.browserAction.setTitle({ title: `Active: ${numActive} Wait: ${numWaiting} Finish: ${numStopped}` });
     }).fail(function (response, statusCode, jqXHR) {
         chrome.browserAction.setBadgeBackgroundColor({ color: "red" });
         chrome.browserAction.setBadgeText({ text: "E" });
         chrome.browserAction.setTitle({ title: "Error: Failed to connect with Aria2." });
     });
+}
+
+function exportRpc2AriaNg(rpcUrl) {
+    var ariaNgOptions = null;
+    var rpcOptions = {
+        httpMethod: "POST",
+        rpcAlias: "Aria2 RPC",
+        protocol: "http",
+        rpcHost: "localhost",
+        rpcPort: "6800",
+        rpcInterface: "jsonrpc",
+        secret: ""
+    }
+
+    try {
+        let url = new URL(rpcUrl);
+        rpcOptions.rpcAlias = getRpcName(rpcUrl);
+        rpcOptions.protocol = url.protocol.replace(':','');
+        rpcOptions.rpcHost = url.hostname;
+        rpcOptions.rpcPort = url.port;
+        rpcOptions.rpcInterface = url.pathname.replace('/','');
+        rpcOptions.secret = btoa(decodeURIComponent(url.password));
+    } catch (error) {
+        console.warn('exportRpc2AriaNg: Rpc Url is invalid! RpcUrl ="' + rpcUrl + '"');
+        return
+    }
+
+    if (!localStorage["AriaNg.Options"]){
+        ariaNgOptions = rpcOptions;
+    }else{
+        ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);        
+    }
+    for (var key in rpcOptions){
+        ariaNgOptions[key] = rpcOptions[key];
+    }
+    localStorage["AriaNg.Options"] = JSON.stringify(ariaNgOptions);
 }
 
 /******** init popup url icon, capture and aria2 monitor ********/
