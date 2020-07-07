@@ -3,7 +3,7 @@
       "message":"Aria2 for Chrome"
    },
    "description": {
-      "message": "Aria2 Web UI in pure HTML/CSS/Javascirpt for chrome.(forked from YAAW and imports Aria2NG UI)"
+      "message": "Speed up your downloads with Aria2，manage your download tasks easily."
    },
    "contextmenuTitle":{
       "message":"Export to "
@@ -15,7 +15,7 @@
       "message":"Context Menu"
    },
    "contextmenuDes":{
-      "message":"Add capture item to context menu"
+      "message":"Export task from context menu"
    },
    "downloadCaptureStr":{
       "message":"Download Capture"
@@ -30,7 +30,7 @@
       "message":"Capture the final URL to exclude multi-redirect"
    },
    "allowExternalRequestDes":{
-      "message":"Receive download task from other extension"
+      "message":"Receive download request from other extension"
    },
    "allowNotificationDes":{
       "message":"Enable capture notification"
@@ -48,22 +48,22 @@
       "message":"File Extension"
    },
    "whiteListStr":{
-      "message":"White-list"
+      "message":"Allow-list"
    },
    "BlackListStr":{
-      "message":"Black-list"
+      "message":"Block-list"
    },
       "addToWhiteListStr":{
-      "message":"Current URL -> White-List"
+      "message":"Current URL -> Allow-List"
    },
    "addToBlackListStr":{
-      "message":"Current URL -> Black-list"
+      "message":"Current URL -> Block-list"
    },
    "removeFromWhiteListStr":{
-      "message":"Remove from White-List"
+      "message":"Remove from Allow-List"
    },
    "removeFromBlackListStr":{
-      "message":"Remove from Black-List"
+      "message":"Remove from Block-List"
    },
    "exportFailedStr":{
       "message":"Export Failed"
@@ -102,13 +102,13 @@
       "message":"Toggle download capture"
    },
    "configCloudSync":{
-      "message":"Config Cloud Sync"
+      "message":"Cloud Sync"
    },
    "configCloudSyncDes":{
       "message":"Sync AriaNg and extension config to current logged-in Google account"
    },
    "uploadConfigWarn":{
-      "message":"Invlid or empty local config data, still continue?"
+      "message":"Invalid or empty local config data, still continue?"
    },
    "uploadConfigSucceed":{
       "message":"Upload config successful"

@@ -3,7 +3,7 @@
       "message":"Aria2 for Chrome"
    },
    "description": {
-      "message":"Aria2 Web UI 支援手動添加和自動攔截下載工作到Aria2。（分叉自YAAW）"
+      "message":"讓Aria2無縫接管下載，加速下載體驗，内建Aria2前端，作業管理更方便。"
    },
    "contextmenuTitle":{
       "message":"匯出到 "

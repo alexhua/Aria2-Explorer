@@ -50,13 +50,14 @@ var config =
         }
         var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]');
         for (var i in rpc_list) {
-            var addBtnOrPattern = 0 == i ? '<button class="btn" id="add-rpc"><i class="icon-plus-sign"></i> Add RPC</button>' : '<input type="text" class="input-large rpc-url-pattern" value="' + (rpc_list[i]['pattern'] || "") + '"placeholder="URL pattern(s) (separated by ,)">';
+            var addBtnOrPattern = i == 0 ? '<button class="btn" id="add-rpc"><i class="icon-plus-sign"></i> Add RPC</button>' :
+                `<input type="text" class="input-large rpc-url-pattern" value="${rpc_list[i]['pattern'] || ''}" placeholder="URL Pattern(s) splitted by ,">`;
             var row = '<div class="control-group rpc_list">' +
                 '<label class="control-label text-info">' + (i == 0 ? '<i class="icon-tasks"></i> Aria2-RPC-Server' : '') + '</label>' +
                 '<div class="controls">' +
-                '<input type="text" class="input-small" value="' + rpc_list[i]['name'] + '" placeholder="RPC Name">' +
+                '<input type="text" class="input-small" value="' + rpc_list[i]['name'] + '" placeholder="Name ∗">' +
                 '<input type="password" class="input-medium secretKey" value="' + parseUrl(rpc_list[i]['url'])[1] + '" placeholder="Secret Key">' +
-                '<input type="text" class="input-xlarge rpc-path" value="' + parseUrl(rpc_list[i]['url'])[0] + '" placeholder="RPC Path">' +
+                '<input type="text" class="input-xlarge rpc-path" value="' + parseUrl(rpc_list[i]['url'])[0] + '" placeholder="RPC URL ∗">' +
                 '<input type="text" class="input-medium location" value="' + (rpc_list[i]['location'] || "") + '" placeholder="Download Location">' + addBtnOrPattern +
                 '</div>' +
                 '</div>';
@@ -86,11 +87,11 @@ var config =
             var rpc_form = '<div class="control-group rpc_list">' +
                 '<label class="control-label text-info "></label>' +
                 '<div class="controls">' +
-                '<input type="text" class="input-small"  placeholder="RPC Name">' +
+                '<input type="text" class="input-small"  placeholder="Name ∗">' +
                 '<input type="text" class="input-medium secretKey"  placeholder="Secret Key">' +
-                '<input type="text" class="input-xlarge rpc-path"  placeholder="RPC Path">' +
+                '<input type="text" class="input-xlarge rpc-path"  placeholder="RPC URL ∗">' +
                 '<input type="text" class="input-medium location"  placeholder="Download Location">' +
-                '<input type="text" class="input-large rpc-url-pattern" placeholder="URL pattern(s) (separated by ,)">' +
+                '<input type="text" class="input-large rpc-url-pattern" placeholder="URL Pattern(s) splitted by ,">' +
                 '</div>' +
                 '</div>';
             $(rpc_form).insertAfter($(".rpc_list")[$(".rpc_list").length - 1]);
@@ -348,16 +349,16 @@ function parseUrl(rpcUrl) {
     return [urlPath, secretKey];
 }
 
-function combineUrl(secretKey, urlPath) {
+function combineUrl(secretKey, rpcUrl) {
     var url = null;
     try {
-        url = new URL(urlPath);
+        url = new URL(rpcUrl);
         if (secretKey && secretKey != "") {
             url.username = "token";
             url.password = secretKey;
         }
     } catch (error) {
-        console.warn('Input a invalid Url Path! UrlPath ="' + urlPath + '"');
+        console.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');
         return null;
     }
     return decodeURIComponent(url.toString());
