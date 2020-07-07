@@ -2,61 +2,69 @@
 
 Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到Aria2来完成网络资源下载。同时，引入了AriaNG作为前端方便用户对Aria2进行操作和管理。
 
-Aria2 for chrome is an extension that could capture chrome download task to Aria2 and imports AriaNG as built-in management frontend.
+小白用户可直接下载Aria2主程序在本地运行，使用默认设置开箱即用。关于如何在后台运行，以及进一步的配置可自行Google。
+
+Aria2 for chrome is an extension that could export URL to Aria2 to complete download and imports AriaNG as built-in management frontend.
+
+User should download Aria2 and run it out-of-the-box then enjoy the high-speed download experience.
+
+[Download Latest Aria2](https://github.com/aria2/aria2/releases/latest)
 
 ## Features
 
 1. 自动拦截浏览器下载任务
 
     - 拦截通知
-    - 快捷键开关自动拦截 (<kbd>Alt</kbd>+<kbd>A</kbd>)
+    - 支持磁力链接
+    - 快捷键开关自动拦截 (默认：<kbd>Alt</kbd>+<kbd>A</kbd>)
     - 下载前手动设置各种详细参数
     - 通过域名、扩展名或文件大小过滤下载任务
     > 过滤优先级：网站 > 扩展名 > 文件大小，优先处理白名单
 
-2. 设置URL模式规则以自动配置不同的Aria2 RPC
+2. 设置URL规则以根据下载地址自动选择不同的Aria2 RPC
 
-3. 内置Aria2前端：AriaNG
+3. 内置Aria2前端：AriaNG，多种呈现方式：弹窗，新标签，新窗口
 
-4. 多种前端打开方式：弹窗，新标签，新窗口
+4. 所有配置云端同步
 
-5. 所有配置云同步
+5. 中英双语支持
 
-6. 中英双语支持
+6. Aria2下载状态监测
 
-7. Aria2下载状态监测
+7. 上下文菜单导出下载任务
 
-8. 上下文菜单导出下载任务
+8. 接受来自其他扩展的下载请求
 
-9. 接受来自其他扩展的下载请求
+9. 选项配置页面快捷键（保存：<kbd>Alt</kbd>+<kbd>S</kbd> 重置：<kbd>Alt</kbd>+<kbd>R</kbd> 下载：<kbd>Alt</kbd>+<kbd>J</kbd> 上传：<kbd>Alt</kbd>+<kbd>U</kbd>）
 
-10. 支持磁力链接
+10. 只需一次配置，自动导出默认RPC设置到AriaNG
 
 ---
 
 1. Auto capture browser download task
     - Capture notification
-    - Switch auto-capture by shortcut (<kbd>Alt</kbd>+<kbd>A</kbd>)
+    - Support magnet link
+    - Switch auto-capture by shortcut (Default: <kbd>Alt</kbd>+<kbd>A</kbd>)
     - Manually set all aria2 options before download
     - Filter task by domain, file extension or file size
     > Filter priority: domain > file-ext > file-size, white-list > black-list
-2. Auto match multiple aria2 RPCs by URL pattern
+2. Auto select aria2 RPC by matching presetting download URL pattern
 
-3. Built-in Aria2 front-end AriaNG
+3. Built-in Aria2 front-end AriaNG, multiple present style: popup, new tab, new window
 
-4. Multiple front-end WebUI present style: popup, new tab, new window
+4. Synchronize and store all settings on cloud
 
-5. Synchronize and store all settings on cloud
+5. Support zh-cn/zh-tw/en language
 
-6. Support zh-cn/zh-tw/en language
+6. Aria2 download state monitor on badge icon
 
-7. Aria2 download state monitor on badge icon
+7. Export download task by context menu
 
-8. Export download task by context menu
+8. Receive download request from other extension
 
-9. Receive download request from other extension
+9. Support shortcuts in options page (Save:<kbd>Alt</kbd>+<kbd>S</kbd> Reset:<kbd>Alt</kbd>+<kbd>R</kbd> Download:<kbd>Alt</kbd>+<kbd>J</kbd> Upload:<kbd>Alt</kbd>+<kbd>U</kbd>)
 
-10. Support magnet link
+10. Auto-Export default RPC setting to AriaNG
 
 ## Integration
 
