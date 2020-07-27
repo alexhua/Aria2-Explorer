@@ -3,7 +3,7 @@
       "message":"Aria2 for Chrome"
    },
    "description": {
-      "message":"让Aria2无缝接管下載，加速下載体验，内建Aria2前端，任务管理更方便。"
+      "message":"让Aria2无缝接管下载，加速下载体验，内建Aria2前端，任务管理更方便。"
    }, 
    "contextmenuTitle":{
       "message":"导出到 "

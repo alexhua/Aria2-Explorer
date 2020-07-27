@@ -175,7 +175,7 @@ function isCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
-    if (downloadItem.error || downloadItem.state != "in_progress" || !downloadItem.finalUrl.startsWith("http")) {
+    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftp):/i.test(downloadItem.finalUrl)) {
         return false;
     }
 
@@ -668,6 +668,8 @@ function monitorAria2() {
         var numActive = response.result.numActive;
         var numStopped = response.result.numStopped;
         var numWaiting = response.result.numWaiting;
+        var uploadSpeed = getReadableSpeed(response.result.uploadSpeed);
+        var downloadSpeed = getReadableSpeed(response.result.downloadSpeed);
         /* Tune the monitor rate dynamically */
         if (numActive > 0 && MonitorRate == 3000) {
             MonitorRate = 1000;
@@ -680,12 +682,33 @@ function monitorAria2() {
         }
         chrome.browserAction.setBadgeBackgroundColor({ color: "green" });
         chrome.browserAction.setBadgeText({ text: numActive });
-        chrome.browserAction.setTitle({ title: `Active: ${numActive} Wait: ${numWaiting} Finish: ${numStopped}` });
+        chrome.browserAction.setTitle({ title: `Active: ${numActive}  Wait: ${numWaiting}  Finish: ${numStopped}\nUpload: ${uploadSpeed}  Download: ${downloadSpeed}` });
     }).fail(function (response, statusCode, jqXHR) {
+        let title = "Failed to connect with Aria2.";
+        if (response && response.error && response.error.message) {
+            title += ` Reason: ${response.error.message}.`;
+        }
         chrome.browserAction.setBadgeBackgroundColor({ color: "red" });
         chrome.browserAction.setBadgeText({ text: "E" });
-        chrome.browserAction.setTitle({ title: "Error: Failed to connect with Aria2." });
+        chrome.browserAction.setTitle({ title: title });
+        console.log(response);
     });
+}
+
+function getReadableSpeed(speed) {
+    let unit ="";
+    speed = parseInt(speed);
+    if (speed >= 1024 * 1024) {
+        speed /= 1024 * 1024;
+       unit = " MB/s";
+    } else if (speed >= 1024) {
+        speed /= 1024;
+        unit = " KB/s";
+    } else if (speed >= 0) {
+        unit = " B/s";
+        return speed + unit;
+    }
+    return speed.toFixed(2) + unit;
 }
 
 function exportRpc2AriaNg(rpc) {
