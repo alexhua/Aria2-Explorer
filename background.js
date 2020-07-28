@@ -433,7 +433,7 @@ chrome.windows.onFocusChanged.addListener(function(windowId) {
             updateOptionMenu(tabs[0]);
         }
     });
-})
+});
 
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
     var uri = decodeURIComponent(info.linkUrl || info.selectionText);
@@ -505,7 +505,6 @@ function updateOptionMenu(tab) {
             "title": updateWhiteSiteStr
         });
     }
-
 }
 
 function updateWhiteSite(tab) {
@@ -557,7 +556,16 @@ chrome.commands.onCommand.addListener(function(command) {
     }
 });
 
-/**Listen to the local storage change from options page **/
+chrome.runtime.onInstalled.addListener(function (details) {
+    let optionsUrl = chrome.runtime.getURL("options.html");
+    if (details.reason == "install") {
+        chrome.tabs.create({
+            url: optionsUrl
+        });
+    }
+});
+
+/**Listen to the local storage changes from options page **/
 window.addEventListener('storage', function(se) {
     //console.log(se);
     if (se.key == null && se.storageArea.length == 0) {

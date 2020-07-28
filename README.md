@@ -6,7 +6,7 @@ Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自
 
 Aria2 for chrome is an extension that could export URL to Aria2 to complete download and imports AriaNG as built-in management frontend.
 
-User should download Aria2 utility, run it in the terminal (or cmd) with typing "aria2c --enable-rpc" and enable auto-caption in extension options page, then enjoy the high-speed download experience.
+User should download Aria2 utility, run it in the terminal (or cmd) with typing "aria2c --enable-rpc" and enable auto-capture in extension options page, then enjoy the high-speed download experience.
 
 [Download Latest Aria2](https://github.com/aria2/aria2/releases/latest)
 
