@@ -749,8 +749,12 @@ function exportRpc2AriaNg(rpc) {
     }else{
         ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);
     }
+    let wsEnabled = ariaNgOptions.protocol.startsWith("ws");
     for (var key in rpcOptions){
         ariaNgOptions[key] = rpcOptions[key];
+    }
+    if(wsEnabled){
+        ariaNgOptions.protocol = ariaNgOptions.protocol.replace("http","ws");
     }
     localStorage["AriaNg.Options"] = JSON.stringify(ariaNgOptions);
 }

@@ -357,6 +357,9 @@ function combineUrl(secretKey, rpcUrl) {
             url.username = "token";
             url.password = secretKey;
         }
+        if (url.protocol.startsWith("ws")){
+            url.protocol = url.protocol.replace("ws","http");
+        }
     } catch (error) {
         console.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');
         return null;
