@@ -15,7 +15,7 @@
       "message":"右键菜单"
    },
    "contextmenuDes":{
-      "message":"右键菜单导出项"
+      "message":"右键导出下載"
    },
    "downloadCaptureStr":{
       "message":"下载拦截"
@@ -121,5 +121,17 @@
    },
    "downloadConfigFailed":{
       "message":"下载配置失败：云端数据无效或无网络连接"
+   },
+   "download":{
+      "message":"下载"
+   },
+   "upload":{
+      "message":"上传"
+   },
+   "wait":{
+      "message":"等待"
+   },
+   "finish":{
+      "message":"结束"
    }
 }

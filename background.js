@@ -690,7 +690,11 @@ function monitorAria2() {
         }
         chrome.browserAction.setBadgeBackgroundColor({ color: "green" });
         chrome.browserAction.setBadgeText({ text: numActive });
-        chrome.browserAction.setTitle({ title: `Active: ${numActive}  Wait: ${numWaiting}  Finish: ${numStopped}\nUpload: ${uploadSpeed}  Download: ${downloadSpeed}` });
+        let uploadStr = chrome.i18n.getMessage("upload");
+        let downloadStr = chrome.i18n.getMessage("download");
+        let waitStr = chrome.i18n.getMessage("wait");
+        let finishStr = chrome.i18n.getMessage("finish");
+        chrome.browserAction.setTitle({ title: `${downloadStr}: ${numActive}  ${waitStr}: ${numWaiting}  ${finishStr}: ${numStopped}\n${uploadStr}: ${uploadSpeed}  ${downloadStr}: ${downloadSpeed}` });
     }).fail(function (response, statusCode, jqXHR) {
         let title = "Failed to connect with Aria2.";
         if (response && response.error && response.error.message) {

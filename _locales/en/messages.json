@@ -121,5 +121,17 @@
    },
    "downloadConfigFailed":{
       "message":"Download config failed: Data invalid or network disconnected "
+   },
+   "download":{
+      "message":"Download"
+   },
+   "upload":{
+      "message":"Upload"
+   },
+   "wait":{
+      "message":"Wait"
+   },
+   "finish":{
+      "message":"Finish"
    }
 }

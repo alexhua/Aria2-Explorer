@@ -15,7 +15,7 @@
       "message":"右鍵選單"
    },
    "contextmenuDes":{
-      "message":"右鍵選單匯出項目"
+      "message":"右鍵匯出下載"
    },
    "downloadCaptureStr":{
       "message":"下載攔截"
@@ -121,5 +121,17 @@
    },
    "downloadConfigFailed":{
       "message":"下載設定失敗：雲端數據無效或無網絡連接"
+   },
+   "download":{
+      "message":"下載"
+   },
+   "upload":{
+      "message":"上傳"
+   },
+   "wait":{
+      "message":"等待"
+   },
+   "finish":{
+      "message":"結束"
    }
 }
