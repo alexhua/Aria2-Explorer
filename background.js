@@ -307,12 +307,12 @@ async function launchUI(downloadURL, referrer) {
         url = index;
     }
     chrome.tabs.query({ "url": index }, function (tabs) {
-        for (var i in tabs) {
-            chrome.windows.update(tabs[i].windowId, {
+        if (tabs.length > 0) {
+            chrome.windows.update(tabs[0].windowId, {
                 focused: true
             });
-            chrome.tabs.update(tabs[i].id, {
-                selected: true,
+            chrome.tabs.update(tabs[0].id, {
+                active: true,
                 url: url
             });
             return;
@@ -329,7 +329,7 @@ async function launchUI(downloadURL, referrer) {
 }
 
 function openInWindow(url) {
-    var w = 1280, h = 720;
+    var w = 1360, h = 720;
     var left = (screen.width / 2) - (w / 2);
     var top = (screen.height / 2) - (h / 2);
 
