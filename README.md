@@ -1,8 +1,4 @@
-# Aria2 for Chrome
-
-Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到Aria2来完成网络资源下载。同时，引入了AriaNG作为前端方便用户对Aria2进行操作和管理。
-
-小白用户可下载Aria2主程序后打开cmd (或Terminal) 输入" aria2c --enable-rpc "，然后在扩展选项中打开“自动拦截下载”，既可在Chrome中享受高速下载体验。关于Aria2如何在后台运行，以及进一步的配置可自行Google。
+# Aria2 for Chrome <span style="float:right">[[中文]](README.cn.md)</span>
 
 Aria2 for chrome is an extension that could export URL to Aria2 to complete download and imports AriaNG as built-in management frontend.
 
@@ -12,35 +8,6 @@ User should download Aria2 utility, run it in the terminal (or cmd) with typing 
 
 ## Features
 
-1. 自动拦截浏览器下载任务
-
-    - 拦截通知
-    - 支持磁力链接
-    - 快捷键开关自动拦截 (默认：<kbd>Alt</kbd>+<kbd>A</kbd>)
-    - 下载前手动设置各种详细参数
-    - 通过域名、扩展名或文件大小过滤下载任务
-    > 过滤优先级：网站 > 扩展名 > 文件大小，优先处理白名单
-
-2. 设置URL规则以根据下载地址自动选择不同的Aria2 RPC
-
-3. 内置Aria2前端：AriaNG，多种呈现方式：弹窗，新标签，新窗口
-
-4. 所有配置云端同步
-
-5. 中英双语支持
-
-6. Aria2下载状态监测
-
-7. 上下文菜单导出下载任务
-
-8. 接受来自其他扩展的下载请求
-
-9. 选项配置页面快捷键（保存：<kbd>Alt</kbd>+<kbd>S</kbd> 重置：<kbd>Alt</kbd>+<kbd>R</kbd> 下载：<kbd>Alt</kbd>+<kbd>J</kbd> 上传：<kbd>Alt</kbd>+<kbd>U</kbd>）
-
-10. 只需一次配置，自动导出默认RPC设置到AriaNG
-
----
-
 1. Auto capture browser download task
     - Capture notification
     - Support magnet link
@@ -48,7 +15,7 @@ User should download Aria2 utility, run it in the terminal (or cmd) with typing 
     - Manually set all aria2 options before download
     - Filter task by domain, file extension or file size
     > Filter priority: domain > file-ext > file-size, white-list > black-list
-2. Auto select aria2 RPC by matching presetting download URL pattern
+2. Auto select aria2 RPC server by matching presetting download URL pattern
 
 3. Built-in Aria2 front-end AriaNG, multiple present style: popup, new tab, new window
 
@@ -68,7 +35,6 @@ User should download Aria2 utility, run it in the terminal (or cmd) with typing 
 
 ## Integration
 
-允許其他擴展使用這個擴展作為與 Aria2 的中介軟體來下載檔案。  
 Allow other extensions use this extension as middleware to download file with Aria2.
 
 ```js
