@@ -3,6 +3,7 @@ var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
 var MonitorRate = 3000; // Aria2 monitor interval 3000ms
 const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
+const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload)
 var HttpSendRead = function(request) {
     Promise.prototype.done = Promise.prototype.then;
     Promise.prototype.fail = Promise.prototype.catch;
@@ -215,7 +216,9 @@ function isCaptureFinalUrl() {
 }
 
 function enableCapture() {
-    chrome.downloads.onDeterminingFilename.addListener(captureDownload);
+    if (!isDownloadListened()) {
+        chrome.downloads.onDeterminingFilename.addListener(captureDownload);
+    }
     chrome.browserAction.setIcon({
         path: {
             '32': "images/logo32.png",
@@ -229,7 +232,7 @@ function enableCapture() {
 }
 
 function disableCapture() {
-    if (chrome.downloads.onDeterminingFilename.hasListener(captureDownload)) {
+    if (isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
     }
     chrome.browserAction.setIcon({
@@ -647,6 +650,9 @@ function disableMonitor(){
     chrome.browserAction.setTitle({ title: "" });
     localStorage.setItem("monitorAria2", false);
     chrome.contextMenus.update("monitorAria2", { checked: false });
+    if (localStorage.integration == "true" && !isDownloadListened()) {
+        chrome.downloads.onDeterminingFilename.addListener(captureDownload);
+    }
 }
 
 function monitorAria2() {
@@ -695,6 +701,9 @@ function monitorAria2() {
         let waitStr = chrome.i18n.getMessage("wait");
         let finishStr = chrome.i18n.getMessage("finish");
         chrome.browserAction.setTitle({ title: `${downloadStr}: ${numActive}  ${waitStr}: ${numWaiting}  ${finishStr}: ${numStopped}\n${uploadStr}: ${uploadSpeed}  ${downloadStr}: ${downloadSpeed}` });
+        if (localStorage.integration == "true" && !isDownloadListened()) {
+            chrome.downloads.onDeterminingFilename.addListener(captureDownload);
+        }
     }).fail(function (response, statusCode, jqXHR) {
         let title = "Failed to connect with Aria2.";
         if (response && response.error && response.error.message) {
@@ -704,6 +713,9 @@ function monitorAria2() {
         chrome.browserAction.setBadgeText({ text: "E" });
         chrome.browserAction.setTitle({ title: title });
         console.log(response);
+        if (localStorage.integration == "true" && localStorage.monitorAria2 == "true" && isDownloadListened()) {
+            chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
+        }
     });
 }
 
