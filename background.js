@@ -69,10 +69,10 @@ function parse_url(url) {
     return [url_path, auth];
 }
 
-function send2Aria(link, rpc, downloadItem) {
+function send2Aria(rpc, downloadItem) {
     var storeId = downloadItem.incognito == true ? "1" : "0";
     chrome.cookies.getAll({
-        "url": link,
+        "url": downloadItem.url,
         "storeId": storeId
     }, function(cookies) {
         var format_cookies = [];
@@ -101,7 +101,7 @@ function send2Aria(link, rpc, downloadItem) {
             "jsonrpc": "2.0",
             "method": "aria2.addUri",
             "id": new Date().getTime(),
-            "params": [[link], options]
+            "params": [[downloadItem.url], options]
         };
         var result = parse_url(rpc.url);
         var auth = result[1];
@@ -261,7 +261,10 @@ function captureDownload(downloadItem, suggestion) {
             launchUI(downloadItem);
         } else {
             let rpc = getRpcServer(downloadItem.finalUrl);
-            send2Aria(downloadItem.finalUrl, rpc, downloadItem);
+            if (downloadItem.finalUrl != ""&& downloadItem.finalUrl !="about:blank"){
+                downloadItem.url = downloadItem.finalUrl;
+            }
+            send2Aria(rpc, downloadItem);
         }
     }
 }
@@ -456,7 +459,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
         updateOptionMenu(tab);
     } else {
         let rpc = fetchRpcList()[info.menuItemId];
-        send2Aria(uri, rpc, downloadItem);
+        send2Aria(rpc, downloadItem);
     }
 });
 
@@ -606,7 +609,7 @@ chrome.runtime.onMessageExternal.addListener (
         var allowExternalRequest = localStorage.getItem("allowExternalRequest");
         if (allowExternalRequest == "true"){
             var rpc = getRpcServer(downloadItem.url);
-            send2Aria(downloadItem.url, rpc, downloadItem);
+            send2Aria(rpc, downloadItem);
         }
     }
 );
@@ -614,7 +617,7 @@ chrome.runtime.onMessageExternal.addListener (
 chrome.runtime.onMessage.addListener(
     function (downloadItem) {
         var rpc = getRpcServer(downloadItem.url);
-        send2Aria(downloadItem.url, rpc, downloadItem);
+        send2Aria(rpc, downloadItem);
     }
 );
 
