@@ -15,10 +15,6 @@ var config =
         if (askBeforeDownload == "true") {
             $("#askBeforeDownload").prop('checked', true);
         }
-        var finalUrl = localStorage.getItem("finalUrl");
-        if (finalUrl == "true") {
-            $("#finalUrl").prop('checked', true);
-        }
         var allowExternalRequest = localStorage.getItem("allowExternalRequest");
         if (allowExternalRequest == "true") {
             $("#allowExternalRequest").prop('checked', true);
@@ -145,11 +141,6 @@ var config =
         } else {
             localStorage.setItem("askBeforeDownload", false);
         }
-        if ($("#finalUrl").prop('checked') == true) {
-            localStorage.setItem("finalUrl", true);
-        } else {
-            localStorage.setItem("finalUrl", false);
-        }
         if ($("#allowExternalRequest").prop('checked') == true) {
             localStorage.setItem("allowExternalRequest", true);
         } else {
@@ -227,7 +218,6 @@ var config =
                 integration: "",
                 fileSize: "",
                 askBeforeDownload: "",
-                finalUrl: "",
                 allowExternalRequest: "",
                 monitorAria2: "",
                 allowNotification: "",

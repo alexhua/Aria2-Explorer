@@ -211,12 +211,6 @@ function isCapture(downloadItem) {
     }
 }
 
-function isCaptureFinalUrl() {
-    var finalUrl = localStorage.getItem("finalUrl");
-    return finalUrl == "true";
-
-}
-
 function enableCapture() {
     if (!isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.addListener(captureDownload);
@@ -266,13 +260,8 @@ function captureDownload(downloadItem, suggestion) {
         if (askBeforeDownload == "true") {
             launchUI(downloadItem);
         } else {
-            if (isCaptureFinalUrl()) {
-                let rpc = getRpcServer(downloadItem.finalUrl);
-                send2Aria(downloadItem.finalUrl, rpc, downloadItem);
-            } else {
-                let rpc = getRpcServer(downloadItem.url);
-                send2Aria(downloadItem.url, rpc, downloadItem);
-            }
+            let rpc = getRpcServer(downloadItem.finalUrl);
+            send2Aria(downloadItem.finalUrl, rpc, downloadItem);
         }
     }
 }

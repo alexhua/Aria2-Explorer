@@ -26,9 +26,6 @@
    "askBeforeDownloadDes":{
       "message":"Ask detail settings before auto download"
    },
-   "captureFinalUrlDes":{
-      "message":"Capture the final URL to exclude multi-redirect"
-   },
    "allowExternalRequestDes":{
       "message":"Receive download request from other extension"
    },

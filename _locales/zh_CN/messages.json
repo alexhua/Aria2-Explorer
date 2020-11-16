@@ -26,9 +26,6 @@
    "askBeforeDownloadDes":{
       "message":"自动下载前询问详细设置"
    },
-   "captureFinalUrlDes":{
-      "message":"拦截最终下载地址 （排除多重跳转导致下载不正常的情况）"
-   },
    "allowExternalRequestDes":{
       "message":"接受来自其他扩展的下载请求"
    },

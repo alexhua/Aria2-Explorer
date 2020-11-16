@@ -26,9 +26,6 @@
    "askBeforeDownloadDes":{
       "message":"自動下載前詢問詳細設定"
    },
-   "captureFinalUrlDes":{
-      "message":"攔截最終下載位址 （排除多重跳轉導致下載不正常的狀況）"
-   },
    "allowExternalRequestDes":{
       "message":"接受來自其他擴充功能的下載請求"
    },
