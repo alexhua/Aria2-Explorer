@@ -70,8 +70,10 @@ function parse_url(url) {
 }
 
 function send2Aria(link, rpc, downloadItem) {
+    var storeId = downloadItem.incognito == true ? "1" : "0";
     chrome.cookies.getAll({
-        "url": link
+        "url": link,
+        "storeId": storeId
     }, function(cookies) {
         var format_cookies = [];
         for (var i in cookies) {
@@ -262,11 +264,7 @@ function captureDownload(downloadItem, suggestion) {
             downloadItem.referrer = "";
         }
         if (askBeforeDownload == "true") {
-            if (isCaptureFinalUrl()) {
-                launchUI(downloadItem.finalUrl, downloadItem.referrer);
-            } else {
-                launchUI(downloadItem.url, downloadItem.referrer);
-            }
+            launchUI(downloadItem);
         } else {
             if (isCaptureFinalUrl()) {
                 let rpc = getRpcServer(downloadItem.finalUrl);
@@ -277,14 +275,14 @@ function captureDownload(downloadItem, suggestion) {
             }
         }
     }
-
 }
 
 chrome.browserAction.onClicked.addListener(launchUI);
 
-function getCookies(url) {
+function getCookies(downloadItem) {
     return new Promise(resolve =>{
-        chrome.cookies.getAll({ "url": url }, function (cookies) {
+        var storeId = downloadItem.incognito == true ? "1" : "0";
+        chrome.cookies.getAll({ "url": downloadItem.finalUrl, "storeId": storeId }, function (cookies) {
             var format_cookies = [];
             for (var i in cookies) {
                 var cookie = cookies[i];
@@ -295,19 +293,18 @@ function getCookies(url) {
     })
 }
 
-async function launchUI(downloadURL, referrer) {
+async function launchUI(downloadItem) {
     var index = chrome.extension.getURL('ui/ariang/index.html');
-    if (typeof downloadURL === "string") {
-        url = index + "#!/new?url=" + btoa(downloadURL);
-        if (typeof referrer === "string" && referrer != "") {
-            url = url + "&referer=" + referrer;
+    var webUiUrl = index; //launched from notification,option menu or extension icon
+    if (downloadItem) { // launched with new task url
+        webUiUrl = index + "#!/new?url=" + btoa(downloadItem.finalUrl);
+        if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
+            webUiUrl = webUiUrl + "&referer=" + downloadItem.referrer;
         }
-        let cookies = await getCookies(downloadURL);
+        let cookies = await getCookies(downloadItem);
         if (cookies.length > 0) {
-            url = url + "&header=Cookie:" + cookies.join(";");
+            webUiUrl = webUiUrl + "&header=Cookie:" + cookies.join(";");
         }
-    } else { //clicked from notification,option menu or extension icon, launch main page.
-        url = index;
     }
     chrome.tabs.query({ "url": index }, function (tabs) {
         if (tabs.length > 0) {
@@ -316,16 +313,16 @@ async function launchUI(downloadURL, referrer) {
             });
             chrome.tabs.update(tabs[0].id, {
                 active: true,
-                url: url
+                url: webUiUrl
             });
             return;
         }
         var webUIOpenStyle = localStorage.getItem("webUIOpenStyle") || "newtab";
         if (webUIOpenStyle == "newwindow") {
-            openInWindow(url);
+            openInWindow(webUiUrl);
         } else {
             chrome.tabs.create({
-                url: url
+                url: webUiUrl
             });
         }
     });
@@ -705,6 +702,7 @@ function monitorAria2() {
             chrome.downloads.onDeterminingFilename.addListener(captureDownload);
         }
     }).fail(function (response, statusCode, jqXHR) {
+        if (localStorage.monitorAria2 == "false") return;
         let title = "Failed to connect with Aria2.";
         if (response && response.error && response.error.message) {
             title += ` Reason: ${response.error.message}.`;
