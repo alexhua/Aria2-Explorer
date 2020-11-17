@@ -4,7 +4,7 @@ var MonitorId = -1;
 var MonitorRate = 3000; // Aria2 monitor interval 3000ms
 const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload)
-var HttpSendRead = function(request) {
+const HttpSendRead = function(request) {
     Promise.prototype.done = Promise.prototype.then;
     Promise.prototype.fail = Promise.prototype.catch;
     return new Promise(function(resolve, reject) {
@@ -286,9 +286,9 @@ function getCookies(downloadItem) {
 }
 
 async function launchUI(downloadItem) {
-    var index = chrome.extension.getURL('ui/ariang/index.html');
+    const index = chrome.extension.getURL('ui/ariang/index.html');
     var webUiUrl = index; //launched from notification,option menu or extension icon
-    if (downloadItem) { // launched with new task url
+    if (downloadItem && downloadItem.finalUrl) { // launched with new task url
         webUiUrl = index + "#!/new?url=" + btoa(downloadItem.finalUrl);
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
             webUiUrl = webUiUrl + "&referer=" + downloadItem.referrer;
