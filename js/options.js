@@ -354,7 +354,7 @@ function combineUrl(secretKey, rpcUrl) {
         console.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');
         return null;
     }
-    return decodeURIComponent(url.toString());
+    return url.toString();
 }
 
 /**

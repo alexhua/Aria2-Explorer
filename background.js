@@ -50,7 +50,7 @@ function showNotification(id, opt) {
 }
 //解析RPC地址
 function parse_url(url) {
-    var auth_str = request_auth(url);
+    var auth_str = decodeURIComponent(request_auth(url));
     var auth = null;
     if (auth_str) {
         if (auth_str.indexOf('token:') == 0) {
