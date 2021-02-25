@@ -291,11 +291,11 @@ async function launchUI(downloadItem) {
     if (downloadItem && downloadItem.finalUrl) { // launched with new task url
         webUiUrl = index + "#!/new?url=" + btoa(downloadItem.finalUrl);
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
-            webUiUrl = webUiUrl + "&referer=" + downloadItem.referrer;
+            webUiUrl = webUiUrl + "&referer=" + btoa(downloadItem.referrer);
         }
         let cookies = await getCookies(downloadItem);
         if (cookies.length > 0) {
-            webUiUrl = webUiUrl + "&header=Cookie:" + cookies.join(";");
+            webUiUrl = webUiUrl + "&header=" + btoa("Cookie: " + cookies.join(";"));
         }
     }
     chrome.tabs.query({ "url": index }, function (tabs) {
