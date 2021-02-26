@@ -345,7 +345,7 @@ function combineUrl(secretKey, rpcUrl) {
         url = new URL(rpcUrl);
         if (secretKey && secretKey != "") {
             url.username = "token";
-            url.password = secretKey;
+            url.password = encodeURIComponent(secretKey);
         }
         if (url.protocol.startsWith("ws")){
             url.protocol = url.protocol.replace("ws","http");
