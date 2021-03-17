@@ -727,40 +727,58 @@ function getReadableSpeed(speed) {
 
 function exportRpc2AriaNg(rpc) {
     var ariaNgOptions = null;
-    var rpcOptions = {
-        httpMethod: "POST",
-        rpcAlias: "Aria2 RPC",
-        protocol: "http",
-        rpcHost: "localhost",
-        rpcPort: "6800",
-        rpcInterface: "jsonrpc",
-        secret: ""
+    let wsEnabled = false;
+    var defaultAriaNGOptions = {
+        language: window.navigator.language || 'en',
+        theme: 'light',
+        title: '${downspeed}, ${upspeed} - ${title}',
+        titleRefreshInterval: 5000,
+        browserNotification: true,
+        rpcAlias: '',
+        rpcHost: 'localhost',
+        rpcPort: '6800',
+        rpcInterface: 'jsonrpc',
+        protocol: 'ws',
+        httpMethod: 'POST',
+        secret: '',
+        extendRpcServers: [],
+        globalStatRefreshInterval: 1000,
+        downloadTaskRefreshInterval: 1000,
+        swipeGesture: true,
+        dragAndDropTasks: true,
+        rpcListDisplayOrder: 'recentlyUsed',
+        afterCreatingNewTask: 'task-list',
+        removeOldTaskAfterRetrying: true,
+        confirmTaskRemoval: true,
+        includePrefixWhenCopyingFromTaskDetails: false,
+        afterRetryingTask: 'task-list-downloading',
+        displayOrder: 'default:asc',
+        fileListDisplayOrder: 'default:asc',
+        peerListDisplayOrder: 'default:asc'
     }
 
+    if (!localStorage["AriaNg.Options"]) {
+        ariaNgOptions = defaultAriaNGOptions;
+    } else {
+        ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);
+    }
+    wsEnabled = ariaNgOptions.protocol?.startsWith("ws") || false;
+    
     try {
         let url = new URL(rpc.url);
-        rpcOptions.rpcAlias = rpc.name;
-        rpcOptions.protocol = url.protocol.replace(':','');
-        rpcOptions.rpcHost = url.hostname;
-        rpcOptions.rpcPort = url.port;
-        rpcOptions.rpcInterface = url.pathname.replace('/','');
-        rpcOptions.secret = btoa(decodeURIComponent(url.password));
+        ariaNgOptions.rpcAlias = rpc.name;
+        ariaNgOptions.protocol = url.protocol.replace(':', '');
+        ariaNgOptions.rpcHost = url.hostname;
+        ariaNgOptions.rpcPort = url.port;
+        ariaNgOptions.rpcInterface = url.pathname.replace('/', '');
+        ariaNgOptions.secret = btoa(decodeURIComponent(url.password));
     } catch (error) {
         console.warn('exportRpc2AriaNg: Rpc Url is invalid! RpcUrl ="' + rpc.url + '"');
         return
     }
-
-    if (!localStorage["AriaNg.Options"]){
-        ariaNgOptions = rpcOptions;
-    }else{
-        ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);
-    }
-    let wsEnabled = ariaNgOptions.protocol.startsWith("ws");
-    for (var key in rpcOptions){
-        ariaNgOptions[key] = rpcOptions[key];
-    }
-    if(wsEnabled){
-        ariaNgOptions.protocol = ariaNgOptions.protocol.replace("http","ws");
+    
+    if (wsEnabled) {
+        ariaNgOptions.protocol = ariaNgOptions.protocol.replace("http", "ws");
     }
     localStorage["AriaNg.Options"] = JSON.stringify(ariaNgOptions);
 }
