@@ -2,9 +2,9 @@
 
 Aria2 for chrome is an extension that could export URL to Aria2 to complete download and imports AriaNG as built-in management frontend.
 
-User should download Aria2 utility, run it in the terminal (or cmd) with typing "aria2c --enable-rpc" and enable auto-capture in extension options page, then enjoy the high-speed download experience.
+Common user should download aria2 utility, run it in the terminal (or cmd) with typing "aria2c --enable-rpc" and enable auto-capture in extension options page, then enjoy the high-speed download experience.
 
-[Download Latest Aria2](https://github.com/aria2/aria2/releases/latest)
+[Download Latest aria2c](https://github.com/aria2/aria2/releases/latest)
 
 ## Features
 
@@ -57,6 +57,10 @@ chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
 
 [![Chrome Web Store](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 for Chrome")
 [<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 for Edge")
+
+## Tips & FAQs
+
+[https://github.com/alexhua/Aria2-for-chrome/issues?q=label:faq](https://github.com/alexhua/Aria2-for-chrome/issues?q=label%3Afaq)
 
 ## Privacy policy
 

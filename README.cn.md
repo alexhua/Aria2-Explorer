@@ -2,9 +2,11 @@
 
 Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到Aria2来完成网络资源下载。同时，引入了AriaNG作为前端方便用户对Aria2进行操作和管理。
 
-小白用户可下载Aria2主程序后打开cmd (或Terminal) 输入"aria2c --enable-rpc"，在扩展选项中打开“自动拦截下载”，既可在Chrome中享受高速下载体验。关于Aria2如何在后台运行，以及进一步的配置可自行Google。
+## 如何使用
 
-[下载Aria2最新版](https://github.com/aria2/aria2/releases/latest)
+小白用户可下载aria2主程序后打开cmd (或Terminal) 输入"aria2c --enable-rpc"，在扩展选项中打开“自动拦截下载”，既可在Chrome中享受高速下载体验。关于Aria2如何在后台运行，以及进一步的配置可自行Google。
+
+[下载 aria2c 最新版](https://github.com/aria2/aria2/releases/latest)
 
 ## 功能特性
 
@@ -59,6 +61,10 @@ chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
 
 [![Chrome Web Store](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 for Chrome")
 [<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 for Edge")
+
+## 常见问题
+
+[https://github.com/alexhua/Aria2-for-chrome/issues?q=label:faq](https://github.com/alexhua/Aria2-for-chrome/issues?q=label%3Afaq)
 
 ## 隐私政策
 
