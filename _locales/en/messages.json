@@ -130,5 +130,20 @@
    },
    "finish":{
       "message":"Finish"
+   },
+   "review":{
+      "message":"Review"
+   },
+   "reviewDes":{
+      "message":"Rate us!"
+   },
+   "Save":{
+      "message":"Save"
+   },
+   "Reset":{
+      "message":"Reset"
+   },
+   "Acknowledgment":{
+      "message":"Acknowledgment"
    }
 }

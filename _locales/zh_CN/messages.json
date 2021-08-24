@@ -130,5 +130,20 @@
    },
    "finish":{
       "message":"结束"
+   },
+   "review":{
+      "message":"评分"
+   },
+   "reviewDes":{
+      "message":"为我们评分！"
+   },
+   "Save":{
+      "message":"保存"
+   },
+   "Reset":{
+      "message":"重置"
+   },
+   "Acknowledgment":{
+      "message":"致谢"
    }
 }

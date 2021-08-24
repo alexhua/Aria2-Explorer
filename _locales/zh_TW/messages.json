@@ -130,5 +130,20 @@
    },
    "finish":{
       "message":"結束"
+   },
+   "review":{
+      "message":"評分"
+   },
+   "reviewDes":{
+      "message":"爲我們評分！"
+   },
+   "Save":{
+      "message":"保存"
+   },
+   "Reset":{
+      "message":"重置"
+   },
+   "Acknowledgment":{
+      "message":"致謝"
    }
 }
