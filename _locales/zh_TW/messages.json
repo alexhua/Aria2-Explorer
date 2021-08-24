@@ -24,7 +24,7 @@
       "message":"自動攔截下載工作到Aria2，當檔案大小 ≥"
    },
    "askBeforeDownloadDes":{
-      "message":"開始下載前詢問詳細設定"
+      "message":"自動下載前詢問詳細設定"
    },
    "allowExternalRequestDes":{
       "message":"接受來自其他擴充功能的下載請求"

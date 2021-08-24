@@ -24,7 +24,7 @@
       "message":"自动拦截下载任务到Aria2，当文件大小 ≥"
    },
    "askBeforeDownloadDes":{
-      "message":"开始下载前询问参数设置"
+      "message":"自动下载前询问参数设置"
    },
    "allowExternalRequestDes":{
       "message":"接受来自其他扩展的下载请求"
