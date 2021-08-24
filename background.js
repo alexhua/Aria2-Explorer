@@ -178,7 +178,7 @@ function isCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
-    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftp):/i.test(downloadItem.finalUrl)) {
+    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftps?):/i.test(downloadItem.finalUrl)) {
         return false;
     }
 
@@ -299,7 +299,7 @@ async function launchUI(downloadItem) {
         }
     }
     chrome.tabs.query({ "url": index }, function (tabs) {
-        if (tabs.length > 0) {
+        if (tabs?.length > 0) {
             chrome.windows.update(tabs[0].windowId, {
                 focused: true
             });
@@ -321,16 +321,17 @@ async function launchUI(downloadItem) {
 }
 
 function openInWindow(url) {
-    var w = 1360, h = 720;
-    var left = (screen.width / 2) - (w / 2);
-    var top = (screen.height / 2) - (h / 2);
+    const w = Math.floor(screen.availWidth * 0.75);
+    const h = Math.floor(screen.availHeight * 0.75)
+    const l = Math.floor(screen.availWidth * 0.12);
+    const t = Math.floor(screen.availHeight * 0.12);
 
     chrome.windows.create({
         url: url,
         width: w,
         height: h,
-        'left': left,
-        'top': top,
+        left: l,
+        top: t,
         type: 'popup',
         focused: false
     }, function (window) {
@@ -405,14 +406,14 @@ function createContextMenu() {
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status == "loading") {
-        CurrentTabUrl = tab.url || "about:blank";
+        CurrentTabUrl = tab?.url || "about:blank";
         updateOptionMenu(tab);
     }
 });
 
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     chrome.tabs.get(activeInfo.tabId, function(tab) {        
-        CurrentTabUrl = tab.url || "about:blank";
+        CurrentTabUrl = tab?.url || "about:blank";
         updateOptionMenu(tab);
     });
 
@@ -420,7 +421,7 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 
 chrome.windows.onFocusChanged.addListener(function(windowId) {
     chrome.tabs.query({ windowId: windowId, active: true }, function(tabs) {
-        if (tabs.length > 0) {
+        if (tabs?.length > 0) {
             CurrentTabUrl = tabs[0].url || "about:blank";
             updateOptionMenu(tabs[0]);
         }
