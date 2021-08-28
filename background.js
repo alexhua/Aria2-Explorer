@@ -4,7 +4,7 @@ var MonitorId = -1;
 var MonitorRate = 3000; // Aria2 monitor interval 3000ms
 const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload)
-const HttpSendRead = function(request) {
+const doHttpRequest = function(request) {
     Promise.prototype.done = Promise.prototype.then;
     Promise.prototype.fail = Promise.prototype.catch;
     return new Promise(function(resolve, reject) {
@@ -14,13 +14,9 @@ const HttpSendRead = function(request) {
         http.onreadystatechange = function() {
             if (http.readyState == 4) {
                 if ((http.status == 200 && http.status < 300) || http.status == 304) {
-                    resolve(JSON.parse(http.responseText), http.status, http);
+                    resolve(JSON.parse(http.responseText));
                 } else {
-                    let response = null;
-                    if (http.responseText) {
-                        response = JSON.parse(http.responseText);
-                    }
-                    reject(response, http.status, http);
+                    reject(JSON.parse(http.responseText == '' ? '{}' : http.responseText));
                 }
             }
         }
@@ -69,86 +65,95 @@ function parse_url(url) {
     return [url_path, auth];
 }
 
-function send2Aria(rpc, downloadItem) {
-    var storeId = downloadItem.incognito == true ? "1" : "0";
-    chrome.cookies.getAll({
-        "url": downloadItem.url,
-        "storeId": storeId
-    }, function(cookies) {
-        var format_cookies = [];
-        for (var i in cookies) {
-            var cookie = cookies[i];
-            format_cookies.push(cookie.name + "=" + cookie.value);
-        }
-        var header = [];
-        header.push("Cookie: " + format_cookies.join("; "));
-        header.push("User-Agent: " + navigator.userAgent);
-        header.push("Connection: keep-alive");
+function getCookies(downloadItem) {
+    return new Promise(resolve =>{
+        var storeId = downloadItem.incognito == true ? "1" : "0";
+        chrome.cookies.getAll({ "url": downloadItem.finalUrl, "storeId": storeId }, function (cookies) {
+            var format_cookies = [];
+            for (var i in cookies) {
+                var cookie = cookies[i];
+                format_cookies.push(cookie.name + "=" + cookie.value);
+            }
+            resolve(format_cookies);
+        })
+    })
+}
 
-        var options = {
-                "header": header,
-                "referer": downloadItem.referrer,
-                "out": downloadItem.filename
-        };
-        if (rpc.location) {
-            options.dir = rpc.location;
-        }
-        if(downloadItem.hasOwnProperty('options')){
-            options = Object.assign(options, downloadItem.options);
-        }
+async function send2Aria(rpc, downloadItem) {
+    let cookies = await getCookies(downloadItem);
+    var format_cookies = [];
+    for (var i in cookies) {
+        var cookie = cookies[i];
+        format_cookies.push(cookie.name + "=" + cookie.value);
+    }
+    var header = [];
+    header.push("Cookie: " + format_cookies.join("; "));
+    header.push("User-Agent: " + navigator.userAgent);
+    header.push("Connection: keep-alive");
 
-        var rpc_data = {
-            "jsonrpc": "2.0",
-            "method": "aria2.addUri",
-            "id": new Date().getTime(),
-            "params": [[downloadItem.url], options]
-        };
-        var result = parse_url(rpc.url);
-        var auth = result[1];
-        if (auth && auth.indexOf('token:') == 0) {
-            rpc_data.params.unshift(auth);
-        }
+    var options = {
+        "header": header,
+        "referer": downloadItem.referrer,
+        "out": downloadItem.filename
+    };
+    if (rpc.location) {
+        options.dir = rpc.location;
+    }
+    if (downloadItem.hasOwnProperty('options')) {
+        options = Object.assign(options, downloadItem.options);
+    }
 
-        var request = {
-            url: result[0],
-            dataType: 'json',
-            method: 'POST',
-            data: JSON.stringify(rpc_data),
-            headers: {
-                'Authorization': auth
-            }
-        };
-        HttpSendRead(request).done(function(response, statusCode, jqXHR) {
-            var title = chrome.i18n.getMessage("exportSucceedStr");
-            var des = chrome.i18n.getMessage("exportSucceedDes");
-            var opt = {
-                type: "basic",
-                title: title,
-                message: des,
-                iconUrl: "images/logo64.png",
-                isClickable: true
-            }
-            var id = new Date().getTime().toString();
-            showNotification(id, opt);
-        }).fail(function(response, statusCode, jqXHR) {
-            console.log(jqXHR);
-            var title = chrome.i18n.getMessage("exportFailedStr");
-            var des = chrome.i18n.getMessage("exportFailedDes");
-            if (response && response.error && response.error.message) {
-                des += ` Error: ${response.error.message}.`;
-            }
-            var opt = {
-                type: "basic",
-                title: title,
-                message: des,
-                iconUrl: "images/logo64.png",
-                requireInteraction: false
-            }
-            var id = new Date().getTime().toString();
-            showNotification(id, opt);
-        });
+    var rpc_data = {
+        "jsonrpc": "2.0",
+        "method": "aria2.addUri",
+        "id": new Date().getTime(),
+        "params": [[downloadItem.url], options]
+    };
+    var result = parse_url(rpc.url);
+    var auth = result[1];
+    if (auth && auth.indexOf('token:') == 0) {
+        rpc_data.params.unshift(auth);
+    }
+
+    var request = {
+        url: result[0],
+        dataType: 'json',
+        method: 'POST',
+        data: JSON.stringify(rpc_data),
+        headers: {
+            'Authorization': auth
+        }
+    };
+    return doHttpRequest(request).done(function (response) {
+        var title = chrome.i18n.getMessage("exportSucceedStr");
+        var des = chrome.i18n.getMessage("exportSucceedDes");
+        var opt = {
+            type: "basic",
+            title: title,
+            message: des,
+            iconUrl: "images/logo64.png",
+            isClickable: true
+        }
+        var id = new Date().getTime().toString();
+        showNotification(id, opt);
+        return Promise.resolve("OK");
+    }).fail(function (response) {
+        var title = chrome.i18n.getMessage("exportFailedStr");
+        var des = chrome.i18n.getMessage("exportFailedDes");
+        if (response && response.error && response.error.message) {
+            des += ` Error: ${response.error.message}.`;
+        }
+        var opt = {
+            type: "basic",
+            title: title,
+            message: des,
+            iconUrl: "images/logo64.png",
+            requireInteraction: false
+        }
+        var id = new Date().getTime().toString();
+        showNotification(id, opt);
+        return Promise.resolve("FAIL");
     });
-
 }
 
 function getRpcServer(url) {
@@ -243,8 +248,7 @@ function disableCapture() {
     chrome.contextMenus.update("captureDownload", { checked: false });
 }
 
-function captureDownload(downloadItem, suggestion) {
-
+ async function captureDownload(downloadItem, suggestion) {
     var askBeforeDownload = localStorage.getItem("askBeforeDownload");
     var integration = localStorage.getItem("integration");
     if (downloadItem.byExtensionId == "gbdinbbamaniaidalikeiclecfbpgphh") {
@@ -264,26 +268,17 @@ function captureDownload(downloadItem, suggestion) {
             if (downloadItem.finalUrl != ""&& downloadItem.finalUrl !="about:blank"){
                 downloadItem.url = downloadItem.finalUrl;
             }
-            send2Aria(rpc, downloadItem);
+            let ret = await send2Aria(rpc, downloadItem);
+            if (ret == "FAIL") {
+                disableCapture();
+                chrome.downloads.download({ url: downloadItem.finalUrl });
+                setTimeout(enableCapture, 3000);
+            }
         }
     }
 }
 
 chrome.browserAction.onClicked.addListener(launchUI);
-
-function getCookies(downloadItem) {
-    return new Promise(resolve =>{
-        var storeId = downloadItem.incognito == true ? "1" : "0";
-        chrome.cookies.getAll({ "url": downloadItem.finalUrl, "storeId": storeId }, function (cookies) {
-            var format_cookies = [];
-            for (var i in cookies) {
-                var cookie = cookies[i];
-                format_cookies.push(cookie.name + "=" + cookie.value);
-            }
-            resolve(format_cookies);
-        })
-    })
-}
 
 async function launchUI(downloadItem) {
     const index = chrome.extension.getURL('ui/ariang/index.html');
@@ -668,7 +663,7 @@ function monitorAria2() {
             'Authorization': auth
         }
     };
-    HttpSendRead(request).done(function (response, statusCode, jqXHR) {
+    doHttpRequest(request).done(function (response) {
         var numActive = response.result.numActive;
         var numStopped = response.result.numStopped;
         var numWaiting = response.result.numWaiting;
@@ -694,7 +689,7 @@ function monitorAria2() {
         if (localStorage.integration == "true" && !isDownloadListened()) {
             chrome.downloads.onDeterminingFilename.addListener(captureDownload);
         }
-    }).fail(function (response, statusCode, jqXHR) {
+    }).fail(function (response) {
         if (localStorage.monitorAria2 == "false") return;
         let title = "Failed to connect with Aria2.";
         if (response && response.error && response.error.message) {
