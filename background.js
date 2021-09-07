@@ -80,12 +80,7 @@ function getCookies(downloadItem) {
 }
 
 async function send2Aria(rpc, downloadItem) {
-    let cookies = await getCookies(downloadItem);
-    var format_cookies = [];
-    for (var i in cookies) {
-        var cookie = cookies[i];
-        format_cookies.push(cookie.name + "=" + cookie.value);
-    }
+    let format_cookies = await getCookies(downloadItem);
     var header = [];
     header.push("Cookie: " + format_cookies.join("; "));
     header.push("User-Agent: " + navigator.userAgent);
