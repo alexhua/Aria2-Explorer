@@ -68,7 +68,7 @@ function parse_url(url) {
 function getCookies(downloadItem) {
     return new Promise(resolve =>{
         var storeId = downloadItem.incognito == true ? "1" : "0";
-        chrome.cookies.getAll({ "url": downloadItem.finalUrl, "storeId": storeId }, function (cookies) {
+        chrome.cookies.getAll({ "url": downloadItem.url, "storeId": storeId }, function (cookies) {
             var format_cookies = [];
             for (var i in cookies) {
                 var cookie = cookies[i];
@@ -82,7 +82,9 @@ function getCookies(downloadItem) {
 async function send2Aria(rpc, downloadItem) {
     let format_cookies = await getCookies(downloadItem);
     var header = [];
-    header.push("Cookie: " + format_cookies.join("; "));
+    if (format_cookies.length > 0) {
+        header.push("Cookie: " + format_cookies.join("; "));
+    }
     header.push("User-Agent: " + navigator.userAgent);
     header.push("Connection: keep-alive");
 
@@ -178,7 +180,7 @@ function isCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
-    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftps?):/i.test(downloadItem.finalUrl)) {
+    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftps?):/i.test(downloadItem.url)) {
         return false;
     }
 
@@ -251,22 +253,23 @@ function disableCapture() {
         return true;
     }
     suggestion();
+    //always use finalurl when it is available
+    if (downloadItem.finalUrl != "" && downloadItem.finalUrl != "about:blank") {
+        downloadItem.url = downloadItem.finalUrl;
+    }
     if (integration == "true" && isCapture(downloadItem)) {
         chrome.downloads.cancel(downloadItem.id);
-        if (downloadItem.referrer == "about:blank"){
+        if (downloadItem.referrer == "about:blank") {
             downloadItem.referrer = "";
         }
         if (askBeforeDownload == "true") {
             launchUI(downloadItem);
         } else {
-            let rpc = getRpcServer(downloadItem.finalUrl);
-            if (downloadItem.finalUrl != ""&& downloadItem.finalUrl !="about:blank"){
-                downloadItem.url = downloadItem.finalUrl;
-            }
+            let rpc = getRpcServer(downloadItem.url);
             let ret = await send2Aria(rpc, downloadItem);
             if (ret == "FAIL") {
                 disableCapture();
-                chrome.downloads.download({ url: downloadItem.finalUrl });
+                chrome.downloads.download({ url: downloadItem.url });
                 setTimeout(enableCapture, 3000);
             }
         }
@@ -278,15 +281,17 @@ chrome.browserAction.onClicked.addListener(launchUI);
 async function launchUI(downloadItem) {
     const index = chrome.extension.getURL('ui/ariang/index.html');
     var webUiUrl = index; //launched from notification,option menu or extension icon
-    if (downloadItem && downloadItem.finalUrl) { // launched with new task url
-        webUiUrl = index + "#!/new?url=" + btoa(downloadItem.finalUrl);
+    if (downloadItem?.hasOwnProperty("finalUrl")) { // launched with new task url
+        webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(downloadItem.url));
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
-            webUiUrl = webUiUrl + "&referer=" + btoa(downloadItem.referrer);
+            webUiUrl = webUiUrl + "&referer=" + encodeURIComponent(btoa(downloadItem.referrer));
         }
+        let header = "UserAgent: " + navigator.userAgent;
         let cookies = await getCookies(downloadItem);
         if (cookies.length > 0) {
-            webUiUrl = webUiUrl + "&header=" + btoa("Cookie: " + cookies.join(";"));
+            header += "\nCookie: " + cookies.join(";");
         }
+        webUiUrl = webUiUrl + "&header=" + encodeURIComponent(btoa(header));
     }
     chrome.tabs.query({ "url": index }, function (tabs) {
         if (tabs?.length > 0) {
