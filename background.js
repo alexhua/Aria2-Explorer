@@ -286,7 +286,7 @@ async function launchUI(downloadItem) {
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
             webUiUrl = webUiUrl + "&referer=" + encodeURIComponent(btoa(downloadItem.referrer));
         }
-        let header = "UserAgent: " + navigator.userAgent;
+        let header = "User-Agent: " + navigator.userAgent;
         let cookies = await getCookies(downloadItem);
         if (cookies.length > 0) {
             header += "\nCookie: " + cookies.join(";");
