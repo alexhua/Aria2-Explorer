@@ -17,6 +17,9 @@
    "contextmenuDes":{
       "message":"右键导出下載"
    },
+   "askBeforeExportDes":{
+      "message":"导出前询问详细参数设置"
+   },
    "downloadCaptureStr":{
       "message":"下载拦截"
    },

@@ -17,6 +17,9 @@
    "contextmenuDes":{
       "message":"右鍵匯出下載"
    },
+   "askBeforeExportDes":{
+      "message":"匯出前詢問詳細設定"
+   },
    "downloadCaptureStr":{
       "message":"下載攔截"
    },

@@ -385,17 +385,25 @@ function createOptionMenu() {
 
 function createContextMenu() {
     var contextMenus = localStorage.getItem("contextMenus");
+    var askBeforeExport = localStorage.getItem("askBeforeExport");
     var strExport = chrome.i18n.getMessage("contextmenuTitle");
-    if (contextMenus == "true" || contextMenus == null) {
-        const rpcList = fetchRpcList();
-        for (var i in rpcList) {
+    if (contextMenus == "true") {
+        if (askBeforeExport == "true") {
             chrome.contextMenus.create({
-                id: i,
-                title: strExport + rpcList[i]['name'],
+                id: "0",
+                title: strExport + "AriaNG",
                 contexts: ['link', 'selection']
             });
+        } else {
+            const rpcList = fetchRpcList();
+            for (var i in rpcList) {
+                chrome.contextMenus.create({
+                    id: i,
+                    title: strExport + rpcList[i]['name'],
+                    contexts: ['link', 'selection']
+                });
+            }
         }
-        localStorage.setItem("contextMenus", true);
     }
 }
 
@@ -429,6 +437,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
     // mock a DownloadItem
     var downloadItem = {
         url: uri,
+        finalUrl: uri,
         referrer: referrer,
         filename: ""
     };
@@ -454,8 +463,12 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
         updateWhiteSite(tab);
         updateOptionMenu(tab);
     } else {
-        let rpc = fetchRpcList()[info.menuItemId];
-        send2Aria(rpc, downloadItem);
+        if (localStorage.askBeforeExport && localStorage.askBeforeExport == "true") {
+            launchUI(downloadItem);
+        } else {
+            let rpc = fetchRpcList()[info.menuItemId];
+            send2Aria(rpc, downloadItem);
+        }
     }
 });
 
@@ -564,7 +577,7 @@ window.addEventListener('storage', function(se) {
         return
     }
 
-    if (se.key == "contextMenus" || se.key == "rpc_list") {
+    if (se.key == "contextMenus" || se.key == "askBeforeExport" || se.key == "rpc_list") {
         chrome.contextMenus.removeAll();
         createOptionMenu();
         createContextMenu();

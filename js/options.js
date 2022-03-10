@@ -7,6 +7,10 @@ var config =
         if (contextMenus == "true") {
             $("#contextMenus").prop('checked', true);
         }
+        var askBeforeExport = localStorage.getItem("askBeforeExport");
+        if (askBeforeExport == "true") {
+            $("#askBeforeExport").prop('checked', true);
+        }
         var integration = localStorage.getItem("integration");
         if (integration == "true") {
             $("#integration").prop('checked', true);
@@ -39,7 +43,7 @@ var config =
         } else {
             $("#openstyle2").prop('checked', true);
         }
-        var fileSize = localStorage.getItem("fileSize") || 10;
+        var fileSize = localStorage.getItem("fileSize") || 100;
         $("#fileSize").val(fileSize);
         if ($(".rpc_list").length !== 0) {
             $(".rpc_list").remove();
@@ -131,6 +135,11 @@ var config =
         } else {
             localStorage.setItem("contextMenus", false);
         }
+        if ($("#askBeforeExport").prop('checked') == true) {
+            localStorage.setItem("askBeforeExport", true);
+        } else {
+            localStorage.setItem("askBeforeExport", false);
+        }
         if ($("#integration").prop('checked') == true) {
             localStorage.setItem("integration", true);
         } else {
@@ -215,6 +224,7 @@ var config =
             },
             AriaExtConfig: {
                 contextMenus: "",
+                askBeforeExport: "",
                 integration: "",
                 fileSize: "",
                 askBeforeDownload: "",

@@ -17,6 +17,9 @@
    "contextmenuDes":{
       "message":"Export task from context menu"
    },
+   "askBeforeExportDes":{
+      "message":"Ask detail settings before export"
+   },
    "downloadCaptureStr":{
       "message":"Download Capture"
    },
