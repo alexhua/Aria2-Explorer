@@ -282,9 +282,9 @@ async function launchUI(downloadItem) {
     const index = chrome.extension.getURL('ui/ariang/index.html');
     var webUiUrl = index; //launched from notification,option menu or extension icon
     if (downloadItem?.hasOwnProperty("finalUrl")) { // launched with new task url
-        webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(downloadItem.url));
+        webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
-            webUiUrl = webUiUrl + "&referer=" + encodeURIComponent(btoa(downloadItem.referrer));
+            webUiUrl = webUiUrl + "&referer=" + encodeURIComponent(btoa(encodeURI(downloadItem.referrer)));
         }
         let header = "User-Agent: " + navigator.userAgent;
         let cookies = await getCookies(downloadItem);

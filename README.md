@@ -66,7 +66,7 @@ chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
 
 ## Privacy policy
 
-This extension just captures chrome download task and related website cookies for the user's specific connecting aria2 to download the network resource. Aria2 connection and config information will be just stored locally or uploaded to user's Google cloud by choice. It will never collect any user's personal data, network activity or share it to 3rd party.
+This extension just captures chrome download task and related website cookies for the user's specific connecting aria2 to download the network resource. Aria2 connection and config information will be just stored locally or uploaded to user's Google cloud by choice. It will never collect any user's personal data, network activity nor share it to 3rd party.
 
 ## License
 
