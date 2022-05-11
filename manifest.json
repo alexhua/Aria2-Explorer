@@ -4,7 +4,7 @@
    "short_name": "Aria2 WebUI",
    "options_page": "options.html",
    "permissions": [ "cookies", "tabs", "notifications", "contextMenus", "downloads","<all_urls>","storage"],
-   "version": "1.5.6",
+   "version": "1.5.7",
    "minimum_chrome_version": "80.0.0",
 
    "background": {
