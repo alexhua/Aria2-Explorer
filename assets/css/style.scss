@@ -1,0 +1,24 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+body {
+  color:#333;
+}
+
+.wrapper {
+  width: 75%;
+}
+
+header {
+  h1 {
+    font-size: xx-large;
+    text-align: center;
+  }
+
+  p{
+    width: 100%;
+    text-align: center;
+  }
+}
