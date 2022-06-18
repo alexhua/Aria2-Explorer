@@ -17,13 +17,13 @@ First, download aria2 utility. Second, run it in the terminal (or cmd) with typi
     - Manually set all aria2 options before download
     - Filter task by domain, file extension or file size
     > Filter priority: domain > file-ext > file-size, white-list > black-list
-2. Auto select aria2 RPC server by matching presetting download URL pattern
+2. Auto select aria2 RPC server by matching preset download URL pattern
 
 3. Built-in Aria2 front-end AriaNG, multiple present style: popup, new tab, new window
 
 4. Synchronize and store all settings on cloud
 
-5. Support zh-cn/zh-tw/en language
+5. Support zh-cn/zh-tw/en languages
 
 6. Aria2 download state monitor on badge icon
 
