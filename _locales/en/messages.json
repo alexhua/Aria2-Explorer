@@ -41,6 +41,9 @@
    "captureMagnetDes":{
       "message":"Capture magnet link"
    },
+   "captureMagnetWarn":{
+      "message":"OS level capture, please ensure disabling before uninstall"
+   },
    "websiteStr":{
       "message":"Website"
    },

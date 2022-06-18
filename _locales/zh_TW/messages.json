@@ -41,6 +41,9 @@
    "captureMagnetDes":{
       "message":"攔截磁力連結"
    },
+   "captureMagnetWarn":{
+      "message":"系統級攔截，卸載前請確保關閉"
+   },
    "websiteStr":{
       "message":"網站"
    },

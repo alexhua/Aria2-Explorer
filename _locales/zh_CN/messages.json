@@ -41,6 +41,9 @@
    "captureMagnetDes":{
       "message":"拦截磁力链接"
    },
+   "captureMagnetWarn":{
+      "message":"系统级拦截，卸载前请确保关闭"
+   },
    "websiteStr":{
       "message":"网站"
    },
