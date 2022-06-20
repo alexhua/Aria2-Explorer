@@ -123,7 +123,7 @@ async function send2Aria(rpc, downloadItem) {
     };
     return doHttpRequest(request).done(function (response) {
         var title = chrome.i18n.getMessage("exportSucceedStr");
-        var des = chrome.i18n.getMessage("exportSucceedDes");
+        var des = chrome.i18n.getMessage("exportSucceedDes",[rpc.name]);
         var opt = {
             type: "basic",
             title: title,
@@ -136,7 +136,7 @@ async function send2Aria(rpc, downloadItem) {
         return Promise.resolve("OK");
     }).fail(function (response) {
         var title = chrome.i18n.getMessage("exportFailedStr");
-        var des = chrome.i18n.getMessage("exportFailedDes");
+        var des = chrome.i18n.getMessage("exportFailedDes",[rpc.name]);
         if (response && response.error && response.error.message) {
             des += ` Error: ${response.error.message}.`;
         }

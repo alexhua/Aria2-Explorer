@@ -1,10 +1,10 @@
 {
    "manifest_version": 2,
    "name": "__MSG_appName__",
-   "short_name": "Aria2 WebUI",
+   "short_name": "Aria2-for-Chrome",
    "options_page": "options.html",
    "permissions": [ "cookies", "tabs", "notifications", "contextMenus", "downloads","<all_urls>","storage"],
-   "version": "1.5.7",
+   "version": "1.5.8",
    "minimum_chrome_version": "80.0.0",
 
    "background": {

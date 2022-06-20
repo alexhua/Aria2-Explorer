@@ -72,13 +72,25 @@
       "message":"导出失败"
    },
    "exportFailedDes":{
-      "message":"\n无法连接到Aria2,导出下载任务失败!"
+      "message":"\n无法连接到$rpcName$,导出下载任务失败!",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2 RPC name."
+         }
+      }
    },
    "exportSucceedStr":{
       "message":"导出成功"
    },
    "exportSucceedDes":{
-      "message":"\nAria2已经开始任务下载。"
+      "message":"\n$rpcName$已经开始任务下载。",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2 RPC name."
+         }
+       }
    },
    "websitePlaceholderDes":{
       "message":"每行一个网站，支持正则表达式。"

@@ -72,13 +72,25 @@
       "message":"Export Failed"
    },
    "exportFailedDes":{
-      "message":"Could not connect to Aria2, task export failed!"
+      "message":"Could not connect to $rpcName$, task export failed!",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2 RPC name."
+         }
+       }
    },
    "exportSucceedStr":{
       "message":"Export Successful"
    },
    "exportSucceedDes":{
-      "message":"\nDownload task is beginning."
+      "message":"\n$rpcName$ has begun the download.",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2 RPC name."
+         }
+       }
    },
    "websitePlaceholderDes":{
       "message":"one website per line, supports regexp."

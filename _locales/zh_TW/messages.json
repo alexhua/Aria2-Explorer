@@ -72,13 +72,25 @@
       "message":"匯出失敗"
    },
    "exportFailedDes":{
-      "message":"\n無法連接到Aria2，匯出下載工作失敗!"
+      "message":"\n無法連接到$rpcName$，匯出下載工作失敗!",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2 RPC name."
+         }
+      }
    },
    "exportSucceedStr":{
       "message":"匯出成功"
    },
    "exportSucceedDes":{
-      "message":"\nAria2已經開始下載工作。"
+      "message":"\n$rpcName$已經開始下載工作。",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2 RPC name."
+         }
+      }
    },
    "websitePlaceholderDes":{
       "message":"每行一個站點，支援規則運算式。"
