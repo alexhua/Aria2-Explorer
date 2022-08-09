@@ -4,34 +4,34 @@ Aria2 for chrome is an extension that could export URL to Aria2 to complete down
 
 ## How to use
 
-First, download aria2 utility. Second, run it in the terminal (or cmd) with typing "aria2c --enable-rpc". Third, enable auto-capture in extension options page. Then extension will take over the download and lead you to the high-speed download experience.
+First, download aria2 utility. Second, run it in the terminal (or cmd) with typing "aria2c --enable-rpc". Third, enable auto-capture in the extension options page. The extension will then take over the download leading you to a high-speed download experience.
 
 [Download Latest aria2c](https://github.com/aria2/aria2/releases/latest)
 
 ## Features
 
-1. Auto capture browser download task
+1. Auto capture browser download tasks
     - Capture notification
-    - Support magnet link
-    - Switch auto-capture by shortcut (Default: <kbd>Alt</kbd>+<kbd>A</kbd>)
-    - Manually set all aria2 options before download
-    - Filter task by domain, file extension or file size
+    - Supports magnet links
+    - Switching auto-capture by shortcut (Default: <kbd>Alt</kbd>+<kbd>A</kbd>)
+    - Manually setting all aria2 options before download
+    - Filter task by the domain, file extensions or file sizes
     > Filter priority: domain > file-ext > file-size, white-list > black-list
-2. Auto select aria2 RPC server by matching presetting download URL pattern
+2. Auto select aria2 RPC server by matching the preset download URL pattern
 
-3. Built-in Aria2 front-end AriaNG, multiple present style: popup, new tab, new window
+3. Built-in Aria2 front-end AriaNG, multiple present styles: popup, new tab, new window
 
-4. Synchronize and store all settings on cloud
+4. Synchronize and store all settings on the cloud
 
-5. Support zh-cn/zh-tw/en language
+5. Supports zh-cn/zh-tw/en language
 
-6. Aria2 download state monitor on badge icon
+6. Aria2 download state monitor via badge icon
 
-7. Export download task by context menu
+7. Export download tasks by context menu
 
-8. Receive download request from other extension
+8. Receive download requests from other extensions
 
-9. Support shortcuts in options page (Save:<kbd>Alt</kbd>+<kbd>S</kbd> Reset:<kbd>Alt</kbd>+<kbd>R</kbd> Download:<kbd>Alt</kbd>+<kbd>J</kbd> Upload:<kbd>Alt</kbd>+<kbd>U</kbd>)
+9. Support shortcuts in the options page (Save:<kbd>Alt</kbd>+<kbd>S</kbd> Reset:<kbd>Alt</kbd>+<kbd>R</kbd> Download:<kbd>Alt</kbd>+<kbd>J</kbd> Upload:<kbd>Alt</kbd>+<kbd>U</kbd>)
 
 10. Auto-Export default RPC setting to AriaNG
 
@@ -55,7 +55,7 @@ chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
 
 ```
 
-## Install
+## Installation
 
 [![Chrome Web Store](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 for Chrome")
 [<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 for Edge")
