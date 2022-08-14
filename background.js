@@ -279,7 +279,7 @@ function disableCapture() {
 chrome.browserAction.onClicked.addListener(launchUI);
 
 async function launchUI(downloadItem) {
-    const index = chrome.extension.getURL('ui/ariang/index.html');
+    const index = chrome.runtime.getURL('ui/ariang/index.html');
     var webUiUrl = index; //launched from notification,option menu or extension icon
     if (downloadItem?.hasOwnProperty("finalUrl")) { // launched with new task url
         webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
@@ -795,7 +795,7 @@ function exportRpc2AriaNg(rpc) {
 /******** init popup url icon, capture and aria2 monitor ********/
 var webUIOpenStyle = localStorage.getItem("webUIOpenStyle");
 if (webUIOpenStyle == "popup") {
-    var index = chrome.extension.getURL('ui/ariang/popup.html');
+    var index = chrome.runtime.getURL('ui/ariang/popup.html');
     chrome.browserAction.setPopup({
         popup: index
     });
