@@ -1,10 +1,10 @@
 # Aria2 for Chrome <span style="float:right">[[中文]](index.cn.md)</span>
 
-Aria2 for chrome is an extension that could export URL to Aria2 to complete download and imports AriaNG as built-in management frontend.
+Aria2 for Chrome is an extension that could export URLs to Aria2 to complete download and import AriaNG as a built-in management frontend.
 
 ## How to use
 
-First, download aria2 utility. Second, run it in the terminal (or cmd) with typing "aria2c --enable-rpc". Third, enable auto-capture in the extension options page. The extension will then take over the download leading you to a high-speed download experience.
+First, download aria2 utility. Second, run it in the terminal (or cmd) with typing "aria2c --enable-rpc". Third, enable auto-capture on the extension options page. The extension will then take over the download leading you to a high-speed download experience.
 
 [Download Latest aria2c](https://github.com/aria2/aria2/releases/latest)
 
@@ -23,7 +23,7 @@ First, download aria2 utility. Second, run it in the terminal (or cmd) with typi
 
 4. Synchronize and store all settings on the cloud
 
-5. Supports zh-cn/zh-tw/en languages
+5. Supports zh-CN/zh-TW/en language
 
 6. Monitor aria2 download state via badge icon
 
@@ -37,7 +37,7 @@ First, download aria2 utility. Second, run it in the terminal (or cmd) with typi
 
 ## Integration
 
-Allow other extensions use this extension as middleware to download file with Aria2.
+Allow other extensions to use this extension as middleware to download files with Aria2.
 
 ```js
 
@@ -66,7 +66,7 @@ chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
 
 ## Privacy policy
 
-This extension just captures chrome download task and related website cookies for the user's specific connecting aria2 to download the network resource. Aria2 connection and config information will be just stored locally or uploaded to user's Google cloud by choice. It will never collect any user's personal data, network activity nor share it to 3rd party.
+This extension just captures Chrome download task and related website cookies for the user's specific connecting aria2 to download the network resource. Aria2 connection and config information will be just stored locally or uploaded to the user's Google Cloud by choice. It will never collect any user's personal data, or network activity nor share it with 3rd party.
 
 ## License
 
