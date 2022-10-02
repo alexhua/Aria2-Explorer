@@ -1,6 +1,6 @@
 # Aria2 for Chrome <span style="float:right">[[中文]](README.cn.md)</span>
 
-Aria2 for Chrome is an extension that could export URLs to Aria2 to complete download and import AriaNG as a built-in management frontend.
+Aria2 for Chrome is an extension that could export URLs to Aria2 to complete download and import [AriaNG](https://www.github.com/mayswind/AriaNg/) as a built-in management frontend.
 
 ## How to use
 

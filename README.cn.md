@@ -1,6 +1,6 @@
 # Aria2 for Chrome <span style="float:right">[[返回]](README.md)</span>
 
-Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到Aria2来完成网络资源下载。同时，引入了AriaNG作为前端方便用户对Aria2进行操作和管理。
+Aria2 for chrome 是一款为Chrome定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到Aria2来完成网络资源下载。同时，引入了[AriaNG](https://www.github.com/mayswind/AriaNg/)作为前端方便用户对Aria2进行操作和管理。
 
 ## 如何使用
 
