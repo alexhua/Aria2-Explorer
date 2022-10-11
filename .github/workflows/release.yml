@@ -16,17 +16,19 @@ jobs:
         uses: actions/checkout@v3
             
       - name: Clean
-        run: rm -rf .github
+        run: |
+           rm -rf .git
+           rm -rf .github
           
       - name: Zip
         uses: vimtor/action-zip@v1
         with:
             files: .
-            dest: aria2-$GITHUB_REF_NAME.crx
+            dest: aria2e-${{ github.ref_name }}.crx
 
       - name: Release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          files: aria2-$GITHUB_REF_NAME.crx
+          files: aria2e-${{ github.ref_name }}.crx
