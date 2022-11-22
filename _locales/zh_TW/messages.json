@@ -33,7 +33,7 @@
       "message":"接受來自其他擴充功能的下載請求"
    },
    "monitorAria2Str":{
-      "message":"監測Aria2狀態"
+      "message":"監測Aria2狀態在擴展圖標"
    },
    "allowNotificationDes":{
       "message":"啓用攔截通知"
@@ -93,10 +93,10 @@
       }
    },
    "websitePlaceholderDes":{
-      "message":"每行一個站點，支援規則運算式。"
+      "message":"設置自動攔截站點過濾器，每行一個站點，支援規則運算式。"
    },
    "fileExtPlaceholderDes":{
-      "message":"每行一個附檔名，* 代表所有。"
+      "message":"設置自動攔截副檔名過濾器，每行一個附檔名，* 代表所有。"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打開樣式"
