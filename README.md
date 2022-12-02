@@ -25,7 +25,7 @@ First, download aria2 utility. Second, run it in the terminal (or cmd) with typi
 
 5. Supports zh-CN/zh-TW/en language
 
-6. Aria2 download state monitor via badge icon
+6. Aria2 download state monitor via icon badge
 
 7. Export download tasks by context menu
 
