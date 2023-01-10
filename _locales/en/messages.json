@@ -36,7 +36,7 @@
       "message":"Enable capture notification"
    },
    "monitorAria2Str":{
-      "message":"Monitor Aria2 status on extension icon"
+      "message":"Monitor Aria2 status"
    },
    "captureMagnetDes":{
       "message":"Capture magnet link"
@@ -92,11 +92,17 @@
          }
        }
    },
-   "websitePlaceholderDes":{
-      "message":"Set auto-capture domain filter, one website per line, supports regexp."
+   "allowedSitesPlaceholderDes":{
+      "message":"Set the domains you want to capture, one website per line, supports regexp. (Allow-list has higher priority)"
    },
-   "fileExtPlaceholderDes":{
-      "message":"Set auto-capture file extension filter, one file extension per line, * means all."
+   "blockedSitesPlaceholderDes":{
+      "message":"Set the domains you un-want to capture, one website per line, supports regexp."
+   },
+   "allowedExtsPlaceholderDes":{
+      "message":"Set the file extensions you want to capture, one extension per line, * means all.\n(Allow-list has higher priority)"
+   },
+   "blockedExtsPlaceholderDes":{
+      "message":"Set the file extensions you un-want to capture, one extension per line, * means all."
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG Open in"
@@ -163,5 +169,8 @@
    },
    "Acknowledgment":{
       "message":"Acknowledgment"
+   },
+   "OverwriteAriaNgRpcWarn":{
+      "message":"Export all RPC settings to AriaNG and overwrite it?"
    }
 }

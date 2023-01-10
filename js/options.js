@@ -1,54 +1,48 @@
+import Utils from "./utils.js";
+
+var Configs = {
+    ariaNgOptions:"",
+    contextMenus: false,
+    askBeforeExport: false,
+    integration: true,
+    fileSize: 100,
+    askBeforeDownload: false,
+    allowExternalRequest: false,
+    monitorAria2: false,
+    allowNotification: true,
+    captureMagnet: false,
+    rpcList: [{ "name": "ARIA2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }],
+    version: "",
+    webUIOpenStyle: "window",
+    allowedSites: "",
+    blockedSites: "",
+    allowedExts: "",
+    blockedExts: ""
+};
+
 var config =
 {
-    init: function () {
+    init: async function () {
         localizeHtmlPage();
+        let configs = await chrome.storage.local.get();
+        Object.assign(Configs, configs);
+
         $('input[type=checkbox]').prop("checked", false);
-        var contextMenus = localStorage.getItem("contextMenus");
-        if (contextMenus == "true") {
-            $("#contextMenus").prop('checked', true);
-        }
-        var askBeforeExport = localStorage.getItem("askBeforeExport");
-        if (askBeforeExport == "true") {
-            $("#askBeforeExport").prop('checked', true);
-        }
-        var integration = localStorage.getItem("integration");
-        if (integration == "true") {
-            $("#integration").prop('checked', true);
-        }
-        var askBeforeDownload = localStorage.getItem("askBeforeDownload");
-        if (askBeforeDownload == "true") {
-            $("#askBeforeDownload").prop('checked', true);
-        }
-        var allowExternalRequest = localStorage.getItem("allowExternalRequest");
-        if (allowExternalRequest == "true") {
-            $("#allowExternalRequest").prop('checked', true);
-        }
-        var monitorAria2 = localStorage.getItem("monitorAria2");
-        if (monitorAria2 == "true") {
-            $("#monitorAria2").prop('checked', true);
-        }
-        var allowNotification = localStorage.getItem("allowNotification");
-        if (allowNotification == "true") {
-            $("#allowNotification").prop('checked', true);
-        }
-        var captureMagnet = localStorage.getItem("captureMagnet");
-        if (captureMagnet == "true") {
-            $("#captureMagnet").prop('checked', true);
-        }
-        var webUIOpenStyle = localStorage.getItem("webUIOpenStyle");
-        if (webUIOpenStyle == "popup") {
-            $("#openstyle1").prop('checked', true);
-        } else if (webUIOpenStyle == "newwindow") {
-            $("#openstyle3").prop('checked', true);
-        } else {
-            $("#openstyle2").prop('checked', true);
-        }
-        var fileSize = localStorage.getItem("fileSize") || 100;
-        $("#fileSize").val(fileSize);
+        $("#contextMenus").prop('checked', Configs.contextMenus);
+        $("#askBeforeExport").prop('checked', Configs.askBeforeExport);
+        $("#integration").prop('checked', Configs.integration);
+        $("#askBeforeDownload").prop('checked', Configs.askBeforeDownload);
+        $("#allowExternalRequest").prop('checked', Configs.allowExternalRequest);
+        $("#monitorAria2").prop('checked', Configs.monitorAria2);
+        $("#allowNotification").prop('checked', Configs.allowNotification);
+        $("#captureMagnet").prop('checked', Configs.captureMagnet);
+        $(`#${Configs.webUIOpenStyle}`).prop('checked', true);
+
+        $("#fileSize").val(Configs.fileSize);
         if ($(".rpc_list").length !== 0) {
             $(".rpc_list").remove();
         }
-        var rpc_list = JSON.parse(localStorage.getItem("rpc_list") || '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]');
+        var rpc_list = Configs.rpcList || [{ "name": "ARIA2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }];
         for (var i in rpc_list) {
             var addBtnOrPattern = i == 0 ? '<button class="btn" id="add-rpc"><i class="icon-plus-sign"></i> Add RPC</button>' :
                 `<input type="text" class="input-large rpc-url-pattern" value="${rpc_list[i]['pattern'] || ''}" placeholder="URL Pattern(s) splitted by ,">`;
@@ -67,21 +61,17 @@ var config =
                 $(row).insertAfter($("fieldset").children().eq(2));
             }
         }
-        var black_site = JSON.parse(localStorage.getItem("black_site"));
-        if (black_site) {
-            $("#black-site").val(black_site.join("\n"));
+        if (Configs.blockedSites) {
+            $("#blocked-sites").val(Configs.blockedSites.join("\n"));
         }
-        var white_site = JSON.parse(localStorage.getItem("white_site"));
-        if (white_site) {
-            $("#white-site").val(white_site.join("\n"));
+        if (Configs.allowedSites) {
+            $("#allowed-sites").val(Configs.allowedSites.join("\n"));
         }
-        var black_ext = JSON.parse(localStorage.getItem("black_ext"));
-        if (black_ext) {
-            $("#black-ext").val(black_ext.join("\n"));
+        if (Configs.blockedExts) {
+            $("#blocked-exts").val(Configs.blockedExts.join("\n"));
         }
-        var white_ext = JSON.parse(localStorage.getItem("white_ext"));
-        if (white_ext) {
-            $("#white-ext").val(white_ext.join("\n"));
+        if (Configs.allowedExts) {
+            $("#allowed-exts").val(Configs.allowedExts.join("\n"));
         }
         $("#add-rpc").off().on("click", function () {
             var rpc_form = '<div class="control-group rpc_list">' +
@@ -109,19 +99,20 @@ var config =
             config.reset();
         });
     },
-    reset: function () {
+    reset: async function () {
         toggleMagnetHandler(false);
-        localStorage.clear();
+        // localStorage.clear();
+        await chrome.storage.local.clear();
         config.init()
     },
     save: function () {
-        var rpc_list = [];
+        Configs.rpcList = [];
         var rpcUrl = null;
         for (var i = 0; i < $(".rpc_list").length; i++) {
             var child = $(".rpc_list").eq(i).children().eq(1).children();
             if (child.eq(0).val() != "" && child.eq(2).val() != "") {
                 rpcUrl = combineUrl(child.eq(1).val(), child.eq(2).val());
-                rpc_list.push({
+                Configs.rpcList.push({
                     "name": child.eq(0).val(),
                     "url": rpcUrl,
                     "location": child.eq(3).val(),
@@ -129,131 +120,76 @@ var config =
                 });
             }
         }
-        localStorage.setItem("rpc_list", JSON.stringify(rpc_list));
-        if ($("#contextMenus").prop('checked') == true) {
-            localStorage.setItem("contextMenus", true);
-        } else {
-            localStorage.setItem("contextMenus", false);
-        }
-        if ($("#askBeforeExport").prop('checked') == true) {
-            localStorage.setItem("askBeforeExport", true);
-        } else {
-            localStorage.setItem("askBeforeExport", false);
-        }
-        if ($("#integration").prop('checked') == true) {
-            localStorage.setItem("integration", true);
-        } else {
-            localStorage.setItem("integration", false);
-        }
-        if ($("#askBeforeDownload").prop('checked') == true) {
-            localStorage.setItem("askBeforeDownload", true);
-        } else {
-            localStorage.setItem("askBeforeDownload", false);
-        }
-        if ($("#allowExternalRequest").prop('checked') == true) {
-            localStorage.setItem("allowExternalRequest", true);
-        } else {
-            localStorage.setItem("allowExternalRequest", false);
-        }
-        if ($("#monitorAria2").prop('checked') == true) {
-            localStorage.setItem("monitorAria2", true);
-        } else {
-            localStorage.setItem("monitorAria2", false);
-        }
-        if ($("#allowNotification").prop('checked') == true) {
-            localStorage.setItem("allowNotification", true);
-        } else {
-            localStorage.setItem("allowNotification", false);
-        }
-        if ($("#captureMagnet").prop('checked') == true) {
-            toggleMagnetHandler(true);
-            localStorage.setItem("captureMagnet", true);
-        } else {
-            toggleMagnetHandler(false);
-            localStorage.setItem("captureMagnet", false);
-        }
-        if ($("#openstyle1").prop('checked') == true) {
-            localStorage.setItem("webUIOpenStyle", $("#openstyle1").val());
-            var index = chrome.extension.getURL('ui/ariang/popup.html');
-            chrome.browserAction.setPopup({
+
+        Configs.contextMenus = $("#contextMenus").prop('checked');
+        Configs.askBeforeExport = $("#askBeforeExport").prop('checked');
+        Configs.integration = $("#integration").prop('checked');
+        Configs.fileSize = parseInt($("#fileSize").val());
+        Configs.askBeforeDownload = $("#askBeforeDownload").prop('checked');
+        Configs.allowExternalRequest = $("#allowExternalRequest").prop('checked');
+        Configs.monitorAria2 = $("#monitorAria2").prop('checked');
+        Configs.allowNotification = $("#allowNotification").prop('checked');
+        Configs.captureMagnet = $("#captureMagnet").prop('checked');
+        toggleMagnetHandler(Configs.captureMagnet);
+
+        if ($("#popup").prop('checked') == true) {
+            Configs.webUIOpenStyle = $("#popup").val();
+            var index = chrome.runtime.getURL('ui/ariang/popup.html');
+            chrome.action.setPopup({
                 popup: index
             });
-        } else if ($("#openstyle2").prop('checked') == true) {
-            localStorage.setItem("webUIOpenStyle", $("#openstyle2").val());
-            chrome.browserAction.setPopup({
+        } else if ($("#tab").prop('checked') == true) {
+            Configs.webUIOpenStyle = $("#tab").val();
+            chrome.action.setPopup({
                 popup: ''
             });
-        } else if ($("#openstyle3").prop('checked') == true) {
-            localStorage.setItem("webUIOpenStyle", $("#openstyle3").val());
-            chrome.browserAction.setPopup({
+        } else if ($("#window").prop('checked') == true) {
+            Configs.webUIOpenStyle = $("#window").val();
+            chrome.action.setPopup({
                 popup: ''
             });
         }
-        var fileSize = $("#fileSize").val();
-        localStorage.setItem("fileSize", fileSize);
-        var black_site = $("#black-site").val().split("\n");
-        var black_site_set = new Set(black_site);
-        // clear the repeat record using Set object
-        if (black_site_set.has(""))
-            black_site_set.delete("");
-        localStorage.setItem("black_site", JSON.stringify(Array.from(black_site_set)));
-        var white_site = $("#white-site").val().split("\n");
-        var white_site_set = new Set(white_site);
-        // clear the repeat record using Set object
-        if (white_site_set.has(""))
-            white_site_set.delete("");
-        localStorage.setItem("white_site", JSON.stringify(Array.from(white_site_set)));
 
-        var black_ext = $("#black-ext").val().split("\n");
-        var black_ext_set = new Set(black_ext);
+        Configs.blockedSites = $("#blocked-sites").val().split("\n");
+        let tempSet = new Set(Configs.blockedSites);
         // clear the repeat record using Set object
-        if (black_ext_set.has(""))
-            black_ext_set.delete("");
-        localStorage.setItem("black_ext", JSON.stringify(Array.from(black_ext_set)));
-        var white_ext = $("#white-ext").val().split("\n");
-        var white_ext_set = new Set(white_ext);
+        if (tempSet.has(""))
+            tempSet.delete("");
+        Configs.blockedSites = Array.from(tempSet);
+
+        Configs.allowedSites = $("#allowed-sites").val().split("\n");
+        tempSet = new Set(Configs.allowedSites);
         // clear the repeat record using Set object
-        if (white_ext_set.has(""))
-            white_ext_set.delete("");
-        localStorage.setItem("white_ext", JSON.stringify(Array.from(white_ext_set)));
+        if (tempSet.has(""))
+            tempSet.delete("");
+        Configs.allowedSites = Array.from(tempSet);
+
+        Configs.blockedExts = $("#blocked-exts").val().split("\n");
+        tempSet = new Set(Configs.blockedExts);
+        // clear the repeat record using Set object
+        if (tempSet.has(""))
+            tempSet.delete("");
+        Configs.blockedExts = Array.from(tempSet);
+
+        Configs.allowedExts = $("#allowed-exts").val().split("\n");
+        tempSet = new Set(Configs.allowedExts);
+        // clear the repeat record using Set object
+        if (tempSet.has(""))
+            tempSet.delete("");
+        Configs.allowedExts = Array.from(tempSet);
+        chrome.storage.local.set(Configs);
     },
     uploadConfig: function () {
-        var ExtConfig = {
-            AriaNgConfig: {
-                Options: ""
-            },
-            AriaExtConfig: {
-                contextMenus: "",
-                askBeforeExport: "",
-                integration: "",
-                fileSize: "",
-                askBeforeDownload: "",
-                allowExternalRequest: "",
-                monitorAria2: "",
-                allowNotification: "",
-                captureMagnet: "",
-                rpc_list: "",
-                version: "",
-                webUIOpenStyle: "",
-                white_site: "",
-                black_site: "",
-                white_ext: "",
-                black_ext: "",
-            }
-        };
 
-        ExtConfig.AriaNgConfig.Options = localStorage.getItem("AriaNg.Options");
-        for (var key in ExtConfig.AriaExtConfig) {
-            ExtConfig.AriaExtConfig[key] = localStorage.getItem(key);
-        }
+        Configs.ariaNgOptions = localStorage.getItem("AriaNg.Options");
 
-        //check the validity of local config
-        if (!ExtConfig.AriaExtConfig.rpc_list) {
-            var str = chrome.i18n.getMessage("uploadConfigWarn");
+        //check the validity of RPC list
+        if (!Configs.rpcList) {
+            let str = chrome.i18n.getMessage("uploadConfigWarn");
             if (!confirm(str))
                 return;
         }
-        chrome.storage.sync.set(ExtConfig, function () {
+        chrome.storage.sync.set(Configs).then(() => {
             if (chrome.runtime.lastError) {
                 var str = chrome.i18n.getMessage("uploadConfigFailed");
                 config.displaySyncResult(str + chrome.runtime.lastError.message, "label-important");
@@ -264,22 +200,14 @@ var config =
         });
     },
     downloadConfig: function () {
-        chrome.storage.sync.get(null, function (extConfig) {
-            if (extConfig && extConfig.AriaExtConfig) {
-                if (extConfig.AriaNgConfig.Options != "") {
-                    localStorage.setItem("AriaNg.Options", extConfig.AriaNgConfig.Options);
+        chrome.storage.sync.get().then(configs => {
+            if (configs && configs.hasOwnProperty()) {
+                if (configs.ariaNgOptions) {
+                    localStorage.setItem("AriaNg.Options", configs.ariaNgOptions);
                 }
-                for (var key in extConfig.AriaExtConfig) {
-                    if (key == "captureMagnet") {
-                        if (extConfig.AriaExtConfig[key] == "false") {
-                            toggleMagnetHandler(false);
-                        } else if (extConfig.AriaExtConfig[key] == "true") {
-                            toggleMagnetHandler(true);
-                        }
-                    }
-                    localStorage[key] = extConfig.AriaExtConfig[key];
-                }
+                Object.assign(Configs, configs)
                 config.init();
+                toggleMagnetHandler(Configs.captureMagnet);
                 var str = chrome.i18n.getMessage("downloadConfigSucceed");
                 config.displaySyncResult(str, "label-success");
             } else {
@@ -298,7 +226,21 @@ var config =
     }
 };
 
-window.onload = window.onstorage = config.init;
+window.onload = config.init;
+
+chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName == "local") {
+        config.init();
+        if (changes.rpcList) {
+            let str = chrome.i18n.getMessage("OverwriteAriaNgRpcWarn");
+            if (confirm(str)) {
+                let ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);
+                let newAriaNgOptions = Utils.exportRpc2AriaNg(changes.rpcList.newValue, ariaNgOptions);
+                localStorage["AriaNg.Options"] = JSON.stringify(newAriaNgOptions);
+            }
+        }
+    }    
+});
 
 window.onkeyup = function (e) {
     if (e.altKey) {
@@ -356,9 +298,6 @@ function combineUrl(secretKey, rpcUrl) {
         if (secretKey && secretKey != "") {
             url.username = "token";
             url.password = encodeURIComponent(secretKey);
-        }
-        if (url.protocol.startsWith("ws")){
-            url.protocol = url.protocol.replace("ws","http");
         }
     } catch (error) {
         console.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');

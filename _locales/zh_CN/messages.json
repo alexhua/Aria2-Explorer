@@ -3,7 +3,7 @@
       "message":"Aria2 for Chrome"
    },
    "description": {
-      "message":"让Aria2无缝接管下载，加速下载体验，内建Aria2前端，任务管理更方便。"
+      "message":"让Aria2无缝接管下载，加速下载体验，内置Aria2前端，任务管理更方便。"
    }, 
    "contextmenuTitle":{
       "message":"导出到 "
@@ -36,7 +36,7 @@
       "message":"启用拦截通知"
    },
    "monitorAria2Str":{
-      "message":"监测Aria2状态在扩展图标"
+      "message":"监测Aria2状态"
    },
    "captureMagnetDes":{
       "message":"拦截磁力链接"
@@ -72,7 +72,7 @@
       "message":"导出失败"
    },
    "exportFailedDes":{
-      "message":"\n无法连接到$rpcName$,导出下载任务失败!",
+      "message":"\n无法连接到 $rpcName$，导出下载任务失败！",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -84,7 +84,7 @@
       "message":"导出成功"
    },
    "exportSucceedDes":{
-      "message":"\n$rpcName$已经开始任务下载。",
+      "message":"\n$rpcName$ 已经开始任务下载。",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -92,11 +92,17 @@
          }
        }
    },
-   "websitePlaceholderDes":{
-      "message":"设置自动拦截网站过滤器，每行一个网站，支持正则表达式。"
+   "allowedSitesPlaceholderDes":{
+      "message":"设置需要拦截的域名，每行一个网站，支持正则表达式。\n（白名单优先）"
    },
-   "fileExtPlaceholderDes":{
-      "message":"设置自动拦截扩展名过滤器，每行一个扩展名，* 代表所有。"
+   "blockedSitesPlaceholderDes":{
+      "message":"设置不需要拦截的域名，每行一个网站，支持正则表达式。"
+   },
+   "allowedExtsPlaceholderDes":{
+      "message":"设置需要拦截的文件扩展名，\n每行一个扩展名，* 代表所有。\n（白名单优先）"
+   },
+   "blockedExtsPlaceholderDes":{
+      "message":"设置不需要拦截的文件扩展名，\n每行一个扩展名，* 代表所有。"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打开方式"
@@ -163,5 +169,8 @@
    },
    "Acknowledgment":{
       "message":"致谢"
+   },
+   "OverwriteAriaNgRpcWarn":{
+      "message":"导出所有RPC设置到AriaNG并覆盖？"
    }
 }

@@ -33,7 +33,7 @@
       "message":"接受來自其他擴充功能的下載請求"
    },
    "monitorAria2Str":{
-      "message":"監測Aria2狀態在擴展圖標"
+      "message":"監測Aria2狀態"
    },
    "allowNotificationDes":{
       "message":"啓用攔截通知"
@@ -72,7 +72,7 @@
       "message":"匯出失敗"
    },
    "exportFailedDes":{
-      "message":"\n無法連接到$rpcName$，匯出下載工作失敗!",
+      "message":"\n無法連接到 $rpcName$，匯出下載工作失敗！",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -84,7 +84,7 @@
       "message":"匯出成功"
    },
    "exportSucceedDes":{
-      "message":"\n$rpcName$已經開始下載工作。",
+      "message":"\n$rpcName$ 已經開始下載工作。",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -92,11 +92,17 @@
          }
       }
    },
-   "websitePlaceholderDes":{
-      "message":"設置自動攔截站點過濾器，每行一個站點，支援規則運算式。"
+   "allowedSitesPlaceholderDes":{
+      "message":"設定需要攔截的站點，每行一個網站，支持規則運算式。\n（白名單優先）"
    },
-   "fileExtPlaceholderDes":{
-      "message":"設置自動攔截副檔名過濾器，每行一個附檔名，* 代表所有。"
+   "blockedSitesPlaceholderDes":{
+      "message":"設定不需要攔截的站點，每行一個網站，支持規則運算式。"
+   },
+   "allowedExtsPlaceholderDes":{
+      "message":"設定需要攔截的文件副檔名，\n每行一個副檔名，*代表所有。\n（白名單優先）"
+   },
+   "blockedExtsPlaceholderDes":{
+      "message":"設定不需要攔截的文件副檔名，\n每行一個副檔名，*代表所有。"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打開樣式"
@@ -163,5 +169,8 @@
    },
    "Acknowledgment":{
       "message":"致謝"
+   },
+   "OverwriteAriaNgRpcWarn":{
+      "message":"匯出所有RPC設定到AriaNG並覆蓋?"
    }
 }

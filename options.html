@@ -80,13 +80,13 @@
           <label class="control-label text-info" for="webui-open-style"><i class="icon-th-large"></i> __MSG_WebUIOpenStyleStr__</label>
           <div class="controls">
             <label class="radio">
-              <input type="radio" id="openstyle1" name="webUIOpenStyle" value="popup"> __MSG_WebUIOpenStyle1__
+              <input type="radio" id="popup" name="webui-open-style" value="popup"> __MSG_WebUIOpenStyle1__
             </label>
             <label class="radio">
-              <input type="radio" id="openstyle2" name="webUIOpenStyle" value="newtab" checked> __MSG_WebUIOpenStyle2__
+              <input type="radio" id="tab" name="webui-open-style" value="tab"> __MSG_WebUIOpenStyle2__
             </label>
             <label class="radio">
-              <input type="radio" id="openstyle3" name="webUIOpenStyle" value="newwindow"> __MSG_WebUIOpenStyle3__
+              <input type="radio" id="window" name="webui-open-style" value="window"> __MSG_WebUIOpenStyle3__
             </label>
           </div>
         </div>
@@ -95,12 +95,12 @@
           <label class="control-label text-info"><i class="icon-file"></i> __MSG_fileExtStr__</label>
           <div class="controls row-fluid">
             <div class="span3">
-              <label for="white-ext">__MSG_whiteListStr__</label>
-              <textarea rows="8" id="white-ext" placeholder="__MSG_fileExtPlaceholderDes__"></textarea>
+              <label for="allowed-exts">__MSG_whiteListStr__</label>
+              <textarea rows="8" id="allowed-exts" placeholder="__MSG_allowedExtsPlaceholderDes__"></textarea>
             </div>
             <div class="span3">
-              <label for="black-ext">__MSG_blackListStr__</label>
-              <textarea rows="8" id="black-ext" placeholder="__MSG_fileExtPlaceholderDes__"></textarea>
+              <label for="blocked-exts">__MSG_blackListStr__</label>
+              <textarea rows="8" id="blocked-exts" placeholder="__MSG_blockedExtsPlaceholderDes__"></textarea>
             </div>
           </div>
         </div>
@@ -109,12 +109,12 @@
           <label class="control-label text-info"><i class="icon-globe"></i> __MSG_websiteStr__</label>
           <div class="controls row-fluid">
             <div class="controls span4">
-              <label for="white-site">__MSG_whiteListStr__</label>
-              <textarea rows="6" id="white-site" placeholder="__MSG_websitePlaceholderDes__"></textarea>
+              <label for="allowed-sites">__MSG_whiteListStr__</label>
+              <textarea rows="6" id="allowed-sites" placeholder="__MSG_allowedSitesPlaceholderDes__"></textarea>
             </div>
             <div class="controls span4">
-              <label for="black-site">__MSG_blackListStr__</label>
-              <textarea rows="6" id="black-site" placeholder="__MSG_websitePlaceholderDes__"></textarea>
+              <label for="blocked-sites">__MSG_blackListStr__</label>
+              <textarea rows="6" id="blocked-sites" placeholder="__MSG_blockedSitesPlaceholderDes__"></textarea>
             </div>
           </div>
         </div>
@@ -160,7 +160,7 @@
 
   <script src="js/jquery-3.5.0.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/options.js"></script>
+  <script src="js/options.js" type="module"></script>
 </body>
 
 </html>
