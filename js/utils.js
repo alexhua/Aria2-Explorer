@@ -1,9 +1,10 @@
 class Utils {
     /**
     * export rpc list to ariaNG options
-    * @param {array} rpcList - The rpc list.
-    * @param {object} ariaNgOptions - The ariaNG Options Object
-    * @return {object} The ariaNG Options with new RPC list
+    * 
+    * @param {array} rpcList - The RPC URL list.
+    * @param {object} ariaNgOptions - The ariaNG options object
+    * @return {object} The ariaNG options with new RPC list
     */
     static exportRpc2AriaNg(rpcList, ariaNgOptions) {
         if (!rpcList || rpcList.length == 0) return null;
@@ -44,8 +45,8 @@ class Utils {
         let defaultRpcIndex = 0
         for (const i in rpcList) {
             let patterns = rpcList[i]['pattern'].split(',') || [];
-            if (patterns.includes('*')) { 
-                defaultRpcIndex = i; 
+            if (patterns.includes('*')) {
+                defaultRpcIndex = i;
                 break;
             }
         }
@@ -86,7 +87,7 @@ class Utils {
      * @param {string} speed A byte/s format speed string
      * @return {string} A readable speed string  
      */
-    static  getReadableSpeed(speed) {
+    static getReadableSpeed(speed) {
         let unit = "";
         speed = parseInt(speed);
         if (speed >= 1024 * 1024) {
@@ -100,6 +101,47 @@ class Utils {
             return speed + unit;
         }
         return speed.toFixed(2) + unit;
+    }
+    /**
+     * extract secret key from rpc url
+     * 
+     * @param {string} rpcUrl Full RPC URL with secret key
+     * @return {array} An array contains RPC URL and secret key
+     */
+    static parseUrl(rpcUrl) {
+        let url = null;
+        let urlPath = null;
+        let secretKey = null;
+        try {
+            url = new URL(rpcUrl);
+            urlPath = url.origin + url.pathname;
+            secretKey = decodeURIComponent(url.password);
+        } catch (error) {
+            console.warn('Stored Rpc Url is invalid! RpcUrl ="' + rpcUrl + '"');
+            return ["", ""];
+        }
+        return [urlPath, secretKey];
+    }
+    /**
+     * Fill RPC URL with secret key
+     * 
+     * @param {string} secretKey
+     * @param {string} rpcUrl
+     * @return {string} RPC URL with secret key
+     */
+    static combineUrl(secretKey, rpcUrl) {
+        let url = null;
+        try {
+            url = new URL(rpcUrl);
+            if (secretKey) {
+                url.username = "token";
+                url.password = encodeURIComponent(secretKey);
+            }
+        } catch (error) {
+            console.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');
+            return null;
+        }
+        return url.toString();
     }
 }
 

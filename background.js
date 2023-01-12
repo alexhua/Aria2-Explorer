@@ -1,109 +1,54 @@
 import Utils from "./js/utils.js";
+import Configs from "./js/config.js";
+
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
 var MonitorRate = 3000; // Aria2 monitor interval 3000ms
+
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload)
-var Configs = {
-    ariaNgOptions: "",
-    contextMenus: false,
-    askBeforeExport: false,
-    integration: true,
-    fileSize: "100",
-    askBeforeDownload: false,
-    allowExternalRequest: false,
-    monitorAria2: false,
-    allowNotification: true,
-    captureMagnet: false,
-    rpcList: [{ "name": "ARIA2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }],
-    version: "",
-    webUIOpenStyle: "window",
-    allowedSites: "",
-    blockedSites: "",
-    allowedExts: "",
-    blockedExts: ""
-};
+
+/* Load configs and initialize extension*/
 chrome.storage.local.get().then((configs) => {
     Object.assign(Configs, configs);
-    registerAllListeners();
-    init();
+    init();    
 });
 
-const doHttpRequest = function (request) {
-    Promise.prototype.done = Promise.prototype.then;
-    Promise.prototype.fail = Promise.prototype.catch;
-    return new Promise(function (resolve, reject) {
-        var http = new XMLHttpRequest();
-        var contentType = request.contentType || "application/x-www-form-urlencoded; charset=UTF-8";
-        http.timeout = request.timeout || 3000;
-        http.onreadystatechange = function () {
-            if (http.readyState == 4) {
-                if ((http.status == 200 && http.status < 300) || http.status == 304) {
-                    resolve(JSON.parse(http.responseText));
-                } else {
-                    reject(JSON.parse(http.responseText == '' ? '{}' : http.responseText));
-                }
+registerAllListeners();
+
+async function doRPC(request) {
+    if (request.url.startsWith("ws"))
+        request.url = request.url.replace("ws", "http");
+    const response = await fetch(request.url,
+        {
+            method: "POST",
+            body: request.payload,
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
             }
-        }
-        http.open(request.method, request.url, true);
-        http.setRequestHeader("Content-type", contentType);
-        for (h in request.headers) {
-            if (request.headers[h]) {
-                http.setRequestHeader(h, request.headers[h]);
-            }
-        }
-        if (request.method == "POST") {
-            http.send(request.data);
-        } else {
-            http.send();
-        }
-    }
-    );
+        });
+    return response.json();
 };
 
-//弹出chrome通知
 function showNotification(id, opt) {
     if (Configs.allowNotification) chrome.notifications.create(id, opt);
 }
-//解析RPC地址
-function parse_url(url) {
-    var auth_str = decodeURIComponent(request_auth(url));
-    var auth = null;
-    if (auth_str) {
-        if (auth_str.indexOf('token:') == 0) {
-            auth = auth_str;
-        } else {
-            auth = "Basic " + btoa(auth_str);
-        }
-    }
-    var url_path = remove_auth(url);
-    function request_auth(url) {
-        return url.match(/^(?:(?![^:@]+:[^:@\/]*@)[^:\/?#.]+:)?(?:\/\/)?(?:([^:@]*(?::[^:@]*)?)?@)?/)[1];
-    }
-    function remove_auth(url) {
-        return url.replace(/^((?![^:@]+:[^:@\/]*@)[^:\/?#.]+:)?(\/\/)?(?:(?:[^:@]*(?::[^:@]*)?)?@)?(.*)/, '$1$2$3');
-    }
-    return [url_path, auth];
-}
 
-function getCookies(downloadItem) {
-    return new Promise(resolve => {
-        var storeId = downloadItem.incognito == true ? "1" : "0";
-        chrome.cookies.getAll({ "url": downloadItem.url, "storeId": storeId }).then(function (cookies) {
-            var format_cookies = [];
-            for (var i in cookies) {
-                var cookie = cookies[i];
-                format_cookies.push(cookie.name + "=" + cookie.value);
-            }
-            resolve(format_cookies);
-        })
-    })
+async function getCookies(downloadItem) {
+    let storeId = downloadItem.incognito == true ? "1" : "0";
+    let cookies = await chrome.cookies.getAll({ "url": downloadItem.url, "storeId": storeId });
+    let formatCookies = [];
+    for (const cookie of cookies) {
+        formatCookies.push(cookie.name + "=" + cookie.value);
+    }
+    return formatCookies;
 }
 
 async function send2Aria(rpc, downloadItem) {
-    let format_cookies = await getCookies(downloadItem);
+    let formatCookies = await getCookies(downloadItem);
     var header = [];
-    if (format_cookies.length > 0) {
-        header.push("Cookie: " + format_cookies.join("; "));
+    if (formatCookies.length > 0) {
+        header.push("Cookie: " + formatCookies.join("; "));
     }
     header.push("User-Agent: " + navigator.userAgent);
     header.push("Connection: keep-alive");
@@ -120,28 +65,26 @@ async function send2Aria(rpc, downloadItem) {
         options = Object.assign(options, downloadItem.options);
     }
 
-    var rpc_data = {
+    var rpcData = {
         "jsonrpc": "2.0",
         "method": "aria2.addUri",
         "id": new Date().getTime(),
         "params": [[downloadItem.url], options]
     };
-    var result = parse_url(rpc.url);
-    var auth = result[1];
-    if (auth && auth.indexOf('token:') == 0) {
-        rpc_data.params.unshift(auth);
+    var result = Utils.parseUrl(rpc.url);
+    var secretKey = result[1];
+    if (secretKey) {
+        rpcData.params.unshift("token:" + secretKey);
     }
 
     var request = {
         url: result[0],
-        dataType: 'json',
-        method: 'POST',
-        data: JSON.stringify(rpc_data),
-        headers: {
-            'Authorization': auth
-        }
+        payload: JSON.stringify(rpcData),
     };
-    return doHttpRequest(request).done(function (response) {
+    return doRPC(request).then(function (response) {
+        if (response && response.error) {
+            return Promise.reject(response);
+        }
         var title = chrome.i18n.getMessage("exportSucceedStr");
         var des = chrome.i18n.getMessage("exportSucceedDes", [rpc.name]);
         var opt = {
@@ -154,7 +97,7 @@ async function send2Aria(rpc, downloadItem) {
         var id = new Date().getTime().toString();
         showNotification(id, opt);
         return Promise.resolve("OK");
-    }).fail(function (response) {
+    }).catch(function (response) {
         var title = chrome.i18n.getMessage("exportFailedStr");
         var des = chrome.i18n.getMessage("exportFailedDes", [rpc.name]);
         if (response && response.error && response.error.message) {
@@ -517,34 +460,6 @@ function updateBlockedSites(tab) {
     chrome.storage.local.set({ blockedSites: Configs.blockedSites });
 }
 
-/**Listen to the local storage changes from options page **/
-chrome.storage.onChanged.addListener(function (changes, area) {
-    //console.log(se);
-    if (area !== "local") return;
-    chrome.storage.local.get().then((configs) => {
-        Object.assign(Configs, configs);
-        for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-            if (newValue == null) {
-                chrome.contextMenus.removeAll();
-                createOptionMenu();
-                disableCapture();
-                disableMonitor();
-                return
-            }
-            if (key == "contextMenus" || key == "askBeforeExport" || key == "rpcList") {
-                chrome.contextMenus.removeAll();
-                createOptionMenu();
-                createContextMenu();
-            }
-            if (key == "integration")
-                newValue ? enableCapture() : disableCapture();
-
-            if (key == "monitorAria2")
-                newValue ? enableMonitor() : disableMonitor();
-        }
-    });
-});
-
 function enableMonitor() {
     if (MonitorId !== -1) {
         console.log("Warn: Monitor has already started.");
@@ -569,33 +484,30 @@ function disableMonitor() {
 }
 
 function monitorAria2() {
-    var rpc_data = {
+    var rpcData = {
         "jsonrpc": "2.0",
         "method": "aria2.getGlobalStat",
         "id": new Date().getTime(),
         "params": []
     };
     var rpc = getRpcServer("*");
-    var result = parse_url(rpc.url);
-    var auth = result[1];
-    if (auth && auth.indexOf('token:') == 0) {
-        rpc_data.params.unshift(auth);
+    var result = Utils.parseUrl(rpc.url);
+    var secretKey = result[1];
+    if (secretKey) {
+        rpcData.params.unshift("token:" + secretKey);
     }
     var request = {
         url: result[0],
-        dataType: 'json',
-        method: 'POST',
-        data: JSON.stringify(rpc_data),
-        headers: {
-            'Authorization': auth
-        }
+        payload: JSON.stringify(rpcData),
     };
-    doHttpRequest(request).done(function (response) {
-        var numActive = response.result.numActive;
-        var numStopped = response.result.numStopped;
-        var numWaiting = response.result.numWaiting;
-        var uploadSpeed = Utils.getReadableSpeed(response.result.uploadSpeed);
-        var downloadSpeed = Utils.getReadableSpeed(response.result.downloadSpeed);
+    doRPC(request).then(function (response) {
+        if (response && response.error)
+            return Promise.reject(response);
+        let numActive = response.result.numActive;
+        let numStopped = response.result.numStopped;
+        let numWaiting = response.result.numWaiting;
+        let uploadSpeed = Utils.getReadableSpeed(response.result.uploadSpeed);
+        let downloadSpeed = Utils.getReadableSpeed(response.result.downloadSpeed);
         /* Tune the monitor rate dynamically */
         if (numActive > 0 && MonitorRate == 3000) {
             MonitorRate = 1000;
@@ -616,7 +528,7 @@ function monitorAria2() {
         if (Configs.integration && !isDownloadListened()) {
             chrome.downloads.onDeterminingFilename.addListener(captureDownload);
         }
-    }).fail(function (response) {
+    }).catch(function (response) {
         if (!Configs.monitorAria2) return;
         let title = "Failed to connect with Aria2.";
         if (response && response.error && response.error.message) {
@@ -679,7 +591,7 @@ function registerAllListeners() {
         }
     });
 
-    // receive request from other extension
+    /* receive request from other extension */
     /**
      * @typedef downloadItem
      * @type {Object}
@@ -707,7 +619,7 @@ function registerAllListeners() {
     );
 }
 
-/******** init popup url, context menu, capture and aria2 monitor ********/
+/* init popup url, context menu, download capture and aria2 monitor */
 function init() {
     if (Configs.webUIOpenStyle == "popup") {
         var index = chrome.runtime.getURL('ui/ariang/popup.html');
@@ -736,3 +648,36 @@ function init() {
         chrome.storage.local.set({ version: manifest.version })
     }
 }
+
+/* Listen to the local storage changes from options page */
+chrome.storage.onChanged.addListener(function (changes, area) {
+    //console.log(se);
+    if (area !== "local") return;
+    chrome.storage.local.get().then((configs) => {
+        Object.assign(Configs, configs);
+        for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+            if (newValue == null) {
+                chrome.contextMenus.removeAll();
+                createOptionMenu();
+                disableCapture();
+                disableMonitor();
+                return
+            }
+            if (key == "contextMenus" || key == "askBeforeExport" || key == "rpcList") {
+                chrome.contextMenus.removeAll();
+                createOptionMenu();
+                createContextMenu();
+            }
+            if (key == "integration")
+                newValue ? enableCapture() : disableCapture();
+
+            if (key == "monitorAria2")
+                newValue ? enableMonitor() : disableMonitor();
+
+            if (key == "captureMagnet") {
+                let url = newValue ? "https://github.com/alexhua/Aria2-for-chrome/issues/98" : "";
+                chrome.runtime.setUninstallURL(url);
+            }
+        }
+    });
+});

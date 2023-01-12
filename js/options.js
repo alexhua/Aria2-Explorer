@@ -1,24 +1,5 @@
 import Utils from "./utils.js";
-
-var Configs = {
-    ariaNgOptions:"",
-    contextMenus: false,
-    askBeforeExport: false,
-    integration: true,
-    fileSize: 100,
-    askBeforeDownload: false,
-    allowExternalRequest: false,
-    monitorAria2: false,
-    allowNotification: true,
-    captureMagnet: false,
-    rpcList: [{ "name": "ARIA2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }],
-    version: "",
-    webUIOpenStyle: "window",
-    allowedSites: "",
-    blockedSites: "",
-    allowedExts: "",
-    blockedExts: ""
-};
+import Configs from "./config.js";
 
 var config =
 {
@@ -39,24 +20,24 @@ var config =
         $(`#${Configs.webUIOpenStyle}`).prop('checked', true);
 
         $("#fileSize").val(Configs.fileSize);
-        if ($(".rpc_list").length !== 0) {
-            $(".rpc_list").remove();
+        if ($(".rpc-list").length !== 0) {
+            $(".rpc-list").remove();
         }
-        var rpc_list = Configs.rpcList || [{ "name": "ARIA2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }];
-        for (var i in rpc_list) {
+        var rpcList = Configs.rpcList || [{ "name": "ARIA2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }];
+        for (var i in rpcList) {
             var addBtnOrPattern = i == 0 ? '<button class="btn" id="add-rpc"><i class="icon-plus-sign"></i> Add RPC</button>' :
-                `<input type="text" class="input-large rpc-url-pattern" value="${rpc_list[i]['pattern'] || ''}" placeholder="URL Pattern(s) splitted by ,">`;
-            var row = '<div class="control-group rpc_list">' +
+                `<input type="text" class="input-large rpc-url-pattern" value="${rpcList[i]['pattern'] || ''}" placeholder="URL Pattern(s) splitted by ,">`;
+            var row = '<div class="control-group rpc-list">' +
                 '<label class="control-label text-info">' + (i == 0 ? '<i class="icon-tasks"></i> Aria2-RPC-Server' : '') + '</label>' +
                 '<div class="controls">' +
-                '<input type="text" class="input-small" value="' + rpc_list[i]['name'] + '" placeholder="Name ∗">' +
-                '<input type="password" class="input-medium secretKey" value="' + parseUrl(rpc_list[i]['url'])[1] + '" placeholder="Secret Key">' +
-                '<input type="text" class="input-xlarge rpc-path" value="' + parseUrl(rpc_list[i]['url'])[0] + '" placeholder="RPC URL ∗">' +
-                '<input type="text" class="input-medium location" value="' + (rpc_list[i]['location'] || "") + '" placeholder="Download Location">' + addBtnOrPattern +
+                '<input type="text" class="input-small" value="' + rpcList[i]['name'] + '" placeholder="Name ∗">' +
+                '<input type="password" class="input-medium secretKey" value="' + Utils.parseUrl(rpcList[i]['url'])[1] + '" placeholder="Secret Key">' +
+                '<input type="text" class="input-xlarge rpc-path" value="' + Utils.parseUrl(rpcList[i]['url'])[0] + '" placeholder="RPC URL ∗">' +
+                '<input type="text" class="input-medium location" value="' + (rpcList[i]['location'] || "") + '" placeholder="Download Location">' + addBtnOrPattern +
                 '</div>' +
                 '</div>';
-            if ($(".rpc_list").length > 0) {
-                $(row).insertAfter($(".rpc_list").eq(i - 1));
+            if ($(".rpc-list").length > 0) {
+                $(row).insertAfter($(".rpc-list").eq(i - 1));
             } else {
                 $(row).insertAfter($("fieldset").children().eq(2));
             }
@@ -74,7 +55,7 @@ var config =
             $("#allowed-exts").val(Configs.allowedExts.join("\n"));
         }
         $("#add-rpc").off().on("click", function () {
-            var rpc_form = '<div class="control-group rpc_list">' +
+            var rpc_form = '<div class="control-group rpc-list">' +
                 '<label class="control-label text-info "></label>' +
                 '<div class="controls">' +
                 '<input type="text" class="input-small"  placeholder="Name ∗">' +
@@ -84,7 +65,7 @@ var config =
                 '<input type="text" class="input-large rpc-url-pattern" placeholder="URL Pattern(s) splitted by ,">' +
                 '</div>' +
                 '</div>';
-            $(rpc_form).insertAfter($(".rpc_list")[$(".rpc_list").length - 1]);
+            $(rpc_form).insertAfter($(".rpc-list")[$(".rpc-list").length - 1]);
         });
         $("#uploadConfig").off().on("click", function () {
             config.uploadConfig();
@@ -108,10 +89,10 @@ var config =
     save: function () {
         Configs.rpcList = [];
         var rpcUrl = null;
-        for (var i = 0; i < $(".rpc_list").length; i++) {
-            var child = $(".rpc_list").eq(i).children().eq(1).children();
+        for (var i = 0; i < $(".rpc-list").length; i++) {
+            var child = $(".rpc-list").eq(i).children().eq(1).children();
             if (child.eq(0).val() != "" && child.eq(2).val() != "") {
-                rpcUrl = combineUrl(child.eq(1).val(), child.eq(2).val());
+                rpcUrl = Utils.combineUrl(child.eq(1).val(), child.eq(2).val());
                 Configs.rpcList.push({
                     "name": child.eq(0).val(),
                     "url": rpcUrl,
@@ -274,36 +255,6 @@ function localizeHtmlPage() {
             obj.innerHTML = valNewH;
         }
     }
-}
-
-function parseUrl(rpcUrl) {
-    var url = null;
-    var urlPath = null;
-    var secretKey = null;
-    try {
-        url = new URL(rpcUrl);
-        urlPath = url.origin + url.pathname;
-        secretKey = decodeURIComponent(url.password);
-    } catch (error) {
-        console.warn('Stored Rpc Url is invalid! RpcUrl ="' + rpcUrl + '"');
-        return ["", ""];
-    }
-    return [urlPath, secretKey];
-}
-
-function combineUrl(secretKey, rpcUrl) {
-    var url = null;
-    try {
-        url = new URL(rpcUrl);
-        if (secretKey && secretKey != "") {
-            url.username = "token";
-            url.password = encodeURIComponent(secretKey);
-        }
-    } catch (error) {
-        console.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');
-        return null;
-    }
-    return url.toString();
 }
 
 /**
