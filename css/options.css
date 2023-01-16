@@ -1,5 +1,6 @@
 body {
   background-color: #f4f4f4;
+  font-size: .85rem;
 }
 
 #logo {
@@ -8,8 +9,23 @@ body {
   text-shadow: 0 0 20px gray;
 }
 
+.navbar-inner {
+  min-height: 40px;
+  padding-right: 20px;
+  padding-left: 20px;
+  background-image: linear-gradient(to bottom, #fff, #f2f2f2);
+  background-repeat: repeat-x;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065)
+}
+
+.container {
+  max-width: 1200px;
+}
+
 legend {
-  margin-bottom: 0px;
+  margin: 1.5rem;
 }
 
 fieldset {
@@ -20,6 +36,7 @@ fieldset {
 
 textarea {
   width: 100%;
+  font-size: .85rem !important;
 }
 
 .rpc-path {
@@ -38,17 +55,31 @@ textarea {
   margin-left: 8px;
 }
 
-.control-label {
+.text-info {
   font-weight: bold;
+  text-align: right;
+}
+
+.form-check, .form-check-inline {
+  cursor: pointer;
 }
 
 #add-rpc {
   margin-left: 8px;
 }
 
+.btn {
+  font-size: .85rem!important;
+}
+
+.alert {
+  padding: .25rem .5rem;
+  margin-bottom: 0;
+}
+
 .footer {
   position: fixed;
-  padding: 12px;
+  padding: .5rem;
   bottom: 0;
   width: 100%;
   background-color: #f5f5f5;
@@ -58,10 +89,19 @@ textarea {
   text-shadow: 0 0 15px black;
 }
 
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+}
+
 #copyright {
   line-height: 30px;
 }
 
 #acknowledgment {
   line-height: 30px;
+}
+
+#rate {
+  margin-left: -8rem;
 }

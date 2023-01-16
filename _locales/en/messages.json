@@ -132,16 +132,16 @@
       "message":"Invalid or empty local config data, still continue?"
    },
    "uploadConfigSucceed":{
-      "message":"Upload config successful"
+      "message":"Configs upload successful"
    },
    "uploadConfigFailed":{
-      "message":"Upload config failed: "
+      "message":"Configs upload failed: "
    },
    "downloadConfigSucceed":{
-      "message":"Download config successful"
+      "message":"Configs download successful"
    },
    "downloadConfigFailed":{
-      "message":"Download config failed: Data invalid or network disconnected "
+      "message":"Configs download failed: Data invalid or network disconnected."
    },
    "download":{
       "message":"Download"

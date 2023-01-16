@@ -8,7 +8,7 @@
     content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, width=device-width">
   <link href="images/favicon.ico" rel="shortcut icon" type="image/ico" />
   <link href="css/bootstrap.min.css" rel="stylesheet" />
-  <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <link href="css/bootstrap-icons.css" rel="stylesheet" />
   <link href="css/options.css" rel="stylesheet" />
 </head>
 
@@ -19,146 +19,160 @@
     </div>
   </nav>
   <div class="container">
-    <div class="form-horizontal">
-      <fieldset>
-        <legend></legend>
-        <div class="control-group">
-          <label class="control-label text-info" for="contextMenus"><i class="icon-th-list"></i> __MSG_contextmenuStr__</label>
-          <div class="controls">
-            <label class="checkbox">
-              <input type="checkbox" id="contextMenus">
-              __MSG_contextmenuDes__
-            </label>
+    <fieldset>
+      <legend></legend>
+      <div class="form-group row">
+        <label class="col-sm-2 text-info"><i class="bi-menu-button-wide"></i>
+          __MSG_contextmenuStr__</label>
+        <div class="col-sm-10">
+          <label class="form-check" for="contextMenus">
+            <input class="form-check-input" type="checkbox" id="contextMenus">
+            __MSG_contextmenuDes__
+          </label>
+          <label class="form-check" for="askBeforeExport">
+            <input class="form-check-input" type="checkbox" id="askBeforeExport">
+            __MSG_askBeforeExportDes__
+          </label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 text-info"><i class="bi-box-arrow-in-down"></i>
+          __MSG_downloadCaptureStr__</label>
+        <div class="col-sm-10">
+
+          <label class="form-check-inline">
+            <input class="form-check-input" type="checkbox" id="integration">
+            __MSG_downloadCaptureDes__
+            <input type="text" class="form-control form-control-sm col-2" placeholder="File Size" id="fileSize">
+            <span class="input-group-text form-control-sm">MB</span>
+          </label>
+
+          <label class="form-check">
+            <input class="form-check-input" type="checkbox" id="askBeforeDownload">
+            __MSG_askBeforeDownloadDes__
+          </label>
+
+          <label class="form-check">
+            <input class="form-check-input" type="checkbox" id="allowExternalRequest">
+            __MSG_allowExternalRequestDes__
+          </label>
+
+          <label class="form-check">
+            <input class="form-check-input" type="checkbox" id="monitorAria2">
+            __MSG_monitorAria2Str__
+          </label>
+
+          <label class="form-check">
+            <input class="form-check-input" type="checkbox" id="allowNotification">
+            __MSG_allowNotificationDes__
+          </label>
+
+          <label class="form-check">
+            <input class="form-check-input" type="checkbox" id="captureMagnet">
+            __MSG_captureMagnetDes__ <em>(__MSG_captureMagnetWarn__)</em>
+          </label>
+
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 text-info"><i class="bi-columns-gap"></i>
+          __MSG_WebUIOpenStyleStr__</label>
+        <div class="col-sm-10">
+          <label class="form-check">
+            <input class="form-check-input" type="radio" id="popup" name="webui-open-style" value="popup">
+            __MSG_WebUIOpenStyle1__
+          </label>
+          <label class="form-check">
+            <input class="form-check-input" type="radio" id="tab" name="webui-open-style" value="tab">
+            __MSG_WebUIOpenStyle2__
+          </label>
+          <label class="form-check">
+            <input class="form-check-input" type="radio" id="window" name="webui-open-style" value="window">
+            __MSG_WebUIOpenStyle3__
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 text-info"><i class="bi-filetype-mp4"></i> __MSG_fileExtStr__</label>
+        <div class="col-sm-10 row">
+          <div class="col-sm-4">
+            <label for="allowed-exts">__MSG_whiteListStr__</label>
+            <textarea class="form-control" rows="8" id="allowed-exts"
+              placeholder="__MSG_allowedExtsPlaceholderDes__"></textarea>
           </div>
-          <div class="controls">
-            <label class="checkbox">
-              <input type="checkbox" id="askBeforeExport">
-              __MSG_askBeforeExportDes__
-            </label>
+          <div class="col-sm-4">
+            <label for="blocked-exts">__MSG_blackListStr__</label>
+            <textarea class="form-control" rows="8" id="blocked-exts"
+              placeholder="__MSG_blockedExtsPlaceholderDes__"></textarea>
           </div>
         </div>
-        <div class="control-group">
-          <label class="control-label text-info" for="integration"><i class="icon-download-alt"></i> __MSG_downloadCaptureStr__</label>
-          <div class="controls">
+      </div>
 
-            <label class="checkbox">
-              <input type="checkbox" id="integration">
-              __MSG_downloadCaptureDes__
-              <input type="text" class="input-mini" placeholder="File Size" id="fileSize">
-              MB
-            </label>
-
-            <label class="checkbox">
-              <input type="checkbox" id="askBeforeDownload">
-              __MSG_askBeforeDownloadDes__
-            </label>
-
-            <label class="checkbox">
-              <input type="checkbox" id="allowExternalRequest">
-              __MSG_allowExternalRequestDes__
-            </label>
-
-            <label class="checkbox">
-              <input type="checkbox" id="monitorAria2">
-              __MSG_monitorAria2Str__
-            </label>
-
-            <label class="checkbox">
-              <input type="checkbox" id="allowNotification">
-              __MSG_allowNotificationDes__
-            </label>
-
-            <label class="checkbox">
-              <input type="checkbox" id="captureMagnet">
-              __MSG_captureMagnetDes__ <em>(__MSG_captureMagnetWarn__)</em>
-            </label>
-
+      <div class="form-group row">
+        <label class="col-sm-2 text-info"><i class="bi-globe"></i> __MSG_websiteStr__</label>
+        <div class="col-sm-10 row">
+          <div class="col-sm-5">
+            <label for="allowed-sites">__MSG_whiteListStr__</label>
+            <textarea class="form-control" rows="6" id="allowed-sites"
+              placeholder="__MSG_allowedSitesPlaceholderDes__"></textarea>
+          </div>
+          <div class="col-sm-5">
+            <label for="blocked-sites">__MSG_blackListStr__</label>
+            <textarea class="form-control" rows="6" id="blocked-sites"
+              placeholder="__MSG_blockedSitesPlaceholderDes__"></textarea>
           </div>
         </div>
+      </div>
 
-        <div class="control-group">
-          <label class="control-label text-info" for="webui-open-style"><i class="icon-th-large"></i> __MSG_WebUIOpenStyleStr__</label>
-          <div class="controls">
-            <label class="radio">
-              <input type="radio" id="popup" name="webui-open-style" value="popup"> __MSG_WebUIOpenStyle1__
-            </label>
-            <label class="radio">
-              <input type="radio" id="tab" name="webui-open-style" value="tab"> __MSG_WebUIOpenStyle2__
-            </label>
-            <label class="radio">
-              <input type="radio" id="window" name="webui-open-style" value="window"> __MSG_WebUIOpenStyle3__
-            </label>
-          </div>
+      <div class="form-group row">
+        <label class="col-sm-2 text-info"><i class="bi-repeat"></i>
+          __MSG_configCloudSync__</label>
+        <div class="col-sm-auto">
+          <button class="btn btn-primary mx-1" id="uploadConfig"><i class="bi-arrow-up-circle"></i>
+            __MSG_upload__</button>
+          <button class="btn btn-primary mx-1" id="downloadConfig"><i class="bi-arrow-down-circle"></i>
+            __MSG_download__</button>
+          <em>(__MSG_configCloudSyncDes__)</em>
         </div>
-
-        <div class="control-group">
-          <label class="control-label text-info"><i class="icon-file"></i> __MSG_fileExtStr__</label>
-          <div class="controls row-fluid">
-            <div class="span3">
-              <label for="allowed-exts">__MSG_whiteListStr__</label>
-              <textarea rows="8" id="allowed-exts" placeholder="__MSG_allowedExtsPlaceholderDes__"></textarea>
-            </div>
-            <div class="span3">
-              <label for="blocked-exts">__MSG_blackListStr__</label>
-              <textarea rows="8" id="blocked-exts" placeholder="__MSG_blockedExtsPlaceholderDes__"></textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label class="control-label text-info"><i class="icon-globe"></i> __MSG_websiteStr__</label>
-          <div class="controls row-fluid">
-            <div class="controls span4">
-              <label for="allowed-sites">__MSG_whiteListStr__</label>
-              <textarea rows="6" id="allowed-sites" placeholder="__MSG_allowedSitesPlaceholderDes__"></textarea>
-            </div>
-            <div class="controls span4">
-              <label for="blocked-sites">__MSG_blackListStr__</label>
-              <textarea rows="6" id="blocked-sites" placeholder="__MSG_blockedSitesPlaceholderDes__"></textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label class="control-label text-info" for="config-sync"><i class="icon-retweet"></i> __MSG_configCloudSync__</label>
-          <div class="controls">
-            <button class="btn" id="uploadConfig"><i class="icon-arrow-up"></i> __MSG_upload__</button>
-            <button class="btn" id="downloadConfig"><i class="icon-arrow-down"></i> __MSG_download__</button>
-            <em>(__MSG_configCloudSyncDes__)</em>
-            <div class="label" id="sync-result"></div>
-          </div>
-        </div>        
-      </fieldset>
-    </div>
+        <div class="col-sm-auto alert" id="sync-result"></div>
+      </div>
+    </fieldset>
   </div>
 
   <footer class="footer">
-    <div class="row-fluid">
-      <span class="span2"></span>
+    <div class="footer-content">
+      <div class="container footer-content">
+        <span class= "bi-c-circle"id="copyright">
+          <a target="_blank" href="https://www.github.com/alexhua/aria2-for-chrome">
+             Copyright 2023 Alex Hua
+          </a>
+        </span>
   
-      <span class="span2" id="copyright">© Copyleft Alex Hua</span>
+        <span class="text-center">
+          <button type="btn" class="btn btn-success mr-5" id="save"><i class="bi-check-circle"></i>
+            __MSG_Save__</button>
+          <button type="btn" class="btn btn-warning mx-5" id="reset"><i class="bi-x-circle"></i>
+            __MSG_Reset__</button>
+        </span>
   
-      <span class="span4 text-center">
-        <button type="btn" class="btn btn-success " id="save"><i class="icon-ok-sign icon-white"></i>
-          __MSG_Save__</button>
-        <button type="btn" class="btn btn-warning offset2" id="reset"><i class="icon-remove-sign icon-white"></i>
-          __MSG_Reset__</button>
-      </span>
+        <span class="text-right" id="acknowledgment">
+          <a href="acknowledgment.txt">
+            <i class="bi-lightbulb"></i> __MSG_Acknowledgment__</a>
+        </span>
   
-      <span class="span2 text-right" id="acknowledgment">
-        <a href="acknowledgment.txt">__MSG_Acknowledgment__</a>
-      </span>
-  
-      <span class="span2 text-center">
+      </div>
+      <span id="rate" class="text-center">
         <a class="btn btn-primary" href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn"
           target="_blank">
-          <i class="icon-thumbs-up icon-white"></i> __MSG_reviewDes__
+          <i class="bi-hand-thumbs-up"></i> __MSG_reviewDes__
         </a>
       </span>
     </div>
   </footer>
 
-  <script src="js/jquery-3.5.0.min.js"></script>
+  <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/options.js" type="module"></script>
 </body>

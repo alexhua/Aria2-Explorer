@@ -1,39 +1,40 @@
 import Utils from "./utils.js";
-import Configs from "./config.js";
+import Default from "./config.js";
 
-var config =
+var Configs =
 {
     init: async function () {
         localizeHtmlPage();
         let configs = await chrome.storage.local.get();
+        Object.assign(Configs, Default);
         Object.assign(Configs, configs);
 
         $('input[type=checkbox]').prop("checked", false);
         $("#contextMenus").prop('checked', Configs.contextMenus);
         $("#askBeforeExport").prop('checked', Configs.askBeforeExport);
         $("#integration").prop('checked', Configs.integration);
+        $("#fileSize").val(Configs.fileSize);
         $("#askBeforeDownload").prop('checked', Configs.askBeforeDownload);
         $("#allowExternalRequest").prop('checked', Configs.allowExternalRequest);
         $("#monitorAria2").prop('checked', Configs.monitorAria2);
         $("#allowNotification").prop('checked', Configs.allowNotification);
         $("#captureMagnet").prop('checked', Configs.captureMagnet);
         $(`#${Configs.webUIOpenStyle}`).prop('checked', true);
-
-        $("#fileSize").val(Configs.fileSize);
+        
         if ($(".rpc-list").length !== 0) {
             $(".rpc-list").remove();
         }
         var rpcList = Configs.rpcList || [{ "name": "ARIA2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }];
         for (var i in rpcList) {
-            var addBtnOrPattern = i == 0 ? '<button class="btn" id="add-rpc"><i class="icon-plus-sign"></i> Add RPC</button>' :
-                `<input type="text" class="input-large rpc-url-pattern" value="${rpcList[i]['pattern'] || ''}" placeholder="URL Pattern(s) splitted by ,">`;
-            var row = '<div class="control-group rpc-list">' +
-                '<label class="control-label text-info">' + (i == 0 ? '<i class="icon-tasks"></i> Aria2-RPC-Server' : '') + '</label>' +
-                '<div class="controls">' +
-                '<input type="text" class="input-small" value="' + rpcList[i]['name'] + '" placeholder="Name ∗">' +
-                '<input type="password" class="input-medium secretKey" value="' + Utils.parseUrl(rpcList[i]['url'])[1] + '" placeholder="Secret Key">' +
-                '<input type="text" class="input-xlarge rpc-path" value="' + Utils.parseUrl(rpcList[i]['url'])[0] + '" placeholder="RPC URL ∗">' +
-                '<input type="text" class="input-medium location" value="' + (rpcList[i]['location'] || "") + '" placeholder="Download Location">' + addBtnOrPattern +
+            var addBtnOrPattern = i == 0 ? '<button class="btn btn-primary" id="add-rpc"><i class="bi-plus-circle"></i> Add RPC</button>' :
+                `<input type="text" class="form-control col-sm-3 rpc-url-pattern" value="${rpcList[i]['pattern'] || ''}" placeholder="URL Pattern(s) splitted by ,">`;
+            var row = '<div class="form-group row rpc-list">' +
+                '<label class="col-form-label col-sm-2 text-info">' + (i == 0 ? '<i class="bi-hdd-network"></i> Aria2-RPC-Server' : '') + '</label>' +
+                '<div class="input-group col-sm-10">' +
+                '<input type="text" class="form-control col-sm-1" value="' + rpcList[i]['name'] + '" placeholder="Name ∗">' +
+                '<input type="password" class="form-control col-sm-2 secretKey" value="' + Utils.parseUrl(rpcList[i]['url'])[1] + '" placeholder="Secret Key">' +
+                '<input type="text" class="form-control col-sm-4 rpc-path" value="' + Utils.parseUrl(rpcList[i]['url'])[0] + '" placeholder="RPC URL ∗">' +
+                '<input type="text" class="form-control col-sm-2 location" value="' + (rpcList[i]['location'] || "") + '" placeholder="Download Location">' + addBtnOrPattern +
                 '</div>' +
                 '</div>';
             if ($(".rpc-list").length > 0) {
@@ -55,36 +56,33 @@ var config =
             $("#allowed-exts").val(Configs.allowedExts.join("\n"));
         }
         $("#add-rpc").off().on("click", function () {
-            var rpc_form = '<div class="control-group rpc-list">' +
-                '<label class="control-label text-info "></label>' +
-                '<div class="controls">' +
-                '<input type="text" class="input-small"  placeholder="Name ∗">' +
-                '<input type="text" class="input-medium secretKey"  placeholder="Secret Key">' +
-                '<input type="text" class="input-xlarge rpc-path"  placeholder="RPC URL ∗">' +
-                '<input type="text" class="input-medium location"  placeholder="Download Location">' +
-                '<input type="text" class="input-large rpc-url-pattern" placeholder="URL Pattern(s) splitted by ,">' +
+            var rpcForm = '<div class="form-group row rpc-list">' +
+                '<label class="col-form-label col-sm-2 text-info "></label>' +
+                '<div class="input-group col-sm-10">' +
+                '<input type="text" class="form-control col-sm-1" placeholder="Name ∗">' +
+                '<input type="text" class="form-control col-sm-2 secretKey"  placeholder="Secret Key">' +
+                '<input type="text" class="form-control col-sm-4 rpc-path"  placeholder="RPC URL ∗">' +
+                '<input type="text" class="form-control col-sm-2 location"  placeholder="Download Location">' +
+                '<input type="text" class="form-control col-sm-3 rpc-url-pattern" placeholder="URL Pattern(s) splitted by ,">' +
                 '</div>' +
                 '</div>';
-            $(rpc_form).insertAfter($(".rpc-list")[$(".rpc-list").length - 1]);
+            $(rpcForm).insertAfter($(".rpc-list")[$(".rpc-list").length - 1]);
         });
         $("#uploadConfig").off().on("click", function () {
-            config.uploadConfig();
+            Configs.uploadConfig();
         });
         $("#downloadConfig").off().on("click", function () {
-            config.downloadConfig();
+            Configs.downloadConfig();
         });
         $("#save").off().on("click", function () {
-            config.save();
+            Configs.save();
         });
         $("#reset").off().on("click", function () {
-            config.reset();
+            Configs.reset();
         });
     },
     reset: async function () {
-        toggleMagnetHandler(false);
-        // localStorage.clear();
         await chrome.storage.local.clear();
-        config.init()
     },
     save: function () {
         Configs.rpcList = [];
@@ -111,7 +109,6 @@ var config =
         Configs.monitorAria2 = $("#monitorAria2").prop('checked');
         Configs.allowNotification = $("#allowNotification").prop('checked');
         Configs.captureMagnet = $("#captureMagnet").prop('checked');
-        toggleMagnetHandler(Configs.captureMagnet);
 
         if ($("#popup").prop('checked') == true) {
             Configs.webUIOpenStyle = $("#popup").val();
@@ -173,27 +170,25 @@ var config =
         chrome.storage.sync.set(Configs).then(() => {
             if (chrome.runtime.lastError) {
                 var str = chrome.i18n.getMessage("uploadConfigFailed");
-                config.displaySyncResult(str + chrome.runtime.lastError.message, "label-important");
+                Configs.displaySyncResult(str + chrome.runtime.lastError.message, "alert-danger");
             } else {
                 var str = chrome.i18n.getMessage("uploadConfigSucceed");
-                config.displaySyncResult(str, "label-success");
+                Configs.displaySyncResult(str, "alert-success");
             }
         });
     },
     downloadConfig: function () {
-        chrome.storage.sync.get().then(configs => {
-            if (configs && configs.hasOwnProperty()) {
+        chrome.storage.sync.get().then(async configs => {
+            if (configs && configs.hasOwnProperty("ariaNgOptions")) {
                 if (configs.ariaNgOptions) {
                     localStorage.setItem("AriaNg.Options", configs.ariaNgOptions);
                 }
-                Object.assign(Configs, configs)
-                config.init();
-                toggleMagnetHandler(Configs.captureMagnet);
-                var str = chrome.i18n.getMessage("downloadConfigSucceed");
-                config.displaySyncResult(str, "label-success");
+                await chrome.storage.local.set(configs);
+                let str = chrome.i18n.getMessage("downloadConfigSucceed");
+                Configs.displaySyncResult(str, "alert-success");
             } else {
-                var str = chrome.i18n.getMessage("downloadConfigFailed");
-                config.displaySyncResult(str, "label-important");
+                let str = chrome.i18n.getMessage("downloadConfigFailed");
+                Configs.displaySyncResult(str, "alert-danger");
             }
         });
     },
@@ -207,12 +202,12 @@ var config =
     }
 };
 
-window.onload = config.init;
+window.onload = Configs.init;
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName == "local") {
-        config.init();
-        if (changes.rpcList) {
+        Configs.init();
+        if (changes.rpcList && changes.rpcList.newValue) {
             let str = chrome.i18n.getMessage("OverwriteAriaNgRpcWarn");
             if (confirm(str)) {
                 let ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);
@@ -220,22 +215,24 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
                 localStorage["AriaNg.Options"] = JSON.stringify(newAriaNgOptions);
             }
         }
+        if (changes.captureMagnet)
+            toggleMagnetHandler(changes.captureMagnet.newValue);
     }    
 });
 
 window.onkeyup = function (e) {
     if (e.altKey) {
         if (e.key == 's') {
-            config.save();
+            Configs.save();
         } else if (e.key == 'r') {
             if (confirm("Clear all local settings?")) {
-                config.reset();
+                Configs.reset();
             };
         } else if (e.key == 'u') {
-            config.uploadConfig();
+            Configs.uploadConfig();
 
         } else if (e.key == 'j') {
-            config.downloadConfig();
+            Configs.downloadConfig();
         }
     }
 }
@@ -260,14 +257,13 @@ function localizeHtmlPage() {
 /**
  * toggle magnet protocol handler before changing the captureMagnet storage value
  *
- * @param {boolean} flag new value
+ * @param {boolean} flag Set true to register, false to unregister
  */
 function toggleMagnetHandler(flag) {
     var magnetPage = chrome.runtime.getURL("magnet.html") + "?action=magnet&url=%s";
-    var captureMagnet = localStorage.getItem("captureMagnet") || "false";
-    if (flag && captureMagnet == "false") {
+    if (flag) {
         navigator.registerProtocolHandler("magnet", magnetPage, "Capture Magnet");
-    } else if (!flag && captureMagnet == "true") {
+    } else {
         navigator.unregisterProtocolHandler("magnet", magnetPage);
     }
 }
