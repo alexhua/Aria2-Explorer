@@ -584,11 +584,32 @@ function registerAllListeners() {
 
     chrome.runtime.onInstalled.addListener(function (details) {
         let optionsUrl = chrome.runtime.getURL("options.html");
+        let manifest = chrome.runtime.getManifest();
         if (details.reason == "install") {
             chrome.tabs.create({
                 url: optionsUrl
             });
+        } else if (details.reason == "update") {
+            chrome.storage.local.get("rpcList").then(configs => {
+                if (!configs.rpcList) {
+                    /* Old local storage should be upgraded to Chrome storage */
+                    chrome.tabs.create({
+                        url: optionsUrl + "?action=upgrade-storage"
+                    });
+                }
+            })
+            /* new version update notification */
+            let opt = {
+                type: "basic",
+                title: "New Version",
+                message: `${manifest.name} has updated to v${manifest.version}`,
+                iconUrl: "images/logo64.png",
+                requireInteraction: false
+            };
+            let id = new Date().getTime().toString();
+            showNotification(id, opt);
         }
+        chrome.storage.local.set({ version: manifest.version })
     });
 
     /* receive request from other extension */
@@ -632,21 +653,6 @@ function init() {
     createContextMenu();
     Configs.integration ? enableCapture() : disableCapture();
     Configs.monitorAria2 ? enableMonitor() : disableMonitor();
-
-    //软件版本更新提示
-    var manifest = chrome.runtime.getManifest();
-    if (Configs.version !== manifest.version) {
-        var opt = {
-            type: "basic",
-            title: "更新",
-            message: "\n支持在弹出窗口中打开AriaNG。",
-            iconUrl: "images/logo64.png",
-            requireInteraction: true
-        };
-        var id = new Date().getTime().toString();
-        //showNotification(id, opt);
-        chrome.storage.local.set({ version: manifest.version })
-    }
 }
 
 /* Listen to the local storage changes from options page */

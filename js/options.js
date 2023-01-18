@@ -5,11 +5,15 @@ var Configs =
 {
     init: async function () {
         localizeHtmlPage();
+        if (location.search.endsWith("upgrade-storage"))
+           await upgradeStorage();
         let configs = await chrome.storage.local.get();
         Object.assign(Configs, Default);
         Object.assign(Configs, configs);
 
-        $('input[type=checkbox]').prop("checked", false);
+        $("input[type=checkbox]").prop("checked", false);
+        $("textarea").val("");
+
         $("#contextMenus").prop('checked', Configs.contextMenus);
         $("#askBeforeExport").prop('checked', Configs.askBeforeExport);
         $("#integration").prop('checked', Configs.integration);
@@ -82,7 +86,10 @@ var Configs =
         });
     },
     reset: async function () {
+        localStorage.clear();
         await chrome.storage.local.clear();
+        let manifest = chrome.runtime.getManifest();
+        chrome.storage.local.set({ version: manifest.version })
     },
     save: function () {
         Configs.rpcList = [];
@@ -239,12 +246,10 @@ window.onkeyup = function (e) {
 
 function localizeHtmlPage() {
     //Localize by replacing __MSG_***__ meta tags
-    var objects = document.getElementsByTagName('html');
-    for (var j = 0; j < objects.length; j++) {
-        var obj = objects[j];
-
-        var valStrH = obj.innerHTML.toString();
-        var valNewH = valStrH.replace(/__MSG_(\w+)__/g, function (match, v1) {
+    let objects = document.getElementsByTagName('html');
+    for (const obj of objects) {
+        let valStrH = obj.innerHTML.toString();
+        let valNewH = valStrH.replace(/__MSG_(\w+)__/g, function (match, v1) {
             return v1 ? chrome.i18n.getMessage(v1) : "";
         });
 
@@ -260,10 +265,49 @@ function localizeHtmlPage() {
  * @param {boolean} flag Set true to register, false to unregister
  */
 function toggleMagnetHandler(flag) {
-    var magnetPage = chrome.runtime.getURL("magnet.html") + "?action=magnet&url=%s";
+    let magnetPage = chrome.runtime.getURL("magnet.html") + "?action=magnet&url=%s";
     if (flag) {
         navigator.registerProtocolHandler("magnet", magnetPage, "Capture Magnet");
     } else {
         navigator.unregisterProtocolHandler("magnet", magnetPage);
     }
+}
+
+/**
+ * Migrate extension settings from web local storage to Chrome local storage
+ */
+async function upgradeStorage() {
+    let configs = await chrome.storage.local.get("rpcList");
+    if (configs.rpcList) return;
+    let convertList = {
+        white_site: "allowedSites",
+        black_site: "blockedSites",
+        white_ext: "allowedExts",
+        black_ext: "blockedExts",
+        rpc_list: "rpcList",
+        newwindow: "window",
+        newtab: "tab"
+    }
+    for (let [k, v] of Object.entries(localStorage)) {
+        if (convertList[k])
+            k = convertList[k]
+
+        if (convertList[v])
+            v = convertList[v]
+
+        if (k.startsWith("AriaNg"))
+            continue;
+
+        if (v == "true")
+            configs[k] = true;
+        else if (v == "false")
+            configs[k] = false;
+        else if (/\[.*\]|\{.*\}/.test(v))
+            configs[k] = JSON.parse(v);
+        else
+            configs[k] = v;
+    }
+    chrome.storage.local.set(configs).then(
+        () => console.log("Storage upgrade completed.")
+    );
 }
