@@ -94,6 +94,23 @@ textarea {
   justify-content: space-between;
 }
 
+.bi-c-circle::before,
+.bi-check-circle::before,
+.bi-x-circle::before,
+.bi-lightbulb::before,
+.bi-hand-thumbs-up::before {
+  transition: transform ease-in-out .5s;
+  transform: rotateY(0deg);
+}
+
+.bi-c-circle:hover::before,
+.btn-success:focus .bi-check-circle::before,
+.btn-warning:focus .bi-x-circle::before,
+a:hover>.bi-lightbulb::before,
+.btn-primary:hover .bi-hand-thumbs-up::before {
+  transform: rotateY(360deg) scale3d(1.2, 1.2, 1);
+}
+
 #copyright {
   line-height: 30px;
 }

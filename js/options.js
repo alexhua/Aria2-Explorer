@@ -229,18 +229,24 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 window.onkeyup = function (e) {
     if (e.altKey) {
+        let button;
         if (e.key == 's') {
             Configs.save();
+            button = document.getElementById("save");
         } else if (e.key == 'r') {
             if (confirm("Clear all local settings?")) {
                 Configs.reset();
+                button = document.getElementById("reset");
             };
         } else if (e.key == 'u') {
             Configs.uploadConfig();
-
+            button = document.getElementById("uploadConfig");
+            
         } else if (e.key == 'j') {
             Configs.downloadConfig();
+            button = document.getElementById("downloadConfig");
         }
+        button?.focus({ focusVisible: true });
     }
 }
 
