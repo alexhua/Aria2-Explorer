@@ -63,9 +63,9 @@ var Configs =
             var rpcForm = '<div class="form-group row rpc-list">' +
                 '<label class="col-form-label col-sm-2 text-info "></label>' +
                 '<div class="input-group col-sm-10">' +
-                '<input type="text" class="form-control col-sm-1" placeholder="Name ∗">' +
+                '<input type="text" class="form-control col-sm-1" placeholder="Name ∗" required>' +
                 '<input type="text" class="form-control col-sm-2 secretKey"  placeholder="Secret Key">' +
-                '<input type="text" class="form-control col-sm-4 rpc-path"  placeholder="RPC URL ∗">' +
+                '<input type="text" class="form-control col-sm-4 rpc-path"  placeholder="RPC URL ∗" required>' +
                 '<input type="text" class="form-control col-sm-2 location"  placeholder="Download Location">' +
                 '<input type="text" class="form-control col-sm-3 rpc-url-pattern" placeholder="URL Pattern(s) splitted by ,">' +
                 '</div>' +
@@ -84,6 +84,9 @@ var Configs =
         $("#reset").off().on("click", function () {
             Configs.reset();
         });
+        $("form").off().on("submit", function (event) {
+            event.preventDefault();
+        })
     },
     reset: async function () {
         localStorage.clear();

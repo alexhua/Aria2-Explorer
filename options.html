@@ -18,8 +18,8 @@
       <div id="logo"><img src="images/logo64.png"> __MSG_configPageTitle__</div>
     </div>
   </nav>
-  <div class="container">
-    <fieldset>
+  <form>
+    <fieldset class="container">
       <legend></legend>
       <div class="form-group row">
         <label class="col-sm-2 text-info"><i class="bi-menu-button-wide"></i>
@@ -139,38 +139,38 @@
         <div class="col-sm-auto alert" id="sync-result"></div>
       </div>
     </fieldset>
-  </div>
 
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="container footer-content">
-        <span class= "bi-c-circle"id="copyright">
-          <a target="_blank" href="https://www.github.com/alexhua/aria2-for-chrome">
-             Copyright 2023 Alex Hua
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="container footer-content">
+          <span class="bi-c-circle" id="copyright">
+            <a target="_blank" href="https://www.github.com/alexhua/aria2-for-chrome">
+              Copyright 2023 Alex Hua
+            </a>
+          </span>
+
+          <span class="text-center">
+            <button class="btn btn-success mr-5" id="save"><i class="bi-check-circle"></i>
+              __MSG_Save__</button>
+            <button class="btn btn-warning mx-5" id="reset"><i class="bi-x-circle"></i>
+              __MSG_Reset__</button>
+          </span>
+
+          <span class="text-right" id="acknowledgment">
+            <a href="acknowledgment.txt">
+              <i class="bi-lightbulb"></i> __MSG_Acknowledgment__</a>
+          </span>
+
+        </div>
+        <span id="rate" class="text-center">
+          <a class="btn btn-primary" href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn"
+            target="_blank">
+            <i class="bi-hand-thumbs-up"></i> __MSG_reviewDes__
           </a>
         </span>
-  
-        <span class="text-center">
-          <button type="btn" class="btn btn-success mr-5" id="save"><i class="bi-check-circle"></i>
-            __MSG_Save__</button>
-          <button type="btn" class="btn btn-warning mx-5" id="reset"><i class="bi-x-circle"></i>
-            __MSG_Reset__</button>
-        </span>
-  
-        <span class="text-right" id="acknowledgment">
-          <a href="acknowledgment.txt">
-            <i class="bi-lightbulb"></i> __MSG_Acknowledgment__</a>
-        </span>
-  
       </div>
-      <span id="rate" class="text-center">
-        <a class="btn btn-primary" href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn"
-          target="_blank">
-          <i class="bi-hand-thumbs-up"></i> __MSG_reviewDes__
-        </a>
-      </span>
-    </div>
-  </footer>
+    </footer>
+  </form>
 
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
