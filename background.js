@@ -609,7 +609,6 @@ function registerAllListeners() {
             let id = new Date().getTime().toString();
             showNotification(id, opt);
         }
-        chrome.storage.local.set({ version: manifest.version })
     });
 
     /* receive request from other extension */

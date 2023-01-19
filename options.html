@@ -4,8 +4,7 @@
 <head>
   <meta charset=utf-8 />
   <title>__MSG_configPageTitle__</title>
-  <meta name="viewport"
-    content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, width=device-width">
+  <meta name="viewport" content="initial-scale=1, width=device-width">
   <link href="images/favicon.ico" rel="shortcut icon" type="image/ico" />
   <link href="css/bootstrap.min.css" rel="stylesheet" />
   <link href="css/bootstrap-icons.css" rel="stylesheet" />
@@ -26,11 +25,11 @@
           __MSG_contextmenuStr__</label>
         <div class="col-sm-10">
           <label class="form-check" for="contextMenus">
-            <input class="form-check-input" type="checkbox" id="contextMenus">
+            <input class="form-check-input" type="checkbox" id="contextMenus" name="contextMenus">
             __MSG_contextmenuDes__
           </label>
           <label class="form-check" for="askBeforeExport">
-            <input class="form-check-input" type="checkbox" id="askBeforeExport">
+            <input class="form-check-input" type="checkbox" id="askBeforeExport" name="askBeforeExport">
             __MSG_askBeforeExportDes__
           </label>
         </div>
@@ -41,34 +40,34 @@
         <div class="col-sm-10">
 
           <label class="form-check-inline">
-            <input class="form-check-input" type="checkbox" id="integration">
+            <input class="form-check-input" type="checkbox" id="integration" name="integration">
             __MSG_downloadCaptureDes__
-            <input type="text" class="form-control form-control-sm col-2" placeholder="File Size" id="fileSize">
+            <input type="text" class="form-control form-control-sm col-2" placeholder="File Size" id="fileSize" name="fileSize">
             <span class="input-group-text form-control-sm">MB</span>
           </label>
 
           <label class="form-check">
-            <input class="form-check-input" type="checkbox" id="askBeforeDownload">
+            <input class="form-check-input" type="checkbox" id="askBeforeDownload" name="askBeforeDownload">
             __MSG_askBeforeDownloadDes__
           </label>
 
           <label class="form-check">
-            <input class="form-check-input" type="checkbox" id="allowExternalRequest">
+            <input class="form-check-input" type="checkbox" id="allowExternalRequest" name="allowExternalRequest">
             __MSG_allowExternalRequestDes__
           </label>
 
           <label class="form-check">
-            <input class="form-check-input" type="checkbox" id="monitorAria2">
+            <input class="form-check-input" type="checkbox" id="monitorAria2" name="monitorAria2">
             __MSG_monitorAria2Str__
           </label>
 
           <label class="form-check">
-            <input class="form-check-input" type="checkbox" id="allowNotification">
+            <input class="form-check-input" type="checkbox" id="allowNotification" name="allowNotification">
             __MSG_allowNotificationDes__
           </label>
 
           <label class="form-check">
-            <input class="form-check-input" type="checkbox" id="captureMagnet">
+            <input class="form-check-input" type="checkbox" id="captureMagnet" name="captureMagnet">
             __MSG_captureMagnetDes__ <em>(__MSG_captureMagnetWarn__)</em>
           </label>
 
@@ -80,15 +79,15 @@
           __MSG_WebUIOpenStyleStr__</label>
         <div class="col-sm-10">
           <label class="form-check">
-            <input class="form-check-input" type="radio" id="popup" name="webui-open-style" value="popup">
+            <input class="form-check-input" type="radio" id="popup" name="webUIOpenStyle" value="popup">
             __MSG_WebUIOpenStyle1__
           </label>
           <label class="form-check">
-            <input class="form-check-input" type="radio" id="tab" name="webui-open-style" value="tab">
+            <input class="form-check-input" type="radio" id="tab" name="webUIOpenStyle" value="tab">
             __MSG_WebUIOpenStyle2__
           </label>
           <label class="form-check">
-            <input class="form-check-input" type="radio" id="window" name="webui-open-style" value="window">
+            <input class="form-check-input" type="radio" id="window" name="webUIOpenStyle" value="window">
             __MSG_WebUIOpenStyle3__
           </label>
         </div>
@@ -99,12 +98,12 @@
         <div class="col-sm-10 row">
           <div class="col-sm-4">
             <label for="allowed-exts">__MSG_whiteListStr__</label>
-            <textarea class="form-control" rows="8" id="allowed-exts"
+            <textarea class="form-control" rows="8" id="allowedExts" name="allowedExts"
               placeholder="__MSG_allowedExtsPlaceholderDes__"></textarea>
           </div>
           <div class="col-sm-4">
             <label for="blocked-exts">__MSG_blackListStr__</label>
-            <textarea class="form-control" rows="8" id="blocked-exts"
+            <textarea class="form-control" rows="8" id="blockedExts" name="blockedExts"
               placeholder="__MSG_blockedExtsPlaceholderDes__"></textarea>
           </div>
         </div>
@@ -115,12 +114,12 @@
         <div class="col-sm-10 row">
           <div class="col-sm-5">
             <label for="allowed-sites">__MSG_whiteListStr__</label>
-            <textarea class="form-control" rows="6" id="allowed-sites"
+            <textarea class="form-control" rows="6" id="allowedSites" name="allowedSites"
               placeholder="__MSG_allowedSitesPlaceholderDes__"></textarea>
           </div>
           <div class="col-sm-5">
             <label for="blocked-sites">__MSG_blackListStr__</label>
-            <textarea class="form-control" rows="6" id="blocked-sites"
+            <textarea class="form-control" rows="6" id="blockedSites" name="blockedSites"
               placeholder="__MSG_blockedSitesPlaceholderDes__"></textarea>
           </div>
         </div>

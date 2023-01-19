@@ -10,7 +10,6 @@ var Configs = {
     allowNotification: false,
     captureMagnet: false,
     rpcList: [{ "name": "Aria2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }],
-    version: "",
     webUIOpenStyle: "window",
     allowedSites: "",
     blockedSites: "",

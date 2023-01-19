@@ -171,6 +171,6 @@
       "message":"致谢"
    },
    "OverwriteAriaNgRpcWarn":{
-      "message":"导出所有RPC设置到AriaNG并覆盖？"
+      "message":"RPC设置已更改，同步更改到AriaNG？"
    }
 }

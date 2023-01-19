@@ -171,6 +171,6 @@
       "message":"Acknowledgment"
    },
    "OverwriteAriaNgRpcWarn":{
-      "message":"Export all RPC settings to AriaNG and overwrite it?"
+      "message":"RPC settings have changed. Synchronize these changes to AriaNG?"
    }
 }

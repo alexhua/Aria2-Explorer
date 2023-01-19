@@ -4,27 +4,33 @@ import Default from "./config.js";
 var Configs =
 {
     init: async function () {
-        localizeHtmlPage();
+        Utils.localizeHtmlPage();
         if (location.search.endsWith("upgrade-storage"))
-           await upgradeStorage();
+            await upgradeStorage();
         let configs = await chrome.storage.local.get();
         Object.assign(Configs, Default);
         Object.assign(Configs, configs);
 
         $("input[type=checkbox]").prop("checked", false);
+        $("input[type=text]").val("");
         $("textarea").val("");
-
-        $("#contextMenus").prop('checked', Configs.contextMenus);
-        $("#askBeforeExport").prop('checked', Configs.askBeforeExport);
-        $("#integration").prop('checked', Configs.integration);
-        $("#fileSize").val(Configs.fileSize);
-        $("#askBeforeDownload").prop('checked', Configs.askBeforeDownload);
-        $("#allowExternalRequest").prop('checked', Configs.allowExternalRequest);
-        $("#monitorAria2").prop('checked', Configs.monitorAria2);
-        $("#allowNotification").prop('checked', Configs.allowNotification);
-        $("#captureMagnet").prop('checked', Configs.captureMagnet);
         $(`#${Configs.webUIOpenStyle}`).prop('checked', true);
-        
+
+        for (const checkbox of $("input[type=checkbox]")) {
+            if (Configs[checkbox.id])
+                checkbox.checked = Configs[checkbox.id];
+        }
+
+        for (const input of $("input[type=text]")) {
+            if (Configs[input.id])
+                input.value = Configs[input.id];
+        }
+
+        for (const textarea of $("textarea")) {
+            if (Configs[textarea.id])
+                textarea.value = Configs[textarea.id].join("\n");
+        }
+
         if ($(".rpc-list").length !== 0) {
             $(".rpc-list").remove();
         }
@@ -47,18 +53,7 @@ var Configs =
                 $(row).insertAfter($("fieldset").children().eq(2));
             }
         }
-        if (Configs.blockedSites) {
-            $("#blocked-sites").val(Configs.blockedSites.join("\n"));
-        }
-        if (Configs.allowedSites) {
-            $("#allowed-sites").val(Configs.allowedSites.join("\n"));
-        }
-        if (Configs.blockedExts) {
-            $("#blocked-exts").val(Configs.blockedExts.join("\n"));
-        }
-        if (Configs.allowedExts) {
-            $("#allowed-exts").val(Configs.allowedExts.join("\n"));
-        }
+
         $("#add-rpc").off().on("click", function () {
             var rpcForm = '<div class="form-group row rpc-list">' +
                 '<label class="col-form-label col-sm-2 text-info "></label>' +
@@ -72,18 +67,12 @@ var Configs =
                 '</div>';
             $(rpcForm).insertAfter($(".rpc-list")[$(".rpc-list").length - 1]);
         });
-        $("#uploadConfig").off().on("click", function () {
-            Configs.uploadConfig();
-        });
-        $("#downloadConfig").off().on("click", function () {
-            Configs.downloadConfig();
-        });
-        $("#save").off().on("click", function () {
-            Configs.save();
-        });
-        $("#reset").off().on("click", function () {
-            Configs.reset();
-        });
+
+        for (const button of $("button")) {
+            if (Configs[button.id] || !button.onclick)
+                button.onclick = Configs[button.id];
+        }
+        /* prevent page from refresh when submit*/
         $("form").off().on("submit", function (event) {
             event.preventDefault();
         })
@@ -91,8 +80,6 @@ var Configs =
     reset: async function () {
         localStorage.clear();
         await chrome.storage.local.clear();
-        let manifest = chrome.runtime.getManifest();
-        chrome.storage.local.set({ version: manifest.version })
     },
     save: function () {
         Configs.rpcList = [];
@@ -110,61 +97,31 @@ var Configs =
             }
         }
 
-        Configs.contextMenus = $("#contextMenus").prop('checked');
-        Configs.askBeforeExport = $("#askBeforeExport").prop('checked');
-        Configs.integration = $("#integration").prop('checked');
-        Configs.fileSize = parseInt($("#fileSize").val());
-        Configs.askBeforeDownload = $("#askBeforeDownload").prop('checked');
-        Configs.allowExternalRequest = $("#allowExternalRequest").prop('checked');
-        Configs.monitorAria2 = $("#monitorAria2").prop('checked');
-        Configs.allowNotification = $("#allowNotification").prop('checked');
-        Configs.captureMagnet = $("#captureMagnet").prop('checked');
-
-        if ($("#popup").prop('checked') == true) {
-            Configs.webUIOpenStyle = $("#popup").val();
-            var index = chrome.runtime.getURL('ui/ariang/popup.html');
-            chrome.action.setPopup({
-                popup: index
-            });
-        } else if ($("#tab").prop('checked') == true) {
-            Configs.webUIOpenStyle = $("#tab").val();
-            chrome.action.setPopup({
-                popup: ''
-            });
-        } else if ($("#window").prop('checked') == true) {
-            Configs.webUIOpenStyle = $("#window").val();
-            chrome.action.setPopup({
-                popup: ''
-            });
+        for (const checkbox of $("input[type=checkbox]")) {
+            if (Configs.hasOwnProperty(checkbox.id))
+                Configs[checkbox.id] = checkbox.checked;
+        }
+        for (const input of $("input[type=text]")) {
+            if (Configs.hasOwnProperty(input.id))
+                Configs[input.id] = input.value;
         }
 
-        Configs.blockedSites = $("#blocked-sites").val().split("\n");
-        let tempSet = new Set(Configs.blockedSites);
-        // clear the repeat record using Set object
-        if (tempSet.has(""))
-            tempSet.delete("");
-        Configs.blockedSites = Array.from(tempSet);
+        let url = '';
+        Configs.webUIOpenStyle = $("[name=webUIOpenStyle]:checked").val();
+        if (Configs.webUIOpenStyle == "popup") {
+            url = chrome.runtime.getURL("ui/ariang/popup.html");
+        }
+        chrome.action.setPopup({
+            popup: url
+        });
 
-        Configs.allowedSites = $("#allowed-sites").val().split("\n");
-        tempSet = new Set(Configs.allowedSites);
-        // clear the repeat record using Set object
-        if (tempSet.has(""))
+        for (const textarea of $("textarea")) {
+            Configs[textarea.id] = textarea.value.split("\n");
+            // clear the repeat record using Set object
+            let tempSet = new Set(Configs[textarea.id]);
             tempSet.delete("");
-        Configs.allowedSites = Array.from(tempSet);
-
-        Configs.blockedExts = $("#blocked-exts").val().split("\n");
-        tempSet = new Set(Configs.blockedExts);
-        // clear the repeat record using Set object
-        if (tempSet.has(""))
-            tempSet.delete("");
-        Configs.blockedExts = Array.from(tempSet);
-
-        Configs.allowedExts = $("#allowed-exts").val().split("\n");
-        tempSet = new Set(Configs.allowedExts);
-        // clear the repeat record using Set object
-        if (tempSet.has(""))
-            tempSet.delete("");
-        Configs.allowedExts = Array.from(tempSet);
+            Configs[textarea.id] = Array.from(tempSet);
+        }
         chrome.storage.local.set(Configs);
     },
     uploadConfig: function () {
@@ -172,7 +129,7 @@ var Configs =
         Configs.ariaNgOptions = localStorage.getItem("AriaNg.Options");
 
         //check the validity of RPC list
-        if (!Configs.rpcList) {
+        if (!Configs.rpcList || !Configs.rpcList.length) {
             let str = chrome.i18n.getMessage("uploadConfigWarn");
             if (!confirm(str))
                 return;
@@ -227,7 +184,7 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
         }
         if (changes.captureMagnet)
             toggleMagnetHandler(changes.captureMagnet.newValue);
-    }    
+    }
 });
 
 window.onkeyup = function (e) {
@@ -244,27 +201,12 @@ window.onkeyup = function (e) {
         } else if (e.key == 'u') {
             Configs.uploadConfig();
             button = document.getElementById("uploadConfig");
-            
+
         } else if (e.key == 'j') {
             Configs.downloadConfig();
             button = document.getElementById("downloadConfig");
         }
         button?.focus({ focusVisible: true });
-    }
-}
-
-function localizeHtmlPage() {
-    //Localize by replacing __MSG_***__ meta tags
-    let objects = document.getElementsByTagName('html');
-    for (const obj of objects) {
-        let valStrH = obj.innerHTML.toString();
-        let valNewH = valStrH.replace(/__MSG_(\w+)__/g, function (match, v1) {
-            return v1 ? chrome.i18n.getMessage(v1) : "";
-        });
-
-        if (valNewH != valStrH) {
-            obj.innerHTML = valNewH;
-        }
     }
 }
 
