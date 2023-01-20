@@ -139,7 +139,7 @@ class Utils {
             }
         } catch (error) {
             console.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');
-            return null;
+            return '';
         }
         return url.toString();
     }
@@ -152,11 +152,32 @@ class Utils {
             let valNewH = valStrH.replace(/__MSG_(\w+)__/g, function (match, v1) {
                 return v1 ? chrome.i18n.getMessage(v1) : "";
             });
-    
+
             if (valNewH != valStrH) {
                 obj.innerHTML = valNewH;
             }
         }
+    }
+
+    static validateFilePath(filePath) {
+        let regexp = ''
+        if (navigator.userAgentData.platform == "Windows")
+            regexp = /^([a-zA-Z]:\\)([-\u4e00-\u9fa5\w\s.()~!@#$%^&()\[\]{}+=]+\\?)*$/;
+        else
+            regexp = /^\/([-\u4e00-\u9fa5\w\s.()~!@#$%^&()\[\]{}+=]+\/?)*$/;
+        return regexp.test(filePath);
+    }
+
+    static validateRpcUrl(rpcUrl) {
+        try {
+            var url = new URL(rpcUrl);
+        } catch (error) {
+            return false;
+        }
+        if (url.pathname.length < 2) return false;
+        if (!/^(http|ws)s?:$/.test(url.protocol)) return false;
+
+        return true;
     }
 }
 

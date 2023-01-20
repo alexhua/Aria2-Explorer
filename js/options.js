@@ -12,7 +12,7 @@ var Configs =
         Object.assign(Configs, configs);
 
         $("input[type=checkbox]").prop("checked", false);
-        $("input[type=text]").val("");
+        $("input[type=text],input[type=number]").val("");
         $("textarea").val("");
         $(`#${Configs.webUIOpenStyle}`).prop('checked', true);
 
@@ -21,7 +21,7 @@ var Configs =
                 checkbox.checked = Configs[checkbox.id];
         }
 
-        for (const input of $("input[type=text]")) {
+        for (const input of $("input[type=text],input[type=number]")) {
             if (Configs[input.id])
                 input.value = Configs[input.id];
         }
@@ -31,42 +31,61 @@ var Configs =
                 textarea.value = Configs[textarea.id].join("\n");
         }
 
-        if ($(".rpc-list").length !== 0) {
-            $(".rpc-list").remove();
+        if ($(".rpcGroup").length !== 0) {
+            $(".rpcGroup").remove();
         }
-        var rpcList = Configs.rpcList || [{ "name": "ARIA2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }];
-        for (var i in rpcList) {
-            var addBtnOrPattern = i == 0 ? '<button class="btn btn-primary" id="add-rpc"><i class="bi-plus-circle"></i> Add RPC</button>' :
-                `<input type="text" class="form-control col-sm-3 rpc-url-pattern" value="${rpcList[i]['pattern'] || ''}" placeholder="URL Pattern(s) splitted by ,">`;
-            var row = '<div class="form-group row rpc-list">' +
-                '<label class="col-form-label col-sm-2 text-info">' + (i == 0 ? '<i class="bi-hdd-network"></i> Aria2-RPC-Server' : '') + '</label>' +
-                '<div class="input-group col-sm-10">' +
-                '<input type="text" class="form-control col-sm-1" value="' + rpcList[i]['name'] + '" placeholder="Name ∗">' +
-                '<input type="password" class="form-control col-sm-2 secretKey" value="' + Utils.parseUrl(rpcList[i]['url'])[1] + '" placeholder="Secret Key">' +
-                '<input type="text" class="form-control col-sm-4 rpc-path" value="' + Utils.parseUrl(rpcList[i]['url'])[0] + '" placeholder="RPC URL ∗">' +
-                '<input type="text" class="form-control col-sm-2 location" value="' + (rpcList[i]['location'] || "") + '" placeholder="Download Location">' + addBtnOrPattern +
-                '</div>' +
-                '</div>';
-            if ($(".rpc-list").length > 0) {
-                $(row).insertAfter($(".rpc-list").eq(i - 1));
-            } else {
-                $(row).insertAfter($("fieldset").children().eq(2));
+        const rpcList = Configs.rpcList && Configs.rpcList.length ? Configs.rpcList
+            : [{ "name": "Aria2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }];
+
+        const addBtnOrPattern = (i) => {
+            return i == 0 ? `<button class="btn btn-primary" id="add-rpc"><i class="bi-plus-circle"></i> Add RPC</button>` :
+                `<input type="text" class="form-control col-sm-3 pattern" placeholder="URL Pattern(s) splitted by ,">`;
+        };
+        const rpcInputGroup = (i) => {
+            return `<div class="form-group row rpcGroup">` +
+                `<label class="col-form-label col-sm-2 text-info">` + (i == 0 ? `<i class="bi-hdd-network"></i> Aria2-RPC-Server` : '') + `</label>` +
+                `<div class="input-group col-sm-10">` +
+                `<input type="text" class="form-control col-sm-1 name" placeholder="Name ∗" required>` +
+                `<input type="password" class="form-control col-sm-2 secretKey" placeholder="Secret Key">` +
+                `<input type="url" class="form-control col-sm-4 rpcUrl" placeholder="RPC URL ∗" required>` +
+                `<input type="text" class="form-control col-sm-2 location" placeholder="Download Location">` + addBtnOrPattern(i) +
+                `</div>` +
+                `</div>`;
+        };
+        const validate = (event) => {
+            const validator = { "url": Utils.validateRpcUrl, "text": Utils.validateFilePath };
+            const input = event.target;
+            input.classList.remove("is-invalid");
+            input.classList.remove("is-valid");
+            if (validator[input.type](input.value)) {
+                input.classList.add("is-valid");
             }
+            else if (input.value) {
+                input.classList.add("is-invalid");
+            }
+        };
+        
+        for (const i in rpcList) {
+            $("#rpcList").append(rpcInputGroup(i));
+        }
+        for (const i in rpcList) {
+            $(".name")[i].value = rpcList[i].name;
+            $(".secretKey")[i].value = Utils.parseUrl(rpcList[i].url)[1];
+            $(".rpcUrl")[i].value = Utils.parseUrl(rpcList[i].url)[0];
+            $(".location")[i].value = rpcList[i].location || '';
+            if (i != 0)
+                $(".pattern")[i - 1].value = rpcList[i].pattern || '';
         }
 
         $("#add-rpc").off().on("click", function () {
-            var rpcForm = '<div class="form-group row rpc-list">' +
-                '<label class="col-form-label col-sm-2 text-info "></label>' +
-                '<div class="input-group col-sm-10">' +
-                '<input type="text" class="form-control col-sm-1" placeholder="Name ∗" required>' +
-                '<input type="text" class="form-control col-sm-2 secretKey"  placeholder="Secret Key">' +
-                '<input type="text" class="form-control col-sm-4 rpc-path"  placeholder="RPC URL ∗" required>' +
-                '<input type="text" class="form-control col-sm-2 location"  placeholder="Download Location">' +
-                '<input type="text" class="form-control col-sm-3 rpc-url-pattern" placeholder="URL Pattern(s) splitted by ,">' +
-                '</div>' +
-                '</div>';
-            $(rpcForm).insertAfter($(".rpc-list")[$(".rpc-list").length - 1]);
+            let newInput = rpcInputGroup(rpcList.length).replace("password", "text");
+            $("#rpcList").append(newInput);
+            $(".rpcGroup:last-child .rpcUrl").on("input", validate);
+            $(".rpcGroup:last-child .location").on("input", validate);
         });
+
+        $(".rpcGroup .rpcUrl").off().on("input", validate);
+        $(".rpcGroup .location").off().on("input", validate);
 
         for (const button of $("button")) {
             if (Configs[button.id] || !button.onclick)
@@ -83,16 +102,16 @@ var Configs =
     },
     save: function () {
         Configs.rpcList = [];
-        var rpcUrl = null;
-        for (var i = 0; i < $(".rpc-list").length; i++) {
-            var child = $(".rpc-list").eq(i).children().eq(1).children();
-            if (child.eq(0).val() != "" && child.eq(2).val() != "") {
-                rpcUrl = Utils.combineUrl(child.eq(1).val(), child.eq(2).val());
+        let rpcUrl = '';
+        let location = '';
+        for (const i in $(".rpcGroup")) {
+            if ($(".name")[i].value && $(".rpcUrl")[i].value) {
+                rpcUrl = Utils.combineUrl($(".secretKey")[i].value, $(".rpcUrl")[i].value);
                 Configs.rpcList.push({
-                    "name": child.eq(0).val(),
+                    "name": $(".name")[i].value,
                     "url": rpcUrl,
-                    "location": child.eq(3).val(),
-                    "pattern": child.eq(4).val()
+                    "location": $(".location")[i].value,
+                    "pattern": i == 0 ? '' : $(".pattern")[i - 1].value
                 });
             }
         }
@@ -101,7 +120,7 @@ var Configs =
             if (Configs.hasOwnProperty(checkbox.id))
                 Configs[checkbox.id] = checkbox.checked;
         }
-        for (const input of $("input[type=text]")) {
+        for (const input of $("input[type=text],input[type=number]")) {
             if (Configs.hasOwnProperty(input.id))
                 Configs[input.id] = input.value;
         }

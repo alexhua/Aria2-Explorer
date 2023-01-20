@@ -39,22 +39,6 @@ textarea {
   font-size: .85rem !important;
 }
 
-.rpc-path {
-  margin-left: 8px;
-}
-
-.rpc-url-pattern {
-  margin-left: 8px;
-}
-
-.secretKey {
-  margin-left: 8px;
-}
-
-.location {
-  margin-left: 8px;
-}
-
 .text-info {
   font-weight: bold;
   text-align: right;
@@ -65,7 +49,7 @@ textarea {
 }
 
 #add-rpc {
-  margin-left: 8px;
+  margin-left: .5rem;
 }
 
 .btn {
