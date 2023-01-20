@@ -24,7 +24,7 @@
       "message":"下载拦截"
    },
    "downloadCaptureDes":{
-      "message":"自动拦截下载任务到Aria2，当文件大小 ≥"
+      "message":"自动拦截下载任务到Aria2，当文件大小"
    },
    "askBeforeDownloadDes":{
       "message":"自动下载前询问参数设置"

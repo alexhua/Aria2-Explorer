@@ -1,6 +1,6 @@
 body {
   background-color: #f4f4f4;
-  font-size: .85rem;
+  font-size: .875rem;
 }
 
 #logo {
@@ -30,13 +30,8 @@ legend {
 
 fieldset {
   background-color: white;
-  margin-top: 10px;
-  margin-bottom: 70px;
-}
-
-textarea {
-  width: 100%;
-  font-size: .85rem !important;
+  margin-top: .6rem;
+  margin-bottom: 4rem;
 }
 
 .text-info {
@@ -44,7 +39,17 @@ textarea {
   text-align: right;
 }
 
-.form-check, .form-check-inline {
+.custom-switch {
+  min-height: 2rem;
+}
+
+.custom-control-inline {
+  align-items: center;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+input[type=radio], input + label {
   cursor: pointer;
 }
 
@@ -52,8 +57,8 @@ textarea {
   margin-left: .5rem;
 }
 
-.btn {
-  font-size: .85rem!important;
+.form-control, .btn, .input-group-text, textarea {
+  font-size: .875rem !important;
 }
 
 .alert {

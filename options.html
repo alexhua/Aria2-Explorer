@@ -24,53 +24,63 @@
         <label class="col-sm-2 text-info"><i class="bi-menu-button-wide"></i>
           __MSG_contextmenuStr__</label>
         <div class="col-sm-10">
-          <label class="form-check" for="contextMenus">
-            <input class="form-check-input" type="checkbox" id="contextMenus" name="contextMenus">
-            __MSG_contextmenuDes__
-          </label>
-          <label class="form-check" for="askBeforeExport">
-            <input class="form-check-input" type="checkbox" id="askBeforeExport" name="askBeforeExport">
-            __MSG_askBeforeExportDes__
-          </label>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="contextMenus">
+            <label class="custom-control-label" for="contextMenus">__MSG_contextmenuDes__</label>
+          </div>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="askBeforeExport">
+            <label class="custom-control-label" for="askBeforeExport">__MSG_askBeforeExportDes__</label>
+          </div>
         </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-2 text-info"><i class="bi-box-arrow-in-down"></i>
           __MSG_downloadCaptureStr__</label>
         <div class="col-sm-10">
-
-          <label class="form-check-inline">
-            <input class="form-check-input" type="checkbox" id="integration" name="integration">
-            __MSG_downloadCaptureDes__
-            <input type="number" min="0" class="form-control form-control-sm col-2" id="fileSize" name="fileSize" required>
-            <span class="input-group-text form-control-sm">MB</span>
-          </label>
-
-          <label class="form-check">
-            <input class="form-check-input" type="checkbox" id="askBeforeDownload" name="askBeforeDownload">
-            __MSG_askBeforeDownloadDes__
-          </label>
-
-          <label class="form-check">
-            <input class="form-check-input" type="checkbox" id="allowExternalRequest" name="allowExternalRequest">
-            __MSG_allowExternalRequestDes__
-          </label>
-
-          <label class="form-check">
-            <input class="form-check-input" type="checkbox" id="monitorAria2" name="monitorAria2">
-            __MSG_monitorAria2Str__
-          </label>
-
-          <label class="form-check">
-            <input class="form-check-input" type="checkbox" id="allowNotification" name="allowNotification">
-            __MSG_allowNotificationDes__
-          </label>
-
-          <label class="form-check">
-            <input class="form-check-input" type="checkbox" id="captureMagnet" name="captureMagnet">
-            __MSG_captureMagnetDes__ <em>(__MSG_captureMagnetWarn__)</em>
-          </label>
-
+          <div class="input-group custom-control-inline custom-switch">
+            <input class="custom-control-input" type="checkbox" id="integration">
+            <label class="custom-control-label" for="integration">
+              __MSG_downloadCaptureDes__
+            </label>
+            <div class="input-group-prepend">
+              <span class="input-group-text form-control-sm">≥</span>
+            </div>
+            <input type="number" min="0" class="form-control form-control-sm col-1" id="fileSize" required>
+            <div class="input-group-append">
+              <span class="input-group-text form-control-sm">MB</span>
+            </div>
+          </div>
+          <div class="custom-control custom-switch">
+            <input class="custom-control-input" type="checkbox" id="askBeforeDownload">
+            <label class="custom-control-label" for="askBeforeDownload">
+              __MSG_askBeforeDownloadDes__
+            </label>
+          </div>
+          <div class="custom-control custom-switch">
+            <input class="custom-control-input" type="checkbox" id="allowExternalRequest">
+            <label class="custom-control-label" for="allowExternalRequest">
+              __MSG_allowExternalRequestDes__
+            </label>
+          </div>
+          <div class="custom-control custom-switch">
+            <input class="custom-control-input" type="checkbox" id="monitorAria2">
+            <label class="custom-control-label" for="monitorAria2">
+              __MSG_monitorAria2Str__
+            </label>
+          </div>
+          <div class="custom-control custom-switch">
+            <input class="custom-control-input" type="checkbox" id="allowNotification">
+            <label class="custom-control-label" for="allowNotification">
+              __MSG_allowNotificationDes__
+            </label>
+          </div>
+          <div class="custom-control custom-switch">
+            <input class="custom-control-input" type="checkbox" id="captureMagnet">
+            <label class="custom-control-label" for="captureMagnet">
+              __MSG_captureMagnetDes__ <em>(__MSG_captureMagnetWarn__)</em>
+            </label>
+          </div>
         </div>
       </div>
       <div id="rpcList">
@@ -79,18 +89,24 @@
         <label class="col-sm-2 text-info"><i class="bi-columns-gap"></i>
           __MSG_WebUIOpenStyleStr__</label>
         <div class="col-sm-10">
-          <label class="form-check">
+          <div class="form-check">
             <input class="form-check-input" type="radio" id="popup" name="webUIOpenStyle" value="popup">
-            __MSG_WebUIOpenStyle1__
-          </label>
-          <label class="form-check">
+            <label for="popup">
+              __MSG_WebUIOpenStyle1__
+            </label>
+          </div>
+          <div class="form-check">
             <input class="form-check-input" type="radio" id="tab" name="webUIOpenStyle" value="tab">
-            __MSG_WebUIOpenStyle2__
-          </label>
-          <label class="form-check">
+            <label for="tab">
+              __MSG_WebUIOpenStyle2__
+            </label>
+          </div>
+          <div class="form-check">
             <input class="form-check-input" type="radio" id="window" name="webUIOpenStyle" value="window">
-            __MSG_WebUIOpenStyle3__
-          </label>
+            <label for="window">
+              __MSG_WebUIOpenStyle3__
+            </label>
+          </div>
         </div>
       </div>
 
@@ -115,12 +131,12 @@
         <div class="col-sm-10 row">
           <div class="col-sm-5">
             <label for="allowed-sites">__MSG_whiteListStr__</label>
-            <textarea class="form-control" rows="6" id="allowedSites" name="allowedSites"
+            <textarea class="form-control" rows="7" id="allowedSites" name="allowedSites"
               placeholder="__MSG_allowedSitesPlaceholderDes__"></textarea>
           </div>
           <div class="col-sm-5">
             <label for="blocked-sites">__MSG_blackListStr__</label>
-            <textarea class="form-control" rows="6" id="blockedSites" name="blockedSites"
+            <textarea class="form-control" rows="7" id="blockedSites" name="blockedSites"
               placeholder="__MSG_blockedSitesPlaceholderDes__"></textarea>
           </div>
         </div>

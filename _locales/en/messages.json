@@ -24,7 +24,7 @@
       "message":"Download Capture"
    },
    "downloadCaptureDes":{
-      "message":"Enable auto capture when download file size ≥"
+      "message":"Enable auto capture when download file size"
    },
    "askBeforeDownloadDes":{
       "message":"Ask detail settings before auto download"
