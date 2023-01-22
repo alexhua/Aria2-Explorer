@@ -22,6 +22,7 @@ body {
 
 .container {
   max-width: 1200px;
+  border-radius: 5px;
 }
 
 legend {

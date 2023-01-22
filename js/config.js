@@ -1,4 +1,4 @@
-var Configs = {
+const Configs = {
     ariaNgOptions: "",
     contextMenus: false,
     askBeforeExport: false,

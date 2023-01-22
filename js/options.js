@@ -8,8 +8,7 @@ var Configs =
         if (location.search.endsWith("upgrade-storage"))
             await upgradeStorage();
         let configs = await chrome.storage.local.get();
-        Object.assign(Configs, Default);
-        Object.assign(Configs, configs);
+        Object.assign(Configs, Default, configs);
 
         $("input[type=checkbox]").prop("checked", false);
         $("input[type=text],input[type=number]").val("");
@@ -125,14 +124,7 @@ var Configs =
                 Configs[input.id] = input.value;
         }
 
-        let url = '';
         Configs.webUIOpenStyle = $("[name=webUIOpenStyle]:checked").val();
-        if (Configs.webUIOpenStyle == "popup") {
-            url = chrome.runtime.getURL("ui/ariang/popup.html");
-        }
-        chrome.action.setPopup({
-            popup: url
-        });
 
         for (const textarea of $("textarea")) {
             Configs[textarea.id] = textarea.value.split("\n");

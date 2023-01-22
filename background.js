@@ -7,12 +7,7 @@ var MonitorRate = 3000; // Aria2 monitor interval 3000ms
 
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload)
 
-/* Load configs and initialize extension*/
-chrome.storage.local.get().then((configs) => {
-    Object.assign(Configs, configs);
-    init();    
-});
-
+init();
 registerAllListeners();
 
 async function doRPC(request) {
@@ -178,7 +173,7 @@ function enableCapture() {
             '256': "images/logo256.png"
         }
     });
-    chrome.storage.local.set({ integration: true });
+    Configs.integration = true;
     chrome.contextMenus.update("captureDownload", { checked: true });
 }
 
@@ -194,7 +189,7 @@ function disableCapture() {
             '256': "images/logo256-gray.png"
         }
     });
-    chrome.storage.local.set({ integration: false });
+    Configs.integration = false;
     chrome.contextMenus.update("captureDownload", { checked: false });
 }
 
@@ -220,7 +215,7 @@ async function captureDownload(downloadItem, suggest) {
             let rpc = getRpcServer(downloadItem.url);
             let ret = await send2Aria(rpc, downloadItem);
             if (ret == "FAIL") {
-                disableCapture();
+                chrome.storage.local.set({ integration: false });
                 chrome.downloads.download({ url: downloadItem.url });
                 setTimeout(enableCapture, 3000);
             }
@@ -365,18 +360,10 @@ function onMenuClick(info, tab) {
 
     if (info.menuItemId == "openWebUI") {
         launchUI();
-    } else if (info.menuItemId == "captureDownload") {
-        if (info.checked) {
-            enableCapture();
-        } else {
-            disableCapture();
-        }
-    } else if (info.menuItemId == "monitorAria2") {
-        if (info.checked) {
-            enableMonitor();
-        } else {
-            disableMonitor();
-        }
+    } else if (info.menuItemId == "captureDownload") {    
+        chrome.storage.local.set({ integration: info.checked })        
+    } else if (info.menuItemId == "monitorAria2") { 
+        chrome.storage.local.set({ monitorAria2: info.checked })
     } else if (info.menuItemId == "updateBlackSite") {
         updateBlockedSites(tab);
         updateOptionMenu(tab);
@@ -467,7 +454,7 @@ function enableMonitor() {
     }
     monitorAria2();
     MonitorId = setInterval(monitorAria2, MonitorRate);
-    chrome.storage.local.set({ monitorAria2: true })
+    Configs.monitorAria2 = true;
     chrome.contextMenus.update("monitorAria2", { checked: true });
 }
 
@@ -476,7 +463,7 @@ function disableMonitor() {
     MonitorId = -1;
     chrome.action.setBadgeText({ text: "" });
     chrome.action.setTitle({ title: "" });
-    chrome.storage.local.set({ monitorAria2: false })
+    Configs.monitorAria2 = false;
     chrome.contextMenus.update("monitorAria2", { checked: false });
     if (Configs.integration && !isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.addListener(captureDownload);
@@ -577,8 +564,8 @@ function registerAllListeners() {
 
     chrome.commands.onCommand.addListener(function (command) {
         if (command === "toggle-capture") {
-            Configs.integration ? disableCapture() : enableCapture();
-            chrome.storage.local.set({ integration: !Configs.integration })
+            Configs.integration = !Configs.integration;
+            chrome.storage.local.set({ integration: Configs.integration })
         }
     });
 
@@ -637,52 +624,38 @@ function registerAllListeners() {
             send2Aria(rpc, downloadItem);
         }
     );
+    /* Listen to the setting changes from options menu and page to control the extension behaviors */
+    chrome.storage.onChanged.addListener(function (changes, area) {
+        if (area !== "local") return;
+        let needReInit = changes.rpcList || changes.contextMenus || changes.askBeforeExport
+            || changes.integration || changes.monitorAria2 || changes.captureMagnet || changes.webUIOpenStyle;
+        if (needReInit) {
+            init();
+        } else {
+            for (const [key, { oldValue, newValue }] of Object.entries(changes)) {      
+                Configs[key] = newValue;
+            }
+        }
+    });
 }
 
 /* init popup url, context menu, download capture and aria2 monitor */
 function init() {
-    if (Configs.webUIOpenStyle == "popup") {
-        var index = chrome.runtime.getURL('ui/ariang/popup.html');
-        chrome.action.setPopup({
-            popup: index
-        });
-    }
-    chrome.contextMenus.removeAll();
-    createOptionMenu();
-    createContextMenu();
-    Configs.integration ? enableCapture() : disableCapture();
-    Configs.monitorAria2 ? enableMonitor() : disableMonitor();
-}
-
-/* Listen to the local storage changes from options page */
-chrome.storage.onChanged.addListener(function (changes, area) {
-    //console.log(se);
-    if (area !== "local") return;
     chrome.storage.local.get().then((configs) => {
         Object.assign(Configs, configs);
-        for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-            if (newValue == null) {
-                chrome.contextMenus.removeAll();
-                createOptionMenu();
-                disableCapture();
-                disableMonitor();
-                return
-            }
-            if (key == "contextMenus" || key == "askBeforeExport" || key == "rpcList") {
-                chrome.contextMenus.removeAll();
-                createOptionMenu();
-                createContextMenu();
-            }
-            if (key == "integration")
-                newValue ? enableCapture() : disableCapture();
-
-            if (key == "monitorAria2")
-                newValue ? enableMonitor() : disableMonitor();
-
-            if (key == "captureMagnet") {
-                let url = newValue ? "https://github.com/alexhua/Aria2-for-chrome/issues/98" : "";
-                chrome.runtime.setUninstallURL(url);
-            }
+        let url = '';
+        if (Configs.webUIOpenStyle == "popup") {
+            url = chrome.runtime.getURL('ui/ariang/popup.html');
         }
+        chrome.action.setPopup({
+            popup: url
+        });
+        chrome.contextMenus.removeAll();
+        createOptionMenu();
+        createContextMenu();
+        Configs.integration ? enableCapture() : disableCapture();
+        Configs.monitorAria2 ? enableMonitor() : disableMonitor();
+        url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-for-chrome/issues/98" : '';
+        chrome.runtime.setUninstallURL(url);
     });
-});
+}
