@@ -69,8 +69,8 @@ var Configs =
         }
         for (const i in rpcList) {
             $(".name")[i].value = rpcList[i].name;
-            $(".secretKey")[i].value = Utils.parseUrl(rpcList[i].url)[1];
-            $(".rpcUrl")[i].value = Utils.parseUrl(rpcList[i].url)[0];
+            $(".secretKey")[i].value = Utils.parseUrl(rpcList[i].url).secretKey;
+            $(".rpcUrl")[i].value = Utils.parseUrl(rpcList[i].url).rpcUrl;
             $(".location")[i].value = rpcList[i].location || '';
             if (i != 0)
                 $(".pattern")[i - 1].value = rpcList[i].pattern || '';

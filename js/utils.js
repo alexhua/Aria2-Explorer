@@ -106,21 +106,18 @@ class Utils {
      * extract secret key from rpc url
      * 
      * @param {string} rpcUrl Full RPC URL with secret key
-     * @return {array} An array contains RPC URL and secret key
+     * @return {object} An object contains RPC URL and secret key
      */
     static parseUrl(rpcUrl) {
-        let url = null;
-        let urlPath = null;
-        let secretKey = null;
         try {
-            url = new URL(rpcUrl);
-            urlPath = url.origin + url.pathname;
-            secretKey = decodeURIComponent(url.password);
+            var url = new URL(rpcUrl);
+            rpcUrl = url.origin + url.pathname;
+            var secretKey = decodeURIComponent(url.password);
         } catch (error) {
             console.warn('Stored Rpc Url is invalid! RpcUrl ="' + rpcUrl + '"');
-            return ["", ""];
+            return {};
         }
-        return [urlPath, secretKey];
+        return {rpcUrl, secretKey};
     }
     /**
      * Fill RPC URL with secret key

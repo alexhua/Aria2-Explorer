@@ -1,5 +1,6 @@
 import Utils from "./js/utils.js";
 import Configs from "./js/config.js";
+import Aria2 from "./js/aria2.js";
 
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
@@ -41,14 +42,14 @@ async function getCookies(downloadItem) {
 
 async function send2Aria(rpc, downloadItem) {
     let formatCookies = await getCookies(downloadItem);
-    var header = [];
+    let header = [];
     if (formatCookies.length > 0) {
         header.push("Cookie: " + formatCookies.join("; "));
     }
     header.push("User-Agent: " + navigator.userAgent);
     header.push("Connection: keep-alive");
 
-    var options = {
+    let options = {
         "header": header,
         "referer": downloadItem.referrer,
         "out": downloadItem.filename
@@ -60,23 +61,10 @@ async function send2Aria(rpc, downloadItem) {
         options = Object.assign(options, downloadItem.options);
     }
 
-    var rpcData = {
-        "jsonrpc": "2.0",
-        "method": "aria2.addUri",
-        "id": new Date().getTime(),
-        "params": [[downloadItem.url], options]
-    };
-    var result = Utils.parseUrl(rpc.url);
-    var secretKey = result[1];
-    if (secretKey) {
-        rpcData.params.unshift("token:" + secretKey);
-    }
-
-    var request = {
-        url: result[0],
-        payload: JSON.stringify(rpcData),
-    };
-    return doRPC(request).then(function (response) {
+    let remote = Utils.parseUrl(rpc.url);
+    let aria2 = new Aria2(remote);
+   
+    return aria2.addUri(downloadItem.url, options).then(function (response) {
         if (response && response.error) {
             return Promise.reject(response);
         }
@@ -206,6 +194,7 @@ async function captureDownload(downloadItem, suggest) {
     }
     if (Configs.integration && shouldCapture(downloadItem)) {
         chrome.downloads.cancel(downloadItem.id);
+        console.log(runtime.lastError);
         if (downloadItem.referrer == "about:blank") {
             downloadItem.referrer = "";
         }
@@ -471,23 +460,10 @@ function disableMonitor() {
 }
 
 function monitorAria2() {
-    var rpcData = {
-        "jsonrpc": "2.0",
-        "method": "aria2.getGlobalStat",
-        "id": new Date().getTime(),
-        "params": []
-    };
-    var rpc = getRpcServer("*");
-    var result = Utils.parseUrl(rpc.url);
-    var secretKey = result[1];
-    if (secretKey) {
-        rpcData.params.unshift("token:" + secretKey);
-    }
-    var request = {
-        url: result[0],
-        payload: JSON.stringify(rpcData),
-    };
-    doRPC(request).then(function (response) {
+    let rpcItem = getRpcServer("*");
+    let remote = Utils.parseUrl(rpcItem.url);
+    let aria2 = new Aria2(remote);
+    aria2.getGlobalStat().then(function (response) {
         if (response && response.error)
             return Promise.reject(response);
         let numActive = response.result.numActive;
