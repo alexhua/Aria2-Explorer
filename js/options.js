@@ -106,10 +106,11 @@ var Configs =
         for (const i in $(".rpcGroup")) {
             if ($(".name")[i].value && $(".rpcUrl")[i].value) {
                 rpcUrl = Utils.combineUrl($(".secretKey")[i].value, $(".rpcUrl")[i].value);
+                location = Utils.completeLocation($(".location")[i].value);
                 Configs.rpcList.push({
                     "name": $(".name")[i].value,
                     "url": rpcUrl,
-                    "location": $(".location")[i].value,
+                    "location": location,
                     "pattern": i == 0 ? '' : $(".pattern")[i - 1].value
                 });
             }

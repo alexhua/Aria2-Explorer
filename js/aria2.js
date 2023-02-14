@@ -42,6 +42,7 @@ class Aria2 {
         try {
             this.socket = new WebSocket(url);
         } catch (error) {
+            // defer the error handling until sending data
             console.log(error);
         }
         return this.socket

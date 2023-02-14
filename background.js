@@ -57,7 +57,11 @@ async function send2Aria(rpcItem, downloadItem) {
         }
         let title = chrome.i18n.getMessage("exportSucceedStr");
         let message = chrome.i18n.getMessage("exportSucceedDes", [rpcItem.name]);
-        let contextMessage = options.dir||'' + downloadItem.filename;
+        if (!downloadItem.filename) {
+            const parts = downloadItem.url.split("/");
+            downloadItem.filename = parts[parts.length - 1]
+        }
+        let contextMessage = (options.dir || '') + downloadItem.filename;
         if (Configs.allowNotification)
             Utils.showNotification({ title, message, contextMessage }, "NewTask");
         return Promise.resolve("OK");
@@ -321,15 +325,11 @@ function createContextMenu() {
 }
 
 function onMenuClick(info, tab) {
-    var uri = decodeURIComponent(info.linkUrl || info.selectionText);
-    var referrer = info.frameUrl || info.pageUrl;
+    const url = decodeURIComponent(info.linkUrl || info.selectionText);
+    const referrer = info.frameUrl || info.pageUrl;    
+    const filename = '';
     // mock a DownloadItem
-    var downloadItem = {
-        url: uri,
-        finalUrl: uri,
-        referrer: referrer,
-        filename: ""
-    };
+    let downloadItem = { url, referrer, filename };
 
     if (info.menuItemId == "openWebUI") {
         launchUI();
@@ -347,8 +347,8 @@ function onMenuClick(info, tab) {
         if (Configs.askBeforeExport) {
             launchUI(downloadItem);
         } else {
-            let rpc = Configs.rpcList[info.menuItemId];
-            send2Aria(rpc, downloadItem);
+            let rpcItem = Configs.rpcList[info.menuItemId];
+            send2Aria(rpcItem, downloadItem);
         }
     }
 }

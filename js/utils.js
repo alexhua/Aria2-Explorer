@@ -155,13 +155,31 @@ class Utils {
             }
         }
     }
+    /**
+     * Add `\` or `/` for download location if necessary
+     * @param {string} location Download location
+     * @return {string}
+     */
+    static completeLocation(location) {
+        if (!location) return location;
+        if (navigator.userAgentData.platform == "Windows") {
+            if (!location.endsWith('\\'))
+                location = location + '\\';
+        } else {
+            if (!location.endsWith('/'))
+                location = location + '/';
+        }
+        return location
+    }
 
     static validateFilePath(filePath) {
         let regexp = ''
-        if (navigator.userAgentData.platform == "Windows")
+        if (navigator.userAgentData.platform == "Windows") {
             regexp = /^([a-zA-Z]:\\)([-\u4e00-\u9fa5\w\s.()~!@#$%^&()\[\]{}+=]+\\?)*$/;
-        else
+        }
+        else {
             regexp = /^\/([-\u4e00-\u9fa5\w\s.()~!@#$%^&()\[\]{}+=]+\/?)*$/;
+        }
         return regexp.test(filePath);
     }
 
