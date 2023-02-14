@@ -36,7 +36,7 @@
       "message":"監測Aria2狀態"
    },
    "allowNotificationDes":{
-      "message":"啓用攔截通知"
+      "message":"啓用作業通知"
    },
    "captureMagnetDes":{
       "message":"攔截磁力連結"
@@ -72,7 +72,7 @@
       "message":"匯出失敗"
    },
    "exportFailedDes":{
-      "message":"\n無法連接到 $rpcName$，匯出下載工作失敗！",
+      "message":"$rpcName$ 無法開始下載！",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -84,13 +84,43 @@
       "message":"匯出成功"
    },
    "exportSucceedDes":{
-      "message":"\n$rpcName$ 已經開始下載工作。",
+      "message":"$rpcName$ 已經開始下載。",
       "placeholders": {
          "rpcName": {
            "content": "$1",
            "example": "Aria2 RPC name."
          }
       }
+   },
+   "downloadStart":{
+      "message":"$rpcName$ 下載開始",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "taskNotification":{
+      "message":"作業通知"
+   },
+   "downloadComplete":{
+      "message":"$rpcName$ 下載完成",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "downloadError":{
+      "message":"$rpcName$ 下载出錯",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
    },
    "allowedSitesPlaceholderDes":{
       "message":"設定需要攔截的站點，每行一個網站，支持規則運算式。\n（白名單優先）"

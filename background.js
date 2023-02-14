@@ -5,46 +5,33 @@ import Aria2 from "./js/aria2.js";
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
 var MonitorRate = 3000; // Aria2 monitor interval 3000ms
+const RemoteAria2 = new Aria2();
 
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload)
 
 init();
 registerAllListeners();
 
-async function doRPC(request) {
-    if (request.url.startsWith("ws"))
-        request.url = request.url.replace("ws", "http");
-    const response = await fetch(request.url,
-        {
-            method: "POST",
-            body: request.payload,
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    return response.json();
-};
-
-function showNotification(id, opt) {
-    if (Configs.allowNotification) chrome.notifications.create(id, opt);
-}
-
 async function getCookies(downloadItem) {
     let storeId = downloadItem.incognito == true ? "1" : "0";
     let cookies = await chrome.cookies.getAll({ "url": downloadItem.url, "storeId": storeId });
-    let formatCookies = [];
+    let cookieItems = [];
     for (const cookie of cookies) {
-        formatCookies.push(cookie.name + "=" + cookie.value);
+        cookieItems.push(cookie.name + "=" + cookie.value);
     }
-    return formatCookies;
+    return cookieItems;
 }
 
-async function send2Aria(rpc, downloadItem) {
-    let formatCookies = await getCookies(downloadItem);
+async function send2Aria(rpcItem, downloadItem) {
+    let cookieItems = [];
+    try {
+        cookieItems = await getCookies(downloadItem);
+    } catch (error) {
+        console.log(error.message);
+    }
     let header = [];
-    if (formatCookies.length > 0) {
-        header.push("Cookie: " + formatCookies.join("; "));
+    if (cookieItems.length > 0) {
+        header.push("Cookie: " + cookieItems.join("; "));
     }
     header.push("User-Agent: " + navigator.userAgent);
     header.push("Connection: keep-alive");
@@ -54,56 +41,49 @@ async function send2Aria(rpc, downloadItem) {
         "referer": downloadItem.referrer,
         "out": downloadItem.filename
     };
-    if (rpc.location) {
-        options.dir = rpc.location;
+    if (rpcItem.location) {
+        options.dir = rpcItem.location;
     }
     if (downloadItem.hasOwnProperty('options')) {
         options = Object.assign(options, downloadItem.options);
     }
 
-    let remote = Utils.parseUrl(rpc.url);
+    let remote = Utils.parseUrl(rpcItem.url);
     let aria2 = new Aria2(remote);
    
     return aria2.addUri(downloadItem.url, options).then(function (response) {
         if (response && response.error) {
-            return Promise.reject(response);
+            return Promise.reject(response.error);
         }
-        var title = chrome.i18n.getMessage("exportSucceedStr");
-        var des = chrome.i18n.getMessage("exportSucceedDes", [rpc.name]);
-        var opt = {
-            type: "basic",
-            title: title,
-            message: des,
-            iconUrl: "images/logo64.png",
-            isClickable: true
-        }
-        var id = new Date().getTime().toString();
-        showNotification(id, opt);
+        let title = chrome.i18n.getMessage("exportSucceedStr");
+        let message = chrome.i18n.getMessage("exportSucceedDes", [rpcItem.name]);
+        let contextMessage = options.dir||'' + downloadItem.filename;
+        if (Configs.allowNotification)
+            Utils.showNotification({ title, message, contextMessage }, "NewTask");
         return Promise.resolve("OK");
-    }).catch(function (response) {
-        var title = chrome.i18n.getMessage("exportFailedStr");
-        var des = chrome.i18n.getMessage("exportFailedDes", [rpc.name]);
-        if (response && response.error && response.error.message) {
-            des += ` Error: ${response.error.message}.`;
+    }).catch(function (error) {
+        let title = chrome.i18n.getMessage("exportFailedStr");
+        let message = chrome.i18n.getMessage("exportFailedDes", [rpcItem.name]);
+        let contextMessage = '';
+        if (error && error.message) {
+            contextMessage = `Error: ${error.message}.`;
         }
-        var opt = {
-            type: "basic",
-            title: title,
-            message: des,
-            iconUrl: "images/logo64.png",
-            requireInteraction: false
-        }
-        var id = new Date().getTime().toString();
-        showNotification(id, opt);
+        if (Configs.allowNotification)
+            Utils.showNotification({ title, message, contextMessage }, "NewTask");
+
         return Promise.resolve("FAIL");
     });
 }
-
+/**
+ * Get a rpc item whose pattern(s) matches the giving resource url 
+ * 
+ * @param {string} url The resource url to be downloaded
+ */
 function getRpcServer(url) {
-    for (var i = 1; i < Configs.rpcList.length; i++) {
-        var patterns = Configs.rpcList[i]['pattern'].split(',');
-        for (var j in patterns) {
-            var pattern = patterns[j].trim();
+    for (let i = 1; i < Configs.rpcList.length; i++) {
+        let patterns = Configs.rpcList[i]['pattern'].split(',');
+        for (let pattern of patterns) {
+            pattern = pattern.trim();
             if (matchRule(url, pattern)) {
                 return Configs.rpcList[i];
             }
@@ -193,20 +173,22 @@ async function captureDownload(downloadItem, suggest) {
         downloadItem.url = downloadItem.finalUrl;
     }
     if (Configs.integration && shouldCapture(downloadItem)) {
-        chrome.downloads.cancel(downloadItem.id);
-        console.log(runtime.lastError);
+        chrome.downloads.cancel(downloadItem.id).then(() => {
+            if (chrome.runtime.lastError)
+                chrome.runtime.lastError = null;
+        });
         if (downloadItem.referrer == "about:blank") {
             downloadItem.referrer = "";
         }
         if (Configs.askBeforeDownload) {
             launchUI(downloadItem);
         } else {
-            let rpc = getRpcServer(downloadItem.url);
-            let ret = await send2Aria(rpc, downloadItem);
+            let rpcItem = getRpcServer(downloadItem.url);
+            let ret = await send2Aria(rpcItem, downloadItem);
             if (ret == "FAIL") {
-                chrome.storage.local.set({ integration: false });
-                chrome.downloads.download({ url: downloadItem.url });
-                setTimeout(enableCapture, 3000);
+                disableCapture();
+                chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
+                // setTimeout(enableCapture, 3000);
             }
         }
     }
@@ -214,7 +196,7 @@ async function captureDownload(downloadItem, suggest) {
 
 async function launchUI(downloadItem) {
     const index = chrome.runtime.getURL('ui/ariang/index.html');
-    var webUiUrl = index; //launched from notification,option menu or extension icon
+    var webUiUrl = index; // launched from notification, option menu or browser toolbar icon
     if (downloadItem?.hasOwnProperty("finalUrl")) { // launched with new task url
         webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
@@ -226,6 +208,8 @@ async function launchUI(downloadItem) {
             header += "\nCookie: " + cookies.join(";");
         }
         webUiUrl = webUiUrl + "&header=" + encodeURIComponent(btoa(header));
+    } else if ( downloadItem == "TaskStatus" ) { // launched from task done notification click
+        webUiUrl = webUiUrl + "#!/stopped";
     }
     chrome.tabs.query({ "url": index }).then(function (tabs) {
         if (tabs?.length > 0) {
@@ -460,12 +444,9 @@ function disableMonitor() {
 }
 
 function monitorAria2() {
-    let rpcItem = getRpcServer("*");
-    let remote = Utils.parseUrl(rpcItem.url);
-    let aria2 = new Aria2(remote);
-    aria2.getGlobalStat().then(function (response) {
+    RemoteAria2.getGlobalStat().then(function (response) {
         if (response && response.error)
-            return Promise.reject(response);
+            return Promise.reject(response.error);
         let numActive = response.result.numActive;
         let numStopped = response.result.numStopped;
         let numWaiting = response.result.numWaiting;
@@ -491,20 +472,73 @@ function monitorAria2() {
         if (Configs.integration && !isDownloadListened()) {
             chrome.downloads.onDeterminingFilename.addListener(captureDownload);
         }
-    }).catch(function (response) {
+    }).catch(function (error) {
         if (!Configs.monitorAria2) return;
         let title = "Failed to connect with Aria2.";
-        if (response && response.error && response.error.message) {
-            title += ` Reason: ${response.error.message}.`;
+        if (error && error.message) {
+            title += ` Reason: ${error.message}.`;
         }
         chrome.action.setBadgeBackgroundColor({ color: "red" });
         chrome.action.setBadgeText({ text: "E" });
         chrome.action.setTitle({ title: title });
-        console.log(response);
         if (Configs.integration && Configs.monitorAria2 && isDownloadListened()) {
             chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
         }
+        if(Configs.allowNotification){
+            setTimeout(RemoteAria2.openSocket.bind(RemoteAria2), 3000);
+        }
     });
+}
+
+function enableTaskNotification() {
+    RemoteAria2.openSocket().addEventListener("message", notifyTaskStatus);
+    RemoteAria2.socket.addEventListener("open", () => {
+        console.log(RemoteAria2.name, "is connected via websocket.");
+        console.log("Remote URL =", RemoteAria2.rpcUrl);
+        console.log(RemoteAria2.name, "task notification is enabled.");
+    });
+}
+
+function disableTaskNotification() {
+    if (RemoteAria2.socket) {
+        RemoteAria2.socket.removeEventListener("message", notifyTaskStatus);
+        RemoteAria2.socket.addEventListener("close", () => {
+            console.log(RemoteAria2.name,"websocket is closed.");
+            console.log("Remote URL =", RemoteAria2.rpcUrl);
+        });
+        RemoteAria2.closeSocket();
+    }
+    console.log(RemoteAria2.name, "task notification is disabled.")
+}
+
+async function notifyTaskStatus(event) {
+    let data = JSON.parse(event.data)
+
+    if (!data.method || !data.params.length) 
+        return;
+    let gid = data.params[0]["gid"];
+    let title = ''; //chrome.i18n.getMessage("taskNotification");
+    let message = '';
+    let id = "TaskStatus";
+    switch (data.method) {
+        // case "aria2.onDownloadStart":
+        //     message = "downloadStart"
+        //     break;
+        case "aria2.onDownloadComplete":
+        case "aria2.onBtDownloadComplete":
+            message = "downloadComplete"
+            break;
+        case "aria2.onDownloadError":
+            message = "downloadError"
+            break;
+    }
+    if (message) {
+        let response = await RemoteAria2.getFiles(gid);
+        message = chrome.i18n.getMessage(message, RemoteAria2.name);
+        let contextMessage = response.result[0]["path"];
+        Utils.showNotification({ title, message,contextMessage }, id);
+    }
+
 }
 
 function registerAllListeners() {
@@ -533,9 +567,11 @@ function registerAllListeners() {
             }
         });
     });
+
     chrome.notifications.onClicked.addListener(function (id) {
-        launchUI();
-        chrome.notifications.clear(id, function () { });
+        if (id != "default")
+            launchUI(id);
+        chrome.notifications.clear(id);
     });
 
     chrome.commands.onCommand.addListener(function (command) {
@@ -562,19 +598,13 @@ function registerAllListeners() {
                 }
             })
             /* new version update notification */
-            let opt = {
-                type: "basic",
-                title: "New Version",
-                message: `${manifest.name} has updated to v${manifest.version}`,
-                iconUrl: "images/logo64.png",
-                requireInteraction: false
-            };
-            let id = new Date().getTime().toString();
-            showNotification(id, opt);
+            let title = "New Version";
+            let message = `${manifest.name} has updated to v${manifest.version}`;
+            Utils.showNotification({ title, message });
         }
     });
 
-    /* receive request from other extension */
+    /* receive request from other extensions */
     /**
      * @typedef downloadItem
      * @type {Object}
@@ -586,8 +616,8 @@ function registerAllListeners() {
     chrome.runtime.onMessageExternal.addListener(
         function (downloadItem) {
             if (Configs.allowExternalRequest) {
-                var rpc = getRpcServer(downloadItem.url);
-                send2Aria(rpc, downloadItem);
+                let rpcItem = getRpcServer(downloadItem.url);
+                send2Aria(rpcItem, downloadItem);
             }
         }
     );
@@ -596,14 +626,14 @@ function registerAllListeners() {
         function (downloadItem) {
             if (!downloadItem || !downloadItem.url)
                 console.warn("Invalid download item, download request is rejected!");
-            let rpc = getRpcServer(downloadItem.url);
-            send2Aria(rpc, downloadItem);
+            let rpcItem = getRpcServer(downloadItem.url);
+            send2Aria(rpcItem, downloadItem);
         }
     );
     /* Listen to the setting changes from options menu and page to control the extension behaviors */
     chrome.storage.onChanged.addListener(function (changes, area) {
         if (area !== "local") return;
-        let needReInit = changes.rpcList || changes.contextMenus || changes.askBeforeExport
+        let needReInit = changes.rpcList || changes.contextMenus || changes.askBeforeExport || changes.allowNotification
             || changes.integration || changes.monitorAria2 || changes.captureMagnet || changes.webUIOpenStyle;
         if (needReInit) {
             init();
@@ -619,18 +649,19 @@ function registerAllListeners() {
 function init() {
     chrome.storage.local.get().then((configs) => {
         Object.assign(Configs, configs);
-        let url = '';
-        if (Configs.webUIOpenStyle == "popup") {
-            url = chrome.runtime.getURL('ui/ariang/popup.html');
-        }
+        let url = Configs.webUIOpenStyle == "popup" ? chrome.runtime.getURL('ui/ariang/popup.html') : '';
         chrome.action.setPopup({
             popup: url
         });
+        let rpcItem = getRpcServer('*');
+        let remote = Utils.parseUrl(rpcItem.url);
+        RemoteAria2.setRemote(rpcItem.name, remote.rpcUrl, remote.secretKey);
         chrome.contextMenus.removeAll();
         createOptionMenu();
         createContextMenu();
         Configs.integration ? enableCapture() : disableCapture();
         Configs.monitorAria2 ? enableMonitor() : disableMonitor();
+        (Configs.monitorAria2 && Configs.allowNotification) ? enableTaskNotification() : disableTaskNotification();
         url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-for-chrome/issues/98" : '';
         chrome.runtime.setUninstallURL(url);
     });

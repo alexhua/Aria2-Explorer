@@ -33,7 +33,7 @@
       "message":"接受来自其他扩展的下载请求"
    },
    "allowNotificationDes":{
-      "message":"启用拦截通知"
+      "message":"启用任务通知"
    },
    "monitorAria2Str":{
       "message":"监测Aria2状态"
@@ -72,7 +72,7 @@
       "message":"导出失败"
    },
    "exportFailedDes":{
-      "message":"\n无法连接到 $rpcName$，导出下载任务失败！",
+      "message":"$rpcName$ 无法开始下载！",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -84,11 +84,41 @@
       "message":"导出成功"
    },
    "exportSucceedDes":{
-      "message":"\n$rpcName$ 已经开始任务下载。",
+      "message":"$rpcName$ 已经开始下载。",
       "placeholders": {
          "rpcName": {
            "content": "$1",
            "example": "Aria2 RPC name."
+         }
+       }
+   },
+   "taskNotification":{
+      "message":"任务通知"
+   },
+   "downloadStart":{
+      "message":"$rpcName$ 下载开始",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "downloadComplete":{
+      "message":"$rpcName$ 下载完成",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "downloadError":{
+      "message":"$rpcName$ 下载出错",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
          }
        }
    },

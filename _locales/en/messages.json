@@ -33,7 +33,7 @@
       "message":"Receive download request from other extension"
    },
    "allowNotificationDes":{
-      "message":"Enable capture notification"
+      "message":"Enable task notifications"
    },
    "monitorAria2Str":{
       "message":"Monitor Aria2 status"
@@ -72,7 +72,7 @@
       "message":"Export Failed"
    },
    "exportFailedDes":{
-      "message":"Could not connect to $rpcName$, task export failed!",
+      "message":"$rpcName$ could not start task!",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -84,11 +84,41 @@
       "message":"Export Successful"
    },
    "exportSucceedDes":{
-      "message":"\n$rpcName$ has begun the download.",
+      "message":"$rpcName$ has begun the download.",
       "placeholders": {
          "rpcName": {
            "content": "$1",
            "example": "Aria2 RPC name."
+         }
+       }
+   },
+   "taskNotification":{
+      "message":"Task Notification"
+   },
+   "downloadStart":{
+      "message":"$rpcName$ Download is started.",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "downloadComplete":{
+      "message":"$rpcName$ Download is complete.",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "downloadError":{
+      "message":"$rpcName$ Download error occurred.",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
          }
        }
    },

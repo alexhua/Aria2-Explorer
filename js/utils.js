@@ -120,7 +120,7 @@ class Utils {
         return {rpcUrl, secretKey};
     }
     /**
-     * Fill RPC URL with secret key
+     * Inflate rpc url with secret key
      * 
      * @param {string} secretKey
      * @param {string} rpcUrl
@@ -176,6 +176,24 @@ class Utils {
 
         return true;
     }
+
+    /**
+     *  Show a Chrome notification
+     * 
+     * @param {object} content Refer to Chrome NotificationOptions
+     * @param {string} id Notification Identifier
+     */
+    static showNotification(content, id = "default") {
+        let option = {
+            type: "basic",
+            title: "Title",
+            message: "Sample",
+            iconUrl: "images/logo64.png",
+            requireInteraction: false
+        };
+        Object.assign(option, content);
+        chrome.notifications.create(id, option);
+    }    
 }
 
 export default Utils;

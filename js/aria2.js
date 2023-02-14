@@ -1,11 +1,11 @@
 import Utils from "./utils.js";
 
-const defaultAria2 = { rpcUrl: "http://localhost:6800/jsonrpc", secretKey: '' };
+const DefaultRemote = { name:"Aria2", rpcUrl: "http://localhost:6800/jsonrpc", secretKey: '' };
 
 class Aria2 {
     static requestId = 0;
 
-    constructor(remote = defaultAria2) {
+    constructor(remote = DefaultRemote) {
         Object.assign(this, remote);
     }
 
@@ -20,7 +20,7 @@ class Aria2 {
      * @param {string} rpcUrl Aria2 rpc url
      * @param {string} secretKey Aria2 rpc secret key
      */
-    changeRemote(rpcUrl, secretKey = '') {
+    setRemote(name="Aria2", rpcUrl, secretKey = '') {
         if (rpcUrl == this.rpcUrl && secretKey == this.secretKey)
             return this;
         if (!Utils.validateRpcUrl(rpcUrl))
@@ -29,24 +29,22 @@ class Aria2 {
             this.socket.close();
             this.socket = null;
         }
-        Object.assign(this, { rpcUrl, secretKey });
-        return this;
+        return Object.assign(this, { name, rpcUrl, secretKey });
     }
 
-    openSocket(url = this.rpcUrl) {
+    openSocket() {
+        let url = this.rpcUrl;
         if (url.startsWith("http"))
             url = url.replace("http", "ws");
 
-        if (this.socket && this.socket.url == url && this.socket.socketState == 1)
+        if (this.socket && this.socket.url == url && this.socket.readyState <= 1)
             return this.socket;
-
-        if (this.rpcUrl != url) {
-            this.rpcUrl = url;
-            if (this.socket) {
-                this.closeSocket();
-            }
+        try {
+            this.socket = new WebSocket(url);
+        } catch (error) {
+            console.log(error);
         }
-        return this.socket = new WebSocket(url);
+        return this.socket
     }
 
     closeSocket() {
@@ -58,42 +56,57 @@ class Aria2 {
 
     async #doRPC(request) {
         let url = request.url;
-        /* via websocket */
-        if (this.socket) {
-            return new Promise((resolve, reject) => {
-                if (this.socket.socketState == 1) {
-                    this.socket.send(request.payload);
-                } else {
-                    if (url.startsWith("http"))
-                        url = url.replace("http", "ws");
-                    this.openSocket(url).onopen((event) => {
-                        this.socket.send(request.payload);
-                    });
+        let socket = this.socket;
+        return new Promise((resolve, reject) => {
+            /* via websocket */
+            if (socket) {
+                switch (socket.readyState) {
+                    case 0:
+                        socket.onopen = (event) => {
+                            socket.send(request.payload);
+                        };
+                        break;
+                    case 1:
+                        socket.send(request.payload);
+                        break;
+                    case 2:
+                    case 3:
+                        let error = new Error("Aria2 is unreachable");
+                        reject(error);
+                        break;
+                    default:
+                        error = new Error("Unknown socket state:", socket.readyState);
+                        reject(error);
                 }
-                this.socket.onmessage = (event) => {
+                socket.onmessage = (event) => {
                     let response = JSON.parse(event.data);
                     if (response.id == request.id)
                         resolve(response);
-                }
-                this.socket.onerror = (error) => {
+                };
+                socket.onerror = (error) => {
                     reject(error);
-                }
-            })
-        } else { /* via http fetch */
-            if (url.startsWith("ws"))
-                url = url.replace("ws", "http");
-            const response = await fetch(url,
-                {
+                    this.socket = null;
+                };
+            } else { /* via http fetch */
+                if (url.startsWith("ws"))
+                    url = url.replace("ws", "http");
+
+                fetch(url, {
                     method: "POST",
                     body: request.payload,
                     headers: {
                         "Accept": "application/json",
                         "Content-Type": "application/json"
                     }
+                }).then(response => {
+                    resolve(response.json());
+                }).catch(error => {
+                    reject(error);
                 });
-            return response.json();
-        }
+            }
+        });
     }
+
     /**
      * Build rpc request
      * @param method {string} Aria2 rpc method
@@ -115,7 +128,8 @@ class Aria2 {
     }
 
     addUri(uris, options) {
-        if (!Array.isArray(uris)) uris = [uris];
+        if (!Array.isArray(uris)) 
+            uris = [uris];
         let request = this.#buildRequest("aria2.addUri", uris, options);
         return this.#doRPC(request);
     }
@@ -126,7 +140,7 @@ class Aria2 {
     }
 
     getFiles(gid) {
-        let request = this.#buildRequest("aria2.getGlobalStat", gid);
+        let request = this.#buildRequest("aria2.getFiles", gid);
         return this.#doRPC(request);
     }
 }
