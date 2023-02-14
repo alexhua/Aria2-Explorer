@@ -441,6 +441,7 @@ function disableMonitor() {
     if (Configs.integration && !isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.addListener(captureDownload);
     }
+    chrome.power.releaseKeepAwake();
 }
 
 function monitorAria2() {
@@ -453,14 +454,23 @@ function monitorAria2() {
         let uploadSpeed = Utils.getReadableSpeed(response.result.uploadSpeed);
         let downloadSpeed = Utils.getReadableSpeed(response.result.downloadSpeed);
         /* Tune the monitor rate dynamically */
-        if (numActive > 0 && MonitorRate == 3000) {
-            MonitorRate = 1000;
-            disableMonitor();
-            enableMonitor();
-        } else if (numActive == 0 && MonitorRate == 1000) {
-            MonitorRate = 3000;
-            disableMonitor();
-            enableMonitor();
+        if (numActive > 0) {
+            if (MonitorRate == 3000) {
+                MonitorRate = 1000;
+                disableMonitor();
+                enableMonitor();
+            }
+            if (Configs.keepAwake)
+                chrome.power.requestKeepAwake("system");
+            else
+                chrome.power.releaseKeepAwake();
+        } else if (numActive == 0) {
+            if (MonitorRate == 1000) {
+                MonitorRate = 3000;
+                disableMonitor();
+                enableMonitor();
+            }
+            chrome.power.releaseKeepAwake();
         }
         chrome.action.setBadgeBackgroundColor({ color: "green" });
         chrome.action.setBadgeText({ text: numActive });

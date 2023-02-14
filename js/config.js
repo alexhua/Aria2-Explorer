@@ -7,6 +7,7 @@ const Configs = {
     askBeforeDownload: false,
     allowExternalRequest: false,
     monitorAria2: false,
+    keepAwake: false,
     allowNotification: false,
     captureMagnet: false,
     rpcList: [{ "name": "Aria2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }],

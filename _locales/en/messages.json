@@ -32,6 +32,9 @@
    "allowExternalRequestDes":{
       "message":"Receive download request from other extension"
    },
+   "keepAwakeDes":{
+      "message":"Keep system awake when downloading"
+   },
    "allowNotificationDes":{
       "message":"Task status notifications"
    },

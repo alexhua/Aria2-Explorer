@@ -35,6 +35,9 @@
    "monitorAria2Str":{
       "message":"監測Aria2狀態"
    },
+   "keepAwakeDes":{
+      "message":"下載時保持系統喚醒"
+   },
    "allowNotificationDes":{
       "message":"作業狀態通知"
    },

@@ -14,7 +14,8 @@
       "contextMenus",
       "downloads",
       "storage",
-      "system.display"
+      "system.display",
+      "power"
    ],
    "host_permissions": [
       "<all_urls>"

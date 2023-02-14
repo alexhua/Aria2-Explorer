@@ -19,6 +19,8 @@ var Configs =
             if (Configs[checkbox.id])
                 checkbox.checked = Configs[checkbox.id];
         }
+        
+        $("#keepAwake").prop("disabled", !Configs.monitorAria2);
 
         for (const input of $("input[type=text],input[type=number]")) {
             if (Configs[input.id])
