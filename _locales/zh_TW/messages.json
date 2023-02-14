@@ -1,6 +1,6 @@
 {
    "appName": {
-      "message":"Aria2 for Chrome"
+      "message":"Aria2 Explorer"
    },
    "description": {
       "message":"讓Aria2無縫接管下載，加速下載體驗，内建Aria2前端，作業管理更方便。"
@@ -36,7 +36,7 @@
       "message":"監測Aria2狀態"
    },
    "allowNotificationDes":{
-      "message":"啓用作業通知"
+      "message":"作業狀態通知"
    },
    "captureMagnetDes":{
       "message":"攔截磁力連結"
@@ -156,7 +156,7 @@
       "message":"雲端同步設定"
    },
    "configCloudSyncDes":{
-      "message":"同步AriaNG和擴充功能設定到當前登入的Google帳號"
+      "message":"同步AriaNG和擴充功能設定到當前瀏覽器登入帳號"
    },
    "uploadConfigWarn":{
       "message":"本機設定為空或無效，仍然繼續？"

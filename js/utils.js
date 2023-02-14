@@ -211,7 +211,15 @@ class Utils {
         };
         Object.assign(option, content);
         chrome.notifications.create(id, option);
-    }    
+    }
+
+    static getWebStoreUrl() {
+        let id = chrome.runtime.id;
+        if (/Edg/.test(navigator.userAgent))
+            return "https://microsoftedge.microsoft.com/addons/detail/" + id;
+        else
+            return "https://chrome.google.com/webstore/detail/" + id;
+    }
 }
 
 export default Utils;

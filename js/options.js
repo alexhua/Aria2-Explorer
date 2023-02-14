@@ -94,6 +94,7 @@ var Configs =
         $("form").off().on("submit", function (event) {
             event.preventDefault();
         })
+        $("#webStoreUrl").prop("href", Utils.getWebStoreUrl());
     },
     reset: async function () {
         localStorage.clear();
@@ -189,7 +190,9 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
         if (changes.rpcList && changes.rpcList.newValue) {
             let str = chrome.i18n.getMessage("OverwriteAriaNgRpcWarn");
             if (confirm(str)) {
-                let ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);
+                let ariaNgOptions = null;
+                if (localStorage["AriaNg.Options"])
+                    ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);
                 let newAriaNgOptions = Utils.exportRpc2AriaNg(changes.rpcList.newValue, ariaNgOptions);
                 localStorage["AriaNg.Options"] = JSON.stringify(newAriaNgOptions);
             }

@@ -598,9 +598,10 @@ function registerAllListeners() {
                 }
             })
             /* new version update notification */
-            let title = "New Version";
-            let message = `${manifest.name} has updated to v${manifest.version}`;
-            Utils.showNotification({ title, message });
+            let title = `Version ${manifest.version}`;
+            let message = `My new name "${manifest.name}".`;
+            let contextMessage = `Welcome more advices and supports.🎈`;
+            Utils.showNotification({ title, message, contextMessage });
         }
     });
 
@@ -662,7 +663,7 @@ function init() {
         Configs.integration ? enableCapture() : disableCapture();
         Configs.monitorAria2 ? enableMonitor() : disableMonitor();
         (Configs.monitorAria2 && Configs.allowNotification) ? enableTaskNotification() : disableTaskNotification();
-        url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-for-chrome/issues/98" : '';
+        url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-Explore/issues/98" : '';
         chrome.runtime.setUninstallURL(url);
     });
 }

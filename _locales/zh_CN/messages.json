@@ -1,6 +1,6 @@
 {
    "appName": {
-      "message":"Aria2 for Chrome"
+      "message":"Aria2 Explorer"
    },
    "description": {
       "message":"让Aria2无缝接管下载，加速下载体验，内置Aria2前端，任务管理更方便。"
@@ -33,7 +33,7 @@
       "message":"接受来自其他扩展的下载请求"
    },
    "allowNotificationDes":{
-      "message":"启用任务通知"
+      "message":"任务状态通知"
    },
    "monitorAria2Str":{
       "message":"监测Aria2状态"
@@ -156,7 +156,7 @@
       "message":"配置云端同步"
    },
    "configCloudSyncDes":{
-      "message":"同步AriaNG和扩展配置到当前登陆的Google账号"
+      "message":"同步AriaNG和扩展配置到当前浏览器登陆的账号"
    },
    "uploadConfigWarn":{
       "message":"本地配置为空或无效，仍然继续？"
