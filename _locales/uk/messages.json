@@ -1,0 +1,212 @@
+{
+   "appName": {
+      "message": "Aria2 Explorer"
+   },
+   "description": {
+      "message": "Прискорте завантаження з Aria2 та легко керуйте завданнями завантаження."
+   },
+   "contextmenuTitle": {
+      "message": "Експорт до "
+   },
+   "configPageTitle": {
+      "message": "Налаштування опцій розширення"
+   },
+   "contextmenuStr": {
+      "message": "Контекстне меню"
+   },
+   "contextmenuDes": {
+      "message": "Експорт завдання з контекстного меню"
+   },
+   "askBeforeExportDes": {
+      "message": "Питати налаштування деталей перед експортом"
+   },
+   "downloadCaptureStr": {
+      "message": "завантажити захоплення"
+   },
+   "downloadCaptureDes": {
+      "message": "Увімкнути автоматичне захоплення, коли розмір файлу завантаження"
+   },
+   "askBeforeDownloadDes": {
+      "message": "Питання детальних налаштувань перед автоматичним завантаженням"
+   },
+   "allowExternalRequestDes": {
+      "message": "Отримуйте запит на завантаження з іншого розширення"
+   },
+   "monitorAria2Str": {
+      "message": "Монітор стану Aria2"
+   },
+   "monitorAria2Des": {
+      "message": "Монітор стану звантаження Aria2"
+   },
+   "keepAwakeDes": {
+      "message": "Зберігайте систему працювати під час завантаження"
+   },
+   "allowNotificationDes": {
+      "message": "Сповіщення стану завданн"
+   },
+   "captureMagnetDes": {
+      "message": "Захоплення магнітного посилання"
+   },
+   "captureMagnetWarn": {
+      "message": "Захоплення на рівні ОС, переконайтеся, що перед видаленням вимкнуто"
+   },
+   "websiteStr": {
+      "message": "Веб-сайт"
+   },
+   "fileExtStr": {
+      "message": "Розширення файлу"
+   },
+   "whiteListStr": {
+      "message": "Список дозволених"
+   },
+   "BlackListStr": {
+      "message": "Список заборонених"
+   },
+   "addToWhiteListStr": {
+      "message": "Поточний URL -> Список дозволених"
+   },
+   "addToBlackListStr": {
+      "message": "Поточний URL -> Список заборонених"
+   },
+   "removeFromWhiteListStr": {
+      "message": "Видалити зі списку дозволених"
+   },
+   "removeFromBlackListStr": {
+      "message": "Видалити зі списку заборонених"
+   },
+   "exportFailedStr": {
+      "message": "Експорт не вдався"
+   },
+   "exportFailedDes": {
+      "message": "$rpcName$ не вдалося запустити завдання!",
+      "placeholders": {
+         "rpcName": {
+            "content": "$1",
+            "example": "Aria2 RPC name."
+         }
+      }
+   },
+   "exportSucceedStr": {
+      "message": "Експорт успішний"
+   },
+   "exportSucceedDes": {
+      "message": "$rpcName$ почав завантаження.",
+      "placeholders": {
+         "rpcName": {
+            "content": "$1",
+            "example": "Aria2 RPC name."
+         }
+      }
+   },
+   "taskNotification": {
+      "message": "Сповіщення про завдання"
+   },
+   "downloadStart": {
+      "message": "$rpcName$ завантаження розпочато.",
+      "placeholders": {
+         "rpcName": {
+            "content": "$1",
+            "example": "Aria2"
+         }
+      }
+   },
+   "downloadComplete": {
+      "message": "$rpcName$ завантаження завершено.",
+      "placeholders": {
+         "rpcName": {
+            "content": "$1",
+            "example": "Aria2"
+         }
+      }
+   },
+   "downloadError": {
+      "message": "$rpcName$ сталася помилка завантаження.",
+      "placeholders": {
+         "rpcName": {
+            "content": "$1",
+            "example": "Aria2"
+         }
+      }
+   },
+   "allowedSitesPlaceholderDes": {
+      "message": "Встановіть домени, які ви хочете захопити, один веб-сайт на рядок, підтримує регулярні вирази.\n(Список дозволених має більший пріоритет)"
+   },
+   "blockedSitesPlaceholderDes": {
+      "message": "Встановіть домени, які ви не хочете захоплювати, один веб-сайт на рядок, підтримує регулярні вирази."
+   },
+   "allowedExtsPlaceholderDes": {
+      "message": "Встановіть розширення файлів, які ви хочете захопити, одне розширення на рядок, * означає все.\n(Список дозволених має більший пріоритет)"
+   },
+   "blockedExtsPlaceholderDes": {
+      "message": "Встановіть розширення файлів, які не потрібно захоплювати, один розширення на рядок, * означає все."
+   },
+   "WebUIOpenStyleStr": {
+      "message": "AriaNG відкрити в"
+   },
+   "WebUIOpenStyle1": {
+      "message": "Спливаюче вікно"
+   },
+   "WebUIOpenStyle2": {
+      "message": "Нова вкладка"
+   },
+   "WebUIOpenStyle3": {
+      "message": "Нове вікно"
+   },
+   "openWebUIStr": {
+      "message": "Відкрити AriaNG"
+   },
+   "toggleCapture": {
+      "message": "Перемикач захоплення завантаження"
+   },
+   "configCloudSync": {
+      "message": "Хмарна синхронізація"
+   },
+   "configCloudSyncDes": {
+      "message": "Синхронізувати AriaNg та конфігурації розширення з поточним обліковим записом браузера"
+   },
+   "uploadConfigWarn": {
+      "message": "Неправильні або порожні дані локальної конфігурації, продовжувати?"
+   },
+   "uploadConfigSucceed": {
+      "message": "Конфігурації успішно завантажено"
+   },
+   "uploadConfigFailed": {
+      "message": "Конфігурації не вдалося завантажити: "
+   },
+   "downloadConfigSucceed": {
+      "message": "Конфігурації успішно завантажено"
+   },
+   "downloadConfigFailed": {
+      "message": "Конфігурації не вдалося завантажити: Дані недійсні або відсутній зв'язок з мережею."
+   },
+   "download": {
+      "message": "звантажити"
+   },
+   "upload": {
+      "message": "Вивантажити"
+   },
+   "wait": {
+      "message": "Очікування"
+   },
+   "finish": {
+      "message": "Завершено"
+   },
+   "review": {
+      "message": "оцінити"
+   },
+   "reviewDes": {
+      "message": "Оцініть нас!"
+   },
+   "Save": {
+      "message": "Зберегти"
+   },
+   "Reset": {
+      "message": "Скинути"
+   },
+   "Acknowledgment": {
+      "message": "Підтвердження"
+   },
+   "OverwriteAriaNgRpcWarn": {
+      "message": "Налаштування RPC змінилися. Синхронізувати ці зміни з AriaNG?"
+   }
+}

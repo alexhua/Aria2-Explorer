@@ -32,14 +32,17 @@
    "allowExternalRequestDes":{
       "message":"Receive download request from other extension"
    },
+   "monitorAria2Str":{
+      "message":"Monitor Aria2 status"
+   },
+   "monitorAria2Des":{
+      "message":"Monitor Aria2 download status"
+   },
    "keepAwakeDes":{
       "message":"Keep system awake when downloading"
    },
    "allowNotificationDes":{
       "message":"Task status notifications"
-   },
-   "monitorAria2Str":{
-      "message":"Monitor Aria2 status"
    },
    "captureMagnetDes":{
       "message":"Capture magnet link"

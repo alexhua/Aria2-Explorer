@@ -32,14 +32,17 @@
    "allowExternalRequestDes":{
       "message":"接受来自其他扩展的下载请求"
    },
+   "monitorAria2Str":{
+      "message":"监测Aria2状态"
+   },
+   "monitorAria2Des":{
+      "message":"监测Aria2下载状态"
+   },
    "keepAwakeDes":{
       "message":"下载时保持系统唤醒"
    },
    "allowNotificationDes":{
       "message":"任务状态通知"
-   },
-   "monitorAria2Str":{
-      "message":"监测Aria2状态"
    },
    "captureMagnetDes":{
       "message":"拦截磁力链接"
