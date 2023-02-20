@@ -50,17 +50,15 @@ async function send2Aria(rpcItem, downloadItem) {
 
     let remote = Utils.parseUrl(rpcItem.url);
     let aria2 = new Aria2(remote);
-   
+
     return aria2.addUri(downloadItem.url, options).then(function (response) {
         if (response && response.error) {
             return Promise.reject(response.error);
         }
         let title = chrome.i18n.getMessage("exportSucceedStr");
         let message = chrome.i18n.getMessage("exportSucceedDes", [rpcItem.name]);
-        if (!downloadItem.filename) {
-            const parts = downloadItem.url.split("/");
-            downloadItem.filename = parts[parts.length - 1]
-        }
+        if (!downloadItem.filename)
+            downloadItem.filename = Utils.getFileName(downloadItem.url);
         let contextMessage = (options.dir || '') + downloadItem.filename;
         if (Configs.allowNotification)
             Utils.showNotification({ title, message, contextMessage }, "NewTask");
@@ -167,9 +165,10 @@ function disableCapture() {
 
 async function captureDownload(downloadItem, suggest) {
     if (downloadItem.byExtensionId) {
-        //workaround for ignoring filename assigned by other extension
+        // TODO: Filename assigned by chrome.downloads.download() was not passed in
+        // and will be discarded by Chrome. No solution or workaround right now. The
+        // only way is disabling capture before other extension calls chrome.downloads.download().
         suggest();
-        return true;
     }
 
     //always use finalurl when it is available
@@ -192,7 +191,6 @@ async function captureDownload(downloadItem, suggest) {
             if (ret == "FAIL") {
                 disableCapture();
                 chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
-                // setTimeout(enableCapture, 3000);
             }
         }
     }
@@ -212,7 +210,7 @@ async function launchUI(downloadItem) {
             header += "\nCookie: " + cookies.join(";");
         }
         webUiUrl = webUiUrl + "&header=" + encodeURIComponent(btoa(header));
-    } else if ( downloadItem == "TaskStatus" ) { // launched from task done notification click
+    } else if (downloadItem == "TaskStatus") { // launched from task done notification click
         webUiUrl = webUiUrl + "#!/stopped";
     }
     chrome.tabs.query({ "url": index }).then(function (tabs) {
@@ -326,16 +324,16 @@ function createContextMenu() {
 
 function onMenuClick(info, tab) {
     const url = decodeURIComponent(info.linkUrl || info.selectionText);
-    const referrer = info.frameUrl || info.pageUrl;    
+    const referrer = info.frameUrl || info.pageUrl;
     const filename = '';
     // mock a DownloadItem
     let downloadItem = { url, referrer, filename };
 
     if (info.menuItemId == "openWebUI") {
         launchUI();
-    } else if (info.menuItemId == "captureDownload") {    
-        chrome.storage.local.set({ integration: info.checked })        
-    } else if (info.menuItemId == "monitorAria2") { 
+    } else if (info.menuItemId == "captureDownload") {
+        chrome.storage.local.set({ integration: info.checked })
+    } else if (info.menuItemId == "monitorAria2") {
         chrome.storage.local.set({ monitorAria2: info.checked })
     } else if (info.menuItemId == "updateBlackSite") {
         updateBlockedSites(tab);
@@ -494,7 +492,7 @@ function monitorAria2() {
         if (Configs.integration && Configs.monitorAria2 && isDownloadListened()) {
             chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
         }
-        if(Configs.allowNotification){
+        if (Configs.allowNotification) {
             setTimeout(RemoteAria2.openSocket.bind(RemoteAria2), 3000);
         }
     });
@@ -513,7 +511,7 @@ function disableTaskNotification() {
     if (RemoteAria2.socket) {
         RemoteAria2.socket.removeEventListener("message", notifyTaskStatus);
         RemoteAria2.socket.addEventListener("close", () => {
-            console.log(RemoteAria2.name,"websocket is closed.");
+            console.log(RemoteAria2.name, "websocket is closed.");
             console.log("Remote URL =", RemoteAria2.rpcUrl);
         });
         RemoteAria2.closeSocket();
@@ -524,10 +522,10 @@ function disableTaskNotification() {
 async function notifyTaskStatus(event) {
     let data = JSON.parse(event.data)
 
-    if (!data.method || !data.params.length) 
+    if (!data.method || !data.params.length)
         return;
     let gid = data.params[0]["gid"];
-    let title = ''; //chrome.i18n.getMessage("taskNotification");
+    let title = chrome.i18n.getMessage("taskNotification");
     let message = '';
     let id = "TaskStatus";
     switch (data.method) {
@@ -543,12 +541,14 @@ async function notifyTaskStatus(event) {
             break;
     }
     if (message) {
-        let response = await RemoteAria2.getFiles(gid);
-        message = chrome.i18n.getMessage(message, RemoteAria2.name);
+        let sign = message == "downloadComplete" ? '✅' : '❌';
+        message = chrome.i18n.getMessage(message, RemoteAria2.name) + sign;
+        const response = await RemoteAria2.getFiles(gid);
         let contextMessage = response.result[0]["path"];
-        Utils.showNotification({ title, message,contextMessage }, id);
+        if (!contextMessage)
+            contextMessage = Utils.getFileName(response.result[0].uris[0].uri);
+        Utils.showNotification({ title, message, contextMessage }, id);
     }
-
 }
 
 function registerAllListeners() {
@@ -608,10 +608,11 @@ function registerAllListeners() {
                 }
             })
             /* new version update notification */
-            let title = `Version ${manifest.version}`;
-            let message = `My new name "${manifest.name}".`;
-            let contextMessage = `Welcome more advices and supports.🎈`;
-            Utils.showNotification({ title, message, contextMessage });
+            let title = `Version ${manifest.version}📥`;
+            let message = `My new name "${manifest.name}"`;
+            let contextMessage = `Welcome more advices and supports.🚀`;
+            let requireInteraction = true;
+            Utils.showNotification({ title, message, contextMessage, requireInteraction });
         }
     });
 
@@ -649,7 +650,7 @@ function registerAllListeners() {
         if (needReInit) {
             init();
         } else {
-            for (const [key, { oldValue, newValue }] of Object.entries(changes)) {      
+            for (const [key, { oldValue, newValue }] of Object.entries(changes)) {
                 Configs[key] = newValue;
             }
         }

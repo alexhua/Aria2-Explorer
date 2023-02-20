@@ -76,11 +76,13 @@ class Utils {
 
         return ariaNgOptions;
     }
+
     static generateUid() {
         let sourceId = "Aria2e" + '_' + Math.round(new Date().getTime() / 1000) + '_' + Math.random();
         let hashedId = btoa(sourceId);
         return hashedId;
     }
+
     /**
      *  Get a human readable speed string
      * 
@@ -102,6 +104,7 @@ class Utils {
         }
         return speed.toFixed(2) + unit;
     }
+
     /**
      * extract secret key from rpc url
      * 
@@ -117,8 +120,9 @@ class Utils {
             console.warn('Stored Rpc Url is invalid! RpcUrl ="' + rpcUrl + '"');
             return {};
         }
-        return {rpcUrl, secretKey};
+        return { rpcUrl, secretKey };
     }
+
     /**
      * Inflate rpc url with secret key
      * 
@@ -155,6 +159,7 @@ class Utils {
             }
         }
     }
+
     /**
      * Add `\` or `/` for download location if necessary
      * @param {string} location Download location
@@ -219,6 +224,22 @@ class Utils {
             return "https://microsoftedge.microsoft.com/addons/detail/" + id;
         else
             return "https://chrome.google.com/webstore/detail/" + id;
+    }
+
+    /**
+     * Get file name from a url
+     * @param {string} url 
+     * @return {string} filename
+     */
+    static getFileName(url) {
+        try {
+            url = new URL(url);
+        } catch (error) {
+            return '';
+        }
+        if (url.pathname.length < 2) return '';
+        let paths = url.pathname.split('/');
+        return paths[paths.length - 1]
     }
 }
 
