@@ -44,6 +44,9 @@
    "allowNotificationDes":{
       "message":"タスクステータス通知"
    },
+   "keepSilentDes":{
+      "message":"通知をサイレントにする"
+   },
    "captureMagnetDes":{
       "message":"マグネットリンクをキャプチャする"
    },

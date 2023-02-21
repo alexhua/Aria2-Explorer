@@ -44,6 +44,9 @@
    "allowNotificationDes": {
       "message": "Сповіщення стану завданн"
    },
+   "keepSilentDes":{
+      "message":"Зберігайте сповіщення мовчазними"
+   },
    "captureMagnetDes": {
       "message": "Захоплення магнітного посилання"
    },

@@ -1,6 +1,6 @@
 import Utils from "./utils.js";
 
-const DefaultRemote = { name:"Aria2", rpcUrl: "http://localhost:6800/jsonrpc", secretKey: '' };
+const DefaultRemote = { name: "Aria2", rpcUrl: "http://localhost:6800/jsonrpc", secretKey: '' };
 
 class Aria2 {
     static requestId = 0;
@@ -20,7 +20,7 @@ class Aria2 {
      * @param {string} rpcUrl Aria2 rpc url
      * @param {string} secretKey Aria2 rpc secret key
      */
-    setRemote(name="Aria2", rpcUrl, secretKey = '') {
+    setRemote(name = "Aria2", rpcUrl, secretKey = '') {
         if (rpcUrl == this.rpcUrl && secretKey == this.secretKey)
             return this;
         if (!Utils.validateRpcUrl(rpcUrl))
@@ -84,9 +84,13 @@ class Aria2 {
                     if (response.id == request.id)
                         resolve(response);
                 };
-                socket.onerror = (error) => {
-                    reject(error);
+                socket.onclose = (event) => {
                     this.socket = null;
+                    reject(Error("Websocket is closed"));
+                };
+                socket.onerror = (event) => {
+                    this.socket = null;
+                    reject(Error("Aria2 is unreachable"));
                 };
             } else { /* via http fetch */
                 if (url.startsWith("ws"))
@@ -129,7 +133,7 @@ class Aria2 {
     }
 
     addUri(uris, options) {
-        if (!Array.isArray(uris)) 
+        if (!Array.isArray(uris))
             uris = [uris];
         let request = this.#buildRequest("aria2.addUri", uris, options);
         return this.#doRPC(request);

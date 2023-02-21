@@ -50,7 +50,7 @@ async function send2Aria(rpcItem, downloadItem) {
 
     let remote = Utils.parseUrl(rpcItem.url);
     let aria2 = new Aria2(remote);
-
+    let silent = Configs.keepSilent;
     return aria2.addUri(downloadItem.url, options).then(function (response) {
         if (response && response.error) {
             return Promise.reject(response.error);
@@ -61,7 +61,7 @@ async function send2Aria(rpcItem, downloadItem) {
             downloadItem.filename = Utils.getFileName(downloadItem.url);
         let contextMessage = (options.dir || '') + downloadItem.filename;
         if (Configs.allowNotification)
-            Utils.showNotification({ title, message, contextMessage }, "NewTask");
+            Utils.showNotification({ title, message, contextMessage, silent }, "NewTask");
         return Promise.resolve("OK");
     }).catch(function (error) {
         let title = chrome.i18n.getMessage("exportFailedStr");
@@ -71,7 +71,7 @@ async function send2Aria(rpcItem, downloadItem) {
             contextMessage = `Error: ${error.message}.`;
         }
         if (Configs.allowNotification)
-            Utils.showNotification({ title, message, contextMessage }, "NewTask");
+            Utils.showNotification({ title, message, contextMessage, silent }, "NewTask");
 
         return Promise.resolve("FAIL");
     });
@@ -484,7 +484,7 @@ function monitorAria2() {
         if (!Configs.monitorAria2) return;
         let title = "Failed to connect with Aria2.";
         if (error && error.message) {
-            title += ` Reason: ${error.message}.`;
+            title += ` ${error.message}.`;
         }
         chrome.action.setBadgeBackgroundColor({ color: "red" });
         chrome.action.setBadgeText({ text: "E" });
@@ -544,10 +544,11 @@ async function notifyTaskStatus(event) {
         let sign = message == "downloadComplete" ? '✅' : '❌';
         message = chrome.i18n.getMessage(message, RemoteAria2.name) + sign;
         const response = await RemoteAria2.getFiles(gid);
+        let silent = Configs.keepSilent;
         let contextMessage = response.result[0]["path"];
         if (!contextMessage)
             contextMessage = Utils.getFileName(response.result[0].uris[0].uri);
-        Utils.showNotification({ title, message, contextMessage }, id);
+        Utils.showNotification({ title, message, contextMessage, silent }, id);
     }
 }
 
@@ -612,7 +613,8 @@ function registerAllListeners() {
             let message = `My new name "${manifest.name}"`;
             let contextMessage = `Welcome more advices and supports.🚀`;
             let requireInteraction = true;
-            Utils.showNotification({ title, message, contextMessage, requireInteraction });
+            let silent = Configs.keepSilent;
+            Utils.showNotification({ title, message, contextMessage, silent, requireInteraction });
         }
     });
 

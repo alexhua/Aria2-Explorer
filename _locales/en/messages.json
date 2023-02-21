@@ -33,7 +33,7 @@
       "message":"Receive download request from other extension"
    },
    "monitorAria2Str":{
-      "message":"Monitor Aria2 status"
+      "message":"Monitor Aria2 Status"
    },
    "monitorAria2Des":{
       "message":"Monitor Aria2 download status"
@@ -43,6 +43,9 @@
    },
    "allowNotificationDes":{
       "message":"Task status notifications"
+   },
+   "keepSilentDes":{
+      "message":"Keep notifications silent"
    },
    "captureMagnetDes":{
       "message":"Capture magnet link"

@@ -44,6 +44,9 @@
    "allowNotificationDes":{
       "message":"作業狀態通知"
    },
+   "keepSilentDes":{
+      "message":"保持通知靜音"
+   },
    "captureMagnetDes":{
       "message":"攔截磁力連結"
    },
