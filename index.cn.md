@@ -1,6 +1,6 @@
-# Aria2 for Chrome <span style="float:right">[[返回]](index.md)</span>
+# Aria2 Explorer <span style="float:right">[[返回]](index.md)</span>
 
-**Aria2 for Chrome** 是一款为 Chrome 定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到 Aria2 来完成网络资源下载。同时，引入了 [AriaNG](https://www.github.com/mayswind/AriaNg/) 作为前端，方便用户对 Aria2 进行操作和管理。
+**Aria2 Explorer** 是一款为 Chrome 定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到 Aria2 来完成网络资源下载。同时，引入了 [AriaNG](https://www.github.com/mayswind/AriaNg/) 作为前端，方便用户对 Aria2 进行操作和管理。
 
 ## 📑 如何使用
 
@@ -28,7 +28,7 @@
 
 4. 所有配置云端同步
 
-5. 中英双语支持
+5. 中日韩英乌克兰多语言支持
 
 6. Aria2下载状态监测
 
@@ -38,9 +38,9 @@
 
 9. 选项配置页面快捷键（保存：<kbd>Alt</kbd>+<kbd>S</kbd> 重置：<kbd>Alt</kbd>+<kbd>R</kbd> 下载：<kbd>Alt</kbd>+<kbd>J</kbd> 上传：<kbd>Alt</kbd>+<kbd>U</kbd>）
 
-10. 只需一次配置，自动导出默认 RPC 设置到 AriaNG
+10. 只需一次配置，自动导出所有 RPC 设置到 AriaNG
 
-## 🪢 外部调用
+## 🧩 外部调用
 
 允許其他擴展使用這個擴展作為與 Aria2 的中介軟體來下載檔案。  
 
@@ -56,25 +56,25 @@ const downloadItem = {
     }
 }
 
-chrome.runtime.sendMessage(`Aria2 for Chrome extension ID`, downloadItem)
+chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ```
 
-## 🔗 安装地址
+## 📥 安装地址
 
-[![Chrome Web Store](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/aria2-for-chrome/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 for Chrome")
-[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 for Edge")
+[![Chrome Web Store](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 Explorer")
+[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 Explorer")
 
 ## 💡 常见问题
 
-[https://github.com/alexhua/aria2-for-chrome/issues?q=label:faq](https://github.com/alexhua/aria2-for-chrome/issues?q=label%3Afaq)
+[https://github.com/alexhua/aria2-explorer/issues?q=label:faq](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ+sort%3Acreated-asc)
 
 ## 🔒 隐私政策
 
-本扩展会拦截浏览器下载任务和相关 Cookies 信息发送到用户指定的 Aria2 服务端来完成下载。Aria2 连接和配置信息会保存在本地或者由用户选择上传到用户账户云端进行存储。本扩展不会收集任何用户个人信息或网络活动记录，也不会帮助任何第三方收集信息。
+本扩展会拦截浏览器下载任务和相关 Cookies 信息，发送到用户指定的 Aria2 服务端来完成下载。Aria2 连接和配置信息会保存在本地或者由用户选择上传到用户登录的云端进行存储。本扩展不会收集任何用户个人信息或网络活动记录，也不会帮助任何第三方收集用户信息。
 
-## 📜 源协议
+## 📜 开源协议
 
-![GPLv3](https://www.gnu.org/graphics/gplv3-127x51.png)
+![BSD](https://i0.wp.com/opensource.org/wp-content/uploads/2006/07/OSI_Approved_License.png?w=90&ssl=1)
 
-Aria2-for-Chrome is licensed under [GNU General Public License](https://www.gnu.org/licenses/gpl.html) Version 3 or later.
+Aria2-Explorer is licensed under [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/).
