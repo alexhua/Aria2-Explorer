@@ -19,8 +19,11 @@ var Configs =
             if (Configs[checkbox.id])
                 checkbox.checked = Configs[checkbox.id];
         }
-        
+
         $("#keepAwake").prop("disabled", !Configs.monitorAria2);
+        $("#monitorAria2").change(() => {
+            $("#keepAwake").prop("disabled", !$("#monitorAria2").prop("checked"));
+        })
 
         for (const input of $("input[type=text],input[type=number]")) {
             if (Configs[input.id])
@@ -65,7 +68,7 @@ var Configs =
                 input.classList.add("is-invalid");
             }
         };
-        
+
         for (const i in rpcList) {
             $("#rpcList").append(rpcInputGroup(i));
         }
