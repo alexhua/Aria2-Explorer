@@ -111,13 +111,13 @@ var Configs =
         let location = '';
         for (const i in $(".rpcGroup")) {
             if ($(".name")[i].value && $(".rpcUrl")[i].value) {
-                rpcUrl = Utils.combineUrl($(".secretKey")[i].value, $(".rpcUrl")[i].value);
-                location = Utils.completeLocation($(".location")[i].value);
+                rpcUrl = Utils.combineUrl($(".secretKey")[i].value, $(".rpcUrl")[i].value.trim());
+                location = Utils.completeLocation($(".location")[i].value.trim());
                 Configs.rpcList.push({
-                    "name": $(".name")[i].value,
+                    "name": $(".name")[i].value.trim(),
                     "url": rpcUrl,
                     "location": location,
-                    "pattern": i == 0 ? '' : $(".pattern")[i - 1].value
+                    "pattern": i == 0 ? '' : $(".pattern")[i - 1].value.trim()
                 });
             }
         }
@@ -134,7 +134,7 @@ var Configs =
         Configs.webUIOpenStyle = $("[name=webUIOpenStyle]:checked").val();
 
         for (const textarea of $("textarea")) {
-            Configs[textarea.id] = textarea.value.split("\n");
+            Configs[textarea.id] = textarea.value.trim().split("\n");
             // clear the repeat record using Set object
             let tempSet = new Set(Configs[textarea.id]);
             tempSet.delete("");
