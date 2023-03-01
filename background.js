@@ -7,10 +7,12 @@ var MonitorId = -1;
 var MonitorRate = 3000; // Aria2 monitor interval 3000ms
 const RemoteAria2 = new Aria2();
 
-const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload)
+const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload);
 
-init();
-registerAllListeners();
+(function main() {
+    init();
+    registerAllListeners();
+})()
 
 async function getCookies(downloadItem) {
     let storeId = downloadItem.incognito == true ? "1" : "0";
@@ -401,6 +403,7 @@ function updateAllowedSites(tab) {
     Configs.allowedSites = Array.from(allowedSitesSet);
     chrome.storage.local.set({ allowedSites: Configs.allowedSites });
 }
+
 function updateBlockedSites(tab) {
     if (tab == null || tab.url == null) {
         console.warn("Could not get active tab url, update option menu failed.");
