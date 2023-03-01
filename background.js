@@ -259,20 +259,20 @@ async function openInWindow(url) {
 }
 
 function createOptionMenu() {
-    var strDownloadCapture = chrome.i18n.getMessage("downloadCaptureStr");
+    let title = chrome.i18n.getMessage("downloadCaptureStr");
     chrome.contextMenus.create({
         "type": "checkbox",
         "checked": Configs.integration,
         "id": "captureDownload",
-        "title": strDownloadCapture,
+        "title": '📥 ' + title,
         "contexts": ["action"]
     });
-    var strMonitorAria2 = chrome.i18n.getMessage("monitorAria2Str");
+    title = chrome.i18n.getMessage("monitorAria2Str");
     chrome.contextMenus.create({
         "type": "checkbox",
         "checked": Configs.monitorAria2,
         "id": "monitorAria2",
-        "title": strMonitorAria2,
+        "title": '🩺 ' + title,
         "contexts": ["action"]
     });
     chrome.contextMenus.create({
@@ -280,25 +280,25 @@ function createOptionMenu() {
         "id": "separator",
         "contexts": ["action"]
     });
-    var strOpenWebUI = chrome.i18n.getMessage("openWebUIStr");
+    title = chrome.i18n.getMessage("openWebUIStr");
     chrome.contextMenus.create({
         "type": "normal",
         "id": "openWebUI",
-        "title": strOpenWebUI,
+        "title": '🪟 ' + title,
         "contexts": ["action"]
     });
-    var strAddtoWhiteList = chrome.i18n.getMessage("addToWhiteListStr");
+    title = chrome.i18n.getMessage("addToWhiteListStr");
     chrome.contextMenus.create({
         "type": "normal",
         "id": "updateWhiteSite",
-        "title": strAddtoWhiteList,
+        "title": '✅ ' + title,
         "contexts": ["action"]
     });
-    var strAddtoBlackList = chrome.i18n.getMessage("addToBlackListStr");
+    title = chrome.i18n.getMessage("addToBlackListStr");
     chrome.contextMenus.create({
         "type": "normal",
         "id": "updateBlackSite",
-        "title": strAddtoBlackList,
+        "title": '🚫 ' + title,
         "contexts": ["action"]
     });
 }
@@ -316,7 +316,7 @@ function createContextMenu() {
             for (var i in Configs.rpcList) {
                 chrome.contextMenus.create({
                     id: i,
-                    title: strExport + Configs.rpcList[i]['name'],
+                    title: '📥 ' + strExport + Configs.rpcList[i]['name'],
                     contexts: ['link', 'selection']
                 });
             }
@@ -354,37 +354,29 @@ function onMenuClick(info, tab) {
 }
 
 function updateOptionMenu(tab) {
-    var blockedSitesSet = new Set(Configs.blockedSites);
-    var allowedSitesSet = new Set(Configs.allowedSites);
+    let blockedSitesSet = new Set(Configs.blockedSites);
+    let allowedSitesSet = new Set(Configs.allowedSites);
     if (tab == null || !tab.active) {
         if (!tab) {
             console.log("Could not get active tab, update option menu failed.")
         };
         return;
     }
-    var url = new URL(tab.url || "about:blank");
-    if (blockedSitesSet.has(url.hostname)) {
-        var updateBlackSiteStr = chrome.i18n.getMessage("removeFromBlackListStr");
-        chrome.contextMenus.update("updateBlackSite", {
-            "title": updateBlackSiteStr
-        });
-    } else {
-        var updateBlackSiteStr = chrome.i18n.getMessage("addToBlackListStr");
-        chrome.contextMenus.update("updateBlackSite", {
-            "title": updateBlackSiteStr
-        });
-    }
+    let url = new URL(tab.url || "about:blank");
+    let title = '✅ ';
     if (allowedSitesSet.has(url.hostname)) {
-        var updateWhiteSiteStr = chrome.i18n.getMessage("removeFromWhiteListStr");
-        chrome.contextMenus.update("updateWhiteSite", {
-            "title": updateWhiteSiteStr
-        });
+        title += chrome.i18n.getMessage("removeFromWhiteListStr");
     } else {
-        var updateWhiteSiteStr = chrome.i18n.getMessage("addToWhiteListStr");
-        chrome.contextMenus.update("updateWhiteSite", {
-            "title": updateWhiteSiteStr
-        });
+        title += chrome.i18n.getMessage("addToWhiteListStr");
     }
+    chrome.contextMenus.update("updateWhiteSite", { title });
+    title = '🚫 '
+    if (blockedSitesSet.has(url.hostname)) {
+        title += chrome.i18n.getMessage("removeFromBlackListStr");
+    } else {
+        title += chrome.i18n.getMessage("addToBlackListStr");
+    }
+    chrome.contextMenus.update("updateBlackSite", { title });
 }
 
 function updateAllowedSites(tab) {
@@ -612,9 +604,9 @@ function registerAllListeners() {
                 }
             })
             /* new version update notification */
-            let title = `Version ${manifest.version}📥`;
+            let title = `Version ${manifest.version} 📥`;
             let message = `My new name "${manifest.name}"`;
-            let contextMessage = `Welcome more advices and supports.🚀`;
+            let contextMessage = `Welcome more advices and supports. 🚀`;
             let requireInteraction = true;
             let silent = Configs.keepSilent;
             Utils.showNotification({ title, message, contextMessage, silent, requireInteraction });
