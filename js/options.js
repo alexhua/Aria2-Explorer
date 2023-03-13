@@ -42,12 +42,12 @@ var Configs =
             : [{ "name": "Aria2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }];
 
         const addBtnOrPattern = (i) => {
-            return i == 0 ? `<button class="btn btn-primary" id="add-rpc"><i class="bi-plus-circle"></i> Add RPC</button>` :
+            return i == 0 ? `<button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-circle-plus"></i> Add RPC</button>` :
                 `<input type="text" class="form-control col-sm-3 pattern" placeholder="URL Pattern(s) splitted by ,">`;
         };
         const rpcInputGroup = (i) => {
             return `<div class="form-group row rpcGroup">` +
-                `<label class="col-form-label col-sm-2 text-info">` + (i == 0 ? `<i class="bi-hdd-network"></i> Aria2-RPC-Server` : '') + `</label>` +
+                `<label class="col-form-label col-sm-2 text-info">` + (i == 0 ? `<i class="fa-solid fa-server"></i> Aria2-RPC-Server` : '') + `</label>` +
                 `<div class="input-group col-sm-10">` +
                 `<input type="text" class="form-control col-sm-1 name" placeholder="Name ∗" required>` +
                 `<input type="password" class="form-control col-sm-2 secretKey" placeholder="Secret Key">` +

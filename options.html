@@ -7,7 +7,7 @@
   <meta name="viewport" content="initial-scale=1, width=device-width">
   <link href="images/favicon.ico" rel="shortcut icon" type="image/ico" />
   <link href="css/bootstrap.min.css" rel="stylesheet" />
-  <link href="css/bootstrap-icons.css" rel="stylesheet" />
+  <link href="css/fontawesome.min.css" rel="stylesheet" />
   <link href="css/options.css" rel="stylesheet" />
 </head>
 
@@ -21,7 +21,7 @@
     <fieldset class="container">
       <legend></legend>
       <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="bi-menu-button-wide"></i>
+        <label class="col-sm-2 text-info"><i class="fa-solid fa-rectangle-list"></i>
           __MSG_contextmenuStr__</label>
         <div class="col-sm-10">
           <div class="custom-control custom-switch">
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="bi-box-arrow-in-down"></i>
+        <label class="col-sm-2 text-info"><i class="fa-solid fa-download"></i>
           __MSG_downloadCaptureStr__</label>
         <div class="col-sm-10">
           <div class="input-group custom-control-inline custom-switch">
@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="bi-heart-pulse"></i>
+        <label class="col-sm-2 text-info"><i class="fa-solid fa-heart-pulse"></i>
           __MSG_monitorAria2Str__</label>
         <div class="col-sm-10">
           <div class="custom-control custom-switch">
@@ -104,7 +104,7 @@
       <div id="rpcList">
       </div>
       <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="bi-columns-gap"></i>
+        <label class="col-sm-2 text-info"><i class="fa-solid fa-window-restore"></i>
           __MSG_WebUIOpenStyleStr__</label>
         <div class="col-sm-10">
           <div class="form-check">
@@ -129,7 +129,7 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="bi-filetype-mp4"></i> __MSG_fileExtStr__</label>
+        <label class="col-sm-2 text-info"><i class="fa-solid fa-file-lines"></i> __MSG_fileExtStr__</label>
         <div class="col-sm-10 row">
           <div class="col-sm-4">
             <label for="allowed-exts">__MSG_whiteListStr__</label>
@@ -145,7 +145,7 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="bi-globe"></i> __MSG_websiteStr__</label>
+        <label class="col-sm-2 text-info"><i class="fa-solid fa-globe"></i> __MSG_websiteStr__</label>
         <div class="col-sm-10 row">
           <div class="col-sm-5">
             <label for="allowed-sites">__MSG_whiteListStr__</label>
@@ -161,12 +161,12 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="bi-repeat"></i>
+        <label class="col-sm-2 text-info"><i class="fa-solid fa-rotate"></i>
           __MSG_configCloudSync__</label>
         <div class="col-sm-auto">
-          <button class="btn btn-primary mx-1" id="uploadConfig"><i class="bi-cloud-upload"></i>
+          <button class="btn btn-primary mx-1" id="uploadConfig"><i class="fa-solid fa-cloud-arrow-up"></i>
             __MSG_upload__</button>
-          <button class="btn btn-primary mx-1" id="downloadConfig"><i class="bi-cloud-download"></i>
+          <button class="btn btn-primary mx-1" id="downloadConfig"><i class="fa-solid fa-cloud-arrow-down"></i>
             __MSG_download__</button>
           <em>(__MSG_configCloudSyncDes__)</em>
         </div>
@@ -177,28 +177,29 @@
     <footer class="footer">
       <div class="footer-content">
         <div class="container footer-content">
-          <span class="bi-c-circle" id="copyright">
+          <span id="copyright">
             <a target="_blank" href="https://www.aria2e.ga">
+              <i class="fa-regular fa-copyright"></i>
               Copyright 2023 Alex Hua
             </a>
           </span>
 
           <span class="text-center">
-            <button class="btn btn-success mr-5" id="save"><i class="bi-check-circle"></i>
+            <button class="btn btn-success mr-5" id="save"><i class="fa-regular fa-circle-check"></i>
               __MSG_Save__</button>
-            <button class="btn btn-warning mx-5" id="reset"><i class="bi-x-circle"></i>
+            <button class="btn btn-warning mx-5" id="reset"><i class="fa-regular fa-circle-xmark"></i>
               __MSG_Reset__</button>
           </span>
 
           <span class="text-right" id="acknowledgment">
             <a href="acknowledgment.txt">
-              <i class="bi-lightbulb"></i> __MSG_Acknowledgment__</a>
+              <i class="fa-regular fa-lightbulb"></i> __MSG_Acknowledgment__</a>
           </span>
 
         </div>
         <span id="rate" class="text-center">
           <a id="webStoreUrl" class="btn btn-primary" href="" target="_blank">
-            <i class="bi-hand-thumbs-up"></i> __MSG_reviewDes__
+            <i class="fa-regular fa-thumbs-up"></i> __MSG_reviewDes__
           </a>
         </span>
       </div>
