@@ -39,6 +39,7 @@ fieldset {
 .text-info {
   font-weight: bold;
   text-align: right;
+  color: #025b8f !important;
 }
 
 .custom-switch {
