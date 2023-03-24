@@ -604,9 +604,9 @@ function registerAllListeners() {
                 }
             })
             /* new version update notification */
-            let title = `Version ${manifest.version} 📥`;
+            let title = `Version ${manifest.version} 🚀`;
             let message = `My new name "${manifest.name}"`;
-            let contextMessage = `Welcome more advices and supports. 🚀`;
+            let contextMessage = `Welcome more advices and supports. 🎉`;
             let requireInteraction = true;
             let silent = Configs.keepSilent;
             Utils.showNotification({ title, message, contextMessage, silent, requireInteraction });
