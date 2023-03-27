@@ -1,0 +1,215 @@
+{
+   "appName": {
+      "message": "Aria2 Explorer"
+   },
+   "description": {
+      "message": "Aria2다운로드 작업 자동 캡처，파일 크기"
+   },
+   "contextmenuTitle": {
+      "message": "다음으로 내보내기 "
+   },
+   "configPageTitle": {
+      "message": "확장 구성 페이지"
+   },
+   "contextmenuStr": {
+      "message": "마우스 오른쪽 버튼 메뉴"
+   },
+   "contextmenuDes": {
+      "message": "다운로드를 마우스 오른쪽 단추로 내보내기"
+   },
+   "askBeforeExportDes": {
+      "message": "내보내기 전에 자세한 매개 변수 설정 묻기"
+   },
+   "downloadCaptureStr": {
+      "message": "다운로드 캡처"
+   },
+   "downloadCaptureDes": {
+      "message": "파일 크기로 Aria2에 다운로드 작업 자동 캡처"
+   },
+   "askBeforeDownloadDes": {
+      "message": "자동 다운로드 전 매개 변수 설정 문의"
+   },
+   "allowExternalRequestDes": {
+      "message": "다른 확장으로부터 다운로드 요청 수락"
+   },
+   "monitorAria2Str": {
+      "message": "Aria2 상태 모니터링"
+   },
+   "monitorAria2Des": {
+      "message": "Aria2 다운로드 상태 모니터링"
+   },
+   "keepAwakeDes": {
+      "message": "다운로드할 때 시스템 깨우기 유지"
+   },
+   "allowNotificationDes": {
+      "message": "작업 상태 알림"
+   },
+   "keepSilentDes":{
+      "message":"알림을 무음으로 유지"
+   },
+   "captureMagnetDes": {
+      "message": "자력 링크 캡처"
+   },
+   "captureMagnetWarn": {
+      "message": "시스템 레벨 캡처, 마운트 해제 전에 꺼져 있는지 확인하십시오."
+   },
+   "websiteStr": {
+      "message": "웹 사이트"
+   },
+   "fileExtStr": {
+      "message": "확장자"
+   },
+   "whiteListStr": {
+      "message": "화이트리스트"
+   },
+   "BlackListStr": {
+      "message": "블랙리스트"
+   },
+   "addToWhiteListStr": {
+      "message": "현재 웹 사이트 -> 화이트리스트"
+   },
+   "addToBlackListStr": {
+      "message": "현재 사이트 -> 블랙리스트"
+   },
+   "removeFromWhiteListStr": {
+      "message": "화이트리스트에서 제거"
+   },
+   "removeFromBlackListStr": {
+      "message": "블랙리스트에서 제거"
+   },
+   "exportFailedStr": {
+      "message": "내보내기 실패"
+   },
+   "exportFailedDes": {
+      "message": "$rpcName$ 다운로드를 시작할 수 없습니다!",
+      "placeholders": {
+         "rpcName": {
+            "content": "$1",
+            "example": "Aria2 RPC name."
+         }
+      }
+   },
+   "exportSucceedStr": {
+      "message": "내보내기 성공"
+   },
+   "exportSucceedDes": {
+      "message": "$rpcName$ 다운로드가 시작되었습니다.",
+      "placeholders": {
+         "rpcName": {
+            "content": "$1",
+            "example": "Aria2 RPC name."
+         }
+      }
+   },
+   "taskNotification": {
+      "message": "작업 알림"
+   },
+   "downloadStart": {
+      "message": "$rpcName$ 다운로드 시작",
+      "placeholders": {
+         "rpcName": {
+            "content": "$1",
+            "example": "Aria2"
+         }
+      }
+   },
+   "downloadComplete": {
+      "message": "$rpcName$ 다운로드 완료",
+      "placeholders": {
+         "rpcName": {
+            "content": "$1",
+            "example": "Aria2"
+         }
+      }
+   },
+   "downloadError": {
+      "message": "$rpcName$ 다운로드 오류",
+      "placeholders": {
+         "rpcName": {
+            "content": "$1",
+            "example": "Aria2"
+         }
+      }
+   },
+   "allowedSitesPlaceholderDes": {
+      "message": "요격이 필요한 도메인 이름을 설정하고, 줄마다 웹 사이트를 설정하며, 정규 표현식을 지원합니다.\n(화이트리스트 우선)"
+   },
+   "blockedSitesPlaceholderDes": {
+      "message": "요격이 필요 없는 도메인 이름, 줄마다 웹 사이트를 설정하고 정규 표현식을 지원합니다."
+   },
+   "allowedExtsPlaceholderDes": {
+      "message": "요격이 필요한 파일 확장자를 설정합니다.\n각 행에 하나의 확장자를 지정하고 *은 모든 것을 나타냅니다.\n(화이트리스트 우선)"
+   },
+   "blockedExtsPlaceholderDes": {
+      "message": "요격할 필요가 없는 파일 확장자를 설정합니다.\n각 행에 하나의 확장자를 지정하고 *은 모든 것을 나타냅니다."
+   },
+   "WebUIOpenStyleStr": {
+      "message": "AriaNG 켜기"
+   },
+   "WebUIOpenStyle1": {
+      "message": "팝업창"
+   },
+   "WebUIOpenStyle2": {
+      "message": "새 탭"
+   },
+   "WebUIOpenStyle3": {
+      "message": "새 창"
+   },
+   "openWebUIStr": {
+      "message": "AriaNG 열기"
+   },
+   "toggleCapture": {
+      "message": "다운로드 자동 캡처 스위치"
+   },
+   "configCloudSync": {
+      "message": "클라우드 동기화 설정"
+   },
+   "configCloudSyncDes": {
+      "message": "AriaNG 동기화 및 현재 브라우저가 로그인한 계정으로 확장 구성"
+   },
+   "uploadConfigWarn": {
+      "message": "로컬 구성이 비어 있거나 유효하지 않은데도 계속하시겠습니까?"
+   },
+   "uploadConfigSucceed": {
+      "message": "업로드 구성 성공"
+   },
+   "uploadConfigFailed": {
+      "message": "업로드 구성 실패: "
+   },
+   "downloadConfigSucceed": {
+      "message": "구성 다운로드 성공"
+   },
+   "downloadConfigFailed": {
+      "message": "다운로드 구성 실패: 잘못된 클라우드 데이터 또는 네트워크 연결 없음"
+   },
+   "download": {
+      "message": "다운로드"
+   },
+   "upload": {
+      "message": "업로드"
+   },
+   "wait": {
+      "message": "기다림"
+   },
+   "finish": {
+      "message": "종료"
+   },
+   "review": {
+      "message": "채점"
+   },
+   "reviewDes": {
+      "message": "우리를 위해 점수를 매깁니다!"
+   },
+   "Save": {
+      "message": "저장"
+   },
+   "Reset": {
+      "message": "재설정"
+   },
+   "Acknowledgment": {
+      "message": "감사합니다"
+   },
+   "OverwriteAriaNgRpcWarn": {
+      "message": "RPC 설정이 변경되었습니다. AriaNG로 동기화됩니까?"
+   }
+}

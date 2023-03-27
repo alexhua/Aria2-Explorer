@@ -1,10 +1,13 @@
 var url = new URL(window.location.href);
 var action = url.searchParams.get("action");
 var magnetUrl = url.searchParams.get("url");
-var webUiUrl = chrome.extension.getURL('ui/ariang/index.html');
+var webUiUrl = chrome.runtime.getURL('ui/ariang/index.html');
+var Configs = await chrome.storage.local.get(["askBeforeDownload","webUIOpenStyle"]);
+var askBeforeDownload = Configs.askBeforeDownload;
+var webUIOpenStyle = Configs.webUIOpenStyle;
+
 if (action == "magnet") {
-    var askBeforeDownload = localStorage.getItem("askBeforeDownload") || "false";
-    if (askBeforeDownload == "true") {
+    if (askBeforeDownload) {
         launchUI(webUiUrl);
     } else {
         chrome.runtime.sendMessage({ url: magnetUrl });
@@ -33,7 +36,7 @@ function launchUI(webUiUrl) {
                 closeHandlerPage();
             });
         } else {
-            if (localStorage.webUIOpenStyle == "newwindow") {
+            if (webUIOpenStyle == "window") {
                 openInWindow(webUiUrl);
             } else {
                 chrome.tabs.create({

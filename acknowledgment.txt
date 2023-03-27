@@ -1,11 +1,6 @@
 ACKNOWLEDGEMENT
 
-This extension is forked from:
-
-https://github.com/acgotaku/YAAW-for-Chrome
-YAAW-for-Chrome is licensed under GNU General Public License Version 3 or later.
-
-and makes use of the following third party aria2 frontend solutions:
+This extension makes use of the following third party aria2 frontend solutions:
 
 https://github.com/mayswind/AriaNg
 MIT License: https://github.com/mayswind/AriaNg/blob/master/LICENSE

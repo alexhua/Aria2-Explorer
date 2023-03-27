@@ -1,9 +1,9 @@
 {
    "appName": {
-      "message":"Aria2 for Chrome"
+      "message":"Aria2 Explorer"
    },
    "description": {
-      "message":"让Aria2无缝接管下载，加速下载体验，内建Aria2前端，任务管理更方便。"
+      "message":"让Aria2无缝接管下载，加速下载体验，内置Aria2前端，任务管理更方便。"
    }, 
    "contextmenuTitle":{
       "message":"导出到 "
@@ -24,7 +24,7 @@
       "message":"下载拦截"
    },
    "downloadCaptureDes":{
-      "message":"自动拦截下载任务到Aria2，当文件大小 ≥"
+      "message":"自动拦截下载任务到Aria2，当文件大小"
    },
    "askBeforeDownloadDes":{
       "message":"自动下载前询问参数设置"
@@ -32,11 +32,20 @@
    "allowExternalRequestDes":{
       "message":"接受来自其他扩展的下载请求"
    },
-   "allowNotificationDes":{
-      "message":"启用拦截通知"
-   },
    "monitorAria2Str":{
-      "message":"监测Aria2状态在扩展图标"
+      "message":"监测Aria2状态"
+   },
+   "monitorAria2Des":{
+      "message":"监测Aria2下载状态"
+   },
+   "keepAwakeDes":{
+      "message":"下载时保持系统唤醒"
+   },
+   "allowNotificationDes":{
+      "message":"任务状态通知"
+   },
+   "keepSilentDes":{
+      "message":"保持通知静音"
    },
    "captureMagnetDes":{
       "message":"拦截磁力链接"
@@ -72,7 +81,7 @@
       "message":"导出失败"
    },
    "exportFailedDes":{
-      "message":"\n无法连接到$rpcName$,导出下载任务失败!",
+      "message":"$rpcName$ 无法开始下载！",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -84,7 +93,7 @@
       "message":"导出成功"
    },
    "exportSucceedDes":{
-      "message":"\n$rpcName$已经开始任务下载。",
+      "message":"$rpcName$ 已经开始下载。",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -92,11 +101,47 @@
          }
        }
    },
-   "websitePlaceholderDes":{
-      "message":"设置自动拦截网站过滤器，每行一个网站，支持正则表达式。"
+   "taskNotification":{
+      "message":"任务通知"
    },
-   "fileExtPlaceholderDes":{
-      "message":"设置自动拦截扩展名过滤器，每行一个扩展名，* 代表所有。"
+   "downloadStart":{
+      "message":"$rpcName$ 下载开始",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "downloadComplete":{
+      "message":"$rpcName$ 下载完成",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "downloadError":{
+      "message":"$rpcName$ 下载出错",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "allowedSitesPlaceholderDes":{
+      "message":"设置需要拦截的域名，每行一个网站，支持正则表达式。\n（白名单优先）"
+   },
+   "blockedSitesPlaceholderDes":{
+      "message":"设置不需要拦截的域名，每行一个网站，支持正则表达式。"
+   },
+   "allowedExtsPlaceholderDes":{
+      "message":"设置需要拦截的文件扩展名，\n每行一个扩展名，* 代表所有。\n（白名单优先）"
+   },
+   "blockedExtsPlaceholderDes":{
+      "message":"设置不需要拦截的文件扩展名，\n每行一个扩展名，* 代表所有。"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打开方式"
@@ -120,7 +165,7 @@
       "message":"配置云端同步"
    },
    "configCloudSyncDes":{
-      "message":"同步AriaNG和扩展配置到当前登陆的Google账号"
+      "message":"同步AriaNG和扩展配置到当前浏览器登陆的账号"
    },
    "uploadConfigWarn":{
       "message":"本地配置为空或无效，仍然继续？"
@@ -163,5 +208,8 @@
    },
    "Acknowledgment":{
       "message":"致谢"
+   },
+   "OverwriteAriaNgRpcWarn":{
+      "message":"RPC设置已更改，同步更改到AriaNG？"
    }
 }

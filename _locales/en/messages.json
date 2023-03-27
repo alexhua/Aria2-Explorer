@@ -1,9 +1,9 @@
 {
    "appName": {
-      "message":"Aria2 for Chrome"
+      "message":"Aria2 Explorer"
    },
    "description": {
-      "message": "Speed up your downloads with Aria2，manage your download tasks easily."
+      "message": "Speed up your downloads with Aria2, manage your download tasks easily."
    },
    "contextmenuTitle":{
       "message":"Export to "
@@ -24,7 +24,7 @@
       "message":"Download Capture"
    },
    "downloadCaptureDes":{
-      "message":"Enable auto capture when download file size ≥"
+      "message":"Enable auto capture when download file size"
    },
    "askBeforeDownloadDes":{
       "message":"Ask detail settings before auto download"
@@ -32,11 +32,20 @@
    "allowExternalRequestDes":{
       "message":"Receive download request from other extension"
    },
-   "allowNotificationDes":{
-      "message":"Enable capture notification"
-   },
    "monitorAria2Str":{
-      "message":"Monitor Aria2 status on extension icon"
+      "message":"Monitor Aria2 Status"
+   },
+   "monitorAria2Des":{
+      "message":"Monitor Aria2 download status"
+   },
+   "keepAwakeDes":{
+      "message":"Keep system awake when downloading"
+   },
+   "allowNotificationDes":{
+      "message":"Task status notifications"
+   },
+   "keepSilentDes":{
+      "message":"Keep notifications silent"
    },
    "captureMagnetDes":{
       "message":"Capture magnet link"
@@ -72,7 +81,7 @@
       "message":"Export Failed"
    },
    "exportFailedDes":{
-      "message":"Could not connect to $rpcName$, task export failed!",
+      "message":"$rpcName$ could not start task!",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -84,7 +93,7 @@
       "message":"Export Successful"
    },
    "exportSucceedDes":{
-      "message":"\n$rpcName$ has begun the download.",
+      "message":"$rpcName$ has begun the download.",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -92,11 +101,47 @@
          }
        }
    },
-   "websitePlaceholderDes":{
-      "message":"Set auto-capture domain filter, one website per line, supports regexp."
+   "taskNotification":{
+      "message":"Task Notification"
    },
-   "fileExtPlaceholderDes":{
-      "message":"Set auto-capture file extension filter, one file extension per line, * means all."
+   "downloadStart":{
+      "message":"$rpcName$ Download is started.",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "downloadComplete":{
+      "message":"$rpcName$ Download is complete.",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "downloadError":{
+      "message":"$rpcName$ Download error occurred.",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "allowedSitesPlaceholderDes":{
+      "message":"Set the domains you want to capture, one website per line, supports regexp. (Allow-list has higher priority)"
+   },
+   "blockedSitesPlaceholderDes":{
+      "message":"Set the domains you un-want to capture, one website per line, supports regexp."
+   },
+   "allowedExtsPlaceholderDes":{
+      "message":"Set the file extensions you want to capture, one extension per line, * means all.\n(Allow-list has higher priority)"
+   },
+   "blockedExtsPlaceholderDes":{
+      "message":"Set the file extensions you un-want to capture, one extension per line, * means all."
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG Open in"
@@ -120,22 +165,22 @@
       "message":"Cloud Sync"
    },
    "configCloudSyncDes":{
-      "message":"Sync AriaNg and extension configs to current logged-in Google account"
+      "message":"Sync AriaNg and extension configs to current logged-in Browser account"
    },
    "uploadConfigWarn":{
       "message":"Invalid or empty local config data, still continue?"
    },
    "uploadConfigSucceed":{
-      "message":"Upload config successful"
+      "message":"Configs upload successful"
    },
    "uploadConfigFailed":{
-      "message":"Upload config failed: "
+      "message":"Configs upload failed: "
    },
    "downloadConfigSucceed":{
-      "message":"Download config successful"
+      "message":"Configs download successful"
    },
    "downloadConfigFailed":{
-      "message":"Download config failed: Data invalid or network disconnected "
+      "message":"Configs download failed: Data invalid or network disconnected."
    },
    "download":{
       "message":"Download"
@@ -163,5 +208,8 @@
    },
    "Acknowledgment":{
       "message":"Acknowledgment"
+   },
+   "OverwriteAriaNgRpcWarn":{
+      "message":"RPC settings have changed. Synchronize these changes to AriaNG?"
    }
 }

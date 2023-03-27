@@ -1,182 +1,106 @@
-const defaultRPC = '[{"name":"ARIA2 RPC","url":"http://localhost:6800/jsonrpc", "pattern": ""}]';
+import Utils from "./js/utils.js";
+import Configs from "./js/config.js";
+import Aria2 from "./js/aria2.js";
+
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
 var MonitorRate = 3000; // Aria2 monitor interval 3000ms
-const fetchRpcList = () => JSON.parse(localStorage.getItem("rpc_list") || defaultRPC)
-const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload)
-const doHttpRequest = function(request) {
-    Promise.prototype.done = Promise.prototype.then;
-    Promise.prototype.fail = Promise.prototype.catch;
-    return new Promise(function(resolve, reject) {
-        var http = new XMLHttpRequest();
-        var contentType = request.contentType || "application/x-www-form-urlencoded; charset=UTF-8";
-        http.timeout = request.timeout || 3000;
-        http.onreadystatechange = function() {
-            if (http.readyState == 4) {
-                if ((http.status == 200 && http.status < 300) || http.status == 304) {
-                    resolve(JSON.parse(http.responseText));
-                } else {
-                    reject(JSON.parse(http.responseText == '' ? '{}' : http.responseText));
-                }
-            }
-        }
-        http.open(request.method, request.url, true);
-        http.setRequestHeader("Content-type", contentType);
-        for (h in request.headers) {
-            if (request.headers[h]) {
-                http.setRequestHeader(h, request.headers[h]);
-            }
-        }
-        if (request.method == "POST") {
-            http.send(request.data);
-        } else {
-            http.send();
-        }
-    }
-    );
-};
+const RemoteAria2 = new Aria2();
 
-//弹出chrome通知
-function showNotification(id, opt) {
-    var allowNotification = localStorage.getItem("allowNotification");
-    if (allowNotification == "false") return;
-    var notification = chrome.notifications.create(id, opt, function(notifyId) {
-        return notifyId
-    });
-}
-//解析RPC地址
-function parse_url(url) {
-    var auth_str = decodeURIComponent(request_auth(url));
-    var auth = null;
-    if (auth_str) {
-        if (auth_str.indexOf('token:') == 0) {
-            auth = auth_str;
-        } else {
-            auth = "Basic " + btoa(auth_str);
-        }
+const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload);
+
+(function main() {
+    init();
+    registerAllListeners();
+})()
+
+async function getCookies(downloadItem) {
+    let storeId = downloadItem.incognito == true ? "1" : "0";
+    let cookies = await chrome.cookies.getAll({ "url": downloadItem.url, "storeId": storeId });
+    let cookieItems = [];
+    for (const cookie of cookies) {
+        cookieItems.push(cookie.name + "=" + cookie.value);
     }
-    var url_path = remove_auth(url);
-    function request_auth(url) {
-        return url.match(/^(?:(?![^:@]+:[^:@\/]*@)[^:\/?#.]+:)?(?:\/\/)?(?:([^:@]*(?::[^:@]*)?)?@)?/)[1];
-    }
-    function remove_auth(url) {
-        return url.replace(/^((?![^:@]+:[^:@\/]*@)[^:\/?#.]+:)?(\/\/)?(?:(?:[^:@]*(?::[^:@]*)?)?@)?(.*)/, '$1$2$3');
-    }
-    return [url_path, auth];
+    return cookieItems;
 }
 
-function getCookies(downloadItem) {
-    return new Promise(resolve =>{
-        var storeId = downloadItem.incognito == true ? "1" : "0";
-        chrome.cookies.getAll({ "url": downloadItem.url, "storeId": storeId }, function (cookies) {
-            var format_cookies = [];
-            for (var i in cookies) {
-                var cookie = cookies[i];
-                format_cookies.push(cookie.name + "=" + cookie.value);
-            }
-            resolve(format_cookies);
-        })
-    })
-}
-
-async function send2Aria(rpc, downloadItem) {
-    let format_cookies = await getCookies(downloadItem);
-    var header = [];
-    if (format_cookies.length > 0) {
-        header.push("Cookie: " + format_cookies.join("; "));
+async function send2Aria(rpcItem, downloadItem) {
+    let cookieItems = [];
+    try {
+        cookieItems = await getCookies(downloadItem);
+    } catch (error) {
+        console.log(error.message);
+    }
+    let header = [];
+    if (cookieItems.length > 0) {
+        header.push("Cookie: " + cookieItems.join("; "));
     }
     header.push("User-Agent: " + navigator.userAgent);
     header.push("Connection: keep-alive");
 
-    var options = {
+    let options = {
         "header": header,
         "referer": downloadItem.referrer,
         "out": downloadItem.filename
     };
-    if (rpc.location) {
-        options.dir = rpc.location;
+    if (rpcItem.location) {
+        options.dir = rpcItem.location;
     }
     if (downloadItem.hasOwnProperty('options')) {
         options = Object.assign(options, downloadItem.options);
     }
 
-    var rpc_data = {
-        "jsonrpc": "2.0",
-        "method": "aria2.addUri",
-        "id": new Date().getTime(),
-        "params": [[downloadItem.url], options]
-    };
-    var result = parse_url(rpc.url);
-    var auth = result[1];
-    if (auth && auth.indexOf('token:') == 0) {
-        rpc_data.params.unshift(auth);
-    }
-
-    var request = {
-        url: result[0],
-        dataType: 'json',
-        method: 'POST',
-        data: JSON.stringify(rpc_data),
-        headers: {
-            'Authorization': auth
+    let remote = Utils.parseUrl(rpcItem.url);
+    let aria2 = new Aria2(remote);
+    let silent = Configs.keepSilent;
+    return aria2.addUri(downloadItem.url, options).then(function (response) {
+        if (response && response.error) {
+            return Promise.reject(response.error);
         }
-    };
-    return doHttpRequest(request).done(function (response) {
-        var title = chrome.i18n.getMessage("exportSucceedStr");
-        var des = chrome.i18n.getMessage("exportSucceedDes",[rpc.name]);
-        var opt = {
-            type: "basic",
-            title: title,
-            message: des,
-            iconUrl: "images/logo64.png",
-            isClickable: true
-        }
-        var id = new Date().getTime().toString();
-        showNotification(id, opt);
+        let title = chrome.i18n.getMessage("exportSucceedStr");
+        let message = chrome.i18n.getMessage("exportSucceedDes", [rpcItem.name]);
+        if (!downloadItem.filename)
+            downloadItem.filename = Utils.getFileName(downloadItem.url);
+        let contextMessage = (options.dir || '') + downloadItem.filename;
+        if (Configs.allowNotification)
+            Utils.showNotification({ title, message, contextMessage, silent }, "NewTask");
         return Promise.resolve("OK");
-    }).fail(function (response) {
-        var title = chrome.i18n.getMessage("exportFailedStr");
-        var des = chrome.i18n.getMessage("exportFailedDes",[rpc.name]);
-        if (response && response.error && response.error.message) {
-            des += ` Error: ${response.error.message}.`;
+    }).catch(function (error) {
+        let title = chrome.i18n.getMessage("exportFailedStr");
+        let message = chrome.i18n.getMessage("exportFailedDes", [rpcItem.name]);
+        let contextMessage = '';
+        if (error && error.message) {
+            contextMessage = `Error: ${error.message}.`;
         }
-        var opt = {
-            type: "basic",
-            title: title,
-            message: des,
-            iconUrl: "images/logo64.png",
-            requireInteraction: false
-        }
-        var id = new Date().getTime().toString();
-        showNotification(id, opt);
+        if (Configs.allowNotification)
+            Utils.showNotification({ title, message, contextMessage, silent }, "NewTask");
+
         return Promise.resolve("FAIL");
     });
 }
-
+/**
+ * Get a rpc item whose pattern(s) matches the giving resource url 
+ * 
+ * @param {string} url The resource url to be downloaded
+ */
 function getRpcServer(url) {
-    const rpcList = fetchRpcList();
-    for (var i = 1; i < rpcList.length; i++) {
-      var patterns = rpcList[i]['pattern'].split(',');
-      for (var j in patterns) {
-        var pattern = patterns[j].trim();
-        if (matchRule(url, pattern)) {
-          return rpcList[i];
+    for (let i = 1; i < Configs.rpcList.length; i++) {
+        let patterns = Configs.rpcList[i]['pattern'].split(',');
+        for (let pattern of patterns) {
+            pattern = pattern.trim();
+            if (matchRule(url, pattern)) {
+                return Configs.rpcList[i];
+            }
         }
-      }
     }
-    return rpcList[0];
+    return Configs.rpcList[0];
 }
 
 function matchRule(str, rule) {
     return new RegExp("^" + rule.split("*").join(".*") + "$").test(str);
 }
 
-function isCapture(downloadItem) {
-    var fileSize = localStorage.getItem("fileSize");
-    var whiteSiteList = JSON.parse(localStorage.getItem("white_site"));
-    var blackSiteList = JSON.parse(localStorage.getItem("black_site"));
-    var whiteExtList = JSON.parse(localStorage.getItem("white_ext"));
-    var blackExtList = JSON.parse(localStorage.getItem("black_ext"));
+function shouldCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
@@ -184,40 +108,36 @@ function isCapture(downloadItem) {
         return false;
     }
 
-    for (var i in whiteSiteList) {
-        if (matchRule(currentTabUrl.hostname, whiteSiteList[i]) || matchRule(url.hostname, whiteSiteList[i])) {
+    for (var i in Configs.allowedSites) {
+        if (matchRule(currentTabUrl.hostname, Configs.allowedSites[i]) || matchRule(url.hostname, Configs.allowedSites[i])) {
             return true;
         }
     }
-    for (var i in blackSiteList) {
-        if (matchRule(currentTabUrl.hostname, blackSiteList[i]) || matchRule(url.hostname, blackSiteList[i])) {
+    for (var i in Configs.blockedSites) {
+        if (matchRule(currentTabUrl.hostname, Configs.blockedSites[i]) || matchRule(url.hostname, Configs.blockedSites[i])) {
             return false;
         }
     }
 
-    for (var i in whiteExtList) {
-        if (downloadItem.filename.endsWith(whiteExtList[i]) || whiteExtList[i] == "*") {
+    for (var i in Configs.allowedExts) {
+        if (downloadItem.filename.endsWith(Configs.allowedExts[i]) || Configs.allowedExts[i] == "*") {
             return true;
         }
     }
-    for (var i in blackExtList) {
-        if (downloadItem.filename.endsWith(blackExtList[i]) || blackExtList[i] == "*") {
+    for (var i in Configs.blockedExts) {
+        if (downloadItem.filename.endsWith(Configs.blockedExts[i]) || Configs.blockedExts[i] == "*") {
             return false;
         }
     }
 
-    if (downloadItem.fileSize >= fileSize * 1024 * 1024) {
-        return true;
-    } else {
-        return false;
-    }
+    return downloadItem.fileSize >= Configs.fileSize * 1024 * 1024
 }
 
 function enableCapture() {
     if (!isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.addListener(captureDownload);
     }
-    chrome.browserAction.setIcon({
+    chrome.action.setIcon({
         path: {
             '32': "images/logo32.png",
             '64': "images/logo64.png",
@@ -225,7 +145,7 @@ function enableCapture() {
             '256': "images/logo256.png"
         }
     });
-    localStorage.setItem("integration", true);
+    Configs.integration = true;
     chrome.contextMenus.update("captureDownload", { checked: true });
 }
 
@@ -233,7 +153,7 @@ function disableCapture() {
     if (isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
     }
-    chrome.browserAction.setIcon({
+    chrome.action.setIcon({
         path: {
             '32': "images/logo32-gray.png",
             '64': "images/logo64-gray.png",
@@ -241,47 +161,47 @@ function disableCapture() {
             '256': "images/logo256-gray.png"
         }
     });
-    localStorage.setItem("integration", false);
+    Configs.integration = false;
     chrome.contextMenus.update("captureDownload", { checked: false });
 }
 
- async function captureDownload(downloadItem, suggestion) {
-    var askBeforeDownload = localStorage.getItem("askBeforeDownload");
-    var integration = localStorage.getItem("integration");
-    if (downloadItem.byExtensionId == "gbdinbbamaniaidalikeiclecfbpgphh") {
-        //workaround for filename ignorant assigned by extension "音视频下载"
-        return true;
+async function captureDownload(downloadItem, suggest) {
+    if (downloadItem.byExtensionId) {
+        // TODO: Filename assigned by chrome.downloads.download() was not passed in
+        // and will be discarded by Chrome. No solution or workaround right now. The
+        // only way is disabling capture before other extension calls chrome.downloads.download().
+        suggest();
     }
-    suggestion();
+
     //always use finalurl when it is available
     if (downloadItem.finalUrl != "" && downloadItem.finalUrl != "about:blank") {
         downloadItem.url = downloadItem.finalUrl;
     }
-    if (integration == "true" && isCapture(downloadItem)) {
-        chrome.downloads.cancel(downloadItem.id);
+    if (Configs.integration && shouldCapture(downloadItem)) {
+        chrome.downloads.cancel(downloadItem.id).then(() => {
+            if (chrome.runtime.lastError)
+                chrome.runtime.lastError = null;
+        });
         if (downloadItem.referrer == "about:blank") {
             downloadItem.referrer = "";
         }
-        if (askBeforeDownload == "true") {
+        if (Configs.askBeforeDownload) {
             launchUI(downloadItem);
         } else {
-            let rpc = getRpcServer(downloadItem.url);
-            let ret = await send2Aria(rpc, downloadItem);
+            let rpcItem = getRpcServer(downloadItem.url);
+            let ret = await send2Aria(rpcItem, downloadItem);
             if (ret == "FAIL") {
                 disableCapture();
-                chrome.downloads.download({ url: downloadItem.url });
-                setTimeout(enableCapture, 3000);
+                chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
             }
         }
     }
 }
 
-chrome.browserAction.onClicked.addListener(launchUI);
-
 async function launchUI(downloadItem) {
     const index = chrome.runtime.getURL('ui/ariang/index.html');
-    var webUiUrl = index; //launched from notification,option menu or extension icon
-    if (downloadItem?.hasOwnProperty("finalUrl")) { // launched with new task url
+    let webUiUrl = index; // launched from notification, option menu or browser toolbar icon
+    if (downloadItem?.hasOwnProperty("filename") && downloadItem.url) { // launched for new task
         webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
             webUiUrl = webUiUrl + "&referer=" + encodeURIComponent(btoa(encodeURI(downloadItem.referrer)));
@@ -292,8 +212,10 @@ async function launchUI(downloadItem) {
             header += "\nCookie: " + cookies.join(";");
         }
         webUiUrl = webUiUrl + "&header=" + encodeURIComponent(btoa(header));
+    } else if (downloadItem == "TaskStatus") { // launched from task done notification click
+        webUiUrl = webUiUrl + "#!/stopped";
     }
-    chrome.tabs.query({ "url": index }, function (tabs) {
+    chrome.tabs.query({ "url": index }).then(function (tabs) {
         if (tabs?.length > 0) {
             chrome.windows.update(tabs[0].windowId, {
                 focused: true
@@ -304,8 +226,7 @@ async function launchUI(downloadItem) {
             });
             return;
         }
-        var webUIOpenStyle = localStorage.getItem("webUIOpenStyle") || "newtab";
-        if (webUIOpenStyle == "newwindow") {
+        if (Configs.webUIOpenStyle == "window") {
             openInWindow(webUiUrl);
         } else {
             chrome.tabs.create({
@@ -315,11 +236,12 @@ async function launchUI(downloadItem) {
     });
 }
 
-function openInWindow(url) {
-    const w = Math.floor(screen.availWidth * 0.75);
-    const h = Math.floor(screen.availHeight * 0.75)
-    const l = Math.floor(screen.availWidth * 0.12);
-    const t = Math.floor(screen.availHeight * 0.12);
+async function openInWindow(url) {
+    let screen = await chrome.system.display.getInfo()
+    const w = Math.floor(screen[0].workArea.width * 0.75);
+    const h = Math.floor(screen[0].workArea.height * 0.75)
+    const l = Math.floor(screen[0].workArea.width * 0.12);
+    const t = Math.floor(screen[0].workArea.height * 0.12);
 
     chrome.windows.create({
         url: url,
@@ -329,7 +251,7 @@ function openInWindow(url) {
         top: t,
         type: 'popup',
         focused: false
-    }, function (window) {
+    }).then(function (window) {
         chrome.windows.update(window.id, {
             focused: true
         });
@@ -337,69 +259,64 @@ function openInWindow(url) {
 }
 
 function createOptionMenu() {
-    var strDownloadCapture = chrome.i18n.getMessage("downloadCaptureStr");
-    var isCaptureDownload =localStorage.getItem("integration") == "true";
+    let title = chrome.i18n.getMessage("downloadCaptureStr");
     chrome.contextMenus.create({
         "type": "checkbox",
-        "checked":isCaptureDownload,
+        "checked": Configs.integration,
         "id": "captureDownload",
-        "title": strDownloadCapture,
-        "contexts": ["browser_action"]
+        "title": '📥 ' + title,
+        "contexts": ["action"]
     });
-    var strMonitorAria2 = chrome.i18n.getMessage("monitorAria2Str");
-    var isMonitorAria2 =localStorage.getItem("monitorAria2") == "true";
+    title = chrome.i18n.getMessage("monitorAria2Str");
     chrome.contextMenus.create({
         "type": "checkbox",
-        "checked": isMonitorAria2,
+        "checked": Configs.monitorAria2,
         "id": "monitorAria2",
-        "title": strMonitorAria2,
-        "contexts": ["browser_action"]
+        "title": '🩺 ' + title,
+        "contexts": ["action"]
     });
     chrome.contextMenus.create({
         "type": "separator",
         "id": "separator",
-        "contexts": ["browser_action"]
+        "contexts": ["action"]
     });
-    var strOpenWebUI = chrome.i18n.getMessage("openWebUIStr");
+    title = chrome.i18n.getMessage("openWebUIStr");
     chrome.contextMenus.create({
         "type": "normal",
         "id": "openWebUI",
-        "title": strOpenWebUI,
-        "contexts": ["browser_action"]
+        "title": '🪟 ' + title,
+        "contexts": ["action"]
     });
-    var strAddtoWhiteList = chrome.i18n.getMessage("addToWhiteListStr");
+    title = chrome.i18n.getMessage("addToWhiteListStr");
     chrome.contextMenus.create({
         "type": "normal",
         "id": "updateWhiteSite",
-        "title": strAddtoWhiteList,
-        "contexts": ["browser_action"]
+        "title": '✅ ' + title,
+        "contexts": ["action"]
     });
-    var strAddtoBlackList = chrome.i18n.getMessage("addToBlackListStr");
+    title = chrome.i18n.getMessage("addToBlackListStr");
     chrome.contextMenus.create({
         "type": "normal",
         "id": "updateBlackSite",
-        "title": strAddtoBlackList,
-        "contexts": ["browser_action"]
+        "title": '🚫 ' + title,
+        "contexts": ["action"]
     });
 }
 
 function createContextMenu() {
-    var contextMenus = localStorage.getItem("contextMenus");
-    var askBeforeExport = localStorage.getItem("askBeforeExport");
     var strExport = chrome.i18n.getMessage("contextmenuTitle");
-    if (contextMenus == "true") {
-        if (askBeforeExport == "true") {
+    if (Configs.contextMenus) {
+        if (Configs.askBeforeExport) {
             chrome.contextMenus.create({
                 id: "0",
                 title: strExport + "AriaNG",
                 contexts: ['link', 'selection']
             });
         } else {
-            const rpcList = fetchRpcList();
-            for (var i in rpcList) {
+            for (var i in Configs.rpcList) {
                 chrome.contextMenus.create({
                     id: i,
-                    title: strExport + rpcList[i]['name'],
+                    title: '📥 ' + strExport + Configs.rpcList[i]['name'],
                     contexts: ['link', 'selection']
                 });
             }
@@ -407,427 +324,354 @@ function createContextMenu() {
     }
 }
 
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    if (changeInfo.status == "loading") {
-        CurrentTabUrl = tab?.url || "about:blank";
-        updateOptionMenu(tab);
-    }
-});
-
-chrome.tabs.onActivated.addListener(function(activeInfo) {
-    chrome.tabs.get(activeInfo.tabId, function(tab) {        
-        CurrentTabUrl = tab?.url || "about:blank";
-        updateOptionMenu(tab);
-    });
-
-});
-
-chrome.windows.onFocusChanged.addListener(function(windowId) {
-    chrome.tabs.query({ windowId: windowId, active: true }, function(tabs) {
-        if (tabs?.length > 0) {
-            CurrentTabUrl = tabs[0].url || "about:blank";
-            updateOptionMenu(tabs[0]);
-        }
-    });
-});
-
-chrome.contextMenus.onClicked.addListener(function(info, tab) {
-    var uri = decodeURIComponent(info.linkUrl || info.selectionText);
-    var referrer = info.frameUrl || info.pageUrl;
+function onMenuClick(info, tab) {
+    const url = decodeURIComponent(info.linkUrl || info.selectionText);
+    const referrer = info.frameUrl || info.pageUrl;
+    const filename = '';
     // mock a DownloadItem
-    var downloadItem = {
-        url: uri,
-        finalUrl: uri,
-        referrer: referrer,
-        filename: ""
-    };
+    let downloadItem = { url, referrer, filename };
 
     if (info.menuItemId == "openWebUI") {
         launchUI();
     } else if (info.menuItemId == "captureDownload") {
-        if (info.checked) {
-            enableCapture();
-        } else {
-            disableCapture();
-        }
+        chrome.storage.local.set({ integration: info.checked })
     } else if (info.menuItemId == "monitorAria2") {
-        if (info.checked) {
-            enableMonitor();
-        } else {
-            disableMonitor();
-        }
+        chrome.storage.local.set({ monitorAria2: info.checked })
     } else if (info.menuItemId == "updateBlackSite") {
-        updateBlackSite(tab);
+        updateBlockedSites(tab);
         updateOptionMenu(tab);
     } else if (info.menuItemId == "updateWhiteSite") {
-        updateWhiteSite(tab);
+        updateAllowedSites(tab);
         updateOptionMenu(tab);
     } else {
-        if (localStorage.askBeforeExport && localStorage.askBeforeExport == "true") {
+        if (Configs.askBeforeExport) {
             launchUI(downloadItem);
         } else {
-            let rpc = fetchRpcList()[info.menuItemId];
-            send2Aria(rpc, downloadItem);
+            let rpcItem = Configs.rpcList[info.menuItemId];
+            send2Aria(rpcItem, downloadItem);
         }
     }
-});
+}
 
 function updateOptionMenu(tab) {
-    var black_site = JSON.parse(localStorage.getItem("black_site"));
-    var black_site_set = new Set(black_site);
-    var white_site = JSON.parse(localStorage.getItem("white_site"));
-    var white_site_set = new Set(white_site);
+    let blockedSitesSet = new Set(Configs.blockedSites);
+    let allowedSitesSet = new Set(Configs.allowedSites);
     if (tab == null || !tab.active) {
         if (!tab) {
             console.log("Could not get active tab, update option menu failed.")
         };
         return;
     }
-    var url = new URL(tab.url || "about:blank");
-    if (black_site_set.has(url.hostname)) {
-        var updateBlackSiteStr = chrome.i18n.getMessage("removeFromBlackListStr");
-        chrome.contextMenus.update("updateBlackSite", {
-            "title": updateBlackSiteStr
-        });
+    let url = new URL(tab.url || "about:blank");
+    let title = '✅ ';
+    if (allowedSitesSet.has(url.hostname)) {
+        title += chrome.i18n.getMessage("removeFromWhiteListStr");
     } else {
-        var updateBlackSiteStr = chrome.i18n.getMessage("addToBlackListStr");
-        chrome.contextMenus.update("updateBlackSite", {
-            "title": updateBlackSiteStr
-        });
+        title += chrome.i18n.getMessage("addToWhiteListStr");
     }
-    if (white_site_set.has(url.hostname)) {
-        var updateWhiteSiteStr = chrome.i18n.getMessage("removeFromWhiteListStr");
-        chrome.contextMenus.update("updateWhiteSite", {
-            "title": updateWhiteSiteStr
-        });
+    chrome.contextMenus.update("updateWhiteSite", { title });
+    title = '🚫 '
+    if (blockedSitesSet.has(url.hostname)) {
+        title += chrome.i18n.getMessage("removeFromBlackListStr");
     } else {
-        var updateWhiteSiteStr = chrome.i18n.getMessage("addToWhiteListStr");
-        chrome.contextMenus.update("updateWhiteSite", {
-            "title": updateWhiteSiteStr
-        });
+        title += chrome.i18n.getMessage("addToBlackListStr");
     }
+    chrome.contextMenus.update("updateBlackSite", { title });
 }
 
-function updateWhiteSite(tab) {
+function updateAllowedSites(tab) {
     if (tab == null || tab.url == null) {
         console.warn("Could not get active tab url, update option menu failed.");
     }
     if (!tab.active || tab.url.startsWith("chrome"))
         return;
-    var white_site = JSON.parse(localStorage.getItem("white_site"));
-    var white_site_set = new Set(white_site);
+    var allowedSitesSet = new Set(Configs.allowedSites);
     var url = new URL(tab.url);
-    if (white_site_set.has(url.hostname)) {
-        white_site_set.delete(url.hostname);
+    if (allowedSitesSet.has(url.hostname)) {
+        allowedSitesSet.delete(url.hostname);
     } else {
-        white_site_set.add(url.hostname);
+        allowedSitesSet.add(url.hostname);
     }
-    localStorage.setItem("white_site", JSON.stringify(Array.from(white_site_set)));
+    Configs.allowedSites = Array.from(allowedSitesSet);
+    chrome.storage.local.set({ allowedSites: Configs.allowedSites });
 }
-function updateBlackSite(tab) {
+
+function updateBlockedSites(tab) {
     if (tab == null || tab.url == null) {
         console.warn("Could not get active tab url, update option menu failed.");
     }
     if (!tab.active || tab.url.startsWith("chrome"))
         return;
-    var black_site = JSON.parse(localStorage.getItem("black_site"));
-    var black_site_set = new Set(black_site);
+    var blockedSitesSet = new Set(Configs.blockedSites);
     var url = new URL(tab.url);
-    if (black_site_set.has(url.hostname)) {
-        black_site_set.delete(url.hostname);
+    if (blockedSitesSet.has(url.hostname)) {
+        blockedSitesSet.delete(url.hostname);
     } else {
-        black_site_set.add(url.hostname);
+        blockedSitesSet.add(url.hostname);
     }
-    localStorage.setItem("black_site", JSON.stringify(Array.from(black_site_set)));
-
+    Configs.blockedSites = Array.from(blockedSitesSet);
+    chrome.storage.local.set({ blockedSites: Configs.blockedSites });
 }
-chrome.notifications.onClicked.addListener(function(id) {
-    launchUI();
-    chrome.notifications.clear(id, function() {});
-});
 
-chrome.commands.onCommand.addListener(function(command) {
-    if (command === "toggle-capture") {
-        var integration = localStorage.getItem("integration");
-        if (integration == "false" || integration == null) {
-            enableCapture();
-        } else if (integration == "true") {
-            disableCapture();
-        }
-    }
-});
-
-chrome.runtime.onInstalled.addListener(function (details) {
-    let optionsUrl = chrome.runtime.getURL("options.html");
-    if (details.reason == "install") {
-        chrome.tabs.create({
-            url: optionsUrl
-        });
-    }
-});
-
-/**Listen to the local storage changes from options page **/
-window.addEventListener('storage', function(se) {
-    //console.log(se);
-    if (se.key == null && se.storageArea.length == 0) {
-        chrome.contextMenus.removeAll();
-        createOptionMenu();
-        disableCapture();
-        disableMonitor();
-        return
-    }
-
-    if (se.key == "contextMenus" || se.key == "askBeforeExport" || se.key == "rpc_list") {
-        chrome.contextMenus.removeAll();
-        createOptionMenu();
-        createContextMenu();
-    }
-
-    if (se.key == "rpc_list") {
-        exportRpc2AriaNg(getRpcServer("*"));
-    }
-
-    if (se.key == "integration") {
-        if (se.newValue == "true") {
-            enableCapture();
-        } else if (se.newValue == "false") {
-            disableCapture();
-        }
-    }
-
-    if (se.key == "monitorAria2") {
-        if (se.newValue == "true") {
-            enableMonitor();
-        } else if (se.newValue == "false") {
-            disableMonitor();
-        }
-    }    
-});
-
-// receive request from other extension
-/**
- * @typedef downloadItem
- * @type {Object}
- * @property {String} url
- * @property {String} filename
- * @property {String} referrer
- * @property {Object} options
- */
-chrome.runtime.onMessageExternal.addListener (
-    function (downloadItem) {
-        var allowExternalRequest = localStorage.getItem("allowExternalRequest");
-        if (allowExternalRequest == "true"){
-            var rpc = getRpcServer(downloadItem.url);
-            send2Aria(rpc, downloadItem);
-        }
-    }
-);
-
-chrome.runtime.onMessage.addListener(
-    function (downloadItem) {
-        var rpc = getRpcServer(downloadItem.url);
-        send2Aria(rpc, downloadItem);
-    }
-);
-
-function enableMonitor(){
+function enableMonitor() {
     if (MonitorId !== -1) {
         console.log("Warn: Monitor has already started.");
         return;
     }
     monitorAria2();
     MonitorId = setInterval(monitorAria2, MonitorRate);
-    localStorage.setItem("monitorAria2", true);
+    Configs.monitorAria2 = true;
     chrome.contextMenus.update("monitorAria2", { checked: true });
 }
 
-function disableMonitor(){
+function disableMonitor() {
     clearInterval(MonitorId);
     MonitorId = -1;
-    chrome.browserAction.setBadgeText({ text: "" });
-    chrome.browserAction.setTitle({ title: "" });
-    localStorage.setItem("monitorAria2", false);
+    chrome.action.setBadgeText({ text: "" });
+    chrome.action.setTitle({ title: "" });
+    Configs.monitorAria2 = false;
     chrome.contextMenus.update("monitorAria2", { checked: false });
-    if (localStorage.integration == "true" && !isDownloadListened()) {
+    if (Configs.integration && !isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.addListener(captureDownload);
     }
+    chrome.power.releaseKeepAwake();
 }
 
 function monitorAria2() {
-    var rpc_data = {
-        "jsonrpc": "2.0",
-        "method": "aria2.getGlobalStat",
-        "id": new Date().getTime(),
-        "params": []
-    };
-    var rpc = getRpcServer("*");
-    var result = parse_url(rpc.url);
-    var auth = result[1];
-    if (auth && auth.indexOf('token:') == 0) {
-        rpc_data.params.unshift(auth);
-    }
-
-    var request = {
-        url: result[0],
-        dataType: 'json',
-        method: 'POST',
-        data: JSON.stringify(rpc_data),
-        headers: {
-            'Authorization': auth
-        }
-    };
-    doHttpRequest(request).done(function (response) {
-        var numActive = response.result.numActive;
-        var numStopped = response.result.numStopped;
-        var numWaiting = response.result.numWaiting;
-        var uploadSpeed = getReadableSpeed(response.result.uploadSpeed);
-        var downloadSpeed = getReadableSpeed(response.result.downloadSpeed);
+    RemoteAria2.getGlobalStat().then(function (response) {
+        if (response && response.error)
+            return Promise.reject(response.error);
+        let numActive = response.result.numActive;
+        let numStopped = response.result.numStopped;
+        let numWaiting = response.result.numWaiting;
+        let uploadSpeed = Utils.getReadableSpeed(response.result.uploadSpeed);
+        let downloadSpeed = Utils.getReadableSpeed(response.result.downloadSpeed);
         /* Tune the monitor rate dynamically */
-        if (numActive > 0 && MonitorRate == 3000) {
-            MonitorRate = 1000;
-            disableMonitor();
-            enableMonitor();
-        } else if (numActive == 0 && MonitorRate == 1000) {
-            MonitorRate = 3000;
-            disableMonitor();
-            enableMonitor();
+        if (numActive > 0) {
+            if (MonitorRate == 3000) {
+                MonitorRate = 1000;
+                disableMonitor();
+                enableMonitor();
+            }
+            if (Configs.keepAwake)
+                chrome.power.requestKeepAwake("system");
+            else
+                chrome.power.releaseKeepAwake();
+        } else if (numActive == 0) {
+            if (MonitorRate == 1000) {
+                MonitorRate = 3000;
+                disableMonitor();
+                enableMonitor();
+            }
+            chrome.power.releaseKeepAwake();
         }
-        chrome.browserAction.setBadgeBackgroundColor({ color: "green" });
-        chrome.browserAction.setBadgeText({ text: numActive });
+        chrome.action.setBadgeBackgroundColor({ color: "green" });
+        chrome.action.setBadgeText({ text: numActive });
         let uploadStr = chrome.i18n.getMessage("upload");
         let downloadStr = chrome.i18n.getMessage("download");
         let waitStr = chrome.i18n.getMessage("wait");
         let finishStr = chrome.i18n.getMessage("finish");
-        chrome.browserAction.setTitle({ title: `${downloadStr}: ${numActive}  ${waitStr}: ${numWaiting}  ${finishStr}: ${numStopped}\n${uploadStr}: ${uploadSpeed}  ${downloadStr}: ${downloadSpeed}` });
-        if (localStorage.integration == "true" && !isDownloadListened()) {
+        chrome.action.setTitle({ title: `${downloadStr}: ${numActive}  ${waitStr}: ${numWaiting}  ${finishStr}: ${numStopped}\n${uploadStr}: ${uploadSpeed}  ${downloadStr}: ${downloadSpeed}` });
+        if (Configs.integration && !isDownloadListened()) {
             chrome.downloads.onDeterminingFilename.addListener(captureDownload);
         }
-    }).fail(function (response) {
-        if (localStorage.monitorAria2 == "false") return;
+    }).catch(function (error) {
+        if (!Configs.monitorAria2) return;
         let title = "Failed to connect with Aria2.";
-        if (response && response.error && response.error.message) {
-            title += ` Reason: ${response.error.message}.`;
+        if (error && error.message) {
+            title += ` ${error.message}.`;
         }
-        chrome.browserAction.setBadgeBackgroundColor({ color: "red" });
-        chrome.browserAction.setBadgeText({ text: "E" });
-        chrome.browserAction.setTitle({ title: title });
-        console.log(response);
-        if (localStorage.integration == "true" && localStorage.monitorAria2 == "true" && isDownloadListened()) {
+        chrome.action.setBadgeBackgroundColor({ color: "red" });
+        chrome.action.setBadgeText({ text: "E" });
+        chrome.action.setTitle({ title: title });
+        if (Configs.integration && Configs.monitorAria2 && isDownloadListened()) {
             chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
         }
+        if (Configs.allowNotification) {
+            setTimeout(RemoteAria2.openSocket.bind(RemoteAria2), 3000);
+        }
     });
 }
 
-function getReadableSpeed(speed) {
-    let unit ="";
-    speed = parseInt(speed);
-    if (speed >= 1024 * 1024) {
-        speed /= 1024 * 1024;
-       unit = " MB/s";
-    } else if (speed >= 1024) {
-        speed /= 1024;
-        unit = " KB/s";
-    } else if (speed >= 0) {
-        unit = " B/s";
-        return speed + unit;
-    }
-    return speed.toFixed(2) + unit;
-}
-
-function exportRpc2AriaNg(rpc) {
-    var ariaNgOptions = null;
-    let wsEnabled = false;
-    var defaultAriaNGOptions = {
-        language: window.navigator.language || 'en',
-        theme: 'light',
-        title: '${downspeed}, ${upspeed} - ${title}',
-        titleRefreshInterval: 5000,
-        browserNotification: true,
-        rpcAlias: '',
-        rpcHost: 'localhost',
-        rpcPort: '6800',
-        rpcInterface: 'jsonrpc',
-        protocol: 'ws',
-        httpMethod: 'POST',
-        secret: '',
-        extendRpcServers: [],
-        globalStatRefreshInterval: 1000,
-        downloadTaskRefreshInterval: 1000,
-        swipeGesture: true,
-        dragAndDropTasks: true,
-        rpcListDisplayOrder: 'recentlyUsed',
-        afterCreatingNewTask: 'task-list',
-        removeOldTaskAfterRetrying: true,
-        confirmTaskRemoval: true,
-        includePrefixWhenCopyingFromTaskDetails: false,
-        afterRetryingTask: 'task-list-downloading',
-        displayOrder: 'default:asc',
-        fileListDisplayOrder: 'default:asc',
-        peerListDisplayOrder: 'default:asc'
-    }
-
-    if (!localStorage["AriaNg.Options"]) {
-        ariaNgOptions = defaultAriaNGOptions;
-    } else {
-        ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);
-    }
-    wsEnabled = ariaNgOptions.protocol?.startsWith("ws") || false;
-    
-    try {
-        let url = new URL(rpc.url);
-        ariaNgOptions.rpcAlias = rpc.name;
-        ariaNgOptions.protocol = url.protocol.replace(':', '');
-        ariaNgOptions.rpcHost = url.hostname;
-        ariaNgOptions.rpcPort = url.port;
-        ariaNgOptions.rpcInterface = url.pathname.replace('/', '');
-        ariaNgOptions.secret = btoa(decodeURIComponent(url.password));
-    } catch (error) {
-        console.warn('exportRpc2AriaNg: Rpc Url is invalid! RpcUrl ="' + rpc.url + '"');
-        return
-    }
-    
-    if (wsEnabled) {
-        ariaNgOptions.protocol = ariaNgOptions.protocol.replace("http", "ws");
-    }
-    localStorage["AriaNg.Options"] = JSON.stringify(ariaNgOptions);
-}
-
-/******** init popup url icon, capture and aria2 monitor ********/
-var webUIOpenStyle = localStorage.getItem("webUIOpenStyle");
-if (webUIOpenStyle == "popup") {
-    var index = chrome.runtime.getURL('ui/ariang/popup.html');
-    chrome.browserAction.setPopup({
-        popup: index
+function enableTaskNotification() {
+    RemoteAria2.openSocket().addEventListener("message", notifyTaskStatus);
+    RemoteAria2.socket.addEventListener("open", () => {
+        console.log(RemoteAria2.name, "is connected via websocket.");
+        console.log("Remote URL =", RemoteAria2.rpcUrl);
+        console.log(RemoteAria2.name, "task notification is enabled.");
     });
 }
-chrome.contextMenus.removeAll();
-createOptionMenu();
-createContextMenu();
-var integration = localStorage.getItem("integration");
-if (integration == "true") {
-    enableCapture();
-} else if (integration == "false" || integration == null) {
-    disableCapture();
-}
-var integration = localStorage.getItem("monitorAria2");
-if (integration == "true") {
-    enableMonitor();
-} else if (integration == "false" || integration == null) {
-    disableMonitor();
+
+function disableTaskNotification() {
+    if (RemoteAria2.socket) {
+        RemoteAria2.socket.removeEventListener("message", notifyTaskStatus);
+        RemoteAria2.socket.addEventListener("close", () => {
+            console.log(RemoteAria2.name, "websocket is closed.");
+            console.log("Remote URL =", RemoteAria2.rpcUrl);
+        });
+        RemoteAria2.closeSocket();
+    }
+    console.log(RemoteAria2.name, "task notification is disabled.")
 }
 
-//软件版本更新提示
-var manifest = chrome.runtime.getManifest();
-var previousVersion = localStorage.getItem("version");
-if (previousVersion == "" || previousVersion != manifest.version) {
-    var opt = {
-        type: "basic",
-        title: "更新",
-        message: "\n支持在弹出窗口中打开AriaNG。",
-        iconUrl: "images/logo64.png",
-        requireInteraction: true
-    };
-    var id = new Date().getTime().toString();
-    //showNotification(id, opt);
-    localStorage.setItem("version", manifest.version);
+async function notifyTaskStatus(event) {
+    let data = JSON.parse(event.data)
+
+    if (!data.method || !data.params.length)
+        return;
+    let gid = data.params[0]["gid"];
+    let title = chrome.i18n.getMessage("taskNotification");
+    let message = '';
+    let id = "TaskStatus";
+    switch (data.method) {
+        // case "aria2.onDownloadStart":
+        //     message = "downloadStart"
+        //     break;
+        case "aria2.onDownloadComplete":
+        case "aria2.onBtDownloadComplete":
+            message = "downloadComplete"
+            break;
+        case "aria2.onDownloadError":
+            message = "downloadError"
+            break;
+    }
+    if (message) {
+        let sign = message == "downloadComplete" ? '✅' : '❌';
+        message = chrome.i18n.getMessage(message, RemoteAria2.name) + sign;
+        const response = await RemoteAria2.getFiles(gid);
+        let silent = Configs.keepSilent;
+        let contextMessage = response.result[0]["path"];
+        if (!contextMessage)
+            contextMessage = Utils.getFileName(response.result[0].uris[0].uri);
+        Utils.showNotification({ title, message, contextMessage, silent }, id);
+    }
+}
+
+function registerAllListeners() {
+    chrome.action.onClicked.addListener(launchUI);
+    chrome.contextMenus.onClicked.addListener(onMenuClick);
+    chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+        if (changeInfo.status == "loading") {
+            CurrentTabUrl = tab?.url || "about:blank";
+            updateOptionMenu(tab);
+        }
+    });
+
+    chrome.tabs.onActivated.addListener(function (activeInfo) {
+        chrome.tabs.get(activeInfo.tabId, function (tab) {
+            CurrentTabUrl = tab?.url || "about:blank";
+            updateOptionMenu(tab);
+        });
+
+    });
+
+    chrome.windows.onFocusChanged.addListener(function (windowId) {
+        chrome.tabs.query({ windowId: windowId, active: true }, function (tabs) {
+            if (tabs?.length > 0) {
+                CurrentTabUrl = tabs[0].url || "about:blank";
+                updateOptionMenu(tabs[0]);
+            }
+        });
+    });
+
+    chrome.notifications.onClicked.addListener(function (id) {
+        if (id != "default")
+            launchUI(id);
+        chrome.notifications.clear(id);
+    });
+
+    chrome.commands.onCommand.addListener(function (command) {
+        if (command === "toggle-capture") {
+            Configs.integration = !Configs.integration;
+            chrome.storage.local.set({ integration: Configs.integration })
+        }
+    });
+
+    chrome.runtime.onInstalled.addListener(function (details) {
+        let optionsUrl = chrome.runtime.getURL("options.html");
+        let manifest = chrome.runtime.getManifest();
+        if (details.reason == "install") {
+            chrome.tabs.create({
+                url: optionsUrl
+            });
+        } else if (details.reason == "update") {
+            chrome.storage.local.get("rpcList").then(configs => {
+                if (!configs.rpcList) {
+                    /* Old local storage should be upgraded to Chrome storage */
+                    chrome.tabs.create({
+                        url: optionsUrl + "?action=upgrade-storage"
+                    });
+                }
+            })
+            /* new version update notification */
+            let title = `Version ${manifest.version} 🚀`;
+            let message = `My new name "${manifest.name}"`;
+            let contextMessage = `Welcome more advices and supports. 🎉`;
+            let requireInteraction = true;
+            let silent = Configs.keepSilent;
+            Utils.showNotification({ title, message, contextMessage, silent, requireInteraction });
+        }
+    });
+
+    /* receive request from other extensions */
+    /**
+     * @typedef downloadItem
+     * @type {Object}
+     * @property {String} url
+     * @property {String} filename
+     * @property {String} referrer
+     * @property {Object} options
+     */
+    chrome.runtime.onMessageExternal.addListener(
+        function (downloadItem) {
+            if (Configs.allowExternalRequest) {
+                let rpcItem = getRpcServer(downloadItem.url);
+                send2Aria(rpcItem, downloadItem);
+            }
+        }
+    );
+    /* receive download request from magnet page */
+    chrome.runtime.onMessage.addListener(
+        function (downloadItem) {
+            if (!downloadItem || !downloadItem.url)
+                console.warn("Invalid download item, download request is rejected!");
+            let rpcItem = getRpcServer(downloadItem.url);
+            send2Aria(rpcItem, downloadItem);
+        }
+    );
+    /* Listen to the setting changes from options menu and page to control the extension behaviors */
+    chrome.storage.onChanged.addListener(function (changes, area) {
+        if (area !== "local") return;
+        let needReInit = changes.rpcList || changes.contextMenus || changes.askBeforeExport || changes.allowNotification
+            || changes.integration || changes.monitorAria2 || changes.captureMagnet || changes.webUIOpenStyle;
+        if (needReInit) {
+            init();
+        } else {
+            for (const [key, { oldValue, newValue }] of Object.entries(changes)) {
+                Configs[key] = newValue;
+            }
+        }
+    });
+}
+
+/* init popup url, context menu, download capture and aria2 monitor */
+function init() {
+    chrome.storage.local.get().then((configs) => {
+        Object.assign(Configs, configs);
+        let url = Configs.webUIOpenStyle == "popup" ? chrome.runtime.getURL('ui/ariang/popup.html') : '';
+        chrome.action.setPopup({
+            popup: url
+        });
+        let rpcItem = getRpcServer('*');
+        let remote = Utils.parseUrl(rpcItem.url);
+        RemoteAria2.setRemote(rpcItem.name, remote.rpcUrl, remote.secretKey);
+        chrome.contextMenus.removeAll();
+        createOptionMenu();
+        createContextMenu();
+        Configs.integration ? enableCapture() : disableCapture();
+        Configs.monitorAria2 ? enableMonitor() : disableMonitor();
+        (Configs.monitorAria2 && Configs.allowNotification) ? enableTaskNotification() : disableTaskNotification();
+        url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-Explore/issues/98" : '';
+        chrome.runtime.setUninstallURL(url);
+    });
 }

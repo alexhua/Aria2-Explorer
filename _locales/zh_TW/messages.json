@@ -1,6 +1,6 @@
 {
    "appName": {
-      "message":"Aria2 for Chrome"
+      "message":"Aria2 Explorer"
    },
    "description": {
       "message":"讓Aria2無縫接管下載，加速下載體驗，内建Aria2前端，作業管理更方便。"
@@ -24,7 +24,7 @@
       "message":"下載攔截"
    },
    "downloadCaptureDes":{
-      "message":"自動攔截下載工作到Aria2，當檔案大小 ≥"
+      "message":"自動攔截下載工作到Aria2，當檔案大小"
    },
    "askBeforeDownloadDes":{
       "message":"自動下載前詢問詳細設定"
@@ -33,10 +33,19 @@
       "message":"接受來自其他擴充功能的下載請求"
    },
    "monitorAria2Str":{
-      "message":"監測Aria2狀態在擴展圖標"
+      "message":"監測Aria2狀態"
+   },
+   "monitorAria2Des":{
+      "message":"監測Aria2下載狀態"
+   },
+   "keepAwakeDes":{
+      "message":"下載時保持系統喚醒"
    },
    "allowNotificationDes":{
-      "message":"啓用攔截通知"
+      "message":"作業狀態通知"
+   },
+   "keepSilentDes":{
+      "message":"保持通知靜音"
    },
    "captureMagnetDes":{
       "message":"攔截磁力連結"
@@ -72,7 +81,7 @@
       "message":"匯出失敗"
    },
    "exportFailedDes":{
-      "message":"\n無法連接到$rpcName$，匯出下載工作失敗!",
+      "message":"$rpcName$ 無法開始下載！",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -84,7 +93,7 @@
       "message":"匯出成功"
    },
    "exportSucceedDes":{
-      "message":"\n$rpcName$已經開始下載工作。",
+      "message":"$rpcName$ 已經開始下載。",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -92,11 +101,47 @@
          }
       }
    },
-   "websitePlaceholderDes":{
-      "message":"設置自動攔截站點過濾器，每行一個站點，支援規則運算式。"
+   "downloadStart":{
+      "message":"$rpcName$ 下載開始",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
    },
-   "fileExtPlaceholderDes":{
-      "message":"設置自動攔截副檔名過濾器，每行一個附檔名，* 代表所有。"
+   "taskNotification":{
+      "message":"作業通知"
+   },
+   "downloadComplete":{
+      "message":"$rpcName$ 下載完成",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "downloadError":{
+      "message":"$rpcName$ 下载出錯",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "allowedSitesPlaceholderDes":{
+      "message":"設定需要攔截的站點，每行一個網站，支持規則運算式。\n（白名單優先）"
+   },
+   "blockedSitesPlaceholderDes":{
+      "message":"設定不需要攔截的站點，每行一個網站，支持規則運算式。"
+   },
+   "allowedExtsPlaceholderDes":{
+      "message":"設定需要攔截的文件副檔名，\n每行一個副檔名，*代表所有。\n（白名單優先）"
+   },
+   "blockedExtsPlaceholderDes":{
+      "message":"設定不需要攔截的文件副檔名，\n每行一個副檔名，*代表所有。"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打開樣式"
@@ -120,7 +165,7 @@
       "message":"雲端同步設定"
    },
    "configCloudSyncDes":{
-      "message":"同步AriaNG和擴充功能設定到當前登入的Google帳號"
+      "message":"同步AriaNG和擴充功能設定到當前瀏覽器登入帳號"
    },
    "uploadConfigWarn":{
       "message":"本機設定為空或無效，仍然繼續？"
@@ -163,5 +208,8 @@
    },
    "Acknowledgment":{
       "message":"致謝"
+   },
+   "OverwriteAriaNgRpcWarn":{
+      "message":"RPC設定已更改，同步更改到AriaNG ?"
    }
 }

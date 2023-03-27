@@ -1,36 +1,50 @@
 {
-   "manifest_version": 2,
    "name": "__MSG_appName__",
-   "short_name": "Aria2-for-Chrome",
-   "options_page": "options.html",
-   "permissions": [ "cookies", "tabs", "notifications", "contextMenus", "downloads","<all_urls>","storage"],
-   "version": "1.5.11",
-   "minimum_chrome_version": "80.0.0",
-
-   "background": {
-      "persistent": false,
-      "scripts": [ "background.js" ]
-   },
-
-   "browser_action": {
-      "default_icon": "images/logo64.png"
-   },
-
-   "content_security_policy": "script-src 'self'; object-src 'self'",
+   "short_name": "Aria2E",
+   "version": "2.0.0",
+   "manifest_version": 3,
+   "minimum_chrome_version": "100.0.0",
    "default_locale": "en",
    "description": "__MSG_description__",
+   "options_page": "options.html",
+   "permissions": [
+      "cookies",
+      "tabs",
+      "notifications",
+      "contextMenus",
+      "downloads",
+      "storage",
+      "system.display",
+      "power"
+   ],
+   "host_permissions": [
+      "<all_urls>"
+   ],
+   "background": {
+      "service_worker": "background.js",
+      "type": "module"
+   },
+   "action": {
+      "default_icon": {
+         "64": "images/logo64.png"
+      },
+      "default_title": "__MSG_appName__"
+   },
+   "content_security_policy": {
+      "extension_pages": "script-src 'self';object-src 'self';"
+   },
    "icons": {
       "128": "images/logo128.png",
       "32": "images/logo32.png",
       "64": "images/logo64.png"
    },
    "commands": {
-          "toggle-capture": {
-            "suggested_key": {
-              "default": "Alt+A"
-            },
-            "description": "__MSG_toggleCapture__"
-          }
+      "toggle-capture": {
+         "suggested_key": {
+            "default": "Alt+A"
+         },
+         "description": "__MSG_toggleCapture__"
+      }
    },
    "externally_connectable": {
       "ids": [
@@ -38,7 +52,14 @@
       ]
    },
    "web_accessible_resources": [
-      "js/magnet.js",
-      "magnet.html"
-    ]
+      {
+         "resources": [
+            "js/magnet.js",
+            "magnet.html"
+         ],
+         "matches": [
+            "<all_urls>"
+         ]
+      }
+   ]
 }
