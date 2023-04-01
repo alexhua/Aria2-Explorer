@@ -605,10 +605,10 @@ function registerAllListeners() {
             })
             /* new version update notification */
             let title = `Version ${manifest.version} 🚀`;
-            let message = `My new name "${manifest.name}"`;
+            let message = `${manifest.name} has updated to latest.`;
             let contextMessage = `Welcome more advices and supports. 🎉`;
             let requireInteraction = true;
-            let silent = Configs.keepSilent;
+            let silent = true; // Configs.keepSilent;
             Utils.showNotification({ title, message, contextMessage, silent, requireInteraction });
         }
     });
