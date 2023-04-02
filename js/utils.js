@@ -55,24 +55,41 @@ class Utils {
                 break;
             }
         }
+
+        let compactRpcList = [];
+        compactRpcList.push(rpcList[defaultRpcIndex]);
+
+        /* Remove rpc item with same url */
+        for (const sourceRpc of rpcList) {
+            let included = false;
+            for (const targetRpc of compactRpcList) {
+                if (sourceRpc.url == targetRpc.url) {
+                    included = true;
+                    break;
+                }
+            }
+            if (!included)
+                compactRpcList.push(sourceRpc);
+        }
+
         /* export rpc list to ariaNG options */
         try {
-            for (const i in rpcList) {
+            for (const i in compactRpcList) {
                 let target = {};
-                if (i == defaultRpcIndex) {
+                if (i == 0) {
                     target = ariaNgOptions;
                 } else {
                     target.rpcId = Utils.generateUid();
                     target.httpMethod = 'POST';
                 }
-                let url = new URL(rpcList[i].url);
-                target.rpcAlias = rpcList[i].name;
+                let url = new URL(compactRpcList[i].url);
+                target.rpcAlias = compactRpcList[i].name;
                 target.protocol = url.protocol.replace(':', '');
                 target.rpcHost = url.hostname;
                 target.rpcPort = url.port;
                 target.rpcInterface = url.pathname.replace('/', '');
                 target.secret = btoa(decodeURIComponent(url.password));
-                if (i != defaultRpcIndex)
+                if (i > 0)
                     ariaNgOptions.extendRpcServers.push(target);
             }
         } catch (error) {

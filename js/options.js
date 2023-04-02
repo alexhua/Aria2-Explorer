@@ -192,7 +192,7 @@ window.onload = Configs.init;
 chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName == "local") {
         Configs.init();
-        if (changes.rpcList && changes.rpcList.newValue) {
+        if (isRpcListChanged(changes)) {
             let str = chrome.i18n.getMessage("OverwriteAriaNgRpcWarn");
             if (confirm(str)) {
                 let ariaNgOptions = null;
@@ -227,6 +227,22 @@ window.onkeyup = function (e) {
             button = document.getElementById("downloadConfig");
         }
         button?.focus({ focusVisible: true });
+    }
+}
+
+function isRpcListChanged(changes) {
+    if (changes && changes.rpcList) {
+        let oldList = changes.rpcList.oldValue;
+        let newList = changes.rpcList.newValue;
+        if (oldList.length != newList.length) {
+            return true;
+        } else {
+            for (let i in newList) {
+                if (newList[i].name != oldList[i].name || newList[i].url != oldList[i].url)
+                    return true;
+            }
+        }
+        return false;
     }
 }
 
