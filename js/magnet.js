@@ -10,8 +10,7 @@ if (action == "magnet") {
     if (askBeforeDownload) {
         launchUI(webUiUrl);
     } else {
-        chrome.runtime.sendMessage({ url: magnetUrl });
-        closeHandlerPage();
+        chrome.runtime.sendMessage({ url: magnetUrl }).then(closeHandlerPage);
     }
 }
 

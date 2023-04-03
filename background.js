@@ -605,7 +605,7 @@ function registerAllListeners() {
             })
             /* new version update notification */
             let title = `Version ${manifest.version} 🚀`;
-            let message = `${manifest.name} has updated to latest.`;
+            let message = `${manifest.name} has been updated.`;
             let contextMessage = `Welcome more advices and supports. 🎉`;
             let requireInteraction = true;
             let silent = true; // Configs.keepSilent;
