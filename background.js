@@ -551,14 +551,14 @@ function registerAllListeners() {
     chrome.action.onClicked.addListener(launchUI);
     chrome.contextMenus.onClicked.addListener(onMenuClick);
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-        if (changeInfo.status == "loading") {
+        if (changeInfo.status == "loading" && tab?.active) {
             CurrentTabUrl = tab?.url || "about:blank";
             updateOptionMenu(tab);
         }
     });
 
     chrome.tabs.onActivated.addListener(function (activeInfo) {
-        chrome.tabs.get(activeInfo.tabId, function (tab) {
+        chrome.tabs.get(activeInfo.tabId).then(function (tab) {
             CurrentTabUrl = tab?.url || "about:blank";
             updateOptionMenu(tab);
         });
@@ -566,7 +566,7 @@ function registerAllListeners() {
     });
 
     chrome.windows.onFocusChanged.addListener(function (windowId) {
-        chrome.tabs.query({ windowId: windowId, active: true }, function (tabs) {
+        chrome.tabs.query({ windowId: windowId, active: true }).then(function (tabs) {
             if (tabs?.length > 0) {
                 CurrentTabUrl = tabs[0].url || "about:blank";
                 updateOptionMenu(tabs[0]);
@@ -668,6 +668,7 @@ function init() {
         chrome.contextMenus.removeAll();
         createOptionMenu();
         createContextMenu();
+        updateOptionMenu({ url: CurrentTabUrl, active: true });
         Configs.integration ? enableCapture() : disableCapture();
         Configs.monitorAria2 ? enableMonitor() : disableMonitor();
         (Configs.monitorAria2 && Configs.allowNotification) ? enableTaskNotification() : disableTaskNotification();
