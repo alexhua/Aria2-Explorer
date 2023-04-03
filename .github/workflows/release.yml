@@ -15,20 +15,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
             
-      - name: Clean
-        run: |
-           rm -rf .git
-           rm -rf .github
-          
       - name: Zip
-        uses: vimtor/action-zip@v1
+        uses: "cardinalby/webext-buildtools-pack-extension-dir-action@v1"
         with:
-            files: .
-            dest: aria2e-${{ github.ref_name }}.crx
+          extensionDir: .
+          zipIgnore: ".git|.github|*.crx"
+          zipFilePath: "build/extension.zip"
+      
+      - name: Crx
+        uses: "cardinalby/webext-buildtools-chrome-crx-action@v2"
+        with:
+          zipFilePath: "build/extension.zip"
+          crxFilePath: "build/aria2e-${{ github.ref_name }}.crx"
+          privateKey: ${{ secrets.CHROME_CRX_PRIVATE_KEY }}
 
       - name: Release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          files: aria2e-${{ github.ref_name }}.crx
+          files: "build/aria2e-${{ github.ref_name }}.crx"
