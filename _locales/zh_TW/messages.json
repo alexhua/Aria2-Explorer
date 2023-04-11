@@ -210,6 +210,6 @@
       "message":"致謝"
    },
    "OverwriteAriaNgRpcWarn":{
-      "message":"RPC設定已更改，同步更改到AriaNG ?"
+      "message":"RPC設定已更改，同步更改到AriaNG并覆蓋 ?"
    }
 }

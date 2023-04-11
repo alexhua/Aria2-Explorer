@@ -210,6 +210,6 @@
       "message":"Acknowledgment"
    },
    "OverwriteAriaNgRpcWarn":{
-      "message":"RPC settings have changed. Synchronize these changes to AriaNG?"
+      "message":"RPC settings have changed. Synchronize these changes to AriaNG and overwrite?"
    }
 }

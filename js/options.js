@@ -234,7 +234,7 @@ function isRpcListChanged(changes) {
     if (changes && changes.rpcList) {
         let oldList = changes.rpcList.oldValue;
         let newList = changes.rpcList.newValue;
-        if (oldList.length != newList.length) {
+        if (oldList?.length != newList?.length) {
             return true;
         } else {
             for (let i in newList) {

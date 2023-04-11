@@ -15,7 +15,7 @@
       "message":"右键菜单"
    },
    "contextmenuDes":{
-      "message":"右键导出下載"
+      "message":"右键导出下载"
    },
    "askBeforeExportDes":{
       "message":"导出前询问详细参数设置"
@@ -210,6 +210,6 @@
       "message":"致谢"
    },
    "OverwriteAriaNgRpcWarn":{
-      "message":"RPC设置已更改，同步更改到AriaNG？"
+      "message":"RPC设置已更改，同步到AriaNG并覆盖？"
    }
 }
