@@ -202,16 +202,19 @@ async function launchUI(downloadItem) {
     const index = chrome.runtime.getURL('ui/ariang/index.html');
     let webUiUrl = index; // launched from notification, option menu or browser toolbar icon
     if (downloadItem?.hasOwnProperty("filename") && downloadItem.url) { // launched for new task
-        webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
+        webUiUrl = index + "#!/new?url=" + encodeURIComponent(downloadItem.url);
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
-            webUiUrl = webUiUrl + "&referer=" + encodeURIComponent(btoa(encodeURI(downloadItem.referrer)));
+            webUiUrl = webUiUrl + "&referer=" + encodeURIComponent(downloadItem.referrer);
         }
         let header = "User-Agent: " + navigator.userAgent;
         let cookies = await getCookies(downloadItem);
         if (cookies.length > 0) {
             header += "\nCookie: " + cookies.join(";");
         }
-        webUiUrl = webUiUrl + "&header=" + encodeURIComponent(btoa(header));
+        webUiUrl = webUiUrl + "&header=" + encodeURIComponent(header);
+        if (downloadItem.filename) {
+            webUiUrl = webUiUrl + "&filename=" + encodeURIComponent(downloadItem.filename);
+        }
     } else if (downloadItem == "TaskStatus") { // launched from task done notification click
         webUiUrl = webUiUrl + "#!/stopped";
     }
