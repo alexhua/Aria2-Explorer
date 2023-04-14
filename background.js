@@ -479,6 +479,7 @@ function monitorAria2() {
             chrome.downloads.onDeterminingFilename.addListener(captureDownload);
         }
     }).catch(function (error) {
+        chrome.power.releaseKeepAwake();
         if (!Configs.monitorAria2) return;
         let title = "Failed to connect with Aria2.";
         if (error && error.message) {
@@ -491,7 +492,7 @@ function monitorAria2() {
             chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
         }
         if (Configs.allowNotification) {
-            setTimeout(RemoteAria2.openSocket.bind(RemoteAria2), 3000);
+            setTimeout(enableTaskNotification, 3000);
         }
     });
 }
@@ -543,7 +544,7 @@ async function notifyTaskStatus(event) {
         message = chrome.i18n.getMessage(message, RemoteAria2.name) + sign;
         const response = await RemoteAria2.getFiles(gid);
         let silent = Configs.keepSilent;
-        let contextMessage = response.result[0]["path"];
+        let contextMessage = Utils.formatFilepath(response.result[0]["path"], false);
         if (!contextMessage)
             contextMessage = Utils.getFileName(response.result[0].uris[0].uri);
         Utils.showNotification({ title, message, contextMessage, silent }, id);

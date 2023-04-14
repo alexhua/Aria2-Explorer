@@ -183,19 +183,28 @@ class Utils {
     }
 
     /**
-     * Add `\` or `/` for download location if necessary
-     * @param {string} location Download location
+     * Format a given filepath 
+     * @param {string} location the filepath string
+     * @param {bool} isDirectory whether the input is a directory, default is true
      * @return {string}
      */
-    static completeLocation(location) {
+    static formatFilepath(location, isDirectory = true) {
         if (!location) return location;
-        if (location.startsWith('/')) { // unix-liked platform
-            if (!location.endsWith('/'))
-                location = location + '/';
-        } else {
-            if (!location.endsWith('\\')) // windows platform
-                location = location + '\\';
+
+        const winDelimiter = '\\', unixDelimiter = '/';
+        let eol = '';
+
+        if (location.startsWith(unixDelimiter)) { // unix-liked platform
+            eol = unixDelimiter;
+            location = location.replaceAll(winDelimiter, unixDelimiter).replaceAll('//', '/');
+        } else {                                // windows platform
+            eol = winDelimiter;
+            location = location.replaceAll(unixDelimiter, winDelimiter).replaceAll('\\\\', '\\');
+            location = location[0].toUpperCase() + location.slice(1);
         }
+        if (isDirectory && !location.endsWith(eol))
+            location = location + eol;
+            
         return location
     }
 

@@ -112,7 +112,7 @@ var Configs =
         for (const i in $(".rpcGroup")) {
             if ($(".name")[i].value && $(".rpcUrl")[i].value) {
                 rpcUrl = Utils.combineUrl($(".secretKey")[i].value, $(".rpcUrl")[i].value.trim());
-                location = Utils.completeLocation($(".location")[i].value.trim());
+                location = Utils.formatFilepath($(".location")[i].value.trim());
                 Configs.rpcList.push({
                     "name": $(".name")[i].value.trim(),
                     "url": rpcUrl,
