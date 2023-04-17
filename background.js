@@ -146,7 +146,7 @@ function enableCapture() {
         }
     });
     Configs.integration = true;
-    chrome.contextMenus.update("captureDownload", { checked: true });
+    chrome.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
 }
 
 function disableCapture() {
@@ -162,7 +162,7 @@ function disableCapture() {
         }
     });
     Configs.integration = false;
-    chrome.contextMenus.update("captureDownload", { checked: false });
+    chrome.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: false });
 }
 
 async function captureDownload(downloadItem, suggest) {
@@ -261,12 +261,46 @@ async function openInWindow(url) {
     });
 }
 
+function createRpcOptionsMenu() {
+    let rpcOptionsList = [];
+    for (const i in Configs.rpcList) {
+        if (!Configs.rpcList[i].pattern || Configs.rpcList[i].pattern == '*') {
+            rpcOptionsList.push({ id: i, name: Configs.rpcList[i].name })
+        }
+    }
+
+    if (rpcOptionsList.length < 2) return;
+
+    let needParentMenu = true;
+    for (const menuItem of rpcOptionsList) {
+        if (needParentMenu) {
+            let title = '🔘 ' + chrome.i18n.getMessage("selectDefaultRpcStr");
+            chrome.contextMenus.create({
+                "type": "normal",
+                "id": "MENU_RPC_LIST",
+                "title": title,
+                "contexts": ["action"]
+            });
+            needParentMenu = false;
+        }
+        let checked = Configs.rpcList[menuItem.id].pattern == '*'
+        chrome.contextMenus.create({
+            "type": "radio",
+            "checked": checked,
+            "id": "MENU_RPC_LIST-" + menuItem.id,
+            "parentId": "MENU_RPC_LIST",
+            "title": menuItem.name,
+            "contexts": ["action"]
+        });
+    }
+}
+
 function createOptionMenu() {
     let title = chrome.i18n.getMessage("downloadCaptureStr");
     chrome.contextMenus.create({
         "type": "checkbox",
         "checked": Configs.integration,
-        "id": "captureDownload",
+        "id": "MENU_CAPTURE_DOWNLOAD",
         "title": '📥 ' + title,
         "contexts": ["action"]
     });
@@ -274,7 +308,7 @@ function createOptionMenu() {
     chrome.contextMenus.create({
         "type": "checkbox",
         "checked": Configs.monitorAria2,
-        "id": "monitorAria2",
+        "id": "MENU_MONITOR_ARIA2",
         "title": '🩺 ' + title,
         "contexts": ["action"]
     });
@@ -286,24 +320,34 @@ function createOptionMenu() {
     title = chrome.i18n.getMessage("openWebUIStr");
     chrome.contextMenus.create({
         "type": "normal",
-        "id": "openWebUI",
+        "id": "MENU_OPEN_WEB_UI",
         "title": '🪟 ' + title,
+        "contexts": ["action"]
+    });
+    title = chrome.i18n.getMessage("websiteFilterStr");
+    chrome.contextMenus.create({
+        "type": "normal",
+        "id": "MENU_WEBSITE_FILTER",
+        "title": '🔛 ' + title,
         "contexts": ["action"]
     });
     title = chrome.i18n.getMessage("addToWhiteListStr");
     chrome.contextMenus.create({
         "type": "normal",
-        "id": "updateWhiteSite",
+        "id": "MENU_UPDATE_ALLOW_SITE",
+        "parentId": "MENU_WEBSITE_FILTER",
         "title": '✅ ' + title,
         "contexts": ["action"]
     });
     title = chrome.i18n.getMessage("addToBlackListStr");
     chrome.contextMenus.create({
         "type": "normal",
-        "id": "updateBlackSite",
+        "id": "MENU_UPDATE_BLOCK_SITE",
+        "parentId": "MENU_WEBSITE_FILTER",
         "title": '🚫 ' + title,
         "contexts": ["action"]
     });
+    createRpcOptionsMenu();
 }
 
 function createContextMenu() {
@@ -311,15 +355,22 @@ function createContextMenu() {
     if (Configs.contextMenus) {
         if (Configs.askBeforeExport) {
             chrome.contextMenus.create({
-                id: "0",
+                id: "MENU_EXPORT_TO",
                 title: strExport + "AriaNG",
                 contexts: ['link', 'selection']
             });
         } else {
-            for (var i in Configs.rpcList) {
+            let title = '';
+            for (const i in Configs.rpcList) {
+                if (Configs.rpcList.length < 2){
+                    title = strExport + Configs.rpcList[i]['name'] + ' 📥';
+                } else {
+                    title = '📥 ' + strExport + Configs.rpcList[i]['name'];
+                }
+
                 chrome.contextMenus.create({
-                    id: i,
-                    title: '📥 ' + strExport + Configs.rpcList[i]['name'],
+                    id: "MENU_EXPORT_TO-" + i,
+                    title: title,
                     contexts: ['link', 'selection']
                 });
             }
@@ -334,24 +385,29 @@ function onMenuClick(info, tab) {
     // mock a DownloadItem
     let downloadItem = { url, referrer, filename };
 
-    if (info.menuItemId == "openWebUI") {
+    if (info.menuItemId == "MENU_OPEN_WEB_UI") {
         launchUI();
-    } else if (info.menuItemId == "captureDownload") {
+    } else if (info.menuItemId == "MENU_CAPTURE_DOWNLOAD") {
         chrome.storage.local.set({ integration: info.checked })
-    } else if (info.menuItemId == "monitorAria2") {
+    } else if (info.menuItemId == "MENU_MONITOR_ARIA2") {
         chrome.storage.local.set({ monitorAria2: info.checked })
-    } else if (info.menuItemId == "updateBlackSite") {
+    } else if (info.menuItemId == "MENU_UPDATE_BLOCK_SITE") {
         updateBlockedSites(tab);
         updateOptionMenu(tab);
-    } else if (info.menuItemId == "updateWhiteSite") {
+    } else if (info.menuItemId == "MENU_UPDATE_ALLOW_SITE") {
         updateAllowedSites(tab);
         updateOptionMenu(tab);
-    } else {
+    } else if (info.menuItemId.startsWith("MENU_RPC_LIST")) {
+        let id = info.menuItemId.split('-')[1];
+        getRpcServer('*').pattern = '';
+        Configs.rpcList[id].pattern = '*';
+        chrome.storage.local.set(Configs);
+    } else if (info.menuItemId.startsWith("MENU_EXPORT_TO")) {
         if (Configs.askBeforeExport) {
             launchUI(downloadItem);
         } else {
-            let rpcItem = Configs.rpcList[info.menuItemId];
-            send2Aria(rpcItem, downloadItem);
+            let id = info.menuItemId.split('-')[1];
+            send2Aria(Configs.rpcList[id], downloadItem);
         }
     }
 }
@@ -372,14 +428,14 @@ function updateOptionMenu(tab) {
     } else {
         title += chrome.i18n.getMessage("addToWhiteListStr");
     }
-    chrome.contextMenus.update("updateWhiteSite", { title });
+    chrome.contextMenus.update("MENU_UPDATE_ALLOW_SITE", { title });
     title = '🚫 '
     if (blockedSitesSet.has(url.hostname)) {
         title += chrome.i18n.getMessage("removeFromBlackListStr");
     } else {
         title += chrome.i18n.getMessage("addToBlackListStr");
     }
-    chrome.contextMenus.update("updateBlackSite", { title });
+    chrome.contextMenus.update("MENU_UPDATE_BLOCK_SITE", { title });
 }
 
 function updateAllowedSites(tab) {
@@ -424,7 +480,7 @@ function enableMonitor() {
     monitorAria2();
     MonitorId = setInterval(monitorAria2, MonitorRate);
     Configs.monitorAria2 = true;
-    chrome.contextMenus.update("monitorAria2", { checked: true });
+    chrome.contextMenus.update("MENU_MONITOR_ARIA2", { checked: true });
 }
 
 function disableMonitor() {
@@ -433,7 +489,7 @@ function disableMonitor() {
     chrome.action.setBadgeText({ text: "" });
     chrome.action.setTitle({ title: "" });
     Configs.monitorAria2 = false;
-    chrome.contextMenus.update("monitorAria2", { checked: false });
+    chrome.contextMenus.update("MENU_MONITOR_ARIA2", { checked: false });
     if (Configs.integration && !isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.addListener(captureDownload);
     }
@@ -481,7 +537,7 @@ function monitorAria2() {
     }).catch(function (error) {
         chrome.power.releaseKeepAwake();
         if (!Configs.monitorAria2) return;
-        let title = "Failed to connect with Aria2.";
+        let title = `Failed to connect with ${RemoteAria2.name}.`;
         if (error && error.message) {
             title += ` ${error.message}.`;
         }
@@ -519,7 +575,7 @@ function disableTaskNotification() {
 }
 
 async function notifyTaskStatus(event) {
-    let data = JSON.parse(event.data)
+    let data = JSON.parse(event.data);
 
     if (!data.method || !data.params.length)
         return;
@@ -533,14 +589,14 @@ async function notifyTaskStatus(event) {
         //     break;
         case "aria2.onDownloadComplete":
         case "aria2.onBtDownloadComplete":
-            message = "downloadComplete"
+            message = "downloadComplete";
             break;
         case "aria2.onDownloadError":
-            message = "downloadError"
+            message = "downloadError";
             break;
     }
     if (message) {
-        let sign = message == "downloadComplete" ? '✅' : '❌';
+        let sign = message == "downloadComplete" ? ' ✅' : ' ❌';
         message = chrome.i18n.getMessage(message, RemoteAria2.name) + sign;
         const response = await RemoteAria2.getFiles(gid);
         let silent = Configs.keepSilent;

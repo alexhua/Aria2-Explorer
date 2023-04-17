@@ -56,6 +56,12 @@
    "websiteStr":{
       "message":"网站"
    },
+   "websiteFilterStr":{
+      "message":"网站过滤"
+   },
+   "selectDefaultRpcStr":{
+      "message":"默认Aria2"
+   },
    "fileExtStr":{
       "message":"扩展名"
    },

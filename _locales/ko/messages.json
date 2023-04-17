@@ -56,6 +56,12 @@
    "websiteStr": {
       "message": "웹 사이트"
    },
+   "websiteFilterStr": {
+      "message": "웹 사이트 필터링"
+   },
+   "selectDefaultRpcStr":{
+      "message":"기본 Aria2"
+   },
    "fileExtStr": {
       "message": "확장자"
    },

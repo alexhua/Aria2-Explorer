@@ -56,6 +56,12 @@
    "websiteStr": {
       "message": "Веб-сайт"
    },
+   "websiteFilterStr":{
+      "message":"фільтрація веб-сайту"
+   },
+   "selectDefaultRpcStr":{
+      "message":"типовий Aria2"
+   },
    "fileExtStr": {
       "message": "Розширення файлу"
    },

@@ -56,6 +56,12 @@
    "websiteStr":{
       "message":"網站"
    },
+   "websiteFilterStr":{
+      "message":"網站過濾"
+   },
+   "selectDefaultRpcStr":{
+      "message":"默認Aria2"
+   },
    "fileExtStr":{
       "message":"副檔名"
    },
