@@ -2,7 +2,7 @@ var url = new URL(window.location.href);
 var action = url.searchParams.get("action");
 var magnetUrl = url.searchParams.get("url");
 var webUiUrl = chrome.runtime.getURL('ui/ariang/index.html');
-var Configs = await chrome.storage.local.get(["askBeforeDownload","webUIOpenStyle"]);
+var Configs = await chrome.storage.local.get(["askBeforeDownload", "webUIOpenStyle"]);
 var askBeforeDownload = Configs.askBeforeDownload;
 var webUIOpenStyle = Configs.webUIOpenStyle;
 
@@ -23,7 +23,7 @@ function closeHandlerPage() {
 
 function launchUI(webUiUrl) {
     chrome.tabs.query({ "url": webUiUrl }, function (tabs) {
-        webUiUrl += "#!/new?url=" + btoa(magnetUrl);
+        webUiUrl += "#!/new?url=" + encodeURIComponent(magnetUrl);
         if (tabs?.length > 0) {
             chrome.windows.update(tabs[0].windowId, {
                 focused: true
