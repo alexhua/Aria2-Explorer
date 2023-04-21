@@ -43,38 +43,15 @@ class Utils {
             peerListDisplayOrder: 'default:asc'
         }
 
-        if (!ariaNgOptions) ariaNgOptions = defaultAriaNgOptions;
+        if (!ariaNgOptions || !Object.keys(ariaNgOptions).length)
+            ariaNgOptions = defaultAriaNgOptions;
+
         ariaNgOptions.extendRpcServers = [];
 
-        /* find the default rpc server */
-        let defaultRpcIndex = 0
-        for (const i in rpcList) {
-            let patterns = rpcList[i]['pattern'].split(',') || [];
-            if (patterns.includes('*')) {
-                defaultRpcIndex = i;
-                break;
-            }
-        }
-
-        let compactRpcList = [];
-        compactRpcList.push(rpcList[defaultRpcIndex]);
-
-        /* Remove rpc item with same url */
-        for (const sourceRpc of rpcList) {
-            let included = false;
-            for (const targetRpc of compactRpcList) {
-                if (sourceRpc.url == targetRpc.url) {
-                    included = true;
-                    break;
-                }
-            }
-            if (!included)
-                compactRpcList.push(sourceRpc);
-        }
-
+        let uniqueRpcList = this.compactRpcList(rpcList);
         /* export rpc list to ariaNG options */
         try {
-            for (const i in compactRpcList) {
+            for (const i in uniqueRpcList) {
                 let target = {};
                 if (i == 0) {
                     target = ariaNgOptions;
@@ -82,8 +59,8 @@ class Utils {
                     target.rpcId = Utils.generateUid();
                     target.httpMethod = 'POST';
                 }
-                let url = new URL(compactRpcList[i].url);
-                target.rpcAlias = compactRpcList[i].name;
+                let url = new URL(uniqueRpcList[i].url);
+                target.rpcAlias = uniqueRpcList[i].name;
                 target.protocol = url.protocol.replace(':', '');
                 target.rpcHost = url.hostname;
                 target.rpcPort = url.port;
@@ -97,6 +74,41 @@ class Utils {
         }
 
         return ariaNgOptions;
+    }
+
+    static compactRpcList(rpcList) {
+        let compactRpcList = [];
+
+        if (!rpcList || rpcList.length < 1)
+            return compactRpcList;
+
+        /* find the default rpc server */
+        let defaultRpcIndex = 0
+        for (const i in rpcList) {
+            let patterns = rpcList[i]['pattern'].split(',') || [];
+            if (patterns.includes('*')) {
+                defaultRpcIndex = i;
+                break;
+            }
+        }
+
+        compactRpcList.push(rpcList[defaultRpcIndex]);
+
+        /* Remove rpc item with same url */
+        for (const sourceRpc of rpcList) {
+            let included = false;
+            let sourceUrl = sourceRpc.url.replace("127.0.0.1", "localhost").replace("[::1]", "localhost");
+            for (const targetRpc of compactRpcList) {
+                let targetUrl = targetRpc.url.replace("127.0.0.1", "localhost").replace("[::1]", "localhost");
+                if (sourceUrl.split(`//`)[1] == targetUrl.split(`//`)[1]) {
+                    included = true;
+                    break;
+                }
+            }
+            if (!included)
+                compactRpcList.push(sourceRpc);
+        }
+        return compactRpcList;
     }
 
     static generateUid() {
@@ -130,17 +142,17 @@ class Utils {
     /**
      * extract secret key from rpc url
      * 
-     * @param {string} rpcUrl Full RPC URL with secret key
+     * @param {string} url Full RPC URL with secret key
      * @return {object} An object contains RPC URL and secret key
      */
-    static parseUrl(rpcUrl) {
+    static parseUrl(url) {
+        let rpcUrl = '', secretKey = '';
         try {
-            var url = new URL(rpcUrl);
-            rpcUrl = url.origin + url.pathname;
-            var secretKey = decodeURIComponent(url.password);
+            let urlObject = new URL(url);
+            rpcUrl = urlObject.origin + urlObject.pathname;
+            secretKey = decodeURIComponent(urlObject.password);
         } catch (error) {
-            console.warn('Stored Rpc Url is invalid! RpcUrl ="' + rpcUrl + '"');
-            return {};
+            console.warn('Stored Rpc Url is invalid! URL ="' + url + '"');
         }
         return { rpcUrl, secretKey };
     }
@@ -204,7 +216,7 @@ class Utils {
         }
         if (isDirectory && !location.endsWith(eol))
             location = location + eol;
-            
+
         return location
     }
 

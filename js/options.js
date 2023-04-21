@@ -74,10 +74,11 @@ var Configs =
         }
         for (const i in rpcList) {
             $(".name")[i].value = rpcList[i].name;
-            $(".secretKey")[i].value = Utils.parseUrl(rpcList[i].url).secretKey;
-            $(".rpcUrl")[i].value = Utils.parseUrl(rpcList[i].url).rpcUrl;
+            let rpc = Utils.parseUrl(rpcList[i].url);
+            $(".secretKey")[i].value = rpc.secretKey;
+            $(".rpcUrl")[i].value = rpc.rpcUrl;
             $(".location")[i].value = rpcList[i].location || '';
-            if (i != 0)
+            if (i > 0)
                 $(".pattern")[i - 1].value = rpcList[i].pattern || '';
         }
 
@@ -106,19 +107,19 @@ var Configs =
         await chrome.storage.local.clear();
     },
     save: function () {
-        Configs.rpcList = [];
-        let rpcUrl = '';
-        let location = '';
-        for (const i in $(".rpcGroup")) {
+        let rpcGroup = $(".rpcGroup");
+        Configs.rpcList = Configs.rpcList.slice(0, rpcGroup.length);
+        for (const i in rpcGroup) {
             if ($(".name")[i].value && $(".rpcUrl")[i].value) {
-                rpcUrl = Utils.combineUrl($(".secretKey")[i].value, $(".rpcUrl")[i].value.trim());
-                location = Utils.formatFilepath($(".location")[i].value.trim());
-                Configs.rpcList.push({
+                let rpcUrl = Utils.combineUrl($(".secretKey")[i].value, $(".rpcUrl")[i].value.trim());
+                if (!rpcUrl) continue;
+                let location = Utils.formatFilepath($(".location")[i].value.trim());
+                Configs.rpcList[i] = {
                     "name": $(".name")[i].value.trim(),
                     "url": rpcUrl,
                     "location": location,
                     "pattern": i == 0 ? '' : $(".pattern")[i - 1].value.trim()
-                });
+                };
             }
         }
 
@@ -193,13 +194,17 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName == "local") {
         Configs.init();
         if (isRpcListChanged(changes)) {
+            let oldAriaNgOptions = localStorage["AriaNg.Options"];
+            let ariaNgOptions = null;
+            try {
+                ariaNgOptions = JSON.parse(oldAriaNgOptions);
+            } catch (error) {
+                console.warn("The stored AriaNG options is null or invalid.")
+            }
+            let newAriaNgOptions = JSON.stringify(Utils.exportRpc2AriaNg(changes.rpcList.newValue, ariaNgOptions));
             let str = chrome.i18n.getMessage("OverwriteAriaNgRpcWarn");
-            if (confirm(str)) {
-                let ariaNgOptions = null;
-                if (localStorage["AriaNg.Options"])
-                    ariaNgOptions = JSON.parse(localStorage["AriaNg.Options"]);
-                let newAriaNgOptions = Utils.exportRpc2AriaNg(changes.rpcList.newValue, ariaNgOptions);
-                localStorage["AriaNg.Options"] = JSON.stringify(newAriaNgOptions);
+            if (newAriaNgOptions != oldAriaNgOptions && confirm(str)) {
+                localStorage["AriaNg.Options"] = newAriaNgOptions;
             }
         }
         if (changes.captureMagnet)
@@ -238,8 +243,10 @@ function isRpcListChanged(changes) {
             return true;
         } else {
             for (let i in newList) {
-                if (newList[i].name != oldList[i].name || newList[i].url != oldList[i].url)
+                if (newList[i].name != oldList[i].name || newList[i].url != oldList[i].url ||
+                    (newList[i].pattern == '*' && oldList[i].pattern != '*')) {
                     return true;
+                }
             }
         }
         return false;
