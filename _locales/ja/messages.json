@@ -32,6 +32,9 @@
    "allowExternalRequestDes":{
       "message":"他の拡張機能からのダウンロードリクエストを受信する"
    },
+   "captureFailUseExplorerDes":{
+      "message":"Aria2 へのエクスポートに失敗した場合はブラウザでダウンロード"
+   },
    "monitorAria2Str":{
       "message":"Aria 2状態の監視"
    },

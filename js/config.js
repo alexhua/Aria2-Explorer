@@ -6,6 +6,7 @@ const Configs = {
     fileSize: "100",
     askBeforeDownload: false,
     allowExternalRequest: false,
+    captureFailUseExplorer: false,
     monitorAria2: false,
     keepAwake: false,
     allowNotification: false,

@@ -32,6 +32,9 @@
    "allowExternalRequestDes": {
       "message": "Отримуйте запит на завантаження з іншого розширення"
    },
+   "captureFailUseExplorerDes":{
+      "message":"Завантажте за допомогою браузера, якщо не вдалося експортувати в Aria2"
+   },
    "monitorAria2Str": {
       "message": "Монітор стану Aria2"
    },

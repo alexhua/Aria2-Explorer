@@ -32,6 +32,9 @@
    "allowExternalRequestDes":{
       "message":"接受來自其他擴充功能的下載請求"
    },
+   "captureFailUseExplorerDes":{
+      "message":"如果導出到Aria2失敗用瀏覽器下載"
+   },
    "monitorAria2Str":{
       "message":"監測Aria2狀態"
    },

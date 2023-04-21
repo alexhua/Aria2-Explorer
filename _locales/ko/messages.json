@@ -32,6 +32,9 @@
    "allowExternalRequestDes": {
       "message": "다른 확장으로부터 다운로드 요청 수락"
    },
+   "captureFailUseExplorerDes":{
+      "message":"Aria2로 내보내기 실패 시 브라우저로 다운로드"
+   },
    "monitorAria2Str": {
       "message": "Aria2 상태 모니터링"
    },

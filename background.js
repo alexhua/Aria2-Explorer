@@ -191,8 +191,19 @@ async function captureDownload(downloadItem, suggest) {
             let rpcItem = getRpcServer(downloadItem.url);
             let ret = await send2Aria(rpcItem, downloadItem);
             if (ret == "FAIL") {
-                disableCapture();
-                chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
+                if (Configs.captureFailUseExplorer) {
+                    disableCapture();
+                    chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
+                } else {
+                    // 如果发送任务给aria2出错, 向用户报错
+                    let title = chrome.i18n.getMessage("taskNotification");
+                    let sign = ' ❌';
+                    const message = chrome.i18n.getMessage("downloadError", RemoteAria2.name) + sign;
+                    let id = "TaskStatus";
+                    let silent = Configs.keepSilent;
+                    let contextMessage = downloadItem.url
+                    Utils.showNotification({ title, message, contextMessage, silent }, id);
+                }
             }
         }
     }

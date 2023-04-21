@@ -32,6 +32,9 @@
    "allowExternalRequestDes":{
       "message":"Receive download request from other extension"
    },
+   "captureFailUseExplorerDes":{
+      "message":"Download with browser if export to Aria2 fails"
+   },
    "monitorAria2Str":{
       "message":"Monitor Aria2 Status"
    },
