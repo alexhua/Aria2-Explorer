@@ -190,7 +190,7 @@ async function captureDownload(downloadItem, suggest) {
         } else {
             let rpcItem = getRpcServer(downloadItem.url);
             let ret = await send2Aria(rpcItem, downloadItem);
-            if (ret == "FAIL") {
+            if (ret == "FAIL" && Utils.isLocalhost(rpcItem.rpcUrl)) {
                 disableCapture();
                 chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
             }
@@ -269,7 +269,7 @@ function createRpcOptionsMenu() {
         }
     }
 
-    if (rpcOptionsList.length < 2) return;
+    if (rpcOptionsList.length < 1) return;
 
     let needParentMenu = true;
     for (const menuItem of rpcOptionsList) {
@@ -362,7 +362,7 @@ function createContextMenu() {
         } else {
             let title = '';
             for (const i in Configs.rpcList) {
-                if (Configs.rpcList.length < 2){
+                if (Configs.rpcList.length < 2) {
                     title = strExport + Configs.rpcList[i]['name'] + ' 📥';
                 } else {
                     title = '📥 ' + strExport + Configs.rpcList[i]['name'];
@@ -669,7 +669,7 @@ function registerAllListeners() {
             let contextMessage = `Welcome more advices and supports. 🎉`;
             let requireInteraction = true;
             let silent = true; // Configs.keepSilent;
-            Utils.showNotification({ title, message, contextMessage, silent, requireInteraction });
+            false && Utils.showNotification({ title, message, contextMessage, silent, requireInteraction });
         }
     });
 

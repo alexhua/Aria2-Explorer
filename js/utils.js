@@ -284,6 +284,20 @@ class Utils {
         let paths = url.pathname.split('/');
         return paths[paths.length - 1]
     }
+
+    /**
+     * Check whether a host of url is localhost
+     * @param {string} url 
+     * @return {bool} result
+     */
+    static isLocalhost(url) {
+        try {
+            var u = new URL(url);
+        } catch (error) {
+            return false;
+        }
+        return u.host == "[::1]" || u.host == "127.0.0.1" || u.host.toLowerCase() == "localhost"
+    }
 }
 
 export default Utils;
