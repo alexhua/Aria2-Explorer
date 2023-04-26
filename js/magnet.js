@@ -23,7 +23,8 @@ function closeHandlerPage() {
 
 function launchUI(webUiUrl) {
     chrome.tabs.query({ "url": webUiUrl }, function (tabs) {
-        webUiUrl += "#!/new?url=" + encodeURIComponent(magnetUrl);
+        
+        webUiUrl += "#!/new?url=" + encodeURIComponent(btoa(magnetUrl));
         if (tabs?.length > 0) {
             chrome.windows.update(tabs[0].windowId, {
                 focused: true

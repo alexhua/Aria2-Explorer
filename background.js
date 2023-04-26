@@ -202,7 +202,7 @@ async function launchUI(downloadItem) {
     const index = chrome.runtime.getURL('ui/ariang/index.html');
     let webUiUrl = index; // launched from notification, option menu or browser toolbar icon
     if (downloadItem?.hasOwnProperty("filename") && downloadItem.url) { // launched for new task
-        webUiUrl = index + "#!/new?url=" + encodeURIComponent(downloadItem.url);
+        webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
             webUiUrl = webUiUrl + "&referer=" + encodeURIComponent(downloadItem.referrer);
         }
