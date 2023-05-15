@@ -74,6 +74,7 @@ input[type=radio], input + label {
   padding: .5rem;
   bottom: 0;
   width: 100%;
+  z-index: 10;
   background-color: #f5f5f560;
   border-top: 1px solid #ddd;
   border-radius: 0 0 6px 6px;
@@ -141,7 +142,7 @@ a:hover>.fa-lightbulb,
   padding: .5rem;
   font-size: .8rem;
   border-radius: 4px;
-  transition: opacity .2s ease-in-out .6s;
+  transition: opacity .2s ease-in-out 1s;
 }
 
 .tool-tip:hover::before {
