@@ -38,6 +38,12 @@
    "monitorAria2Des":{
       "message":"Monitor Aria2 download status"
    },
+   "monitorAllDes":{
+      "message":"Monitor all Aria2 Servers"
+   },
+   "monitorAllTips":{
+      "message":"When multiple Aria2 servers are set, monitor all the status of them and display the aggregate results."
+   },
    "keepAwakeDes":{
       "message":"Keep system awake when downloading"
    },
@@ -66,16 +72,16 @@
       "message":"File Extension"
    },
    "whiteListStr":{
-      "message":"Allow-list"
+      "message":"Allow-List"
    },
    "BlackListStr":{
-      "message":"Block-list"
+      "message":"Block-List"
    },
       "addToWhiteListStr":{
       "message":"Current URL -> Allow-List"
    },
    "addToBlackListStr":{
-      "message":"Current URL -> Block-list"
+      "message":"Current URL -> Block-List"
    },
    "removeFromWhiteListStr":{
       "message":"Remove from Allow-List"
@@ -199,6 +205,12 @@
    },
    "finish":{
       "message":"Finish"
+   },
+   "connected":{
+      "message":"Connected"
+   },
+   "disconnected":{
+      "message":"Disconnected"
    },
    "review":{
       "message":"Review"

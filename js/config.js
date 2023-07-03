@@ -7,6 +7,7 @@ const Configs = {
     askBeforeDownload: false,
     allowExternalRequest: false,
     monitorAria2: false,
+    monitorAll:false,
     keepAwake: false,
     allowNotification: false,
     keepSilent: false,

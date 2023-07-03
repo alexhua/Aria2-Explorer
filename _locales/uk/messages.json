@@ -38,6 +38,12 @@
    "monitorAria2Des": {
       "message": "Монітор стану звантаження Aria2"
    },
+   "monitorAllDes": {
+      "message": "Моніторинг всіх Aria2"
+   },
+   "monitorAllTips": {
+      "message": "Якщо встановлено декілька Aria2, слідкуйте за станом усіх та агрегуйте результати."
+   },
    "keepAwakeDes": {
       "message": "Зберігайте систему працювати під час завантаження"
    },
@@ -199,6 +205,12 @@
    },
    "finish": {
       "message": "Завершено"
+   },
+   "connected":{
+      "message":"підключено"
+   },
+   "disconnected":{
+      "message":"відключено"
    },
    "review": {
       "message": "оцінити"

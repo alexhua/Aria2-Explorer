@@ -20,6 +20,7 @@ var Configs =
                 checkbox.checked = Configs[checkbox.id];
         }
 
+        Configs.rpcList.length > 1 ? $("#monitor-all").show() : $("#monitor-all").hide();
         $("#keepAwake").prop("disabled", !Configs.monitorAria2);
         $("#monitorAria2").change(() => {
             $("#keepAwake").prop("disabled", !$("#monitorAria2").prop("checked"));
@@ -143,7 +144,7 @@ var Configs =
         }
         chrome.storage.local.set(Configs);
     },
-    uploadConfig: function () {
+    upload: function () {
 
         Configs.ariaNgOptions = localStorage.getItem("AriaNg.Options");
 
@@ -163,7 +164,7 @@ var Configs =
             }
         });
     },
-    downloadConfig: function () {
+    download: function () {
         chrome.storage.sync.get().then(async configs => {
             if (configs && configs.hasOwnProperty("ariaNgOptions")) {
                 if (configs.ariaNgOptions) {
@@ -224,11 +225,11 @@ window.onkeyup = function (e) {
                 button = document.getElementById("reset");
             };
         } else if (e.key == 'u') {
-            Configs.uploadConfig();
+            Configs.upload();
             button = document.getElementById("uploadConfig");
 
         } else if (e.key == 'j') {
-            Configs.downloadConfig();
+            Configs.download();
             button = document.getElementById("downloadConfig");
         }
         button?.focus({ focusVisible: true });
@@ -273,7 +274,7 @@ function toggleMagnetHandler(flag) {
 async function upgradeStorage() {
     let configs = await chrome.storage.local.get("rpcList");
     if (configs.rpcList) return;
-    let convertList = {
+    let convertMap = {
         white_site: "allowedSites",
         black_site: "blockedSites",
         white_ext: "allowedExts",
@@ -283,11 +284,11 @@ async function upgradeStorage() {
         newtab: "tab"
     }
     for (let [k, v] of Object.entries(localStorage)) {
-        if (convertList[k])
-            k = convertList[k]
+        if (convertMap[k])
+            k = convertMap[k]
 
-        if (convertList[v])
-            v = convertList[v]
+        if (convertMap[v])
+            v = convertMap[v]
 
         if (k.startsWith("AriaNg"))
             continue;

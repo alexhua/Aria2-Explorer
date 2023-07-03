@@ -38,6 +38,12 @@
    "monitorAria2Des": {
       "message": "Aria2 다운로드 상태 모니터링"
    },
+   "monitorAllDes":{
+      "message":"모든 Aria2 모니터링"
+   },
+   "monitorAllTips":{
+      "message":"여러 Aria2가 설정된 경우 모든 Aria2의 상태를 모니터링하고 결과를 집계합니다."
+   },
    "keepAwakeDes": {
       "message": "다운로드할 때 시스템 깨우기 유지"
    },
@@ -199,6 +205,12 @@
    },
    "finish": {
       "message": "종료"
+   },
+   "connected":{
+      "message":"연결되었습니다"
+   },
+   "disconnected":{
+      "message":"연결이 끊어졌습니다"
    },
    "review": {
       "message": "채점"

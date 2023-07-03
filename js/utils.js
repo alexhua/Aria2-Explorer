@@ -296,7 +296,7 @@ class Utils {
         } catch (error) {
             return false;
         }
-        return u.host == "[::1]" || u.host == "127.0.0.1" || u.host.toLowerCase() == "localhost"
+        return u.hostname == "[::1]" || u.hostname == "127.0.0.1" || u.hostname.toLowerCase() == "localhost"
     }
 }
 

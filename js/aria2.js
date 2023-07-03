@@ -1,16 +1,23 @@
 import Utils from "./utils.js";
 
-const DefaultRemote = { name: "Aria2", rpcUrl: "http://localhost:6800/jsonrpc", secretKey: '' };
+const DEBUG = false;
+const DEFAULT_ARIA2 = { name: "Aria2", rpcUrl: "http://localhost:6800/jsonrpc", secretKey: '' };
 
 class Aria2 {
     static requestId = 0;
 
-    constructor(remote = DefaultRemote) {
-        Object.assign(this, remote);
+    constructor(aria2 = DEFAULT_ARIA2) {
+        Object.assign(this, aria2);
+        this._isLocalhost = Utils.isLocalhost(this.rpcUrl);
+        this._messageHandlers = new Set();
     }
 
     get sid() {
         return Aria2.requestId++;
+    }
+
+    get isLocalhost() {
+        return this._isLocalhost;
     }
 
     /**
@@ -29,6 +36,7 @@ class Aria2 {
             this.socket.close();
             this.socket = null;
         }
+        this._isLocalhost = Utils.isLocalhost(this.rpcUrl);
         return Object.assign(this, { name, rpcUrl, secretKey });
     }
 
@@ -39,11 +47,13 @@ class Aria2 {
 
         if (this.socket && this.socket.url == url && this.socket.readyState <= 1)
             return this.socket;
+
         try {
             this.socket = new WebSocket(url);
+            this.socket.addEventListener('message', this.#onMessage.bind(this));
         } catch (error) {
-            // defer the error handling until sending data
-            console.log(error);
+            this.socket = null;
+            console.error(error.message);
         }
         return this.socket
     }
@@ -53,6 +63,32 @@ class Aria2 {
             this.socket.close();
             this.socket = null;
         }
+    }
+
+    #onMessage(event) {
+        try {
+            let data = JSON.parse(event.data);
+            data.source = this;
+            this._messageHandlers.forEach((handle) => {
+                handle(data);
+            })
+        } catch (error) {
+            console.error(`${this.name} get an invalid message`);
+        }
+    }
+
+    regMessageHandler(messageHandler) {
+        if (typeof messageHandler != 'function') {
+            throw new Error("Invalid aria2 message handler");
+        }
+        this._messageHandlers.add(messageHandler);
+    }
+
+    clearMessageHandler(messageHandler) {
+        if (typeof messageHandler != 'function') {
+            throw new Error("Invalid aria2 message handler");
+        }
+        this._messageHandlers.delete(messageHandler);
     }
 
     async #doRPC(request) {
@@ -72,6 +108,7 @@ class Aria2 {
                         break;
                     case 2:
                     case 3:
+                        this.socket = null;
                         let error = new Error("Aria2 is unreachable");
                         reject(error);
                         break;

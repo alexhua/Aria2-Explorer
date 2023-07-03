@@ -81,6 +81,12 @@
               __MSG_monitorAria2Des__
             </label>
           </div>
+          <div id="monitor-all" class="custom-control custom-switch tool-tip" data-tooltip="__MSG_monitorAllTips__">
+            <input class="custom-control-input" type="checkbox" id="monitorAll">
+            <label class="custom-control-label" for="monitorAll">
+              __MSG_monitorAllDes__
+            </label>
+          </div>
           <div class="custom-control custom-switch">
             <input class="custom-control-input" type="checkbox" id="keepAwake">
             <label class="custom-control-label" for="keepAwake">
@@ -164,9 +170,9 @@
         <label class="col-sm-2 text-info"><i class="fa-solid fa-rotate"></i>
           __MSG_configCloudSync__</label>
         <div class="col-sm-auto">
-          <button class="btn btn-primary mx-1 tool-tip" id="uploadConfig" data-tooltip="⌨: Alt + U"><i class="fa-solid fa-cloud-arrow-up"></i>
+          <button type="button" class="btn btn-primary mx-1 tool-tip" id="upload" data-tooltip="⌨: Alt + U"><i class="fa-solid fa-cloud-arrow-up"></i>
             __MSG_upload__</button>
-          <button class="btn btn-primary mx-1 tool-tip" id="downloadConfig" data-tooltip="⌨: Alt + J"><i class="fa-solid fa-cloud-arrow-down"></i>
+          <button type="button" class="btn btn-primary mx-1 tool-tip" id="download" data-tooltip="⌨: Alt + J"><i class="fa-solid fa-cloud-arrow-down"></i>
             __MSG_download__</button>
           <em>(__MSG_configCloudSyncDes__)</em>
         </div>
@@ -185,9 +191,9 @@
           </span>
 
           <span class="text-center">
-            <button class="btn btn-success mr-5 tool-tip" id="save" data-tooltip="⌨: Alt + S"><i class="fa-regular fa-circle-check"></i>
+            <button  type="submit" class="btn btn-success mr-5 tool-tip" id="save" data-tooltip="⌨: Alt + S"><i class="fa-regular fa-circle-check"></i>
               __MSG_Save__</button>
-            <button class="btn btn-warning mx-5 tool-tip" id="reset" data-tooltip="⌨: Alt + R"><i class="fa-regular fa-circle-xmark"></i>
+            <button type="reset" class="btn btn-warning mx-5 tool-tip" id="reset" data-tooltip="⌨: Alt + R"><i class="fa-regular fa-circle-xmark"></i>
               __MSG_Reset__</button>
           </span>
 

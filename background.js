@@ -5,7 +5,7 @@ import Aria2 from "./js/aria2.js";
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
 var MonitorRate = 3000; // Aria2 monitor interval 3000ms
-const RemoteAria2 = new Aria2();
+var RemoteAria2List = [];
 
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload);
 
@@ -67,10 +67,13 @@ async function send2Aria(rpcItem, downloadItem) {
         return Promise.resolve("OK");
     }).catch(function (error) {
         let title = chrome.i18n.getMessage("exportFailedStr");
-        let message = chrome.i18n.getMessage("exportFailedDes", [rpcItem.name]);
+        let message = chrome.i18n.getMessage("exportFailedDes", [rpcItem.name]) + ' ❌';
         let contextMessage = '';
         if (error && error.message) {
-            contextMessage = `Error: ${error.message}.`;
+            if (error.message.toLowerCase().includes('unauthorized'))
+                contextMessage = "Secret key is incorrect"
+            else
+                contextMessage = "Aria2 server is unreachable";
         }
         if (Configs.allowNotification)
             Utils.showNotification({ title, message, contextMessage, silent }, "NewTask");
@@ -496,115 +499,92 @@ function disableMonitor() {
     chrome.power.releaseKeepAwake();
 }
 
-function monitorAria2() {
-    RemoteAria2.getGlobalStat().then(function (response) {
-        if (response && response.error)
-            return Promise.reject(response.error);
-        let numActive = response.result.numActive;
-        let numStopped = response.result.numStopped;
-        let numWaiting = response.result.numWaiting;
-        let uploadSpeed = Utils.getReadableSpeed(response.result.uploadSpeed);
-        let downloadSpeed = Utils.getReadableSpeed(response.result.downloadSpeed);
-        /* Tune the monitor rate dynamically */
-        if (numActive > 0) {
-            if (MonitorRate == 3000) {
-                MonitorRate = 1000;
-                disableMonitor();
-                enableMonitor();
+async function monitorAria2() {
+    let connected = 0, disconnected = 0, localConnected = 0, errorMessage = '';
+    let active = 0, stopped = 0, waiting = 0, uploadSpeed = 0, downloadSpeed = 0;
+
+    for (const i in RemoteAria2List) {
+        const remoteAria2 = RemoteAria2List[i];
+        try {
+            let response = await remoteAria2.getGlobalStat();
+            if (response && response.error) {
+                throw response.error;
             }
-            if (Configs.keepAwake)
-                chrome.power.requestKeepAwake("system");
-            else
-                chrome.power.releaseKeepAwake();
-        } else if (numActive == 0) {
-            if (MonitorRate == 1000) {
-                MonitorRate = 3000;
-                disableMonitor();
-                enableMonitor();
+            connected++;
+            remoteAria2.isLocalhost && localConnected++;
+            active += Number(response.result.numActive);
+            stopped += Number(response.result.numStopped);
+            waiting += Number(response.result.numWaiting);
+            uploadSpeed += Number(response.result.uploadSpeed);
+            downloadSpeed += Number(response.result.downloadSpeed);
+            if (Configs.integration && i == 0 && !isDownloadListened()) {
+                chrome.downloads.onDeterminingFilename.addListener(captureDownload);
             }
-            chrome.power.releaseKeepAwake();
+            if (Configs.allowNotification) remoteAria2.openSocket();
+        } catch (error) {
+            disconnected++;
+            if (i == 0) {
+                if (error.message?.toLowerCase().includes('unauthorized'))
+                    errorMessage = "Secret key is incorrect"
+                else
+                    errorMessage = "Aria2 server is unreachable";
+                
+                if (Configs.integration && isDownloadListened()) {
+                    chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
+                }
+            }
+        } finally {
+            if (!Configs.allowNotification) remoteAria2.closeSocket();
+            if (!Configs.monitorAll) break;
         }
-        chrome.action.setBadgeBackgroundColor({ color: "green" });
-        chrome.action.setBadgeText({ text: numActive });
+    }
+
+    if (active > 0) {
+        if (MonitorRate == 3000) {
+            MonitorRate = 1000;
+            disableMonitor();
+            enableMonitor();
+        }
+        if (Configs.keepAwake && localConnected > 0)
+            chrome.power.requestKeepAwake("system");
+        else
+            chrome.power.releaseKeepAwake();
+    } else if (active == 0) {
+        if (MonitorRate == 1000) {
+            MonitorRate = 3000;
+            disableMonitor();
+            enableMonitor();
+        }
+        chrome.power.releaseKeepAwake();
+    }
+
+    let color = '', text = '', title = '';
+    let connectedStr = chrome.i18n.getMessage("connected");
+    let disconnectedStr = chrome.i18n.getMessage("disconnected");
+    if (Configs.monitorAll) title = `${connectedStr}: ${connected} ${disconnectedStr}: ${disconnected}\n`
+    if (connected > 0) {
+        color = (Configs.monitorAll && connected < RemoteAria2List.length) ? '#0077cc' : 'green';
+        text = active.toString();
+        uploadSpeed = Utils.getReadableSpeed(uploadSpeed);
+        downloadSpeed = Utils.getReadableSpeed(downloadSpeed);
         let uploadStr = chrome.i18n.getMessage("upload");
         let downloadStr = chrome.i18n.getMessage("download");
         let waitStr = chrome.i18n.getMessage("wait");
         let finishStr = chrome.i18n.getMessage("finish");
-        chrome.action.setTitle({ title: `${downloadStr}: ${numActive}  ${waitStr}: ${numWaiting}  ${finishStr}: ${numStopped}\n${uploadStr}: ${uploadSpeed}  ${downloadStr}: ${downloadSpeed}` });
-        if (Configs.integration && !isDownloadListened()) {
-            chrome.downloads.onDeterminingFilename.addListener(captureDownload);
-        }
-    }).catch(function (error) {
-        chrome.power.releaseKeepAwake();
-        if (!Configs.monitorAria2) return;
-        let title = `Failed to connect with ${RemoteAria2.name}.`;
-        if (error && error.message) {
-            title += ` ${error.message}.`;
-        }
-        chrome.action.setBadgeBackgroundColor({ color: "red" });
-        chrome.action.setBadgeText({ text: "E" });
-        chrome.action.setTitle({ title: title });
-        if (Configs.integration && Configs.monitorAria2 && isDownloadListened()) {
-            chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
-        }
-        if (Configs.allowNotification) {
-            setTimeout(enableTaskNotification, 3000);
-        }
-    });
-}
-
-function enableTaskNotification() {
-    RemoteAria2.openSocket().addEventListener("message", notifyTaskStatus);
-    RemoteAria2.socket.addEventListener("open", () => {
-        console.log(RemoteAria2.name, "is connected via websocket.");
-        console.log("Remote URL =", RemoteAria2.rpcUrl);
-        console.log(RemoteAria2.name, "task notification is enabled.");
-    });
-}
-
-function disableTaskNotification() {
-    if (RemoteAria2.socket) {
-        RemoteAria2.socket.removeEventListener("message", notifyTaskStatus);
-        RemoteAria2.socket.addEventListener("close", () => {
-            console.log(RemoteAria2.name, "websocket is closed.");
-            console.log("Remote URL =", RemoteAria2.rpcUrl);
-        });
-        RemoteAria2.closeSocket();
+        title += `${downloadStr}: ${active}  ${waitStr}: ${waiting}  ${finishStr}: ${stopped}\n${uploadStr}: ${uploadSpeed}  ${downloadStr}: ${downloadSpeed}`;
+    } else {
+        if (localConnected == 0) chrome.power.releaseKeepAwake();
+        color = "#A83030" // red;
+        text = 'E';
+        if (Configs.monitorAll)
+            title += 'No aria2 is reachable.';
+        else
+            title += `Failed to connect with ${RemoteAria2List[0].name}, ${errorMessage}.`;
     }
-    console.log(RemoteAria2.name, "task notification is disabled.")
-}
 
-async function notifyTaskStatus(event) {
-    let data = JSON.parse(event.data);
-
-    if (!data.method || !data.params.length)
-        return;
-    let gid = data.params[0]["gid"];
-    let title = chrome.i18n.getMessage("taskNotification");
-    let message = '';
-    let id = "TaskStatus";
-    switch (data.method) {
-        // case "aria2.onDownloadStart":
-        //     message = "downloadStart"
-        //     break;
-        case "aria2.onDownloadComplete":
-        case "aria2.onBtDownloadComplete":
-            message = "downloadComplete";
-            break;
-        case "aria2.onDownloadError":
-            message = "downloadError";
-            break;
-    }
-    if (message) {
-        let sign = message == "downloadComplete" ? ' ✅' : ' ❌';
-        message = chrome.i18n.getMessage(message, RemoteAria2.name) + sign;
-        const response = await RemoteAria2.getFiles(gid);
-        let silent = Configs.keepSilent;
-        let contextMessage = Utils.formatFilepath(response.result[0]["path"], false);
-        if (!contextMessage)
-            contextMessage = Utils.getFileName(response.result[0].uris[0].uri);
-        Utils.showNotification({ title, message, contextMessage, silent }, id);
-    }
+    chrome.action.setBadgeBackgroundColor({ color });
+    chrome.action.setBadgeText({ text });
+    chrome.action.setTitle({ title });
 }
 
 function registerAllListeners() {
@@ -703,7 +683,7 @@ function registerAllListeners() {
     chrome.storage.onChanged.addListener(function (changes, area) {
         if (area !== "local") return;
         let needReInit = changes.rpcList || changes.contextMenus || changes.askBeforeExport || changes.allowNotification
-            || changes.integration || changes.monitorAria2 || changes.captureMagnet || changes.webUIOpenStyle;
+            || changes.integration || changes.monitorAria2 || changes.monitorAll || changes.captureMagnet || changes.webUIOpenStyle;
         if (needReInit) {
             init();
         } else {
@@ -722,17 +702,65 @@ function init() {
         chrome.action.setPopup({
             popup: url
         });
-        let rpcItem = getRpcServer('*');
-        let remote = Utils.parseUrl(rpcItem.url);
-        RemoteAria2.setRemote(rpcItem.name, remote.rpcUrl, remote.secretKey);
+        initRemoteAria2();
         chrome.contextMenus.removeAll();
         createOptionMenu();
         createContextMenu();
         updateOptionMenu({ url: CurrentTabUrl, active: true });
         Configs.integration ? enableCapture() : disableCapture();
         Configs.monitorAria2 ? enableMonitor() : disableMonitor();
-        (Configs.monitorAria2 && Configs.allowNotification) ? enableTaskNotification() : disableTaskNotification();
         url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-Explore/issues/98" : '';
         chrome.runtime.setUninstallURL(url);
     });
+}
+
+function initRemoteAria2() {
+    let uniqueRpcList = Utils.compactRpcList(Configs.rpcList);
+    for (const i in uniqueRpcList) {
+        RemoteAria2List = RemoteAria2List.slice(0, uniqueRpcList.length);
+        let rpcItem = uniqueRpcList[i];
+        let remote = Utils.parseUrl(rpcItem.url);
+        if (RemoteAria2List[i]) {
+            RemoteAria2List[i].setRemote(rpcItem.name, remote.rpcUrl, remote.secretKey);
+        } else {
+            RemoteAria2List[i] = new Aria2({ name: rpcItem.name, rpcUrl: remote.rpcUrl, secretKey: remote.secretKey });
+        }
+        if (Configs.monitorAria2 && Configs.allowNotification && (i == 0 || Configs.monitorAll)) {
+            RemoteAria2List[i].regMessageHandler(notifyTaskStatus);
+        } else {
+            RemoteAria2List[i].clearMessageHandler(notifyTaskStatus);
+        }
+    }
+}
+
+async function notifyTaskStatus(data) {
+    if (!data.method || !data.params.length)
+        return;
+    let aria2 = data.source;
+    let gid = data.params[0]["gid"];
+    let title = chrome.i18n.getMessage("taskNotification");
+    let message = '';
+    let id = "TaskStatus";
+    switch (data.method) {
+        // case "aria2.onDownloadStart":
+        //     message = "downloadStart"
+        //     break;
+        case "aria2.onDownloadComplete":
+        case "aria2.onBtDownloadComplete":
+            message = "downloadComplete";
+            break;
+        case "aria2.onDownloadError":
+            message = "downloadError";
+            break;
+    }
+    if (message) {
+        let sign = message == "downloadComplete" ? ' ✅' : ' ❌';
+        message = chrome.i18n.getMessage(message, aria2.name) + sign;
+        const response = await aria2.getFiles(gid);
+        let silent = Configs.keepSilent;
+        let contextMessage = Utils.formatFilepath(response.result[0]["path"], false);
+        if (!contextMessage)
+            contextMessage = Utils.getFileName(response.result[0].uris[0].uri);
+        Utils.showNotification({ title, message, contextMessage, silent }, id);
+    }
 }

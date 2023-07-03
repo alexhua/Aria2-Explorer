@@ -38,6 +38,12 @@
    "monitorAria2Des":{
       "message":"Aria 2ダウンロード状態の監視"
    },
+   "monitorAllDes":{
+      "message":"すべてのAria2を監視する"
+   },
+   "monitorAllTips":{
+      "message":"複数のAria2が設定されている場合、すべてのAria2の状態を監視し、結果を集約します。"
+   },
    "keepAwakeDes":{
       "message":"ダウンロード中にシステムを起動したままにする"
    },
@@ -199,6 +205,12 @@
    },
    "finish":{
       "message":"完了"
+   },
+   "connected":{
+      "message":"接続されました"
+   },
+   "disconnected":{
+      "message":"切断されました"
    },
    "review":{
       "message":"評価"

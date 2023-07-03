@@ -38,6 +38,12 @@
    "monitorAria2Des":{
       "message":"監測Aria2下載狀態"
    },
+   "monitorAllDes": {
+      "message": "監測所有Aria2"
+   },
+   "monitorAllTips": {
+      "message": "當設置了多個Aria2時，監測所有Aria2狀態，並聚合顯示監測結果。"
+   },
    "keepAwakeDes":{
       "message":"下載時保持系統喚醒"
    },
@@ -199,6 +205,12 @@
    },
    "finish":{
       "message":"結束"
+   },
+   "connected":{
+      "message":"已連接"
+   },
+   "disconnected":{
+      "message":"已斷開"
    },
    "review":{
       "message":"評分"
