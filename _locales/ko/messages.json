@@ -170,6 +170,9 @@
    "openWebUIStr": {
       "message": "AriaNG 열기"
    },
+   "startAria2Str":{
+      "message":"Aria2 시작"
+   },
    "toggleCapture": {
       "message": "다운로드 자동 캡처 스위치"
    },

@@ -298,6 +298,14 @@ class Utils {
         }
         return u.hostname == "[::1]" || u.hostname == "127.0.0.1" || u.hostname.toLowerCase() == "localhost"
     }
+
+    /**
+     * Return the OS platform name
+     * @return {string} OS platform name
+     */
+    static getPlatform(){
+        return navigator.userAgentData.platform;
+    }
 }
 
 export default Utils;

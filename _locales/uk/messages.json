@@ -170,6 +170,9 @@
    "openWebUIStr": {
       "message": "Відкрити AriaNG"
    },
+   "startAria2Str": {
+      "message": "Запустіть Aria2"
+   },
    "toggleCapture": {
       "message": "Перемикач захоплення завантаження"
    },

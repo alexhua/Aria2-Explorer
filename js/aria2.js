@@ -36,7 +36,7 @@ class Aria2 {
             this.socket.close();
             this.socket = null;
         }
-        this._isLocalhost = Utils.isLocalhost(this.rpcUrl);
+        this._isLocalhost = Utils.isLocalhost(rpcUrl);
         return Object.assign(this, { name, rpcUrl, secretKey });
     }
 

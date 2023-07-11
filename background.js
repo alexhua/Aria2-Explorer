@@ -320,13 +320,23 @@ function createOptionMenu() {
         "id": "separator",
         "contexts": ["action"]
     });
-    title = chrome.i18n.getMessage("openWebUIStr");
-    chrome.contextMenus.create({
-        "type": "normal",
-        "id": "MENU_OPEN_WEB_UI",
-        "title": '🪟 ' + title,
-        "contexts": ["action"]
-    });
+    if (Utils.getPlatform() == `Windows` && RemoteAria2List[0]?.isLocalhost) {
+        title = chrome.i18n.getMessage("startAria2Str");
+        chrome.contextMenus.create({
+            "type": "normal",
+            "id": "MENU_START_ARIA2",
+            "title": '⚡️ ' + title,
+            "contexts": ["action"]
+        });
+    } else {
+        title = chrome.i18n.getMessage("openWebUIStr");
+        chrome.contextMenus.create({
+            "type": "normal",
+            "id": "MENU_OPEN_WEB_UI",
+            "title": '🪟 ' + title,
+            "contexts": ["action"]
+        });
+    }
     title = chrome.i18n.getMessage("websiteFilterStr");
     chrome.contextMenus.create({
         "type": "normal",
@@ -390,10 +400,12 @@ function onMenuClick(info, tab) {
 
     if (info.menuItemId == "MENU_OPEN_WEB_UI") {
         launchUI();
+    } else if (info.menuItemId == "MENU_START_ARIA2") {
+        chrome.tabs.create({ url: "aria2://start/" });
     } else if (info.menuItemId == "MENU_CAPTURE_DOWNLOAD") {
-        chrome.storage.local.set({ integration: info.checked })
+        chrome.storage.local.set({ integration: info.checked });
     } else if (info.menuItemId == "MENU_MONITOR_ARIA2") {
-        chrome.storage.local.set({ monitorAria2: info.checked })
+        chrome.storage.local.set({ monitorAria2: info.checked });
     } else if (info.menuItemId == "MENU_UPDATE_BLOCK_SITE") {
         updateBlockedSites(tab);
         updateOptionMenu(tab);
@@ -528,7 +540,7 @@ async function monitorAria2() {
                     errorMessage = "Secret key is incorrect"
                 else
                     errorMessage = "Aria2 server is unreachable";
-                
+
                 if (Configs.integration && isDownloadListened()) {
                     chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
                 }

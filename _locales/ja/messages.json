@@ -170,6 +170,9 @@
    "openWebUIStr":{
       "message":"AriaNGを開く"
    },
+   "startAria2Str":{
+      "message":"スタートAria2"
+   },
    "toggleCapture":{
       "message":"ダウンロードキャプチャの切り替え"
    },

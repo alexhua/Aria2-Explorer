@@ -170,6 +170,9 @@
    "openWebUIStr":{
       "message":"Open AriaNG"
    },
+   "startAria2Str":{
+      "message":"Start Aria2"
+   },
    "toggleCapture":{
       "message":"Toggle download capture"
    },

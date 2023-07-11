@@ -170,6 +170,9 @@
    "openWebUIStr":{
       "message":"打开AriaNG"
    },
+   "startAria2Str":{
+      "message":"启动Aria2"
+   },
    "toggleCapture":{
       "message":"开关下载自动拦截"
    },
