@@ -1,6 +1,7 @@
 import Utils from "./js/utils.js";
 import Configs from "./js/config.js";
 import Aria2 from "./js/aria2.js";
+import Aria2Options from "./js/aria2Options.js";
 
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
@@ -31,21 +32,22 @@ async function send2Aria(rpcItem, downloadItem) {
     } catch (error) {
         console.log(error.message);
     }
-    let header = [];
+    let headers = [];
     if (cookieItems.length > 0) {
-        header.push("Cookie: " + cookieItems.join("; "));
+        headers.push("Cookie: " + cookieItems.join("; "));
     }
-    header.push("User-Agent: " + navigator.userAgent);
-    header.push("Connection: keep-alive");
+    headers.push("User-Agent: " + navigator.userAgent);
+    headers.push("Connection: keep-alive");
 
-    let options = {
-        "header": header,
-        "referer": downloadItem.referrer,
-        "out": downloadItem.filename
-    };
-    if (rpcItem.location) {
-        options.dir = rpcItem.location;
+    let options = await Aria2Options.getUriTaskOptions(rpcItem.url);
+    if (!!options.header) {
+        options.header = options.header.split('\n').filter(item => !/^(cookie|user-agent|connection)/i.test(item));
+        headers = headers.concat(options.header);
     }
+    options.header = headers;
+    options.referer = downloadItem.referrer || options.referer || '';
+    options.out = downloadItem.filename || options.out || '';
+    options.dir = rpcItem.location || options.dir || '';
     if (downloadItem.hasOwnProperty('options')) {
         options = Object.assign(options, downloadItem.options);
     }
@@ -57,6 +59,10 @@ async function send2Aria(rpcItem, downloadItem) {
         if (response && response.error) {
             return Promise.reject(response.error);
         }
+        Aria2Options.getGlobalOptions(rpcItem.url).then(function (globalOptions) {
+            if (Object.keys(globalOptions).length > 0)
+                aria2.setGlobalOptions(globalOptions);
+        });
         let title = chrome.i18n.getMessage("exportSucceedStr");
         let message = chrome.i18n.getMessage("exportSucceedDes", [rpcItem.name]);
         if (!downloadItem.filename)
@@ -685,10 +691,18 @@ function registerAllListeners() {
     /* receive download request from magnet page */
     chrome.runtime.onMessage.addListener(
         function (downloadItem) {
-            if (!downloadItem || !downloadItem.url)
-                console.warn("Invalid download item, download request is rejected!");
-            let rpcItem = getRpcServer(downloadItem.url);
-            send2Aria(rpcItem, downloadItem);
+            switch (message.type) {
+                case "DOWNLOAD":
+                    const downloadItem = message.data || {};
+                    if (downloadItem.url) {
+                        let rpcItem = getRpcServer(downloadItem.url);
+                        send2Aria(rpcItem, downloadItem);
+                    } else {
+                        console.warn("Invalid download item, download request is rejected!");
+                    }
+                    break;
+            }
+
         }
     );
     /* Listen to the setting changes from options menu and page to control the extension behaviors */

@@ -3,6 +3,7 @@ AriaNg Version=AriaNg 版本
 Operation Result=操作结果
 Operation Succeeded=操作成功
 is connected=已连接
+settings have taken effect=设置已生效
 Error=错误
 OK=确定
 Confirm=确认

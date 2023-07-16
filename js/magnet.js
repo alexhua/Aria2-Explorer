@@ -10,7 +10,7 @@ if (action == "magnet") {
     if (askBeforeDownload) {
         launchUI(webUiUrl);
     } else {
-        chrome.runtime.sendMessage({ url: magnetUrl }).then(closeHandlerPage);
+        chrome.runtime.sendMessage({ type: "DOWNLOAD", data: { url: magnetUrl } }).then(closeHandlerPage);
     }
 }
 
@@ -22,8 +22,7 @@ function closeHandlerPage() {
 }
 
 function launchUI(webUiUrl) {
-    chrome.tabs.query({ "url": webUiUrl }, function (tabs) {
-        
+    chrome.tabs.query({ "url": webUiUrl }).then(function (tabs) {
         webUiUrl += "#!/new?url=" + encodeURIComponent(btoa(magnetUrl));
         if (tabs?.length > 0) {
             chrome.windows.update(tabs[0].windowId, {

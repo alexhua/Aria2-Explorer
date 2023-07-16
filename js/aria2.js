@@ -185,6 +185,11 @@ class Aria2 {
         let request = this.#buildRequest("aria2.getFiles", gid);
         return this.#doRPC(request);
     }
+
+    setGlobalOptions(options) {
+        let request = this.#buildRequest("aria2.changeGlobalOption", options);
+        return this.#doRPC(request);
+    }
 }
 
 export default Aria2;

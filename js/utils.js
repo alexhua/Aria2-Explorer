@@ -6,7 +6,7 @@ class Utils {
     * @param {object} ariaNgOptions - The ariaNG options object
     * @return {object} The ariaNG options with new RPC list
     */
-    static exportRpc2AriaNg(rpcList, ariaNgOptions) {
+    static exportRpcToAriaNg(rpcList, ariaNgOptions) {
         if (!rpcList || rpcList.length == 0) return null;
         const defaultAriaNgOptions = {
             language: 'TBD',
@@ -23,6 +23,7 @@ class Utils {
             protocol: 'ws',
             httpMethod: 'POST',
             rpcRequestHeaders: '',
+            rpcOptions: {},
             secret: '',
             extendRpcServers: [],
             webSocketReconnectInterval: 5000,
@@ -70,7 +71,7 @@ class Utils {
                     ariaNgOptions.extendRpcServers.push(target);
             }
         } catch (error) {
-            console.warn(`exportRpc2AriaNg: error = ${error}`);
+            console.warn(`exportRpcToAriaNg: error = ${error}`);
         }
 
         return ariaNgOptions;
