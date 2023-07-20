@@ -22,14 +22,16 @@ class Aria2Options {
         let aria2SettingsMap = {};
 
         if (!ariaNgOptions) return {};
-        ariaNgOptions.rpcHost = ariaNgOptions.rpcHost.replace(/localhost|127\.0\.0\.1|\[::1\]/i, "localhost");
-        let key = ariaNgOptions.rpcHost + ':' + ariaNgOptions.rpcPort + '/' + ariaNgOptions.rpcInterface;
-        aria2SettingsMap[key] = ariaNgOptions.rpcOptions || {};
-        for (const rpcServer of ariaNgOptions.extendRpcServers) {
-            key = rpcServer.rpcHost + ':' + rpcServer.rpcPort + '/' + rpcServer.rpcInterface;
-            aria2SettingsMap[key] = rpcServer.rpcOptions || {};
-        }
         try {
+            /* Build [{rpcHost: rpcOptions}] maps array */
+            ariaNgOptions.rpcHost = ariaNgOptions.rpcHost.replace(/localhost|127\.0\.0\.1|\[::1\]/i, "localhost");
+            let key = ariaNgOptions.rpcHost + ':' + ariaNgOptions.rpcPort + '/' + ariaNgOptions.rpcInterface;
+            aria2SettingsMap[key] = ariaNgOptions.rpcOptions || {};
+            for (const rpcServer of ariaNgOptions.extendRpcServers) {
+                key = rpcServer.rpcHost + ':' + rpcServer.rpcPort + '/' + rpcServer.rpcInterface;
+                aria2SettingsMap[key] = rpcServer.rpcOptions || {};
+            }
+            /* Build map key */
             let url = new URL(rpcUrl);
             url.host = url.host.replace(/localhost|127\.0\.0\.1|\[::1\]/i, "localhost")
             rpcUrl = url.host + url.pathname;

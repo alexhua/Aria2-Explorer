@@ -169,6 +169,12 @@ var Configs =
             if (configs && configs.hasOwnProperty("ariaNgOptions")) {
                 if (configs.ariaNgOptions) {
                     localStorage.setItem("AriaNg.Options", configs.ariaNgOptions);
+                    try {
+                        configs.ariaNgOptions = JSON.parse(configs.ariaNgOptions);
+                    } catch (e) {
+                        delete configs.ariaNgOptions;
+                        console.warn("Config.download(): AriaNG.Options is invalid.");
+                    }
                 }
                 await chrome.storage.local.set(configs);
                 let str = chrome.i18n.getMessage("downloadConfigSucceed");
