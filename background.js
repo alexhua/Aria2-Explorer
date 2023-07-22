@@ -37,7 +37,6 @@ async function send2Aria(rpcItem, downloadItem) {
         headers.push("Cookie: " + cookieItems.join("; "));
     }
     headers.push("User-Agent: " + navigator.userAgent);
-    headers.push("Connection: keep-alive");
 
     let options = await Aria2Options.getUriTaskOptions(rpcItem.url);
     if (!!options.header) {
@@ -45,9 +44,9 @@ async function send2Aria(rpcItem, downloadItem) {
         headers = headers.concat(options.header);
     }
     options.header = headers;
-    options.referer = downloadItem.referrer || options.referer || '';
-    options.out = downloadItem.filename || options.out || '';
-    options.dir = rpcItem.location || options.dir || '';
+    if (downloadItem.referrer) options.referer = downloadItem.referrer;
+    if (downloadItem.filename) options.out = downloadItem.filename;
+    if (rpcItem.location) options.dir = rpcItem.location;
     if (downloadItem.hasOwnProperty('options')) {
         options = Object.assign(options, downloadItem.options);
     }
@@ -67,7 +66,7 @@ async function send2Aria(rpcItem, downloadItem) {
         let message = chrome.i18n.getMessage("exportSucceedDes", [rpcItem.name]);
         if (!downloadItem.filename)
             downloadItem.filename = Utils.getFileName(downloadItem.url);
-        let contextMessage = (options.dir || '') + downloadItem.filename;
+        let contextMessage = (Utils.formatFilepath(options.dir) || '') + downloadItem.filename;
         if (Configs.allowNotification)
             Utils.showNotification({ title, message, contextMessage, silent }, "NewTask");
         return Promise.resolve("OK");
@@ -690,7 +689,7 @@ function registerAllListeners() {
     );
     /* receive download request from magnet page */
     chrome.runtime.onMessage.addListener(
-        function (downloadItem) {
+        function (message) {
             switch (message.type) {
                 case "DOWNLOAD":
                     const downloadItem = message.data || {};
