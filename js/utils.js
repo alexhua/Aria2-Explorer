@@ -181,19 +181,41 @@ class Utils {
     }
 
     static localizeHtmlPage() {
-        //Localize by replacing __MSG_***__ meta tags
+        // Localize by replacing __MSG_***__ meta tags
         let objects = document.getElementsByTagName('html');
         for (const obj of objects) {
-            let valStrH = obj.innerHTML.toString();
-            let valNewH = valStrH.replace(/__MSG_(\w+)__/g, function (match, v1) {
-                return v1 ? chrome.i18n.getMessage(v1) : "";
-            });
+            let walker = document.createTreeWalker(obj, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT, null, false);
+            let node;
 
-            if (valNewH != valStrH) {
-                obj.innerHTML = valNewH;
+            while (node = walker.nextNode()) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    let matches = node.nodeValue.match(/__MSG_(\w+)__/g);
+                    if (matches) {
+                        let newValue = node.nodeValue;
+                        for (let match of matches) {
+                            let messageName = match.slice(6, -2); // remove __MSG_ and __
+                            let messageValue = chrome.i18n.getMessage(messageName);
+                            newValue = newValue.replace(match, messageValue);
+                        }
+                        node.nodeValue = newValue;
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    for (const attr of node.attributes) {
+                        let matches = attr.value.match(/__MSG_(\w+)__/g);
+                        if (matches) {
+                            let newValue = attr.value;
+                            for (let match of matches) {
+                                let messageName = match.slice(6, -2); // remove __MSG_ and __
+                                let messageValue = chrome.i18n.getMessage(messageName);
+                                newValue = newValue.replace(match, messageValue);
+                            }
+                            attr.value = newValue;
+                        }
+                    }
+                }
             }
         }
-    }
+    }    
 
     /**
      * Format a given filepath 

@@ -103,7 +103,7 @@ var Configs =
         })
         $("#webStoreUrl").prop("href", Utils.getWebStoreUrl());
         const manifest = chrome.runtime.getManifest();
-        $("#version").text(' v' + manifest.version);
+        $("#version").text('v' + manifest.version);
     },
     reset: async function () {
         localStorage.clear();

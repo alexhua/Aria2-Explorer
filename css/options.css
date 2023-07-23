@@ -9,6 +9,10 @@ body {
   text-shadow: 0 0 20px gray;
 }
 
+#version {
+  margin-inline: .5em;
+}
+
 .navbar-inner {
   min-height: 40px;
   padding-right: 20px;
@@ -148,4 +152,12 @@ a:hover>.fa-lightbulb,
 .tool-tip:hover::before {
   visibility: visible;
   opacity: 1;
+}
+
+.tool-tip-icon::after {
+  content: "\f059";
+  font-family: "Font Awesome 6 Free";
+  font-weight: bold;
+  margin-left: .3rem;
+  color: #0455ca;
 }
