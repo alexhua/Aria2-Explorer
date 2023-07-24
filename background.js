@@ -8,6 +8,10 @@ var MonitorId = -1;
 var MonitorRate = 3000; // Aria2 monitor interval 3000ms
 var RemoteAria2List = [];
 
+const NID_DEFAULT = "NID_DEFAULT";
+const NID_TASK_NEW = "NID_TASK_NEW";
+const NID_TASK_STOPPED = "NID_TASK_STOPPED";
+
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload);
 
 (function main() {
@@ -68,7 +72,7 @@ async function send2Aria(rpcItem, downloadItem) {
             downloadItem.filename = Utils.getFileName(downloadItem.url);
         let contextMessage = (Utils.formatFilepath(options.dir) || '') + downloadItem.filename;
         if (Configs.allowNotification)
-            Utils.showNotification({ title, message, contextMessage, silent }, "NewTask");
+            Utils.showNotification({ title, message, contextMessage, silent }, NID_DEFAULT);
         return Promise.resolve("OK");
     }).catch(function (error) {
         let title = chrome.i18n.getMessage("exportFailedStr");
@@ -81,7 +85,7 @@ async function send2Aria(rpcItem, downloadItem) {
                 contextMessage = "Aria2 server is unreachable";
         }
         if (Configs.allowNotification)
-            Utils.showNotification({ title, message, contextMessage, silent }, "NewTask");
+            Utils.showNotification({ title, message, contextMessage, silent }, NID_TASK_NEW);
 
         return Promise.resolve("FAIL");
     });
@@ -206,10 +210,13 @@ async function captureDownload(downloadItem, suggest) {
     }
 }
 
-async function launchUI(downloadItem) {
+async function launchUI(info) {
     const index = chrome.runtime.getURL('ui/ariang/index.html');
     let webUiUrl = index; // launched from notification, option menu or browser toolbar icon
-    if (downloadItem?.hasOwnProperty("filename") && downloadItem.url) { // launched for new task
+
+    /* calculate the final value of webUiUrl */
+    if (info?.hasOwnProperty("filename") && info.url) { // launched for new task
+        const downloadItem = info;
         webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
             webUiUrl = webUiUrl + "&referer=" + encodeURIComponent(downloadItem.referrer);
@@ -223,9 +230,11 @@ async function launchUI(downloadItem) {
         if (downloadItem.filename) {
             webUiUrl = webUiUrl + "&filename=" + encodeURIComponent(downloadItem.filename);
         }
-    } else if (downloadItem == "TaskStatus") { // launched from task done notification click
-        webUiUrl = webUiUrl + "#!/stopped";
+    } else if (typeof info === "string" && info.startsWith(NID_TASK_STOPPED)) { // launched from task done notification click
+        const gid = info.slice(NID_TASK_STOPPED.length) || '';
+        webUiUrl += gid ? "#!/task/detail/" + gid : "#!/stopped";
     }
+
     chrome.tabs.query({ "url": index }).then(function (tabs) {
         if (tabs?.length > 0) {
             chrome.windows.update(tabs[0].windowId, {
@@ -632,7 +641,7 @@ function registerAllListeners() {
     });
 
     chrome.notifications.onClicked.addListener(function (id) {
-        if (id != "default")
+        if (id.startsWith(NID_TASK_NEW) || id.startsWith(NID_TASK_STOPPED))
             launchUI(id);
         chrome.notifications.clear(id);
     });
@@ -762,10 +771,10 @@ async function notifyTaskStatus(data) {
     if (!data.method || !data.params.length)
         return;
     let aria2 = data.source;
-    let gid = data.params[0]["gid"];
+    let gid = data.params[0]["gid"] || '';
     let title = chrome.i18n.getMessage("taskNotification");
     let message = '';
-    let id = "TaskStatus";
+    let id = NID_TASK_STOPPED + gid;
     switch (data.method) {
         // case "aria2.onDownloadStart":
         //     message = "downloadStart"

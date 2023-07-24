@@ -215,7 +215,7 @@ class Utils {
                 }
             }
         }
-    }    
+    }
 
     /**
      * Format a given filepath 
@@ -272,7 +272,7 @@ class Utils {
      * @param {object} content Refer to Chrome NotificationOptions
      * @param {string} id Notification Identifier
      */
-    static showNotification(content, id = "default") {
+    static showNotification(content, id = "NID_DEFAULT") {
         let option = {
             type: "basic",
             title: "Title",
@@ -326,7 +326,7 @@ class Utils {
      * Return the OS platform name
      * @return {string} OS platform name
      */
-    static getPlatform(){
+    static getPlatform() {
         return navigator.userAgentData.platform;
     }
 }
