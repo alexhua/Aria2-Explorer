@@ -117,6 +117,7 @@ Connections=连接数
 Seed Creation Time=种子创建时间
 Download Url=下载地址
 Download Dir=下载路径
+Open download folder=打开下载目录
 BT Tracker Servers=BT 服务器
 Copy=复制
 (Choose Files)=(选择文件)
