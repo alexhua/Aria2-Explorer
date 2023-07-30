@@ -603,14 +603,16 @@ async function monitorAria2() {
         color = "#A83030" // red;
         text = 'E';
         if (Configs.monitorAll)
-            title += 'No aria2 is reachable.';
+            title += 'No Aria2 server is reachable.';
         else
-            title += `Failed to connect with ${RemoteAria2List[0].name}, ${errorMessage}.`;
+            title += `Failed to connect with ${RemoteAria2List[0].name}. ${errorMessage}.`;
     }
 
-    chrome.action.setBadgeBackgroundColor({ color });
-    chrome.action.setBadgeText({ text });
-    chrome.action.setTitle({ title });
+    if (Configs.monitorAria2) {
+        chrome.action.setBadgeBackgroundColor({ color });
+        chrome.action.setBadgeText({ text });
+        chrome.action.setTitle({ title });
+    }
 }
 
 function registerAllListeners() {
