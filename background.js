@@ -406,7 +406,7 @@ function createContextMenu() {
 }
 
 function onMenuClick(info, tab) {
-    const url = decodeURIComponent(info.linkUrl || info.selectionText);
+    const url = decodeURI(info.linkUrl || info.selectionText);
     const referrer = info.frameUrl || info.pageUrl;
     const filename = '';
     // mock a DownloadItem

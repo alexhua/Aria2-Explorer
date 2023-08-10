@@ -6,12 +6,14 @@ var Configs = await chrome.storage.local.get(["askBeforeDownload", "webUIOpenSty
 var askBeforeDownload = Configs.askBeforeDownload;
 var webUIOpenStyle = Configs.webUIOpenStyle;
 
-if (action == "magnet") {
+if (action == "magnet" && magnetUrl && magnetUrl.startsWith("magnet:")) {
     if (askBeforeDownload) {
         launchUI(webUiUrl);
     } else {
         chrome.runtime.sendMessage({ type: "DOWNLOAD", data: { url: magnetUrl } }).then(closeHandlerPage);
     }
+} else {
+    closeHandlerPage();
 }
 
 function closeHandlerPage() {
@@ -23,7 +25,7 @@ function closeHandlerPage() {
 
 function launchUI(webUiUrl) {
     chrome.tabs.query({ "url": webUiUrl }).then(function (tabs) {
-        webUiUrl += "#!/new?url=" + encodeURIComponent(btoa(magnetUrl));
+        webUiUrl += "#!/new?url=" + encodeURIComponent(btoa(encodeURI(magnetUrl)));
         if (tabs?.length > 0) {
             chrome.windows.update(tabs[0].windowId, {
                 focused: true
