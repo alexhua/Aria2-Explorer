@@ -81,8 +81,10 @@ async function send2Aria(rpcItem, downloadItem) {
         if (error && error.message) {
             if (error.message.toLowerCase().includes('unauthorized'))
                 contextMessage = "Secret key is incorrect"
-            else
+            else if (error.message.toLowerCase().includes("failed to fetch"))
                 contextMessage = "Aria2 server is unreachable";
+            else
+                contextMessage = error.message;
         }
         if (Configs.allowNotification)
             Utils.showNotification({ title, message, contextMessage, silent }, NID_TASK_NEW);
