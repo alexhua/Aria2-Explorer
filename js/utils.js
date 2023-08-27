@@ -38,7 +38,7 @@ class Utils {
             confirmTaskRemoval: true,
             includePrefixWhenCopyingFromTaskDetails: false,
             showPiecesInfoInTaskDetailPage: 'le10240',
-            afterRetryingTask: 'task-list-downloading',
+            afterRetryingTask: 'task-list-default',
             displayOrder: 'default:asc',
             fileListDisplayOrder: 'default:asc',
             peerListDisplayOrder: 'default:asc'
