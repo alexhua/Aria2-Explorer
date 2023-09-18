@@ -32,7 +32,9 @@ async function getCookies(downloadItem) {
 async function send2Aria(rpcItem, downloadItem) {
     let cookieItems = [];
     try {
-        cookieItems = await getCookies(downloadItem);
+        if (Utils.isLocalhost(rpcItem.rpcUrl) || /^https|wss/.test(rpcItem.rpcUrl)) {
+            cookieItems = await getCookies(downloadItem);
+        }
     } catch (error) {
         console.log(error.message);
     }
@@ -216,7 +218,7 @@ async function launchUI(info) {
     const index = chrome.runtime.getURL('ui/ariang/index.html');
     let webUiUrl = index; // launched from notification, option menu or browser toolbar icon
 
-    /* calculate the final value of webUiUrl */
+    /* assemble the final web ui url */
     if (info?.hasOwnProperty("filename") && info.url) { // launched for new task
         const downloadItem = info;
         webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
