@@ -17,6 +17,12 @@
    "contextmenuDes": {
       "message": "다운로드를 마우스 오른쪽 단추로 내보내기"
    },
+   "exportAllDes":{
+      "message":"모든 링크 내보내기"
+   },
+   "exportAllFailedDes":{
+      "message":"올바른 다운로드 링크를 찾을 수 없습니다."
+   },
    "askBeforeExportDes": {
       "message": "내보내기 전에 자세한 매개 변수 설정 묻기"
    },

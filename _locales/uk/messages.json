@@ -17,6 +17,12 @@
    "contextmenuDes": {
       "message": "Експорт завдання з контекстного меню"
    },
+   "exportAllDes":{
+      "message":"експорт всіх посилань"
+   },
+   "exportAllFailedDes":{
+      "message":"Не знайдено дійсного посилання для завантаження."
+   },
    "askBeforeExportDes": {
       "message": "Питати налаштування деталей перед експортом"
    },

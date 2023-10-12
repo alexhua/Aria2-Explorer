@@ -17,6 +17,12 @@
    "contextmenuDes":{
       "message":"コンテキストメニューからタスクをエクスポート"
    },
+   "exportAllDes":{
+      "message":"すべてのリンクをエクスポート"
+   },
+   "exportAllFailedDes":{
+      "message":"有効なダウンロードリンクが見つかりません。"
+   },
    "askBeforeExportDes":{
       "message":"エクスポート前に詳細設定を確認する"
    },

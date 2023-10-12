@@ -1,7 +1,7 @@
 {
    "name": "__MSG_appName__",
    "short_name": "Aria2E",
-   "version": "2.1.4",
+   "version": "2.1.5",
    "manifest_version": 3,
    "minimum_chrome_version": "100.0.0",
    "default_locale": "en",
@@ -15,6 +15,7 @@
       "downloads",
       "storage",
       "system.display",
+      "scripting",
       "power"
    ],
    "host_permissions": [

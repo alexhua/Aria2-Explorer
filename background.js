@@ -21,7 +21,8 @@ const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListe
 
 async function getCookies(downloadItem) {
     let storeId = downloadItem.incognito == true ? "1" : "0";
-    let cookies = await chrome.cookies.getAll({ "url": downloadItem.url, "storeId": storeId });
+    let url = downloadItem.multiTask ? downloadItem.referrer : downloadItem.url;
+    let cookies = await chrome.cookies.getAll({ url, storeId });
     let cookieItems = [];
     for (const cookie of cookies) {
         cookieItems.push(cookie.name + "=" + cookie.value);
@@ -36,7 +37,7 @@ async function send2Aria(rpcItem, downloadItem) {
             cookieItems = await getCookies(downloadItem);
         }
     } catch (error) {
-        console.log(error.message);
+        console.warn(error.message);
     }
     let headers = [];
     if (cookieItems.length > 0) {
@@ -383,6 +384,14 @@ function createOptionMenu() {
 
 function createContextMenu() {
     var strExport = chrome.i18n.getMessage("contextmenuTitle");
+    let strExportAllDes = chrome.i18n.getMessage("exportAllDes");
+    if (Configs.exportAll) {
+        chrome.contextMenus.create({
+            id: "MENU_EXPORT_ALL",
+            title: strExportAllDes,
+            contexts: ['page']
+        });
+    }
     if (Configs.contextMenus) {
         if (Configs.askBeforeExport) {
             chrome.contextMenus.create({
@@ -442,6 +451,11 @@ function onMenuClick(info, tab) {
             let id = info.menuItemId.split('-')[1];
             send2Aria(Configs.rpcList[id], downloadItem);
         }
+    } else if (info.menuItemId == "MENU_EXPORT_ALL" && !tab.url.startsWith("chrome")) {
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id, allFrames: false },
+            func: downloadAllLinks,
+        });
     }
 }
 
@@ -450,7 +464,7 @@ function updateOptionMenu(tab) {
     let allowedSitesSet = new Set(Configs.allowedSites);
     if (tab == null || !tab.active) {
         if (!tab) {
-            console.log("Could not get active tab, update option menu failed.")
+            console.warn("Could not get active tab, update option menu failed.")
         };
         return;
     }
@@ -507,7 +521,7 @@ function updateBlockedSites(tab) {
 
 function enableMonitor() {
     if (MonitorId !== -1) {
-        console.log("Warn: Monitor has already started.");
+        console.warn("Warn: Monitor has already started.");
         return;
     }
     monitorAria2();
@@ -702,12 +716,14 @@ function registerAllListeners() {
             }
         }
     );
-    /* receive download request from magnet page */
+
+    /* receive download request from magnet page or export all */
     chrome.runtime.onMessage.addListener(
         function (message) {
+            let downloadItem = {};
             switch (message.type) {
                 case "DOWNLOAD":
-                    const downloadItem = message.data || {};
+                    downloadItem = message.data || {};
                     if (downloadItem.url) {
                         let rpcItem = getRpcServer(downloadItem.url);
                         send2Aria(rpcItem, downloadItem);
@@ -715,14 +731,22 @@ function registerAllListeners() {
                         console.warn("Invalid download item, download request is rejected!");
                     }
                     break;
+                case "EXPORT_ALL":
+                    downloadItem = message.data;
+                    if (downloadItem.url) {
+                        launchUI(downloadItem);
+                    } else {
+                        console.warn("Invalid download item, export request is rejected!");
+                    }
+                    break;
             }
-
         }
     );
+
     /* Listen to the setting changes from options menu and page to control the extension behaviors */
     chrome.storage.onChanged.addListener(function (changes, area) {
         if (area !== "local") return;
-        let needReInit = changes.rpcList || changes.contextMenus || changes.askBeforeExport || changes.allowNotification
+        let needReInit = changes.rpcList || changes.contextMenus || changes.askBeforeExport || changes.exportAll || changes.allowNotification
             || changes.integration || changes.monitorAria2 || changes.monitorAll || changes.captureMagnet || changes.webUIOpenStyle;
         if (needReInit) {
             init();
@@ -802,5 +826,34 @@ async function notifyTaskStatus(data) {
         if (!contextMessage)
             contextMessage = Utils.getFileName(response.result[0].uris[0].uri);
         Utils.showNotification({ title, message, contextMessage, silent }, id);
+    }
+}
+
+/**
+ * Web page injector which will send all valid urls to background js
+ */
+function downloadAllLinks() {
+    let links = document.getElementsByTagName('a');
+    let urls = [];
+    for (const i in links) {
+        try {
+            if (!links[i].href) continue;
+            let url = new URL(links[i].href);
+            let ext = url.pathname.match(/\/[^\s/$.?#]+\.([^\s/$.?#]+)$/);
+            if (url.protocol == "magnet:" || (ext && !/htm|asp|jsp|php|xml|js/i.test(ext[1]))) {
+                if (!urls.includes(links[i].href))
+                    urls.push(links[i].href);
+            }
+            console.log(links[i].href);
+        } catch (e) {
+            console.warn("DownloadAllLinks: Invalid URL found, URL=", links[i].href);
+        }
+    }
+    if (urls.length > 0) {
+        let downloadItem = { filename: '', url: urls.join('\n'), referrer: window.location.href, multiTask: true };
+        chrome.runtime.sendMessage({ type: "EXPORT_ALL", data: downloadItem });
+    } else {
+        let des = chrome.i18n.getMessage("exportAllFailedDes");
+        alert("\n Aria2-Explorer: " + des);
     }
 }

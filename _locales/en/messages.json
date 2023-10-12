@@ -17,6 +17,12 @@
    "contextmenuDes":{
       "message":"Export task from context menu"
    },
+   "exportAllDes":{
+      "message":"Export all links"
+   },
+   "exportAllFailedDes":{
+      "message":"No valid download link found."
+   },
    "askBeforeExportDes":{
       "message":"Ask detail settings before export"
    },

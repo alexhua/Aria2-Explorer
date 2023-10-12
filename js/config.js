@@ -2,6 +2,7 @@ const Configs = {
     ariaNgOptions: "",
     contextMenus: false,
     askBeforeExport: false,
+    exportAll: false,
     integration: false,
     fileSize: "100",
     askBeforeDownload: false,

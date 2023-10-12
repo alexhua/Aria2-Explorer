@@ -17,6 +17,12 @@
    "contextmenuDes":{
       "message":"右键导出下载"
    },
+   "exportAllDes":{
+      "message":"导出所有链接"
+   },
+   "exportAllFailedDes": {
+      "message":"没有找到有效的下载链接。"
+   },
    "askBeforeExportDes":{
       "message":"导出前询问详细参数设置"
    },

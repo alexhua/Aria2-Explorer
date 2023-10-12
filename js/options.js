@@ -21,6 +21,12 @@ var Configs =
         }
 
         Configs.rpcList.length > 1 ? $("#monitor-all").show() : $("#monitor-all").hide();
+
+        $("#askBeforeExport").prop("disabled", !Configs.contextMenus);
+        $("#contextMenus").change(() => {
+            $("#askBeforeExport").prop("disabled", !$("#contextMenus").prop("checked"));
+        })
+
         $("#keepAwake").prop("disabled", !Configs.monitorAria2);
         $("#monitorAria2").change(() => {
             $("#keepAwake").prop("disabled", !$("#monitorAria2").prop("checked"));
