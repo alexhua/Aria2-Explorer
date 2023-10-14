@@ -1,0 +1,40 @@
+{
+  "name": "Aria2 Explorer",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "id": "com.aria2e.ui",
+  "description": "A light weight free download solution based on Aria2",
+  "theme_color": "#e5f3ff",
+  "background_color": "#3c4751",
+  "icons": [
+    {
+      "sizes": "64x64",
+      "type": "image/png",
+      "src": "./favicon.png"
+    },
+    {
+      "sizes": "192x192",
+      "type": "image/png",
+      "src": "./tileicon.png"
+    },
+    {
+      "sizes": "512x512",
+      "type": "image/png",
+      "src": "./touchicon.png"
+    },
+    {
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable",
+      "src": "./logo512m.png"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "chrome_web_store",
+      "url": "https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn",
+      "id": "mpkodccbngfoacfalldjimigbofkhgjn"
+    }
+  ]
+}
