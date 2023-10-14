@@ -92,7 +92,7 @@ async function send2Aria(rpcItem, downloadItem) {
         if (Configs.allowNotification)
             Utils.showNotification({ title, message, contextMessage, silent }, NID_TASK_NEW);
 
-        return Promise.resolve("FAIL");
+        return Promise.resolve("FAILED");
     });
 }
 /**
@@ -207,7 +207,7 @@ async function captureDownload(downloadItem, suggest) {
         } else {
             let rpcItem = getRpcServer(downloadItem.url);
             let ret = await send2Aria(rpcItem, downloadItem);
-            if (ret == "FAIL" && Utils.isLocalhost(rpcItem.rpcUrl)) {
+            if (ret == "FAILED" && Utils.isLocalhost(rpcItem.rpcUrl)) {
                 disableCapture();
                 chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
             }
@@ -454,7 +454,7 @@ function onMenuClick(info, tab) {
     } else if (info.menuItemId == "MENU_EXPORT_ALL" && !tab.url.startsWith("chrome")) {
         chrome.scripting.executeScript({
             target: { tabId: tab.id, allFrames: false },
-            func: downloadAllLinks,
+            func: exportAllLinks,
         });
     }
 }
@@ -707,12 +707,12 @@ function registerAllListeners() {
      * @property {String} filename
      * @property {String} referrer
      * @property {Object} options
+     * @property {Boolean} multiTask Indicate whether includes multiple urls
      */
     chrome.runtime.onMessageExternal.addListener(
         function (downloadItem) {
             if (Configs.allowExternalRequest) {
-                let rpcItem = getRpcServer(downloadItem.url);
-                send2Aria(rpcItem, downloadItem);
+                download(downloadItem);
             }
         }
     );
@@ -723,21 +723,9 @@ function registerAllListeners() {
             let downloadItem = {};
             switch (message.type) {
                 case "DOWNLOAD":
-                    downloadItem = message.data || {};
-                    if (downloadItem.url) {
-                        let rpcItem = getRpcServer(downloadItem.url);
-                        send2Aria(rpcItem, downloadItem);
-                    } else {
-                        console.warn("Invalid download item, download request is rejected!");
-                    }
-                    break;
                 case "EXPORT_ALL":
-                    downloadItem = message.data;
-                    if (downloadItem.url) {
-                        launchUI(downloadItem);
-                    } else {
-                        console.warn("Invalid download item, export request is rejected!");
-                    }
+                    downloadItem = message.data || {};
+                    download(downloadItem);
                     break;
             }
         }
@@ -829,10 +817,23 @@ async function notifyTaskStatus(data) {
     }
 }
 
+function download(downloadItem) {
+    if (downloadItem.url) {
+        if (Configs.askBeforeDownload || downloadItem.multiTask) {
+            launchUI(downloadItem);
+        } else {
+            let rpcItem = getRpcServer(downloadItem.url);
+            send2Aria(rpcItem, downloadItem);
+        }
+    } else {
+        console.warn("Invalid download item, download request is rejected!");
+    }
+}
+
 /**
  * Web page injector which will send all valid urls to background js
  */
-function downloadAllLinks() {
+function exportAllLinks() {
     let links = document.getElementsByTagName('a');
     let urls = [];
     for (const i in links) {
@@ -844,7 +845,7 @@ function downloadAllLinks() {
                 if (!urls.includes(links[i].href))
                     urls.push(links[i].href);
             }
-            console.log(links[i].href);
+            false && console.log(links[i].href);
         } catch (e) {
             console.warn("DownloadAllLinks: Invalid URL found, URL=", links[i].href);
         }
@@ -854,6 +855,6 @@ function downloadAllLinks() {
         chrome.runtime.sendMessage({ type: "EXPORT_ALL", data: downloadItem });
     } else {
         let des = chrome.i18n.getMessage("exportAllFailedDes");
-        alert("\n Aria2-Explorer: " + des);
+        alert("\n [Aria2-Explorer]: " + des);
     }
 }
