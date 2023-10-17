@@ -453,8 +453,9 @@ function onMenuClick(info, tab) {
         }
     } else if (info.menuItemId == "MENU_EXPORT_ALL" && !tab.url.startsWith("chrome")) {
         chrome.scripting.executeScript({
-            target: { tabId: tab.id, allFrames: false },
+            target: { tabId: tab.id, allFrames: false, frameIds: [info.frameId] },
             func: exportAllLinks,
+            args: [Configs.allowedExts, Configs.blockedExts]
         });
     }
 }
@@ -703,7 +704,7 @@ function registerAllListeners() {
     /**
      * @typedef downloadItem
      * @type {Object}
-     * @property {String} url
+     * @property {String} url  Single url or multiple urls which are conjunct with '\n'
      * @property {String} filename
      * @property {String} referrer
      * @property {Object} options
@@ -720,11 +721,10 @@ function registerAllListeners() {
     /* receive download request from magnet page or export all */
     chrome.runtime.onMessage.addListener(
         function (message) {
-            let downloadItem = {};
             switch (message.type) {
                 case "DOWNLOAD":
                 case "EXPORT_ALL":
-                    downloadItem = message.data || {};
+                    const downloadItem = message.data || {};
                     download(downloadItem);
                     break;
             }
@@ -819,6 +819,7 @@ async function notifyTaskStatus(data) {
 
 function download(downloadItem) {
     if (downloadItem.url) {
+        if (downloadItem.url.includes('\n')) download.multiTask = true;
         if (Configs.askBeforeDownload || downloadItem.multiTask) {
             launchUI(downloadItem);
         } else {
@@ -833,25 +834,69 @@ function download(downloadItem) {
 /**
  * Web page injector which will send all valid urls to background js
  */
-function exportAllLinks() {
-    let links = document.getElementsByTagName('a');
-    let urls = [];
-    for (const i in links) {
+function exportAllLinks(allowedExts, blockedExts) {
+    if (!Array.isArray(allowedExts)) allowedExts = [];
+    if (!Array.isArray(blockedExts)) blockedExts = [];
+
+    let links = [];
+    const elements = document.querySelectorAll("a,img,audio,video,source");
+
+    for (const element of elements) {
+        let link = '';
+        let tagName = element.tagName.toUpperCase();
+        let srcProp = '';
         try {
-            if (!links[i].href) continue;
-            let url = new URL(links[i].href);
-            let ext = url.pathname.match(/\/[^\s/$.?#]+\.([^\s/$.?#]+)$/);
-            if (url.protocol == "magnet:" || (ext && !/htm|asp|jsp|php|xml|js/i.test(ext[1]))) {
-                if (!urls.includes(links[i].href))
-                    urls.push(links[i].href);
+            switch (tagName) {
+                case 'A':
+                    srcProp = 'href';
+                    break;
+                // case 'SOURCE':
+                //     srcProp = 'srcset';
+                //     break;
+                default:
+                    srcProp = 'src';
             }
-            false && console.log(links[i].href);
+
+            if (element[srcProp]) {
+                link = element[srcProp];
+            } else {
+                continue;
+            }
+
+            let url = new URL(link);
+            let filename = url.pathname.split('/').pop();
+            let ext = filename.includes('.') ? filename.split('.').pop() : '';
+            let valid = false;
+
+            if (url.protocol == "magnet:") {
+                valid = true;
+            } else if (/^http|ftp|sftp/.test(url.protocol)) {
+                if (allowedExts.includes(ext) || allowedExts.includes('*')) {
+                    valid = true;
+                } else if (blockedExts.includes(ext) || blockedExts.includes('*')) {
+                    valid = false;
+                } else if (tagName == 'IMG') {
+                    if (element.width >= 400 && element.height >= 300) {
+                        valid = true;
+                    }
+                } else if (ext) {
+                    if (!/htm|asp|jsp|php|xml|js|css/i.test(ext)) {
+                        valid = true;
+                    }
+                }
+            }
+            if (valid && !links.includes(link)) {
+                links.push(link);
+            }
+
+            false && console.log(link);
         } catch (e) {
-            console.warn("DownloadAllLinks: Invalid URL found, URL=", links[i].href);
+            console.warn("DownloadAllLinks: Invalid URL found, URL=", link);
         }
     }
-    if (urls.length > 0) {
-        let downloadItem = { filename: '', url: urls.join('\n'), referrer: window.location.href, multiTask: true };
+
+    if (links.length > 0) {
+        let downloadItem = { filename: '', url: links.join('\n'), referrer: window.location.href, multiTask: true };
         chrome.runtime.sendMessage({ type: "EXPORT_ALL", data: downloadItem });
     } else {
         let des = chrome.i18n.getMessage("exportAllFailedDes");
