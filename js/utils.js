@@ -7,7 +7,6 @@ class Utils {
     * @return {object} The ariaNG options with new RPC list
     */
     static exportRpcToAriaNg(rpcList, ariaNgOptions) {
-        if (!rpcList || rpcList.length == 0) return null;
         const defaultAriaNgOptions = {
             language: 'TBD',
             theme: 'light',
