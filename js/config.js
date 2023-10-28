@@ -1,9 +1,9 @@
 const Configs = {
     ariaNgOptions: "",
-    contextMenus: false,
+    contextMenus: true,
     askBeforeExport: false,
-    exportAll: false,
-    integration: false,
+    exportAll: true,
+    integration: true,
     fileSize: "100",
     askBeforeDownload: false,
     allowExternalRequest: false,

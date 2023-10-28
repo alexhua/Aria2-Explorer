@@ -121,7 +121,7 @@ function shouldCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
-    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftps?):/i.test(downloadItem.url)) {
+    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftp):/i.test(downloadItem.url)) {
         return false;
     }
 
@@ -880,7 +880,7 @@ function exportAllLinks(allowedExts, blockedExts) {
                         valid = true;
                     }
                 } else if (ext) {
-                    if (!/htm|asp|jsp|php|xml|js|css/i.test(ext)) {
+                    if (!/^(htm|asp|php|xml|js|css|\d+$|\S{9,})/i.test(ext)) {
                         valid = true;
                     }
                 }
