@@ -33,7 +33,7 @@ async function getCookies(downloadItem) {
 async function send2Aria(rpcItem, downloadItem) {
     let cookieItems = [];
     try {
-        if (Utils.isLocalhost(rpcItem.rpcUrl) || /^https|wss/.test(rpcItem.rpcUrl)) {
+        if (Utils.isLocalhost(rpcItem.url) || /^(https|wss)/i.test(rpcItem.url)) {
             cookieItems = await getCookies(downloadItem);
         }
     } catch (error) {
@@ -207,7 +207,7 @@ async function captureDownload(downloadItem, suggest) {
         } else {
             let rpcItem = getRpcServer(downloadItem.url);
             let ret = await send2Aria(rpcItem, downloadItem);
-            if (ret == "FAILED" && Utils.isLocalhost(rpcItem.rpcUrl)) {
+            if (ret == "FAILED" && Utils.isLocalhost(rpcItem.url)) {
                 disableCapture();
                 chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
             }
