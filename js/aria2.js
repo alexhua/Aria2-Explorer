@@ -84,7 +84,7 @@ class Aria2 {
         this._messageHandlers.add(messageHandler);
     }
 
-    clearMessageHandler(messageHandler) {
+    unRegMessageHandler(messageHandler) {
         if (typeof messageHandler != 'function') {
             throw new Error("Invalid aria2 message handler");
         }

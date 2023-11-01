@@ -14,10 +14,58 @@ const NID_TASK_STOPPED = "NID_TASK_STOPPED";
 
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload);
 
+/**
+ * @typedef RpcItem
+ * @type {Object}
+ * @property {string} name - The name of the Aria2 RPC Server.
+ * @property {string} url - The RPC URL with the secret key.
+ * @property {string} pattern - The URL pattern for auto-matching.
+ */
+
+/**
+ * @typedef DownloadItem
+ * @type {Object}
+ * @property {string} url  Single url or multiple urls which are conjunct with '\n'
+ * @property {string} filename
+ * @property {string} referrer
+ * @property {Object} options
+ * @property {boolean} multiTask Indicate whether includes multiple urls
+ */
+
+
 (function main() {
     init();
     registerAllListeners();
 })()
+
+/**
+ * Invoke a download task 
+ * 
+ * @param {DownloadItem} downloadItem 
+ * @param {RpcItem} rpcItem
+ * @returns {boolean} the result of creating download task
+ */
+
+async function download(downloadItem, rpcItem) {
+    if (downloadItem?.url) {
+        if (downloadItem.url.includes('\n')) downloadItem.multiTask = true;
+        if (Configs.askBeforeDownload || downloadItem.multiTask) {
+            try {
+                await launchUI(downloadItem);
+            } catch (error) {
+                console.warn("Download: Launch UI failed.")
+                return false;
+            }
+            return true;
+        } else {
+            if (!rpcItem || !rpcItem.url) rpcItem = getRpcServer(downloadItem.url);
+            return await send2Aria(downloadItem, rpcItem);
+        }
+    } else {
+        console.warn("Invalid download item, download request is rejected!");
+    }
+    return false;
+}
 
 async function getCookies(downloadItem) {
     let storeId = downloadItem.incognito == true ? "1" : "0";
@@ -30,7 +78,7 @@ async function getCookies(downloadItem) {
     return cookieItems;
 }
 
-async function send2Aria(rpcItem, downloadItem) {
+async function send2Aria(downloadItem, rpcItem) {
     let cookieItems = [];
     try {
         if (Utils.isLocalhost(rpcItem.url) || /^(https|wss)/i.test(rpcItem.url)) {
@@ -76,7 +124,7 @@ async function send2Aria(rpcItem, downloadItem) {
         let contextMessage = (Utils.formatFilepath(options.dir) || '') + downloadItem.filename;
         if (Configs.allowNotification)
             Utils.showNotification({ title, message, contextMessage, silent }, NID_DEFAULT);
-        return Promise.resolve("OK");
+        return Promise.resolve(true);
     }).catch(function (error) {
         let title = chrome.i18n.getMessage("exportFailedStr");
         let message = chrome.i18n.getMessage("exportFailedDes", [rpcItem.name]) + ' ❌';
@@ -92,13 +140,15 @@ async function send2Aria(rpcItem, downloadItem) {
         if (Configs.allowNotification)
             Utils.showNotification({ title, message, contextMessage, silent }, NID_TASK_NEW);
 
-        return Promise.resolve("FAILED");
+        return Promise.resolve(false);
     });
 }
+
 /**
  * Get a rpc item whose pattern(s) matches the giving resource url 
  * 
- * @param {string} url The resource url to be downloaded
+ * @param {string} url - The resource url to be downloaded
+ * @return {RpcItem} a RpcItem which refers to an Aria2 RPC server
  */
 function getRpcServer(url) {
     for (let i = 1; i < Configs.rpcList.length; i++) {
@@ -114,7 +164,7 @@ function getRpcServer(url) {
 }
 
 function matchRule(str, rule) {
-    return new RegExp("^" + rule.split("*").join(".*") + "$").test(str);
+    return new RegExp("^" + rule.replaceAll('*', '.*') + "$").test(str);
 }
 
 function shouldCapture(downloadItem) {
@@ -186,12 +236,12 @@ async function captureDownload(downloadItem, suggest) {
     if (downloadItem.byExtensionId) {
         // TODO: Filename assigned by chrome.downloads.download() was not passed in
         // and will be discarded by Chrome. No solution or workaround right now. The
-        // only way is disabling capture before other extension calls chrome.downloads.download().
+        // only way is disabling capture before others extension calls chrome.downloads.download().
         suggest();
     }
 
     //always use finalurl when it is available
-    if (downloadItem.finalUrl != "" && downloadItem.finalUrl != "about:blank") {
+    if (downloadItem.finalUrl && downloadItem.finalUrl != "about:blank") {
         downloadItem.url = downloadItem.finalUrl;
     }
     if (Configs.integration && shouldCapture(downloadItem)) {
@@ -202,15 +252,12 @@ async function captureDownload(downloadItem, suggest) {
         if (downloadItem.referrer == "about:blank") {
             downloadItem.referrer = "";
         }
-        if (Configs.askBeforeDownload) {
-            launchUI(downloadItem);
-        } else {
-            let rpcItem = getRpcServer(downloadItem.url);
-            let ret = await send2Aria(rpcItem, downloadItem);
-            if (ret == "FAILED" && Utils.isLocalhost(rpcItem.url)) {
-                disableCapture();
-                chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
-            }
+        let rpcItem = getRpcServer(downloadItem.url);
+        let successful = await download(downloadItem, rpcItem);
+
+        if (!successful && Utils.isLocalhost(rpcItem.url)) {
+            disableCapture();
+            chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
         }
     }
 }
@@ -445,12 +492,8 @@ function onMenuClick(info, tab) {
         Configs.rpcList[id].pattern = '*';
         chrome.storage.local.set(Configs);
     } else if (info.menuItemId.startsWith("MENU_EXPORT_TO")) {
-        if (Configs.askBeforeExport) {
-            launchUI(downloadItem);
-        } else {
-            let id = info.menuItemId.split('-')[1];
-            send2Aria(Configs.rpcList[id], downloadItem);
-        }
+        let id = info.menuItemId.split('-')[1];
+        download(downloadItem, Configs.rpcList[id]);
     } else if (info.menuItemId == "MENU_EXPORT_ALL" && !tab.url.startsWith("chrome")) {
         chrome.scripting.executeScript({
             target: { tabId: tab.id, allFrames: false, frameIds: [info.frameId] },
@@ -701,15 +744,6 @@ function registerAllListeners() {
     });
 
     /* receive request from other extensions */
-    /**
-     * @typedef downloadItem
-     * @type {Object}
-     * @property {String} url  Single url or multiple urls which are conjunct with '\n'
-     * @property {String} filename
-     * @property {String} referrer
-     * @property {Object} options
-     * @property {Boolean} multiTask Indicate whether includes multiple urls
-     */
     chrome.runtime.onMessageExternal.addListener(
         function (downloadItem) {
             if (Configs.allowExternalRequest) {
@@ -780,7 +814,7 @@ function initRemoteAria2() {
         if (Configs.monitorAria2 && Configs.allowNotification && (i == 0 || Configs.monitorAll)) {
             RemoteAria2List[i].regMessageHandler(notifyTaskStatus);
         } else {
-            RemoteAria2List[i].clearMessageHandler(notifyTaskStatus);
+            RemoteAria2List[i].unRegMessageHandler(notifyTaskStatus);
         }
     }
 }
@@ -817,22 +851,11 @@ async function notifyTaskStatus(data) {
     }
 }
 
-function download(downloadItem) {
-    if (downloadItem.url) {
-        if (downloadItem.url.includes('\n')) download.multiTask = true;
-        if (Configs.askBeforeDownload || downloadItem.multiTask) {
-            launchUI(downloadItem);
-        } else {
-            let rpcItem = getRpcServer(downloadItem.url);
-            send2Aria(rpcItem, downloadItem);
-        }
-    } else {
-        console.warn("Invalid download item, download request is rejected!");
-    }
-}
-
 /**
  * Web page injector which will send all valid urls to background js
+ * 
+ * @param {Array} allowedExts - The file extension list which will export
+ * @param {Array} blockedExts - The blocked file extension list which will not export
  */
 function exportAllLinks(allowedExts, blockedExts) {
     if (!Array.isArray(allowedExts)) allowedExts = [];
