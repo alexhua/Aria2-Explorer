@@ -66,13 +66,19 @@ var Configs =
         const validate = (event) => {
             const validator = { "url": Utils.validateRpcUrl, "text": Utils.validateFilePath };
             const input = event.target;
-            input.classList.remove("is-invalid");
-            input.classList.remove("is-valid");
-            if (validator[input.type](input.value)) {
+            input.classList.remove("is-invalid", "is-valid", "is-warning");
+            input.parentElement.classList.remove('tool-tip');
+            input.parentElement.removeAttribute("data-tooltip");
+            let result = validator[input.type](input.value);
+            if (result == "VALID") {
                 input.classList.add("is-valid");
-            }
-            else if (input.value) {
+            } else if (input.value && result == "INVALID") {
                 input.classList.add("is-invalid");
+            } else if (result == "WARNING") {
+                input.classList.add("is-valid", "is-warning");
+                input.parentElement.classList.add("tool-tip");
+                let tooltip = chrome.i18n.getMessage("RpcUrlTooltipWarnDes");
+                input.parentElement.setAttribute("data-tooltip", tooltip);
             }
         };
 
@@ -87,6 +93,12 @@ var Configs =
             $("#location-" + i).val(rpcList[i].location || '');
             if (i > 0)
                 $("#pattern-" + i).val(rpcList[i].pattern || '');
+            if (Utils.validateRpcUrl(rpcList[i].url) == "WARNING") {
+                let tooltip = chrome.i18n.getMessage("RpcUrlTooltipWarnDes");
+                $("#rpcItem-" + i).addClass('tool-tip');
+                $("#rpcItem-" + i).attr("data-tooltip", tooltip);
+                $("#rpcUrl-" + i).addClass('is-warning');
+            }
         }
 
         $("#add-rpc").off().on("click", function () {

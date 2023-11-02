@@ -3,7 +3,7 @@
       "message":"Aria2 Explorer"
    },
    "description": {
-      "message":"讓Aria2無縫接管下載，加速下載體驗，内建Aria2前端，作業管理更方便。"
+      "message":"讓Aria2無縫接管下載，加速下載體驗，内建Aria2前端，工作管理更方便。"
    },
    "contextmenuTitle":{
       "message":"匯出到 "
@@ -54,7 +54,7 @@
       "message":"下載時保持系統喚醒"
    },
    "allowNotificationDes":{
-      "message":"作業狀態通知"
+      "message":"工作狀態通知"
    },
    "keepSilentDes":{
       "message":"保持通知靜音"
@@ -129,7 +129,7 @@
        }
    },
    "taskNotification":{
-      "message":"作業通知"
+      "message":"工作通知"
    },
    "downloadComplete":{
       "message":"$rpcName$ 下載完成",
@@ -141,7 +141,7 @@
        }
    },
    "downloadError":{
-      "message":"$rpcName$ 下载出錯",
+      "message":"$rpcName$ 下載出錯",
       "placeholders": {
          "rpcName": {
            "content": "$1",
@@ -238,5 +238,8 @@
    },
    "OverwriteAriaNgRpcWarn":{
       "message":"RPC設定已更改，同步更改到AriaNG并覆蓋 ?"
+   },
+   "RpcUrlTooltipWarnDes":{
+      "message":"使用不安全的HTTP/WebSocket協定創建下載工作可能會導致Cookies和Secret Key暴露於公共網絡。"
    }
 }

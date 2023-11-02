@@ -257,12 +257,12 @@ class Utils {
         try {
             var url = new URL(rpcUrl);
         } catch (error) {
-            return false;
+            return "INVALID";
         }
-        if (url.pathname.length < 2) return false;
-        if (!/^(http|ws)s?:$/.test(url.protocol)) return false;
-
-        return true;
+        if (url.pathname.length < 2) return "INVALID";
+        if (!/^(http|ws)s?:$/.test(url.protocol)) return "INVALID";
+        if (!Utils.isLocalhost(rpcUrl) && /^(http|ws):$/.test(url.protocol)) return "WARNING"
+        return "VALID";
     }
 
     /**

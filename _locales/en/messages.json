@@ -238,5 +238,8 @@
    },
    "OverwriteAriaNgRpcWarn":{
       "message":"RPC settings have changed. Synchronize these changes to AriaNG and overwrite?"
+   },
+   "RpcUrlTooltipWarnDes":{
+      "message":"Creating download tasks over insecure HTTP/WebSocket protocol can potentially expose Cookies and the Secret Key on the public network."
    }
 }

@@ -238,5 +238,8 @@
    },
    "OverwriteAriaNgRpcWarn":{
       "message":"RPC設定が変更されました。AriaNGに同期しますか？"
+   },
+   "RpcUrlTooltipWarnDes":{
+      "message":"セキュアでないHTTP/WebSocketプロトコルを使用してダウンロードタスクを作成すると、Cookieおよびシークレットキーが公共ネットワークで露出する可能性があります。"
    }
 }

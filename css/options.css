@@ -134,7 +134,7 @@ a:hover>.fa-lightbulb,
   visibility: hidden;
   content: attr(data-tooltip);
   position: absolute;
-  z-index: 1;
+  z-index: 5;
   bottom: 120%;
   opacity: 0;
   width: max-content;
@@ -160,4 +160,36 @@ a:hover>.fa-lightbulb,
   font-weight: bold;
   margin-left: .3rem;
   color: #0455ca;
+}
+
+.rpcGroup>.input-group::before {
+  visibility: hidden;
+  opacity: 0;
+  content: attr(data-tooltip);
+  transition: opacity .2s ease-in .3s;
+}
+
+.rpcGroup>.input-group.tool-tip::before {
+  left: 15%;
+}
+
+.rpcGroup>.input-group.tool-tip:hover::before {
+  visibility: visible;
+  opacity: 1;
+}
+
+.rpcGroup>.input-group.tool-tip:focus-within::before {
+  visibility: visible;
+  opacity: 1;
+}
+
+.is-warning {
+  color: #856404;
+  border-color: #ffc107 !important;
+  background-color: #fff3cd !important;
+  z-index: 5;
+}
+
+.is-warning:focus {
+  box-shadow: 0 0 0 0.2rem #ffc10740 !important;
 }

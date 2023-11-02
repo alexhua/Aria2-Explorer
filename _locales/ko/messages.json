@@ -238,5 +238,8 @@
    },
    "OverwriteAriaNgRpcWarn": {
       "message": "RPC 설정이 변경되었습니다. AriaNG로 동기화됩니까?"
+   },
+   "RpcUrlTooltipWarnDes":{
+      "message":"보안되지 않은 HTTP/WebSocket 프로토콜을 통해 다운로드 작업을 생성하면 쿠키와 시크릿 키가 공용 네트워크에서 노출될 수 있습니다."
    }
 }
