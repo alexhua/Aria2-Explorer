@@ -19,13 +19,14 @@ const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListe
  * @type {Object}
  * @property {string} name - The name of the Aria2 RPC Server.
  * @property {string} url - The RPC URL with the secret key.
+ * @property {string} location - The path to save download file.
  * @property {string} pattern - The URL pattern for auto-matching.
  */
 
 /**
  * @typedef DownloadItem
  * @type {Object}
- * @property {string} url  Single url or multiple urls which are conjunct with '\n'
+ * @property {string} url - Single url or multiple urls which are conjunct with '\n'
  * @property {string} filename
  * @property {string} referrer
  * @property {Object} options
@@ -49,6 +50,7 @@ const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListe
 async function download(downloadItem, rpcItem) {
     if (downloadItem?.url) {
         if (downloadItem.url.includes('\n')) downloadItem.multiTask = true;
+        if (!downloadItem.filename) downloadItem.filename = '';
         if (Configs.askBeforeDownload || downloadItem.multiTask) {
             try {
                 await launchUI(downloadItem);
@@ -492,8 +494,12 @@ function onMenuClick(info, tab) {
         Configs.rpcList[id].pattern = '*';
         chrome.storage.local.set(Configs);
     } else if (info.menuItemId.startsWith("MENU_EXPORT_TO")) {
-        let id = info.menuItemId.split('-')[1];
-        download(downloadItem, Configs.rpcList[id]);
+        if (Configs.askBeforeExport) {
+            launchUI(downloadItem);
+        } else {
+            let id = info.menuItemId.split('-')[1];
+            send2Aria(downloadItem, Configs.rpcList[id]);
+        }
     } else if (info.menuItemId == "MENU_EXPORT_ALL" && !tab.url.startsWith("chrome")) {
         chrome.scripting.executeScript({
             target: { tabId: tab.id, allFrames: false, frameIds: [info.frameId] },
