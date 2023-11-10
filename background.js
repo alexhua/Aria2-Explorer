@@ -909,7 +909,7 @@ function exportAllLinks(allowedExts, blockedExts) {
                         valid = true;
                     }
                 } else if (ext) {
-                    if (!/^(htm|asp|php|xml|js|css|\d+$|\S{9,})/i.test(ext)) {
+                    if (/^[\da-z]{1,8}$/i.test(ext) && !/^(htm|asp|php|cgi|xml|js|css|\d+$)/i.test(ext)) {
                         valid = true;
                     }
                 }

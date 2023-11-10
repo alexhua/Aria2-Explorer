@@ -166,7 +166,6 @@ var Configs =
         chrome.storage.local.set(Configs);
     },
     upload: function () {
-
         Configs.ariaNgOptions = localStorage.getItem("AriaNg.Options");
 
         //check the validity of RPC list
@@ -176,13 +175,15 @@ var Configs =
                 return;
         }
         chrome.storage.sync.set(Configs).then(() => {
-            if (chrome.runtime.lastError) {
-                var str = chrome.i18n.getMessage("uploadConfigFailed");
-                Configs.displaySyncResult(str + chrome.runtime.lastError.message, "alert-danger");
-            } else {
-                var str = chrome.i18n.getMessage("uploadConfigSucceed");
-                Configs.displaySyncResult(str, "alert-success");
+            let str = chrome.i18n.getMessage("uploadConfigSucceed");
+            Configs.notifySyncResult(str, "alert-success");
+        }).catch(error => {
+            let str = chrome.i18n.getMessage("uploadConfigFailed");
+            if (error.message.includes("QUOTA_BYTES_PER_ITEM")) {
+                /* There must be too much BT trackers in the Aria2 settings */
+                error.message = "Exceeded Quota (8KB). Please refine the Aria2 BT trackers."
             }
+            Configs.notifySyncResult(str + error.message, "alert-danger", 5000);
         });
     },
     download: function () {
@@ -199,20 +200,22 @@ var Configs =
                 }
                 await chrome.storage.local.set(configs);
                 let str = chrome.i18n.getMessage("downloadConfigSucceed");
-                Configs.displaySyncResult(str, "alert-success");
+                Configs.notifySyncResult(str, "alert-success");
             } else {
-                let str = chrome.i18n.getMessage("downloadConfigFailed");
-                Configs.displaySyncResult(str, "alert-danger");
+                throw new Error("No valid configuration found.");
             }
+        }).catch((error) => {
+            let str = chrome.i18n.getMessage("downloadConfigFailed");
+            Configs.notifySyncResult(str + error.message, "alert-danger", 5000);
         });
     },
-    displaySyncResult: function (msg, style) {
+    notifySyncResult: function (msg, style, timeout = 2000) {
         $("#sync-result").addClass(style);
         $("#sync-result").text(msg);
         setTimeout(function () {
             $("#sync-result").text("");
             $("#sync-result").removeClass(style);
-        }, 3000);
+        }, timeout);
     }
 };
 
