@@ -1,5 +1,5 @@
 const Configs = {
-    ariaNgOptions: "",
+    ariaNgOptions: {},
     contextMenus: true,
     askBeforeExport: false,
     exportAll: true,

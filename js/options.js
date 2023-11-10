@@ -1,6 +1,8 @@
 import Utils from "./utils.js";
 import Default from "./config.js";
 
+const AriaNgOptionsKey = "AriaNg.Options"; // AriaNG options local storage key
+
 var Configs =
 {
     init: async function () {
@@ -166,8 +168,13 @@ var Configs =
         chrome.storage.local.set(Configs);
     },
     upload: function () {
-        Configs.ariaNgOptions = localStorage.getItem("AriaNg.Options");
-
+        try {
+            let ariaNgOptionsValue = localStorage.getItem(AriaNgOptionsKey);
+            Configs.ariaNgOptions = JSON.parse(ariaNgOptionsValue);
+        } catch {
+            delete Configs.ariaNgOptions;
+            console.warn("Upload: AriaNG options is invalid.");
+        }
         //check the validity of RPC list
         if (!Configs.rpcList || !Configs.rpcList.length) {
             let str = chrome.i18n.getMessage("uploadConfigWarn");
@@ -188,15 +195,15 @@ var Configs =
     },
     download: function () {
         chrome.storage.sync.get().then(async configs => {
-            if (configs && configs.hasOwnProperty("ariaNgOptions")) {
-                if (configs.ariaNgOptions) {
-                    localStorage.setItem("AriaNg.Options", configs.ariaNgOptions);
-                    try {
+            if (configs) {
+                try {
+                    if (typeof configs.ariaNgOptions === "string") {
                         configs.ariaNgOptions = JSON.parse(configs.ariaNgOptions);
-                    } catch (e) {
-                        delete configs.ariaNgOptions;
-                        console.warn("Config.download(): AriaNG.Options is invalid.");
                     }
+                    localStorage.setItem(AriaNgOptionsKey, JSON.stringify(configs.ariaNgOptions));
+                } catch {
+                    delete configs.ariaNgOptions;
+                    console.warn("Download: AriaNG options is invalid.");
                 }
                 await chrome.storage.local.set(configs);
                 let str = chrome.i18n.getMessage("downloadConfigSucceed");
@@ -225,7 +232,7 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName == "local") {
         Configs.init();
         if (isRpcListChanged(changes)) {
-            let oldAriaNgOptions = localStorage["AriaNg.Options"];
+            let oldAriaNgOptions = localStorage[AriaNgOptionsKey];
             let ariaNgOptions = null;
             try {
                 ariaNgOptions = JSON.parse(oldAriaNgOptions);
@@ -235,7 +242,7 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
             let newAriaNgOptions = JSON.stringify(Utils.exportRpcToAriaNg(changes.rpcList.newValue, ariaNgOptions));
             let str = chrome.i18n.getMessage("OverwriteAriaNgRpcWarn");
             if (newAriaNgOptions != oldAriaNgOptions && confirm(str)) {
-                localStorage["AriaNg.Options"] = newAriaNgOptions;
+                localStorage[AriaNgOptionsKey] = newAriaNgOptions;
             }
         }
         if (changes.captureMagnet)
