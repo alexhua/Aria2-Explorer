@@ -47,7 +47,7 @@
    "monitorAllDes": {
       "message": "Моніторинг всіх Aria2"
    },
-   "monitorAllTips": {
+   "monitorAllTip": {
       "message": "Якщо встановлено декілька Aria2, слідкуйте за станом усіх та агрегуйте результати."
    },
    "keepAwakeDes": {
@@ -64,6 +64,9 @@
    },
    "captureMagnetWarn": {
       "message": "Захоплення на рівні ОС, переконайтеся, що перед видаленням вимкнуто"
+   },
+   "captureMagnetTip":{
+      "message":"Натисніть «Ні» у діалоговому вікні підтвердження UAC у Windows, якщо ви не бажаєте записувати системний рівень."
    },
    "websiteStr": {
       "message": "Веб-сайт"

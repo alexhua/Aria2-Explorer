@@ -47,7 +47,7 @@
    "monitorAllDes": {
       "message": "監測所有Aria2"
    },
-   "monitorAllTips": {
+   "monitorAllTip": {
       "message": "當設置了多個Aria2時，監測所有Aria2狀態，並聚合顯示監測結果。"
    },
    "keepAwakeDes":{
@@ -64,6 +64,9 @@
    },
    "captureMagnetWarn":{
       "message":"系統級攔截，卸載前請確保關閉"
+   },
+   "captureMagnetTip":{
+      "message":"如果不需要系統級攔截，請在Windows彈出UAC對話框時點擊[否]。"
    },
    "websiteStr":{
       "message":"網站"

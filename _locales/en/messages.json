@@ -47,7 +47,7 @@
    "monitorAllDes":{
       "message":"Monitor all Aria2 Servers"
    },
-   "monitorAllTips":{
+   "monitorAllTip":{
       "message":"When multiple Aria2 servers are set, monitor all the status of them and display the aggregate results."
    },
    "keepAwakeDes":{
@@ -64,6 +64,9 @@
    },
    "captureMagnetWarn":{
       "message":"OS level capture, please ensure disabling before uninstall"
+   },
+   "captureMagnetTip":{
+      "message":"Click 'No' on Windows prompts UAC confirm dialog, if you don't want the system level capture."
    },
    "websiteStr":{
       "message":"Website"

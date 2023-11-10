@@ -47,7 +47,7 @@
    "monitorAllDes":{
       "message":"모든 Aria2 모니터링"
    },
-   "monitorAllTips":{
+   "monitorAllTip":{
       "message":"여러 Aria2가 설정된 경우 모든 Aria2의 상태를 모니터링하고 결과를 집계합니다."
    },
    "keepAwakeDes": {
@@ -64,6 +64,9 @@
    },
    "captureMagnetWarn": {
       "message": "시스템 레벨 캡처, 마운트 해제 전에 꺼져 있는지 확인하십시오."
+   },
+   "captureMagnetTip":{
+      "message":"시스템 수준 차단이 필요하지 않은 경우 Windows에서 UAC 대화 상자가 나타날 때 [아니오]를 클릭하세요."
    },
    "websiteStr": {
       "message": "웹 사이트"

@@ -47,7 +47,7 @@
    "monitorAllDes":{
       "message":"すべてのAria2を監視する"
    },
-   "monitorAllTips":{
+   "monitorAllTip":{
       "message":"複数のAria2が設定されている場合、すべてのAria2の状態を監視し、結果を集約します。"
    },
    "keepAwakeDes":{
@@ -64,6 +64,9 @@
    },
    "captureMagnetWarn":{
       "message":"OSレベルのキャプチャ、アンインストール前に無効にすることを確認してください"
+   },
+   "captureMagnetTip":{
+      "message":"システムレベルのインターセプトが必要ない場合は、Windows で UAC ダイアログ ボックスが表示されたら、[いいえ] をクリックします。"
    },
    "websiteStr":{
       "message":"ウェブサイト"
