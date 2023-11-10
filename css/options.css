@@ -132,7 +132,7 @@ a:hover>.fa-lightbulb,
 
 .tool-tip::before {
   visibility: hidden;
-  content: attr(data-tooltip);
+  content: attr(tooltip-content);
   position: absolute;
   z-index: 5;
   bottom: 120%;
@@ -165,7 +165,7 @@ a:hover>.fa-lightbulb,
 .rpcGroup>.input-group::before {
   visibility: hidden;
   opacity: 0;
-  content: attr(data-tooltip);
+  content: attr(tooltip-content);
   transition: opacity .2s ease-in .3s;
 }
 

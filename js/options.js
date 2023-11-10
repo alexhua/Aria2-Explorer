@@ -70,7 +70,7 @@ var Configs =
             const input = event.target;
             input.classList.remove("is-invalid", "is-valid", "is-warning");
             input.parentElement.classList.remove('tool-tip');
-            input.parentElement.removeAttribute("data-tooltip");
+            input.parentElement.removeAttribute("tooltip-content");
             let result = validator[input.type](input.value);
             if (result == "VALID") {
                 input.classList.add("is-valid");
@@ -80,7 +80,7 @@ var Configs =
                 input.classList.add("is-valid", "is-warning");
                 input.parentElement.classList.add("tool-tip");
                 let tooltip = chrome.i18n.getMessage("RpcUrlTooltipWarnDes");
-                input.parentElement.setAttribute("data-tooltip", tooltip);
+                input.parentElement.setAttribute("tooltip-content", tooltip);
             }
         };
 
@@ -98,7 +98,7 @@ var Configs =
             if (Utils.validateRpcUrl(rpcList[i].url) == "WARNING") {
                 let tooltip = chrome.i18n.getMessage("RpcUrlTooltipWarnDes");
                 $("#rpcItem-" + i).addClass('tool-tip');
-                $("#rpcItem-" + i).attr("data-tooltip", tooltip);
+                $("#rpcItem-" + i).attr("tooltip-content", tooltip);
                 $("#rpcUrl-" + i).addClass('is-warning');
             }
         }
