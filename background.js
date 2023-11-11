@@ -224,10 +224,10 @@ function disableCapture() {
     }
     chrome.action.setIcon({
         path: {
-            '32': "images/logo32-gray.png",
-            '64': "images/logo64-gray.png",
-            '128': "images/logo128-gray.png",
-            '256': "images/logo256-gray.png"
+            '32': "images/logo32-deep.png",
+            '64': "images/logo64-deep.png",
+            '128': "images/logo128-deep.png",
+            '256': "images/logo256-deep.png"
         }
     });
     Configs.integration = false;
