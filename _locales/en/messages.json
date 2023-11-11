@@ -159,10 +159,10 @@
       "message":"Set the domains you un-want to capture, one website per line, supports regexp."
    },
    "allowedExtsPlaceholderDes":{
-      "message":"Set the file extensions you want to capture, one extension per line, * means all.\n(Allow-list has higher priority)"
+      "message":"Set the file types that you want to capture or export, one extension per line, * means all.\n(Allow-List has higher priority)"
    },
    "blockedExtsPlaceholderDes":{
-      "message":"Set the file extensions you un-want to capture, one extension per line, * means all."
+      "message":"Set the file types that you un-want to capture or export, one extension per line, * means all."
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG Open in"

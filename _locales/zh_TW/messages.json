@@ -159,10 +159,10 @@
       "message":"設定不需要攔截的站點，每行一個網站，支持規則運算式。"
    },
    "allowedExtsPlaceholderDes":{
-      "message":"設定需要攔截的文件副檔名，\n每行一個副檔名，*代表所有。\n（白名單優先）"
+      "message":"設定需要攔截或匯出的文件類型，\n每行一個副檔名，*代表所有。\n（白名單優先）"
    },
    "blockedExtsPlaceholderDes":{
-      "message":"設定不需要攔截的文件副檔名，\n每行一個副檔名，*代表所有。"
+      "message":"設定不需要攔截或匯出的文件類型，\n每行一個副檔名，*代表所有。"
    },
    "WebUIOpenStyleStr":{
       "message":"AriaNG打開樣式"
