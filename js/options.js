@@ -77,9 +77,9 @@ var Configs =
             input.parentElement.classList.remove('tool-tip');
             input.parentElement.removeAttribute("tooltip-content");
             let result = validator[input.type](input.value);
-            if (result == "VALID") {
+            if (result == "VALID" || result === true) {
                 input.classList.add("is-valid");
-            } else if (input.value && result == "INVALID") {
+            } else if (input.value && (result == "INVALID" || result === false)) {
                 input.classList.add("is-invalid");
             } else if (result == "WARNING") {
                 input.classList.add("is-valid", "is-warning");

@@ -245,10 +245,10 @@ class Utils {
     static validateFilePath(filePath) {
         let regexp = ''
         if (filePath.startsWith('/')) {
-            regexp = /^\/([-\u4e00-\u9fa5\w\s.()~!@#$%^&()\[\]{}+=]+\/?)*$/;
+            regexp = /^\/([^\s?*"'\\:;|<>/]+\/?)*$/;
         }
         else {
-            regexp = /^([a-zA-Z]:\\)([-\u4e00-\u9fa5\w\s.()~!@#$%^&()\[\]{}+=]+\\?)*$/;
+            regexp = /^([a-zA-Z]:\\?)((?<=\\)[^<>/\\?*":|]+\\?)*$/;
         }
         return regexp.test(filePath);
     }
