@@ -35,7 +35,11 @@ Select Invert=反向選擇
 Select All Paused Tasks=選擇暫停的工作
 Select All Failed Tasks=選擇失敗的工作
 Select All Completed Tasks=選擇已完成工作
+Select Single Task=選單個工作
+Select Multiple Tasks=選擇多個工作
+Select Consecutive Tasks=選擇連續工作
 Select All Tasks=全選所有工作
+Task Select Mode=工作選擇模式
 Display Order=顯示順序
 Copy Download Url=複製下載連結
 Copy Magnet Link=複製磁力連結
@@ -319,6 +323,8 @@ Cannot initialize WebSocket!=無法初始化 WebSocket!
 Cannot connect to aria2!=無法連線到 aria2!
 Access Denied!=拒絕訪問!
 You cannot use AriaNg because this browser does not meet the minimum requirements for data storage.=您無法使用 AriaNg, 因為此瀏覽器不滿足資料儲存的最低要求.
+Install Aria2 Manager=安裝 Aria2 Manager
+Aria2 Manager is not installed, go to Alex Recommends channel for more information?=沒有安裝Aria2 Manager，進入“Alex推薦”頻道瞭解更多資訊？
 
 [error]
 unknown=不詳錯誤.

@@ -34,7 +34,11 @@ Select Invert=反向选择
 Select All Paused Tasks=选择暂停的任务
 Select All Failed Tasks=选择失败的任务
 Select All Completed Tasks=选择已完成任务
+Select Single Task=选择单个任务
+Select Multiple Tasks=选择多个任务
+Select Consecutive Tasks=选择连续任务
 Select All Tasks=全选所有任务
+Task Select Mode=任务选择模式
 Display Order=显示顺序
 Copy Download Url=复制下载链接
 Copy Magnet Link=复制磁力链接
@@ -318,6 +322,8 @@ Cannot initialize WebSocket!=无法初始化 WebSocket!
 Cannot connect to aria2!=无法连接到 aria2!
 Access Denied!=拒绝访问!
 You cannot use AriaNg because this browser does not meet the minimum requirements for data storage.=您无法使用 AriaNg, 因为这个浏览器不满足数据存储的最低要求.
+Install Aria2 Manager=安装 Aria2 Manager
+Aria2 Manager is not installed, go to Alex Recommends channel for more information?=沒有安装Aria2 Manager，进入“Alex推荐”頻道了解更多信息？
 
 [error]
 unknown=未知错误.
