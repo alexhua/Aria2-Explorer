@@ -243,6 +243,12 @@
       "message":"RPC设置已更改，同步到AriaNG并覆盖？"
    },
    "RpcUrlTooltipWarnDes":{
-      "message":"通过不安全的 HTTP/WebSocket 协议创建下载任务可能会导致 Cookies 和 Secret Key 暴露于公共网络。"
+      "message":"通过不安全的 HTTP/WebSocket 协议创建下载任务可能会导致 Secret Key 和 相关网站的Cookies信息暴露于公共网络。"
+   },
+   "AutoDownloadCookiesTooltipDes":{
+      "message": "在自动下载和右键导出下载时，将不会附带相关网站的Cookies信息。"
+   },
+   "ManualDownloadCookiesTooltipDes":{
+      "message": "在询问下载设置时，你需要决定是否删除相关网站的Cookies信息。"
    }
 }

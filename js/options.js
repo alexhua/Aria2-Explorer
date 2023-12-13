@@ -101,7 +101,13 @@ var Configs =
             if (i > 0)
                 $("#pattern-" + i).val(rpcList[i].pattern || '');
             if (Utils.validateRpcUrl(rpcList[i].url) == "WARNING") {
-                let tooltip = chrome.i18n.getMessage("RpcUrlTooltipWarnDes");
+                let tooltipRes = '';
+                if (Configs.askBeforeDownload || Configs.askBeforeExport) {
+                    tooltipRes = "ManualDownloadCookiesTooltipDes";
+                } else {
+                    tooltipRes = "AutoDownloadCookiesTooltipDes";
+                }
+                let tooltip = chrome.i18n.getMessage(tooltipRes);
                 $("#rpcItem-" + i).addClass('tool-tip');
                 $("#rpcItem-" + i).attr("tooltip-content", tooltip);
                 $("#rpcUrl-" + i).addClass('is-warning');

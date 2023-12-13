@@ -243,6 +243,12 @@
       "message":"RPC settings have changed. Synchronize these changes to AriaNG and overwrite?"
    },
    "RpcUrlTooltipWarnDes":{
-      "message":"Creating download tasks over insecure HTTP/WebSocket protocol can potentially expose Cookies and the Secret Key on the public network."
+      "message":"Creating download task over insecure HTTP/WebSocket protocol can potentially expose Secret Key and related website Cookies on the public network."
+   },
+   "AutoDownloadCookiesTooltipDes":{
+      "message": "The related website cookies will not be attached when auto-download or direct export."
+   },
+   "ManualDownloadCookiesTooltipDes":{
+      "message": "You should determine whether to delete the related website cookies when asking download settings."
    }
 }

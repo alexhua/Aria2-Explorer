@@ -243,6 +243,12 @@
       "message":"RPC設定が変更されました。AriaNGに同期しますか？"
    },
    "RpcUrlTooltipWarnDes":{
-      "message":"セキュアでないHTTP/WebSocketプロトコルを使用してダウンロードタスクを作成すると、Cookieおよびシークレットキーが公共ネットワークで露出する可能性があります。"
+      "message":"セキュリティキーおよび関連するウェブサイトのクッキーが公共ネットワーク上で潜在的にさらされる可能性があるため、安全でないHTTP/WebSocketプロトコルを使用してダウンロードすることは避けるべきです。"
+   },
+   "AutoDownloadCookiesTooltipDes":{
+      "message": "関連するウェブサイトのクッキーは、自動ダウンロードまたは直接エクスポート時には添付されません。"
+   },
+   "ManualDownloadCookiesTooltipDes":{
+      "message": "ダウンロード設定を尋ねる際に、関連するウェブサイトのクッキーを削除するかどうかを決定する必要があります。"
    }
 }
