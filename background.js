@@ -46,27 +46,56 @@ const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListe
  * @param {RpcItem} rpcItem
  * @returns {boolean} the result of creating download task
  */
-
 async function download(downloadItem, rpcItem) {
-    if (downloadItem?.url) {
-        if (downloadItem.url.includes('\n')) downloadItem.multiTask = true;
+    if (!downloadItem?.url) {
+        console.warn("Download: Invalid download item, download request is dismissed!");
+        return false;
+    }
+
+    if (downloadItem.url.includes('\n')) downloadItem.multiTask = true;
+
+    if (downloadItem.type == "DOWNLOAD_VIA_BROWSER") {
+        if (Configs.integration && isDownloadListened()) {
+            chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
+        }
+
+        let callback = function () {
+            if (Configs.integration && !isDownloadListened()) {
+                chrome.downloads.onDeterminingFilename.addListener(captureDownload);
+            }
+        };
+
+        if (downloadItem.multiTask) {
+            let urls = downloadItem.url.split('\n');
+            for (const i in urls) {
+                if (i == urls.length - 1) {
+                    chrome.downloads.download({ url: urls[i] }).then(callback);
+                } else {
+                    chrome.downloads.download({ url: urls[i] });
+                }
+            }
+        } else {
+            delete downloadItem.type;
+            chrome.downloads.download(downloadItem).then(callback);
+        }
+
+        return true;
+
+    } else {
         if (!downloadItem.filename) downloadItem.filename = '';
         if (Configs.askBeforeDownload || downloadItem.multiTask) {
             try {
                 await launchUI(downloadItem);
+                return true;
             } catch (error) {
                 console.warn("Download: Launch UI failed.")
                 return false;
             }
-            return true;
         } else {
             if (!rpcItem || !rpcItem.url) rpcItem = getRpcServer(downloadItem.url);
             return await send2Aria(downloadItem, rpcItem);
         }
-    } else {
-        console.warn("Invalid download item, download request is rejected!");
     }
-    return false;
 }
 
 async function getCookies(downloadItem) {
@@ -173,7 +202,7 @@ function shouldCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
-    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftp):/i.test(downloadItem.url)) {
+    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftp|blob):/i.test(downloadItem.url)) {
         return false;
     }
 
@@ -238,7 +267,7 @@ async function captureDownload(downloadItem, suggest) {
     if (downloadItem.byExtensionId) {
         // TODO: Filename assigned by chrome.downloads.download() was not passed in
         // and will be discarded by Chrome. No solution or workaround right now. The
-        // only way is disabling capture before others extension calls chrome.downloads.download().
+        // only way is disabling capture before other extensions call chrome.downloads.download().
         suggest();
     }
 
@@ -254,12 +283,17 @@ async function captureDownload(downloadItem, suggest) {
         if (downloadItem.referrer == "about:blank") {
             downloadItem.referrer = "";
         }
-        let rpcItem = getRpcServer(downloadItem.url);
-        let successful = await download(downloadItem, rpcItem);
+        if (/^blob:\/\//i.test(downloadItem.url)) {
+            downloadItem.type = "DOWNLOAD_VIA_BROWSER";
+            download(downloadItem);
+        } else {
+            let rpcItem = getRpcServer(downloadItem.url);
+            let successful = await download(downloadItem, rpcItem);
 
-        if (!successful && Utils.isLocalhost(rpcItem.url)) {
-            disableCapture();
-            chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
+            if (!successful && Utils.isLocalhost(rpcItem.url)) {
+                disableCapture();
+                chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
+            }
         }
     }
 }
@@ -451,9 +485,9 @@ function createContextMenu() {
         } else {
             let title = '';
             for (const i in Configs.rpcList) {
-                if (Configs.rpcList.length < 2) {
-                    title = strExport + Configs.rpcList[i]['name'] + ' 📥';
-                } else {
+                if (Configs.rpcList.length == 1) {
+                    title = strExport + Configs.rpcList[i]['name'] + '  📥';
+                } else if (Configs.rpcList.length > 1) {
                     title = '📥 ' + strExport + Configs.rpcList[i]['name'];
                 }
 
@@ -497,8 +531,13 @@ function onMenuClick(info, tab) {
         if (Configs.askBeforeExport) {
             launchUI(downloadItem);
         } else {
-            let id = info.menuItemId.split('-')[1];
-            send2Aria(downloadItem, Configs.rpcList[id]);
+            if (/^blob:\/\//i.test(downloadItem.url)) {
+                downloadItem.type = 'DOWNLOAD_VIA_BROWSER';
+                download(downloadItem);
+            } else {
+                let id = info.menuItemId.split('-')[1];
+                send2Aria(downloadItem, Configs.rpcList[id]);
+            }
         }
     } else if (info.menuItemId == "MENU_EXPORT_ALL" && !tab.url.startsWith("chrome")) {
         chrome.scripting.executeScript({
@@ -758,13 +797,17 @@ function registerAllListeners() {
         }
     );
 
-    /* receive download request from magnet page or export all */
+    /* receive download request from magnet page, export all, ariaNG */
     chrome.runtime.onMessage.addListener(
         function (message) {
             switch (message.type) {
                 case "DOWNLOAD":
                 case "EXPORT_ALL":
-                    const downloadItem = message.data || {};
+                    download(message.data);
+                    break;
+                case "DOWNLOAD_VIA_BROWSER":
+                    let downloadItem = message.data || {};
+                    downloadItem.type = "DOWNLOAD_VIA_BROWSER";
                     download(downloadItem);
                     break;
             }
@@ -897,7 +940,7 @@ function exportAllLinks(allowedExts, blockedExts) {
             let ext = filename.includes('.') ? filename.split('.').pop() : '';
             let valid = false;
 
-            if (url.protocol == "magnet:") {
+            if (url.protocol == "magnet:" || url.protocol == "blob:") {
                 valid = true;
             } else if (/^http|ftp|sftp/.test(url.protocol)) {
                 if (allowedExts.includes(ext) || allowedExts.includes('*')) {
@@ -929,6 +972,6 @@ function exportAllLinks(allowedExts, blockedExts) {
         chrome.runtime.sendMessage({ type: "EXPORT_ALL", data: downloadItem });
     } else {
         let des = chrome.i18n.getMessage("exportAllFailedDes");
-        alert("\n [Aria2-Explorer]: " + des);
+        alert("\nAria2-Explorer: " + des);
     }
 }

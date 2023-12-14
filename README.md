@@ -32,13 +32,13 @@ After completing these steps, the extension will take over the download process,
 
 6. Monitor Aria2 download status via icon badge
 
-7. Export download tasks from context menu
+7. Batch export webpage resources (Image·Audio·Videos·Magnet) links from context menu
 
 8. Receive download requests from other extensions
 
 9. Support shortcuts in the options page (Save:<kbd>Alt</kbd>+<kbd>S</kbd> Reset:<kbd>Alt</kbd>+<kbd>R</kbd> Download:<kbd>Alt</kbd>+<kbd>J</kbd> Upload:<kbd>Alt</kbd>+<kbd>U</kbd>)
 
-10. Auto-Export all the RPC settings to AriaNG
+10. Support downloading blob URL via browser
 
 ## 🧩 Integration
 
