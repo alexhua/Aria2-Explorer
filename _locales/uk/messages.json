@@ -250,5 +250,8 @@
    },
    "ManualDownloadCookiesTooltipDes":{
       "message": "Вам слід визначити, чи ви хочете видалити файли cookie пов'язаного веб-сайту при налаштуванні завантаження."
+   },
+   "Aria2ManagerPromotionDes":{
+      "message": "Здається, Aria2 Manager не встановлено, звертайтеся до каналу \"Alex Recommends\" для отримання додаткової інформації?"
    }
 }

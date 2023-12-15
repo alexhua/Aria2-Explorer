@@ -3,14 +3,15 @@ import Configs from "./js/config.js";
 import Aria2 from "./js/aria2.js";
 import Aria2Options from "./js/aria2Options.js";
 
+const NID_DEFAULT = "NID_DEFAULT";
+const NID_TASK_NEW = "NID_TASK_NEW";
+const NID_TASK_STOPPED = "NID_TASK_STOPPED";
+
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
 var MonitorRate = 3000; // Aria2 monitor interval 3000ms
 var RemoteAria2List = [];
 
-const NID_DEFAULT = "NID_DEFAULT";
-const NID_TASK_NEW = "NID_TASK_NEW";
-const NID_TASK_STOPPED = "NID_TASK_STOPPED";
 
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload);
 
@@ -300,12 +301,12 @@ async function captureDownload(downloadItem, suggest) {
 
 async function launchUI(info) {
     const index = chrome.runtime.getURL('ui/ariang/index.html');
-    let webUiUrl = index; // launched from notification, option menu or browser toolbar icon
+    let webUiUrl = index + '#!'; // launched from notification, option menu or browser toolbar icon
 
     /* assemble the final web ui url */
     if (info?.hasOwnProperty("filename") && info.url) { // launched for new task
         const downloadItem = info;
-        webUiUrl = index + "#!/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
+        webUiUrl = webUiUrl + "/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
         if (downloadItem.referrer && downloadItem.referrer != "" && downloadItem.referrer != "about:blank") {
             webUiUrl = webUiUrl + "&referer=" + encodeURIComponent(downloadItem.referrer);
         }
@@ -320,7 +321,7 @@ async function launchUI(info) {
         }
     } else if (typeof info === "string" && info.startsWith(NID_TASK_STOPPED)) { // launched from task done notification click
         const gid = info.slice(NID_TASK_STOPPED.length) || '';
-        webUiUrl += gid ? "#!/task/detail/" + gid : "#!/stopped";
+        webUiUrl += gid ? "/task/detail/" + gid : "/stopped";
     }
 
     chrome.tabs.query({ "url": index }).then(function (tabs) {
@@ -511,7 +512,8 @@ function onMenuClick(info, tab) {
     if (info.menuItemId == "MENU_OPEN_WEB_UI") {
         launchUI();
     } else if (info.menuItemId == "MENU_START_ARIA2") {
-        chrome.tabs.create({ url: "aria2://start/" });
+        const url = chrome.runtime.getURL('aria2.html')
+        chrome.tabs.create({ url });
     } else if (info.menuItemId == "MENU_CAPTURE_DOWNLOAD") {
         chrome.storage.local.set({ integration: info.checked });
     } else if (info.menuItemId == "MENU_MONITOR_ARIA2") {
@@ -737,7 +739,6 @@ function registerAllListeners() {
             CurrentTabUrl = tab?.url || "about:blank";
             updateOptionMenu(tab);
         });
-
     });
 
     chrome.windows.onFocusChanged.addListener(function (windowId) {
@@ -770,14 +771,14 @@ function registerAllListeners() {
                 url: optionsUrl
             });
         } else if (details.reason == "update") {
-            chrome.storage.local.get("rpcList").then(configs => {
-                if (!configs.rpcList) {
-                    /* Old local storage should be upgraded to Chrome storage */
-                    chrome.tabs.create({
-                        url: optionsUrl + "?action=upgrade-storage"
-                    });
-                }
-            })
+            // chrome.storage.local.get("rpcList").then(configs => {
+            //     if (!configs.rpcList) {
+            //         /* Old local storage should be upgraded to Chrome storage */
+            //         chrome.tabs.create({
+            //             url: optionsUrl + "?action=upgrade-storage"
+            //         });
+            //     }
+            // })
             /* new version update notification */
             let title = `Version ${manifest.version} 🚀`;
             let message = `${manifest.name} has been updated.`;
@@ -799,7 +800,7 @@ function registerAllListeners() {
 
     /* receive download request from magnet page, export all, ariaNG */
     chrome.runtime.onMessage.addListener(
-        function (message) {
+        function (message, sender, sendResponse) {
             switch (message.type) {
                 case "DOWNLOAD":
                 case "EXPORT_ALL":
@@ -810,6 +811,11 @@ function registerAllListeners() {
                     downloadItem.type = "DOWNLOAD_VIA_BROWSER";
                     download(downloadItem);
                     break;
+                case "QUERY_WINDOW_STATE":
+                    chrome.windows.get(message.data).then(
+                        (window) => { sendResponse({ data: window }) }
+                    );
+                    return true;
             }
         }
     );

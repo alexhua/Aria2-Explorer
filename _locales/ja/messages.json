@@ -250,5 +250,8 @@
    },
    "ManualDownloadCookiesTooltipDes":{
       "message": "ダウンロード設定を尋ねる際に、関連するウェブサイトのクッキーを削除するかどうかを決定する必要があります。"
+   },
+   "Aria2ManagerPromotionDes":{
+      "message": "Aria2 Managerはインストールされていないようですが、詳細については、Alex推奨チャネルにアクセスしてください？"
    }
 }

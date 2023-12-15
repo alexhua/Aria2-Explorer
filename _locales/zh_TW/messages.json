@@ -250,5 +250,8 @@
    },
    "ManualDownloadCookiesTooltipDes":{
       "message": "在詢問下載設定時，你需要决定是否删除相關網站的Cookies資訊。"
+   },
+   "Aria2ManagerPromotionDes":{
+      "message": "好像沒有安裝Aria2 Manager，訪問“Alex推薦”頻道瞭解更多資訊？"
    }
 }

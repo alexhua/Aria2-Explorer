@@ -250,5 +250,8 @@
    },
    "ManualDownloadCookiesTooltipDes":{
       "message": "다운로드 설정을 묻을 때 관련 웹 사이트 쿠키를 삭제할지 여부를 결정해야 합니다."
+   },
+   "Aria2ManagerPromotionDes":{
+      "message": "Aria2 Manager가 설치되어 있지 않은 것 같습니다.\"Alex 추천\"채널을 방문하여 자세한 내용을 확인하시겠습니까?"
    }
 }
