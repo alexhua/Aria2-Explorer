@@ -230,7 +230,7 @@ Include Prefix When Copying From Task Details=任务详情页复制时包括前�
 Show Pieces Info In Task Detail Page=任务详情页显示区块信息
 Pieces Amount is Less than or Equal to {value}=区块数量小于等于 {{value}}
 RPC List Display Order=RPC 列表显示顺序
-Each Task List Page Uses Independent Display Order=各任务列表页面使用独立显示顺序
+Each Task List Page Uses Independent Display Order=各任务列表页面独立排序
 Recently Used=最近使用
 RPC Alias=RPC 别名
 Default Tasks Page=默认任务列表页面
@@ -324,6 +324,9 @@ Access Denied!=拒绝访问!
 You cannot use AriaNg because this browser does not meet the minimum requirements for data storage.=您无法使用 AriaNg, 因为这个浏览器不满足数据存储的最低要求.
 Install Aria2 Manager=安装 Aria2 Manager
 Aria2 Manager is not installed, go to Alex Recommends channel for more information?=沒有安装Aria2 Manager，进入“Alex推荐”頻道了解更多信息？
+Download via Browser=通过浏览器下载
+Confirm to download multiple URLs from Browser simultaneously?=确认通过浏览器同时下载多个链接？
+Blob URL Found, All tasks will be downloaded via Browser. Invalid URL will be ignored.=发现 Blob 链接，将会通过浏览器下载所有任务。无效链接将被忽略。
 
 [error]
 unknown=未知错误.
