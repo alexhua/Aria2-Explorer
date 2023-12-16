@@ -1,12 +1,19 @@
-# Aria2 Explorer <span style="float:right">[[返回]](index.md)</span>
+# Aria2 Explorer
 
-**Aria2 Explorer** 是一款为 Chrome 定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到 Aria2 来完成网络资源下载。同时，引入了 [AriaNG](https://www.github.com/mayswind/AriaNg/) 作为前端，方便用户对 Aria2 进行操作和管理。
+<h1 style="position:absolute; top: 14px; right:14px"><a href="index.html">[返回]</a></h1>
+
+**Aria2 Explorer** 是一款基于 [**Aria2**](https://github.com/aria2/aria2) 的下载工具，能够自动拦截浏览器或手动添加下载任务到 **Aria2** 完成网络资源下载，支持 **HTTP/HTTPS/FTP/SFTP/BT/Magnet** 协议。
+
+同时，引入了 [AriaNG](https://www.github.com/mayswind/AriaNg/) 作为前端，方便用户对 Aria2 进行操作和管理。
+
+任务管理在线版：[https://ui.aria2e.com](https://ui.aria2e.com)
+
 
 ## 📑 如何使用
 
-1. 下载 Aria2 主程序：<span style="vertical-align:text-top;">[![下载 Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=下载%20Aria2)](https://github.com/aria2/aria2/releases)</span>
-2. 打开 cmd（或 Terminal）输入 `aria2c --enable-rpc`
-3. 从[在线商店](#-安装地址)安装浏览器扩展
+1. Windows系统请下载 <span style="vertical-align:middle;">[![下载Aria2 Manager](https://img.shields.io/github/downloads/alexhua/aria2-manager/total?color=blue&label=Aria2%20Manager)](https://github.com/alexhua/aria2-manager/ "去 Aria2-Manager 主页了解更多信息")</span>，其他系统请下载 Aria2 主程序：<span style="vertical-align:middle;">[![下载 Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases "跳转到 Aria2 下载页面")</span>
+2. Windows系统请运行 **Aria2Manager.exe** ，其他系统，请打开 **Terminal** 输入 `aria2c --enable-rpc`
+3. 从[在线商店](#-安装地址)安装 **Aria2 Explorer**
 4. 在扩展选项中打开 `自动拦截下载`，并根据需求配置其他选项
 
 完成后，既可在Chrome中享受高速下载体验。
@@ -24,21 +31,21 @@
 
 2. 根据预设URL规则自动选择不同的 Aria2 RPC 服务端
 
-3. 内置 Aria2 前端：AriaNG，多种呈现方式：弹窗，新标签，新窗口
+3. 内置 Aria2 前端：AriaNG 增强版，多种呈现方式：弹窗，新标签，新窗口，PWA
 
 4. 所有配置云端同步
 
-5. 中日韩英乌克兰多语言支持
+5. 中/英双语言支持
 
 6. Aria2下载状态监测
 
-7. 上下文菜单导出下载任务
+7. 支持右键菜单批量导出网页资源（图片·音频·视频·磁力链接）
 
 8. 接受来自其他扩展的下载请求
 
 9. 选项配置页面快捷键（保存：<kbd>Alt</kbd>+<kbd>S</kbd> 重置：<kbd>Alt</kbd>+<kbd>R</kbd> 下载：<kbd>Alt</kbd>+<kbd>J</kbd> 上传：<kbd>Alt</kbd>+<kbd>U</kbd>）
 
-10. 只需一次配置，自动导出所有 RPC 设置到 AriaNG
+10. 支持通过浏览器下载拦截链接
 
 ## 🧩 外部调用
 
@@ -47,7 +54,7 @@
 ```js
 
 const downloadItem = {
-    url: "https://sample.com/image.jpg",
+    url: "https://sample.com/image.jpg", // 多个url使用 \n 分隔
     filename: "image_from_sample.jpg",
     referrer: "https://sample.com",
     options: { 
@@ -62,12 +69,18 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ## 📥 安装地址
 
-[![Chrome Web Store](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 Explorer")
-[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 Explorer")
+### Aria2-Explorer:
+
+[<img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "从 Chrome 商店安装 Aria2-Explorer")
+[<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height="56" >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "从 Edge 商店安装 Aria2-Explorer")
+
+### Aria2-Manager:
+
+[<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height="56"/>](https://apps.microsoft.com/detail/Aria2%20Manager/9P5WQ68Q20WV?launch=true&cid=aria2e "从微软商店安装 Aria2-Manager")
 
 ## 💡 常见问题
 
-[https://github.com/alexhua/aria2-explorer/issues?q=label:faq](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ+sort%3Acreated-asc)
+[https://github.com/alexhua/aria2-explorer/issues?q=label:FAQ](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ+sort%3Acreated-asc)
 
 ## 🔒 隐私政策
 

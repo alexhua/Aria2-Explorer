@@ -1,17 +1,23 @@
-# Aria2 Explorer <span style="float:right">[[中文]](index.cn.md)</span>
+# Aria2 Explorer
 
-**Aria2 Explorer** is an extension that could export URLs to Aria2 to complete downloads and imports [AriaNG](https://www.github.com/mayswind/AriaNg/) as a built-in management frontend.
+<h1 style="position:absolute; top: 14px; right:14px"><a href="index.cn.html">[中文]</a></h1>
+
+**Aria2 Explorer** is a download tool based on [**Aria2**](https://github.com/aria2/aria2), which could export URLs from browser to **Aria2** to complete downloads and support for **HTTP/HTTPS/FTP/SFTP/BT/Magnet** protocols.
+
+Meanwhile, imports [AriaNG](https://www.github.com/mayswind/AriaNg/) as a built-in management frontend. 
+
+Task management online: [https://ui.aria2e.com](https://ui.aria2e.com)
 
 ## 📑How to use
 
 Procedures:
 
-1. Download Aria2 utility: <span style="vertical-align:text-top;">[![Download Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Download%20Aria2)](https://github.com/aria2/aria2/releases)</span>
-2. Run it in the terminal (or cmd) with typing `aria2c --enable-rpc`.
-3. Install extension from [web store](#-installation).
+1. For Windows, please download <span style="vertical-align:middle;">[![Download Aria2 Manager](https://img.shields.io/github/downloads/alexhua/aria2-manager/total?color=blue&label=Aria2%20Manager )](https://github.com/alexhua/aria2-manager/ "Goto Aria2-Manager homepage for more details")</span>. Other platform, please download Aria2 utility: <span style="vertical-align:middle;">[![Download Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases "Goto Aria2 download page")</span>
+2. For Windows, please run **Aria2Manager.exe**. Other platform, please run Aria2 in the **Terminal** with typing `aria2c --enable-rpc`.
+3. Install **Aria2 Explorer** from [Web Store](#-installation).
 4. Enable `auto-capture` on the extension options page and configure others as you need.
 
-After completing these steps, the extension will take over the download process, leading you to a high-speed download experience.
+After completing these steps, the extension will take over the download process, leading you to a high-speed download experience. 
 
 ## ⭐ Features
 
@@ -21,24 +27,24 @@ After completing these steps, the extension will take over the download process,
     - Toggle auto-capture by shortcut (Default: <kbd>Alt</kbd>+<kbd>A</kbd>)
     - Set all Aria2 options manually before download
     - Filter task by the domain, file extensions or file sizes
-    > Filter priority: domain > file-ext > file-size, white-list > black-list
+    > Filter priority: domain > file-ext > file-size, allow-list > block-list
 2. Auto-select Aria2 RPC server by matching the preset download URL pattern
 
-3. Built-in Aria2 frontend: AriaNG, multiple present styles: popup, new tab, new window
+3. Built-in Aria2 frontend: AriaNG enhanced version, multiple present styles: popup, new tab, new window, PWA
 
 4. Synchronize and store all settings on the cloud
 
-5. Support for zh-CN/zh-TW/en/ja/ko/uk languages
+5. Support for zh-CN/zh-TW/en languages
 
 6. Monitor Aria2 download status via icon badge
 
-7. Export download tasks from context menu
+7. Support batch exporting webpage resources (Image·Audio·Video·Magnet) links from context menu
 
 8. Receive download requests from other extensions
 
 9. Support shortcuts in the options page (Save:<kbd>Alt</kbd>+<kbd>S</kbd> Reset:<kbd>Alt</kbd>+<kbd>R</kbd> Download:<kbd>Alt</kbd>+<kbd>J</kbd> Upload:<kbd>Alt</kbd>+<kbd>U</kbd>)
 
-10. Auto-Export all the RPC settings to AriaNG
+10. Support downloading URL via browser
 
 ## 🧩 Integration
 
@@ -47,7 +53,7 @@ Allow other extensions to use this extension as middleware to download files wit
 ```js
 
 const downloadItem = {
-    url: "https://sample.com/image.jpg",
+    url: "https://sample.com/image.jpg", // multiple urls should be split by \n
     filename: "image_from_sample.jpg",
     referrer: "https://sample.com",
     options: { 
@@ -62,12 +68,18 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ## 📥 Installation
 
-[![Chrome Web Store](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 Explorer")
-[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 Explorer")
+### Aria2-Explorer:
+
+[<img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Install Aria2-Explorer from Chrome Web Store")
+[<img src="https://get.microsoft.com/images/en-us%20light.svg" height="56" >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Install Aria2-Explorer from Edge Web Store")
+
+### Aria2-Manager:
+
+[<img src="https://get.microsoft.com/images/en-us%20light.svg" height="56"/>](https://apps.microsoft.com/detail/Aria2%20Manager/9P5WQ68Q20WV?launch=true&cid=aria2e "Install Aria2-Manager from Microsoft Store")
 
 ## 💡 Tips & FAQs
 
-[https://github.com/alexhua/aria2-explorer/issues?q=label:faq](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ+sort%3Acreated-asc)
+[https://github.com/alexhua/aria2-explorer/issues?q=label:FAQ](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ+sort%3Acreated-asc)
 
 ## 🔒 Privacy policy
 
