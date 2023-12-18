@@ -38,7 +38,7 @@
 
 9. 选项配置页面快捷键（保存：<kbd>Alt</kbd>+<kbd>S</kbd> 重置：<kbd>Alt</kbd>+<kbd>R</kbd> 下载：<kbd>Alt</kbd>+<kbd>J</kbd> 上传：<kbd>Alt</kbd>+<kbd>U</kbd>）
 
-10. 支持通过浏览器下载Blob链接
+10. 支持通过浏览器下载网络链接
 
 ## 🧩 外部调用
 

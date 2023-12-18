@@ -327,7 +327,7 @@ Install Aria2 Manager=安裝 Aria2 Manager
 Aria2 Manager is not installed, go to Alex Recommends channel for more information?=沒有安裝Aria2 Manager，進入“Alex推薦”頻道瞭解更多資訊？
 Download via Browser=通過瀏覽器下載
 Confirm to download multiple URLs from Browser simultaneously?=確認通過瀏覽器同時下載多個連結？
-Blob URL Found, All tasks will be downloaded via Browser. Invalid URL will be ignored.=發現Blob連結，將會通過瀏覽器下載所有工作。無效連結將被忽略。
+Aria2 is disconnected, All tasks will be downloaded via Browser. Invalid URL will be ignored.=Aria2 未連接，將會通過瀏覽器下載所有工作。無效連結將被忽略。
 
 [error]
 unknown=不詳錯誤.

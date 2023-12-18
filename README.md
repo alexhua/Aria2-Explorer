@@ -38,7 +38,7 @@ After completing these steps, the extension will take over the download process,
 
 9. Support shortcuts in the options page (Save:<kbd>Alt</kbd>+<kbd>S</kbd> Reset:<kbd>Alt</kbd>+<kbd>R</kbd> Download:<kbd>Alt</kbd>+<kbd>J</kbd> Upload:<kbd>Alt</kbd>+<kbd>U</kbd>)
 
-10. Support downloading blob URL via browser
+10. Support downloading URLs via browser
 
 ## 🧩 Integration
 

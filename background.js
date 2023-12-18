@@ -203,7 +203,7 @@ function shouldCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
-    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftp|blob):/i.test(downloadItem.url)) {
+    if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftp):/i.test(downloadItem.url)) {
         return false;
     }
 
@@ -284,17 +284,13 @@ async function captureDownload(downloadItem, suggest) {
         if (downloadItem.referrer == "about:blank") {
             downloadItem.referrer = "";
         }
-        if (/^blob:\/\//i.test(downloadItem.url)) {
-            downloadItem.type = "DOWNLOAD_VIA_BROWSER";
-            download(downloadItem);
-        } else {
-            let rpcItem = getRpcServer(downloadItem.url);
-            let successful = await download(downloadItem, rpcItem);
 
-            if (!successful && Utils.isLocalhost(rpcItem.url)) {
-                disableCapture();
-                chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
-            }
+        let rpcItem = getRpcServer(downloadItem.url);
+        let successful = await download(downloadItem, rpcItem);
+
+        if (!successful && Utils.isLocalhost(rpcItem.url)) {
+            disableCapture();
+            chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
         }
     }
 }
@@ -532,14 +528,9 @@ function onMenuClick(info, tab) {
     } else if (info.menuItemId.startsWith("MENU_EXPORT_TO")) {
         if (Configs.askBeforeExport) {
             launchUI(downloadItem);
-        } else {
-            if (/^blob:\/\//i.test(downloadItem.url)) {
-                downloadItem.type = 'DOWNLOAD_VIA_BROWSER';
-                download(downloadItem);
-            } else {
-                let id = info.menuItemId.split('-')[1];
-                send2Aria(downloadItem, Configs.rpcList[id]);
-            }
+        } else {           
+            let id = info.menuItemId.split('-')[1];
+            send2Aria(downloadItem, Configs.rpcList[id]);            
         }
     } else if (info.menuItemId == "MENU_EXPORT_ALL" && !tab.url.startsWith("chrome")) {
         chrome.scripting.executeScript({
@@ -946,7 +937,7 @@ function exportAllLinks(allowedExts, blockedExts) {
             let ext = filename.includes('.') ? filename.split('.').pop() : '';
             let valid = false;
 
-            if (url.protocol == "magnet:" || url.protocol == "blob:") {
+            if (url.protocol == "magnet:") {
                 valid = true;
             } else if (/^http|ftp|sftp/.test(url.protocol)) {
                 if (allowedExts.includes(ext) || allowedExts.includes('*')) {
