@@ -4,8 +4,8 @@
 
 ## 📑 如何使用
 
-1. 下载 Aria2 主程序：[![Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases)
-2. 打开 cmd（或 Terminal）输入 `aria2c --enable-rpc`
+1. Windows系统请下载 <span style="vertical-align:middle;">[![下载Aria2 Manager](https://img.shields.io/github/downloads/alexhua/aria2-manager/total?color=blue&label=Aria2%20Manager)](https://github.com/alexhua/aria2-manager/)</span>，其他系统请下载 Aria2 主程序：<span style="vertical-align:middle;">[![下载 Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases)</span>
+2. Windows系统请运行 **Aria2Manager.exe** ，其他系统，请打开 **Terminal** 输入 `aria2c --enable-rpc`
 3. 从[在线商店](#-安装地址)安装浏览器扩展
 4. 在扩展选项中打开 `自动拦截下载`，并根据需求配置其他选项
 
