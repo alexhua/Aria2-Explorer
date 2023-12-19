@@ -3,6 +3,12 @@ import Default from "./config.js";
 
 const AriaNgOptionsKey = "AriaNg.Options"; // AriaNG options local storage key
 
+const ColorModeList = [
+    { name: 'light', icon: 'fa-sun', title: 'LightMode' },
+    { name: 'dark', icon: 'fa-moon', title: 'DarkMode' },
+    { name: 'system', icon: 'fa-circle-half-stroke', title: 'FollowSystem' }
+];
+
 var Configs =
 {
     init: async function () {
@@ -11,6 +17,8 @@ var Configs =
             await upgradeStorage();
         let configs = await chrome.storage.local.get();
         Object.assign(Configs, Default, configs);
+
+        setColorTheme();
 
         $("input[type=checkbox]").prop("checked", false);
         $("input[type=text],input[type=number]").val("");
@@ -132,14 +140,25 @@ var Configs =
         /* prevent page from refresh when submit*/
         $("form").off().on("submit", function (event) {
             event.preventDefault();
-        })
+        }).on("reset", function (event) {
+            event.preventDefault();
+        });
         $("#webStoreUrl").prop("href", Utils.getWebStoreUrl());
         const manifest = chrome.runtime.getManifest();
         $("#version").text('v' + manifest.version);
+
+        let title = chrome.i18n.getMessage(ColorModeList[Configs.colorModeId].title);
+        $("#colorMode .fa").removeClass('fa-moon fa-sun fa-circle-half-stroke')
+            .addClass(ColorModeList[Configs.colorModeId].icon).attr("title", title);
+        $("#colorMode").off().on("click", function () {
+            Configs.colorModeId = (Configs.colorModeId + 1) % ColorModeList.length;
+            chrome.storage.local.set({ colorModeId: Configs.colorModeId });
+        });
     },
     reset: async function () {
-        localStorage.clear();
-        await chrome.storage.local.clear();
+        if (confirm(chrome.i18n.getMessage("ClearSettingsDes"))) {
+            await chrome.storage.local.clear();
+        }
     },
     save: function () {
         let rpcGroup = $(".rpcGroup");
@@ -238,6 +257,8 @@ var Configs =
 };
 
 window.onload = Configs.init;
+window.matchMedia('(prefers-color-scheme: dark)').onchange = setColorTheme;
+
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName == "local") {
@@ -268,14 +289,11 @@ window.onkeyup = function (e) {
             Configs.save();
             button = document.getElementById("save");
         } else if (e.key == 'r') {
-            if (confirm("Clear all local settings?")) {
-                Configs.reset();
-                button = document.getElementById("reset");
-            };
+            Configs.reset();
+            button = document.getElementById("reset");
         } else if (e.key == 'u') {
             Configs.upload();
             button = document.getElementById("uploadConfig");
-
         } else if (e.key == 'j') {
             Configs.download();
             button = document.getElementById("downloadConfig");
@@ -353,4 +371,22 @@ async function upgradeStorage() {
     chrome.storage.local.set(configs).then(
         () => console.log("Storage upgrade completed.")
     );
+}
+
+function setColorTheme() {
+    switch (Configs.colorModeId) {
+        case 0:
+            $('body').removeClass("dark-mode");
+            break;
+        case 1:
+            $('body').addClass("dark-mode");
+            break;
+        case 2:
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                $('body').addClass("dark-mode");
+            } else {
+                $('body').removeClass("dark-mode");
+            }
+            break;
+    }
 }

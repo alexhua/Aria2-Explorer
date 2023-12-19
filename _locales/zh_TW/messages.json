@@ -253,5 +253,20 @@
    },
    "Aria2ManagerPromotionDes":{
       "message": "好像沒有安裝Aria2 Manager，訪問“Alex推薦”頻道瞭解更多資訊？"
+   },
+   "ClearSettingsDes": {
+      "message": "確認清除擴充的本地設定？"
+   },
+   "ColorMode":{
+      "message": "顔色模式"
+   },
+   "LightMode":{
+      "message": "明亮模式"
+   },
+   "DarkMode":{
+      "message": "黑暗模式"
+   },
+   "FollowSystem":{
+      "message": "跟隨系統"
    }
 }

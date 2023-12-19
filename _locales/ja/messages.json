@@ -253,5 +253,20 @@
    },
    "Aria2ManagerPromotionDes":{
       "message": "Aria2 Managerはインストールされていないようですが、詳細については、Alex推奨チャネルにアクセスしてください？"
+   },
+   "ClearSettingsDes":{
+      "message": "拡張機能のローカル設定をクリアしてもよろしいですか？"
+   },
+   "ColorMode":{
+      "message": "カラーモード"
+   },
+   "LightMode":{
+      "message": "ライトモード"
+   },
+   "DarkMode":{
+      "message": "ダークモード"
+   },
+   "FollowSystem":{
+      "message": "システムに従う"
    }
 }

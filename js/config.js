@@ -15,6 +15,7 @@ const Configs = {
     captureMagnet: false,
     rpcList: [{ "name": "Aria2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }],
     webUIOpenStyle: "window",
+    colorModeId: 2,
     allowedSites: [],
     blockedSites: [],
     allowedExts: [],

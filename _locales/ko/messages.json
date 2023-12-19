@@ -253,5 +253,20 @@
    },
    "Aria2ManagerPromotionDes":{
       "message": "Aria2 Manager가 설치되어 있지 않은 것 같습니다.\"Alex 추천\"채널을 방문하여 자세한 내용을 확인하시겠습니까?"
+   },
+   "ClearSettingsDes":{
+      "message": "확장 프로그램의 로컬 설정을 지우시겠습니까?"
+   },
+   "ColorMode":{
+      "message": "컬러 모드"
+   },
+   "LightMode":{
+      "message": "라이트 모드"
+   },
+   "DarkMode":{
+      "message": "다크 모드"
+   },
+   "FollowSystem":{
+      "message": "시스템 따르기"
    }
 }

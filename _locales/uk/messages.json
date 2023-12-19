@@ -253,5 +253,20 @@
    },
    "Aria2ManagerPromotionDes":{
       "message": "Здається, Aria2 Manager не встановлено, звертайтеся до каналу \"Alex Recommends\" для отримання додаткової інформації?"
+   },
+   "ClearSettingsDes":{
+      "message": "Підтвердіть очищення локальних налаштувань розширення?"
+   },
+   "ColorMode":{
+      "message": "Колірний режим"
+   },
+   "LightMode":{
+      "message": "Світлий режим"
+   },
+   "DarkMode":{
+      "message": "Темний режим"
+   },
+   "FollowSystem":{
+      "message": "Слідувати за системою"
    }
 }
