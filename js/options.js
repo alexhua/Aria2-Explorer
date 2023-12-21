@@ -18,7 +18,7 @@ var Configs =
         let configs = await chrome.storage.local.get();
         Object.assign(Configs, Default, configs);
 
-        setColorTheme();
+        setColorMode();
 
         $("input[type=checkbox]").prop("checked", false);
         $("input[type=text],input[type=number]").val("");
@@ -257,8 +257,7 @@ var Configs =
 };
 
 window.onload = Configs.init;
-window.matchMedia('(prefers-color-scheme: dark)').onchange = setColorTheme;
-
+window.matchMedia('(prefers-color-scheme: dark)').onchange = setColorMode;
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName == "local") {
@@ -373,7 +372,7 @@ async function upgradeStorage() {
     );
 }
 
-function setColorTheme() {
+function setColorMode() {
     switch (Configs.colorModeId) {
         case 0:
             $('body').removeClass("dark-mode");

@@ -76,8 +76,7 @@ async function download(downloadItem, rpcItem) {
                 }
             }
         } else {
-            delete downloadItem.type;
-            chrome.downloads.download(downloadItem).then(callback);
+            chrome.downloads.download({ url: downloadItem.url, filename: downloadItem.filename }).then(callback);
         }
 
         return true;

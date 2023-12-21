@@ -105,6 +105,7 @@ input[type=radio], input + label {
 .footer-content {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .fa-copyright,
@@ -130,26 +131,49 @@ a:hover>.fa-lightbulb,
   padding-inline: 1rem;
   margin-right: -3rem;
   cursor: pointer;
+  border-radius: 1.5rem;
   text-shadow: 0 0 5px gray;
+  transition: background-color .3s, box-shadow .3s;
+}
+
+#colorMode:hover {
+  background-color: #fff5;
+  box-shadow: 0 0 0.3rem #d0d0d0, inset 0 0 2px #eee;
+}
+
+#colorMode:active {
+  box-shadow: 0 0 0px #d0d0d0, inset 0 0 0.5rem #acacac;
 }
 
 #colorMode .fa {
-  color:#007bff;
-  transition: transform .3s;
+  color:gainsboro;
+  transition: transform .3s, color .48s;
+}
+
+#colorMode .fa-sun {
+  color: gold;
+  text-shadow: 0 0 5px #7f6c00;
 }
 
 /* patch for fa-moon width */
 #colorMode .fa-moon {
+  color: #0009;
   padding-inline: 3px;
+  text-shadow: 3px -1px 1rem #eee;
+}
+
+#colorMode .fa-circle-half-stroke {
+  color:#007bff;
+  text-shadow: 0 0 5px #003d7e;
 }
 
 #colorMode .fa:hover {
   text-decoration: none;
-  transform: rotateY(0deg) scale3d(1.1, 1.1, 1);
+  transform: rotateY(0deg) scale(1.1);
 }
 
 #colorMode:active .fa {
-  transform: rotateY(90deg);
+  transform: rotateY(90deg) scale(1);
 }
 
 #copyright {
@@ -194,6 +218,7 @@ a:hover>.fa-lightbulb,
   font-weight: bold;
   margin-left: .3rem;
   color: #0455ca;
+  cursor: help;
 }
 
 .rpcGroup>.input-group::before {

@@ -1,5 +1,7 @@
 const SCHEME_ARIA2_START = "aria2://start/";
+const PROMOTION_DES = "Aria2ManagerPromotionDes";
 const PROMOTION_PAGE = chrome.runtime.getURL('ui/ariang/index.html') + "#!recommend?path=/posts/3#usage";
+const TIMEOUT = 800 // timeout for scheme URL invoke （unit:ms）
 
 var focused = true;
 var confirmed = false;
@@ -31,14 +33,14 @@ window.location.href = SCHEME_ARIA2_START;
 
 setTimeout(() => {
     if (focused) {
-        let des = chrome.i18n.getMessage("Aria2ManagerPromotionDes");
+        let des = chrome.i18n.getMessage(PROMOTION_DES) || PROMOTION_DES;
         if (confirm(des)) {
             confirmed = true;
             window.location.href = PROMOTION_PAGE;
         } else {
-            console.log('Promotion is  canceled, web page will close.')
+            console.log('Promotion is canceled, web page will close.')
             window.close();
         }
     }
-}, 300);
+}, TIMEOUT);
 
