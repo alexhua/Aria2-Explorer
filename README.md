@@ -32,7 +32,7 @@ After completing these steps, the extension will take over the download process,
 
 6. Monitor Aria2 download status via icon badge
 
-7. Batch export webpage resources (Image·Audio·Videos·Magnet) links from context menu
+7. Batch export webpage resources (Image·Audio·Video·Magnet) links from context menu
 
 8. Receive download requests from other extensions
 
