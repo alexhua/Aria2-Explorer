@@ -147,9 +147,6 @@ var Configs =
         const manifest = chrome.runtime.getManifest();
         $("#version").text('v' + manifest.version);
 
-        let title = chrome.i18n.getMessage(ColorModeList[Configs.colorModeId].title);
-        $("#colorMode .fa").removeClass('fa-moon fa-sun fa-circle-half-stroke')
-            .addClass(ColorModeList[Configs.colorModeId].icon).attr("title", title);
         $("#colorMode").off().on("click", function () {
             Configs.colorModeId = (Configs.colorModeId + 1) % ColorModeList.length;
             chrome.storage.local.set({ colorModeId: Configs.colorModeId });
@@ -261,6 +258,11 @@ window.matchMedia('(prefers-color-scheme: dark)').onchange = setColorMode;
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName == "local") {
+        if (Object.keys(changes).length == 1 && changes.hasOwnProperty('colorModeId')) {
+            /* Only call setColorMode to avoid breaking the rpc list's transition animation */
+            setColorMode();
+            return;
+        }
         Configs.init();
         if (isRpcListChanged(changes)) {
             let oldAriaNgOptions = localStorage[AriaNgOptionsKey];
@@ -388,4 +390,7 @@ function setColorMode() {
             }
             break;
     }
+    let title = chrome.i18n.getMessage(ColorModeList[Configs.colorModeId].title);
+    $("#colorMode .fa").removeClass('fa-moon fa-sun fa-circle-half-stroke')
+        .addClass(ColorModeList[Configs.colorModeId].icon).attr("title", title);
 }

@@ -70,7 +70,7 @@ input[type=radio], input + label {
 
 .form-control, .btn, .input-group-text, textarea {
   font-size: .875rem !important;
-  transition: background-color .3s;
+  transition: background-color .3s, color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 .alert {

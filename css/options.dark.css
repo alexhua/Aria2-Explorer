@@ -19,6 +19,17 @@ body.dark-mode .form-control {
     background-color: #2c2c2c;
 }
 
+body.dark-mode .input-group-text {
+    color: gainsboro;
+    background-color: #989898;
+    border-color: #9c9c9c;
+}
+
+body.dark-mode .custom-control-label::before,
+body.dark-mode .custom-control-input:checked~.custom-control-label::after {
+    background-color: #111;
+}
+
 body.dark-mode .form-group>label {
     color: rgb(110, 130, 160) !important;
 }
