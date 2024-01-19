@@ -143,6 +143,15 @@
          }
        }
    },
+   "seedingOver":{
+      "message":"$rpcName$ 做種結束",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
    "downloadError":{
       "message":"$rpcName$ 下載出錯",
       "placeholders": {

@@ -143,6 +143,15 @@
          }
       }
    },
+   "seedingOver":{
+      "message":"$rpcName$ 시딩이 종료되었습니다",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
    "downloadError": {
       "message": "$rpcName$ 다운로드 오류",
       "placeholders": {

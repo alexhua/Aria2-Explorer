@@ -143,6 +143,15 @@
          }
       }
    },
+   "seedingOver":{
+      "message":"$rpcName$ Посів завершено",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
    "downloadError": {
       "message": "$rpcName$ сталася помилка завантаження.",
       "placeholders": {

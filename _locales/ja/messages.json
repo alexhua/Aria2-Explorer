@@ -143,6 +143,15 @@
          }
        }
    },
+   "seedingOver":{
+      "message":"$rpcName$ シーディングが終了しました。",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
    "downloadError":{
       "message":"$rpcName$ ダウンロードエラーが発生しました。",
       "placeholders": {

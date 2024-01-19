@@ -63,7 +63,7 @@
       "message":"Capture magnet link"
    },
    "captureMagnetWarn":{
-      "message":"OS level capture, please ensure disabling before uninstall"
+      "message":"OS level capture, please ensure disabling before uninstall."
    },
    "captureMagnetTip":{
       "message":"Click 'No' on Windows prompts UAC confirm dialog, if you don't want the system level capture."
@@ -136,6 +136,15 @@
    },
    "downloadComplete":{
       "message":"$rpcName$ Download is complete.",
+      "placeholders": {
+         "rpcName": {
+           "content": "$1",
+           "example": "Aria2"
+         }
+       }
+   },
+   "seedingOver":{
+      "message":"$rpcName$ Seeding is over.",
       "placeholders": {
          "rpcName": {
            "content": "$1",

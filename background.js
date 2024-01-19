@@ -53,14 +53,14 @@ async function download(downloadItem, rpcItem) {
         return false;
     }
 
-    if (downloadItem.url.includes('\n')) downloadItem.multiTask = true;
+    downloadItem.multiTask = downloadItem.url.includes('\n');
 
     if (downloadItem.type == "DOWNLOAD_VIA_BROWSER") {
         if (Configs.integration && isDownloadListened()) {
             chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
         }
 
-        let callback = function () {
+        const callback = function () {
             if (Configs.integration && !isDownloadListened()) {
                 chrome.downloads.onDeterminingFilename.addListener(captureDownload);
             }
@@ -527,9 +527,9 @@ function onMenuClick(info, tab) {
     } else if (info.menuItemId.startsWith("MENU_EXPORT_TO")) {
         if (Configs.askBeforeExport) {
             launchUI(downloadItem);
-        } else {           
+        } else {
             let id = info.menuItemId.split('-')[1];
-            send2Aria(downloadItem, Configs.rpcList[id]);            
+            send2Aria(downloadItem, Configs.rpcList[id]);
         }
     } else if (info.menuItemId == "MENU_EXPORT_ALL" && !tab.url.startsWith("chrome")) {
         chrome.scripting.executeScript({
@@ -867,32 +867,42 @@ function initRemoteAria2() {
 async function notifyTaskStatus(data) {
     if (!data.method || !data.params.length)
         return;
-    let aria2 = data.source;
-    let gid = data.params[0]["gid"] || '';
-    let title = chrome.i18n.getMessage("taskNotification");
+    const aria2 = data.source;
+    const gid = data.params[0]["gid"] || '';
+    const response = await aria2.getFiles(gid);
+    const path = response.result[0].path || '';
+    const uris = response.result[0].uris || [];
+    const title = chrome.i18n.getMessage("taskNotification");
     let message = '';
-    let id = NID_TASK_STOPPED + gid;
+    let nid = NID_TASK_STOPPED + gid;
+    let sign = '';
     switch (data.method) {
         // case "aria2.onDownloadStart":
-        //     message = "downloadStart"
+        //     message = "DownloadStart"
         //     break;
         case "aria2.onDownloadComplete":
+            message = "DownloadComplete";
+            sign = ' ✅';
+            if (uris.length == 0 && !(path.startsWith("[METADATA]") || path.endsWith(".torrent"))) {
+                message = "seedingOver";
+                sign = ' ⬆️' + sign;
+                nid = NID_DEFAULT;
+            }
+            break;
         case "aria2.onBtDownloadComplete":
-            message = "downloadComplete";
+            message = "DownloadComplete";
+            sign = ' ✅';
             break;
         case "aria2.onDownloadError":
-            message = "downloadError";
+            message = "DownloadError";
+            sign = ' ❌';
             break;
     }
     if (message) {
-        let sign = message == "downloadComplete" ? ' ✅' : ' ❌';
         message = chrome.i18n.getMessage(message, aria2.name) + sign;
-        const response = await aria2.getFiles(gid);
         let silent = Configs.keepSilent;
-        let contextMessage = Utils.formatFilepath(response.result[0]["path"], false);
-        if (!contextMessage)
-            contextMessage = Utils.getFileName(response.result[0].uris[0].uri);
-        Utils.showNotification({ title, message, contextMessage, silent }, id);
+        let contextMessage = Utils.formatFilepath(path, false) || Utils.getFileName(uris[0].uri);
+        Utils.showNotification({ title, message, contextMessage, silent }, nid);
     }
 }
 
