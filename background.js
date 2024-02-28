@@ -27,11 +27,12 @@ const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListe
 /**
  * @typedef DownloadItem
  * @type {Object}
- * @property {string} url - Single url or multiple urls which are conjunct with '\n'
+ * @property {string} url - Single url or multiple urls which are conjunct with '\n'.
  * @property {string} filename
  * @property {string} referrer
- * @property {Object} options
- * @property {boolean} multiTask Indicate whether includes multiple urls
+ * @property {Object} options - Aria2 RPC options
+ * @property {boolean} multiTask - Indicate whether includes multiple urls.
+ * @property {string} type - "DOWNLOAD_VIA_BROWSER" will invoke a chrome download.
  */
 
 
@@ -201,6 +202,10 @@ function matchRule(str, rule) {
 function shouldCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
+
+    if (downloadItem.byExtensionId == chrome.runtime.id) {
+        return false;
+    }
 
     if (downloadItem.error || downloadItem.state != "in_progress" || !/^(https?|s?ftp):/i.test(downloadItem.url)) {
         return false;
