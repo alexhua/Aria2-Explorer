@@ -30,7 +30,7 @@ After completing these steps, the extension will take over the download process,
     > Filter priority: domain > file-ext > file-size, allow-list > block-list
 2. Auto-select Aria2 RPC server by matching the preset download URL pattern
 
-3. Built-in Aria2 frontend: AriaNG enhanced version, multiple present styles: popup, new tab, new window, PWA
+3. Built-in Aria2 frontend: AriaNG **enhanced version**, multiple present styles: popup, new tab, new window, PWA
 
 4. Synchronize and store all settings on the cloud
 
@@ -66,27 +66,45 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ```
 
-## 📥 Installation
+## 💡 Tips & FAQs
 
-### Aria2-Explorer:
+[https://github.com/alexhua/aria2-explorer/issues?q=label:FAQ](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ)
+
+## 📥 Installation
 
 [<img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Install Aria2-Explorer from Chrome Web Store")
 [<img src="https://get.microsoft.com/images/en-us%20light.svg" height="56" >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Install Aria2-Explorer from Edge Web Store")
 
-### Aria2-Manager:
+---
 
+# Aria2 Manager
+
+**Aria2 Manager** Enhanced version has been delivered to Microsoft Store
+
+## ⭐ Enhanced features
+- 🔄️ Support for enabling startup on boot
+- 👆 One-click installation and automatic update
+- 🫷 Suppress task notification on Aria2 startup
+- 🛠️ Some Aria2 bug fixes
+- 🧼 Support for removing download file(s) (Remove .aria2 control file when remove task, remove download file(s) with Shift, needs Aria2 Explorer v2.4.0+)
+
+The enhanced version will always keep the Aria2 binary latest and update BT tracker list opportunistically. Also, there will be more features in the future.
+
+## 📥 Installation
 [<img src="https://get.microsoft.com/images/en-us%20light.svg" height="56"/>](https://apps.microsoft.com/detail/Aria2%20Manager/9P5WQ68Q20WV?launch=true&cid=aria2e "Install Aria2-Manager from Microsoft Store")
 
 ## 💡 Tips & FAQs
 
-[https://github.com/alexhua/aria2-explorer/issues?q=label:FAQ](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ+sort%3Acreated-asc)
+[https://github.com/alexhua/aria2-manager/issues?q=label:FAQ](https://github.com/alexhua/aria2-manager/issues?q=label%3AFAQ)
+
+---
 
 ## 🔒 Privacy policy
 
-This extension just captures download tasks and related website cookies from the user's browser for the purpose of connecting to the user's Aria2 server to download the network resources. Any connection and configuration information for Aria2 will be stored locally or can be optionally uploaded to the user's logged-in cloud. This extension does not collect any personal data or network activity from the user, nor will it share any such data with 3rd parties.
+**Aria2 Explorer** just captures download tasks and related website cookies from the user's browser for the purpose of connecting to the user's Aria2 server to download the network resources. Any connection and configuration information for Aria2 will be stored locally or can be optionally uploaded to the user's logged-in cloud. This download solution does not collect any personal data or network activity from the user, nor will it share any such data with 3rd parties.
 
 ## 📜 License
 
 ![BSD](https://i0.wp.com/opensource.org/wp-content/uploads/2006/07/OSI_Approved_License.png?w=90&ssl=1)
 
-Aria2-Explorer is licensed under [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/).
+**Aria2 Explorer** is licensed under [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/).

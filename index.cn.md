@@ -11,9 +11,9 @@
 
 ## 📑 如何使用
 
-1. Windows系统请下载 <span style="vertical-align:middle;">[![下载Aria2 Manager](https://img.shields.io/github/downloads/alexhua/aria2-manager/total?color=blue&label=Aria2%20Manager)](https://github.com/alexhua/aria2-manager/ "去 Aria2-Manager 主页了解更多信息")</span>，其他系统请下载 Aria2 主程序：<span style="vertical-align:middle;">[![下载 Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases "跳转到 Aria2 下载页面")</span>
-2. Windows系统请运行 **Aria2Manager.exe** ，其他系统，请打开 **Terminal** 输入 `aria2c --enable-rpc`
-3. 从[在线商店](#-安装地址)安装 **Aria2 Explorer**
+1. Windows 系统请下载 <span style="vertical-align:middle;">[![下载Aria2 Manager](https://img.shields.io/github/downloads/alexhua/aria2-manager/total?color=blue&label=Aria2%20Manager)](https://github.com/alexhua/aria2-manager/ "去 Aria2-Manager 主页了解更多信息")</span>，其他系统请下载 Aria2 主程序：<span style="vertical-align:middle;">[![下载 Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases "跳转到 Aria2 下载页面")</span>
+2. Windows 系统请运行 **Aria2Manager.exe** ，其他系统，请打开 **Terminal** 输入 `aria2c --enable-rpc`
+3. 从 [在线商店](#-安装地址) 安装 **Aria2 Explorer**
 4. 在扩展选项中打开 `自动拦截下载`，并根据需求配置其他选项
 
 完成后，既可在Chrome中享受高速下载体验。
@@ -31,7 +31,7 @@
 
 2. 根据预设URL规则自动选择不同的 Aria2 RPC 服务端
 
-3. 内置 Aria2 前端：AriaNG 增强版，多种呈现方式：弹窗，新标签，新窗口，PWA
+3. 内置 Aria2 前端：AriaNG **增强版**，多种呈现方式：弹窗，新标签，新窗口，PWA
 
 4. 所有配置云端同步
 
@@ -67,27 +67,51 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ```
 
-## 📥 安装地址
+## 💡 常见问题
 
-### Aria2-Explorer:
+[https://github.com/alexhua/aria2-explorer/issues?q=label:FAQ](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ)
+
+## 📥 安装地址
 
 [<img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "从 Chrome 商店安装 Aria2-Explorer")
 [<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height="56" >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "从 Edge 商店安装 Aria2-Explorer")
 
-### Aria2-Manager:
+## 💡 常见问题
+
+[https://github.com/alexhua/aria2-explorer/issues?q=label:FAQ](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ)
+
+---
+
+# Aria2 Manager
+
+**Aria2 Manager** 增强版 已上架微软商店。
+
+## ⭐ 增强特性
+
+- 🔄️ 支持开机自启动
+- 👆 一键安装并自动更新
+- 🛠️ 一些 Aria2 问题修复
+- 🫷 禁止 Aria2 开启时的已完成任务通知
+- 🧼 支持删除已下载文件 （删除任务的同时删除 .aria2 控制文件，<kbd>Shift</kbd> + **删除任务** 删除下载文件，*需要 **Aria2 Explorer** v2.4.0+*）
+
+商店版将会不定期更新 Aria2 主程序和 BT Tracker 列表，未来还会加入更多的功能，敬请期待。
+
+## 📥 安装地址
 
 [<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height="56"/>](https://apps.microsoft.com/detail/Aria2%20Manager/9P5WQ68Q20WV?launch=true&cid=aria2e "从微软商店安装 Aria2-Manager")
 
 ## 💡 常见问题
 
-[https://github.com/alexhua/aria2-explorer/issues?q=label:FAQ](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ+sort%3Acreated-asc)
+[https://github.com/alexhua/aria2-manager/issues?q=label:FAQ](https://github.com/alexhua/aria2-manager/issues?q=label%3AFAQ)
+
+---
 
 ## 🔒 隐私政策
 
-本扩展会拦截浏览器下载任务和相关 Cookies 信息，发送到用户指定的 Aria2 服务端来完成下载。Aria2 连接和配置信息会保存在本地或者由用户选择上传到用户登录的云端进行存储。本扩展不会收集任何用户个人信息或网络活动记录，也不会帮助任何第三方收集用户信息。
+**Aria2 Explorer** 会拦截浏览器下载任务和相关 Cookies 信息，发送到用户指定的 Aria2 服务端来完成下载。Aria2 连接和配置信息会保存在本地或者由用户选择上传到用户浏览器登录的云端进行存储。本下载解决方案不会收集任何用户个人信息或网络活动记录，也不会帮助任何第三方收集用户信息。
 
 ## 📜 开源协议
 
 ![BSD](https://i0.wp.com/opensource.org/wp-content/uploads/2006/07/OSI_Approved_License.png?w=90&ssl=1)
 
-Aria2-Explorer is licensed under [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/).
+**Aria2 Explorer** is licensed under [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/).
