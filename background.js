@@ -49,54 +49,46 @@ const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListe
  * @returns {boolean} the result of creating download task
  */
 async function download(downloadItem, rpcItem) {
-    if (!downloadItem?.url) {
+    if (!downloadItem || !downloadItem.url) {
         console.warn("Download: Invalid download item, download request is dismissed!");
         return false;
     }
 
+    let result = true;
+
     downloadItem.multiTask = downloadItem.url.includes('\n');
 
     if (downloadItem.type == "DOWNLOAD_VIA_BROWSER") {
-        if (Configs.integration && isDownloadListened()) {
-            chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
-        }
-
-        const callback = function () {
-            if (Configs.integration && !isDownloadListened()) {
-                chrome.downloads.onDeterminingFilename.addListener(captureDownload);
-            }
-        };
-
-        if (downloadItem.multiTask) {
-            let urls = downloadItem.url.split('\n');
-            for (const i in urls) {
-                if (i == urls.length - 1) {
-                    chrome.downloads.download({ url: urls[i] }).then(callback);
-                } else {
-                    chrome.downloads.download({ url: urls[i] });
+        try {
+            disableCapture();
+            if (downloadItem.multiTask) {
+                let urls = downloadItem.url.split('\n');
+                for (const url of urls) {
+                    await chrome.downloads.download({ url });
                 }
+            } else {
+                await chrome.downloads.download({ url: downloadItem.url, filename: downloadItem.filename });
             }
-        } else {
-            chrome.downloads.download({ url: downloadItem.url, filename: downloadItem.filename }).then(callback);
+        } catch {
+            result = false;
+        } finally {
+            enableCapture();
         }
-
-        return true;
-
     } else {
         if (!downloadItem.filename) downloadItem.filename = '';
         if (Configs.askBeforeDownload || downloadItem.multiTask) {
             try {
                 await launchUI(downloadItem);
-                return true;
             } catch (error) {
+                result = false;
                 console.warn("Download: Launch UI failed.")
-                return false;
             }
         } else {
             if (!rpcItem || !rpcItem.url) rpcItem = getRpcServer(downloadItem.url);
-            return await send2Aria(downloadItem, rpcItem);
+            result = await send2Aria(downloadItem, rpcItem);
         }
     }
+    return result;
 }
 
 async function getCookies(downloadItem) {
@@ -258,10 +250,10 @@ function disableCapture() {
     }
     chrome.action.setIcon({
         path: {
-            '32': "images/logo32-deep.png",
-            '64': "images/logo64-deep.png",
-            '128': "images/logo128-deep.png",
-            '256': "images/logo256-deep.png"
+            '32': "images/logo32-dark.png",
+            '64': "images/logo64-dark.png",
+            '128': "images/logo128-dark.png",
+            '256': "images/logo256-dark.png"
         }
     });
     Configs.integration = false;

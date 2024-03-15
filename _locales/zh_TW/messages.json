@@ -249,7 +249,7 @@
       "message":"致謝"
    },
    "OverwriteAriaNgRpcWarn":{
-      "message":"RPC設定已更改，同步更改到AriaNG并覆蓋 ?"
+      "message":"RPC設定已更改，同步更改到AriaNG并覆蓋？"
    },
    "RpcUrlTooltipWarnDes":{
       "message":"使用不安全的HTTP/WebSocket協定創建下載工作可能會導致Secret Key和相關網站的Cookies資訊暴露於公共網絡。"
