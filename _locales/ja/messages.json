@@ -264,7 +264,7 @@
       "message": "Aria2 Managerはインストールされていないようですが、詳細については、Alex推奨チャネルにアクセスしてください？"
    },
    "ClearSettingsDes":{
-      "message": "拡張機能のローカル設定をクリアしてもよろしいですか？"
+      "message": "すべての設定をクリアすることを確認しますか？"
    },
    "ColorMode":{
       "message": "カラーモード"

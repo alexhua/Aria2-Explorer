@@ -264,7 +264,7 @@
       "message": "It seems Aria2 Manager is not installed, access \"Alex Recommends\" channel for more information?"
    },
    "ClearSettingsDes":{
-      "message": "Confirm to clear extension's local settings?"
+      "message": "Confirm to clear all settings?"
    },
    "ColorMode":{
       "message": "Color Mode"

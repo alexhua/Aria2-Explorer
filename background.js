@@ -751,21 +751,11 @@ function registerAllListeners() {
     });
 
     chrome.runtime.onInstalled.addListener(function (details) {
-        let optionsUrl = chrome.runtime.getURL("options.html");
-        let manifest = chrome.runtime.getManifest();
         if (details.reason == "install") {
-            chrome.tabs.create({
-                url: optionsUrl
-            });
+            const url = chrome.runtime.getURL("options.html");
+            chrome.storage.local.set(Configs).then(() => chrome.tabs.create({ url }));
         } else if (details.reason == "update") {
-            // chrome.storage.local.get("rpcList").then(configs => {
-            //     if (!configs.rpcList) {
-            //         /* Old local storage should be upgraded to Chrome storage */
-            //         chrome.tabs.create({
-            //             url: optionsUrl + "?action=upgrade-storage"
-            //         });
-            //     }
-            // })
+            const manifest = chrome.runtime.getManifest();
             /* new version update notification */
             let title = `Version ${manifest.version} 🚀`;
             let message = `${manifest.name} has been updated.`;

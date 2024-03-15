@@ -264,7 +264,7 @@
       "message": "好像沒有安裝Aria2 Manager，訪問“Alex推薦”頻道瞭解更多資訊？"
    },
    "ClearSettingsDes": {
-      "message": "確認清除擴充的本地設定？"
+      "message": "確認清除所有設定？"
    },
    "ColorMode":{
       "message": "顔色模式"

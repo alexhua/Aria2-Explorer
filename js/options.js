@@ -1,5 +1,5 @@
 import Utils from "./utils.js";
-import Default from "./config.js";
+import { DefaultConfigs, DefaultAriaNgOptions } from "./config.js";
 
 const AriaNgOptionsKey = "AriaNg.Options"; // AriaNG options local storage key
 
@@ -15,8 +15,13 @@ var Configs =
         Utils.localizeHtmlPage();
         if (location.search.endsWith("upgrade-storage"))
             await upgradeStorage();
-        let configs = await chrome.storage.local.get();
-        Object.assign(Configs, Default, configs);
+        let configs = null;
+        try {
+            configs = await chrome.storage.local.get();
+        } catch (error) {
+            console.error("init: " + error.message);
+        }
+        Object.assign(Configs, DefaultConfigs, configs);
 
         setColorMode();
 
@@ -154,6 +159,7 @@ var Configs =
     },
     reset: async function () {
         if (confirm(chrome.i18n.getMessage("ClearSettingsDes"))) {
+            localStorage.clear();
             await chrome.storage.local.clear();
         }
     },
@@ -197,10 +203,12 @@ var Configs =
     upload: function () {
         try {
             let ariaNgOptionsValue = localStorage.getItem(AriaNgOptionsKey);
-            Configs.ariaNgOptions = JSON.parse(ariaNgOptionsValue);
+            if (typeof ariaNgOptionsValue === "string") {
+                Configs.ariaNgOptions = JSON.parse(ariaNgOptionsValue);
+            }
         } catch {
-            delete Configs.ariaNgOptions;
-            console.warn("Upload: AriaNG options is invalid.");
+            Configs.ariaNgOptions = DefaultAriaNgOptions;
+            console.warn("Upload: Local AriaNG options is invalid, default is loaded.");
         }
         //check the validity of RPC list
         if (!Configs.rpcList || !Configs.rpcList.length) {
@@ -217,30 +225,37 @@ var Configs =
                 /* There must be too much BT trackers in the Aria2 settings */
                 error.message = "Exceeded Quota (8KB). Please refine the Aria2 BT trackers."
             }
-            Configs.notifySyncResult(str + error.message, "alert-danger", 5000);
+            Configs.notifySyncResult(`${str} (${error.message})`, "alert-danger", 5000);
         });
     },
     download: function () {
         chrome.storage.sync.get().then(async configs => {
-            if (configs) {
+            if (Object.keys(configs).length > 0) {
                 try {
                     if (typeof configs.ariaNgOptions === "string") {
                         configs.ariaNgOptions = JSON.parse(configs.ariaNgOptions);
                     }
-                    localStorage.setItem(AriaNgOptionsKey, JSON.stringify(configs.ariaNgOptions));
+                    const optionsLength = Object.keys(configs.ariaNgOptions).length;
+                    const defaultLength = Object.keys(DefaultAriaNgOptions).length;
+                    if (optionsLength >= defaultLength) {
+                        localStorage.setItem(AriaNgOptionsKey, JSON.stringify(configs.ariaNgOptions));
+                    } else {
+                        throw new TypeError("Invalid AriaNG options");
+                    }
                 } catch {
                     delete configs.ariaNgOptions;
                     console.warn("Download: AriaNG options is invalid.");
                 }
-                await chrome.storage.local.set(configs);
+                Object.assign(Configs, configs);
+                await chrome.storage.local.set(Configs);
                 let str = chrome.i18n.getMessage("downloadConfigSucceed");
                 Configs.notifySyncResult(str, "alert-success");
             } else {
-                throw new Error("No valid configuration found.");
+                throw new TypeError("Invalid extension configs");
             }
         }).catch((error) => {
             let str = chrome.i18n.getMessage("downloadConfigFailed");
-            Configs.notifySyncResult(str + error.message, "alert-danger", 5000);
+            Configs.notifySyncResult(str, "alert-danger", 5000);
         });
     },
     notifySyncResult: function (msg, style, timeout = 2000) {
@@ -264,7 +279,7 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
             return;
         }
         Configs.init();
-        if (isRpcListChanged(changes)) {
+        if (isRpcListChanged(changes) && !changes.hasOwnProperty("ariaNgOptions")) {
             let oldAriaNgOptions = localStorage[AriaNgOptionsKey];
             let ariaNgOptions = null;
             try {
@@ -304,7 +319,7 @@ window.onkeyup = function (e) {
 }
 
 function isRpcListChanged(changes) {
-    if (changes && changes.rpcList) {
+    if (changes && changes.rpcList && changes.rpcList.newValue) {
         let oldList = changes.rpcList.oldValue;
         let newList = changes.rpcList.newValue;
         if (oldList?.length != newList?.length) {

@@ -1,3 +1,5 @@
+import { DefaultAriaNgOptions } from "./config.js";
+
 class Utils {
     /**
     * export rpc list to ariaNG options
@@ -7,44 +9,9 @@ class Utils {
     * @return {object} The ariaNG options with new RPC list
     */
     static exportRpcToAriaNg(rpcList, ariaNgOptions) {
-        const defaultAriaNgOptions = {
-            language: 'TBD',
-            theme: 'light',
-            title: '${downspeed}, ${upspeed} - ${title}',
-            titleRefreshInterval: 5000,
-            browserNotification: false,
-            browserNotificationSound: true,
-            browserNotificationFrequency: 'unlimited',
-            rpcAlias: '',
-            rpcHost: 'localhost',
-            rpcPort: '6800',
-            rpcInterface: 'jsonrpc',
-            protocol: 'ws',
-            httpMethod: 'POST',
-            rpcRequestHeaders: '',
-            rpcOptions: {},
-            secret: '',
-            extendRpcServers: [],
-            webSocketReconnectInterval: 5000,
-            globalStatRefreshInterval: 1000,
-            downloadTaskRefreshInterval: 1000,
-            keyboardShortcuts: true,
-            swipeGesture: true,
-            dragAndDropTasks: true,
-            rpcListDisplayOrder: 'recentlyUsed',
-            afterCreatingNewTask: 'task-list',
-            removeOldTaskAfterRetrying: true,
-            confirmTaskRemoval: true,
-            includePrefixWhenCopyingFromTaskDetails: false,
-            showPiecesInfoInTaskDetailPage: 'le10240',
-            afterRetryingTask: 'task-list-default',
-            displayOrder: 'default:asc',
-            fileListDisplayOrder: 'default:asc',
-            peerListDisplayOrder: 'default:asc'
-        }
 
         if (!ariaNgOptions || !Object.keys(ariaNgOptions).length)
-            ariaNgOptions = defaultAriaNgOptions;
+            ariaNgOptions = DefaultAriaNgOptions;
 
         ariaNgOptions.extendRpcServers = [];
 
