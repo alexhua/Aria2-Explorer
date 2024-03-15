@@ -1,5 +1,6 @@
 {
   "name": "Aria2 Explorer",
+  "short_name": "A2E",
   "start_url": "./index.html",
   "display": "standalone",
   "id": "com.aria2e.ui",
@@ -20,7 +21,7 @@
     {
       "sizes": "512x512",
       "type": "image/png",
-      "src": "./touchicon.png"
+      "src": "./logo512m.png"
     },
     {
       "sizes": "512x512",

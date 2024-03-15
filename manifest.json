@@ -56,7 +56,8 @@
       {
          "resources": [
             "js/magnet.js",
-            "magnet.html"
+            "magnet.html",
+            "ui/ariang/logo512m.png"
          ],
          "matches": [
             "<all_urls>"
