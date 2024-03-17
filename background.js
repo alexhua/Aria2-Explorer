@@ -131,6 +131,7 @@ async function send2Aria(downloadItem, rpcItem) {
     }
 
     let remote = Utils.parseUrl(rpcItem.url);
+    remote.name = rpcItem.name;
     let aria2 = new Aria2(remote);
     let silent = Configs.keepSilent;
     return aria2.addUri(downloadItem.url, options).then(function (response) {
@@ -141,28 +142,29 @@ async function send2Aria(downloadItem, rpcItem) {
             if (Object.keys(globalOptions).length > 0)
                 aria2.setGlobalOptions(globalOptions);
         });
-        let title = chrome.i18n.getMessage("exportSucceedStr");
-        let message = chrome.i18n.getMessage("exportSucceedDes", [rpcItem.name]);
-        if (!downloadItem.filename)
-            downloadItem.filename = Utils.getFileName(downloadItem.url);
-        let contextMessage = (Utils.formatFilepath(options.dir) || '') + downloadItem.filename;
-        if (Configs.allowNotification)
-            Utils.showNotification({ title, message, contextMessage, silent }, NID_DEFAULT);
+
+        if (Configs.allowNotification) {
+            const data = { method: "aria2.onExportSuccess", source: aria2 };
+            if (!downloadItem.filename)
+                downloadItem.filename = Utils.getFileNameFromUrl(downloadItem.url);
+            data.contextMessage = Utils.formatFilepath(options.dir) + downloadItem.filename;
+            notifyTaskStatus(data);
+        }
         return Promise.resolve(true);
     }).catch(function (error) {
-        let title = chrome.i18n.getMessage("exportFailedStr");
-        let message = chrome.i18n.getMessage("exportFailedDes", [rpcItem.name]) + ' ❌';
-        let contextMessage = '';
-        if (error && error.message) {
-            if (error.message.toLowerCase().includes('unauthorized'))
-                contextMessage = "Secret key is incorrect"
-            else if (error.message.toLowerCase().includes("failed to fetch"))
-                contextMessage = "Aria2 server is unreachable";
-            else
-                contextMessage = error.message;
+        if (Configs.allowNotification) {
+            let contextMessage = '';
+            if (error && error.message) {
+                if (error.message.toLowerCase().includes('unauthorized'))
+                    contextMessage = "Secret key is incorrect."
+                else if (error.message.toLowerCase().includes("failed to fetch"))
+                    contextMessage = "Aria2 server is unreachable.";
+                else
+                    contextMessage = "Error:" + error.message;
+            }
+            const data = { method: "aria2.onExportError", source: aria2, contextMessage };
+            notifyTaskStatus(data);
         }
-        if (Configs.allowNotification)
-            Utils.showNotification({ title, message, contextMessage, silent }, NID_TASK_NEW);
 
         return Promise.resolve(false);
     });
@@ -651,7 +653,7 @@ async function monitorAria2() {
                 else
                     errorMessage = "Aria2 server is unreachable";
 
-                if (Configs.integration && isDownloadListened()) {
+                if (Configs.monitorAria2 && Configs.integration && isDownloadListened()) {
                     chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
                 }
             }
@@ -838,10 +840,11 @@ function initRemoteAria2() {
         RemoteAria2List = RemoteAria2List.slice(0, uniqueRpcList.length);
         let rpcItem = uniqueRpcList[i];
         let remote = Utils.parseUrl(rpcItem.url);
+        remote.name = rpcItem.name;
         if (RemoteAria2List[i]) {
-            RemoteAria2List[i].setRemote(rpcItem.name, remote.rpcUrl, remote.secretKey);
+            RemoteAria2List[i].setRemote(remote.name, remote.rpcUrl, remote.secretKey);
         } else {
-            RemoteAria2List[i] = new Aria2({ name: rpcItem.name, rpcUrl: remote.rpcUrl, secretKey: remote.secretKey });
+            RemoteAria2List[i] = new Aria2(remote);
         }
         if (Configs.monitorAria2 && Configs.allowNotification && (i == 0 || Configs.monitorAll)) {
             RemoteAria2List[i].regMessageHandler(notifyTaskStatus);
@@ -852,29 +855,55 @@ function initRemoteAria2() {
 }
 
 async function notifyTaskStatus(data) {
-    if (!data.method || !data.params.length)
-        return;
+    const events = ["aria2.onDownloadComplete", "aria2.onBtDownloadComplete",
+        "aria2.onDownloadError", "aria2.onExportSuccess", "aria2.onExportError"];
+
+    if (!data || !events.includes(data.method)) return;
+
     const aria2 = data.source;
-    const gid = data.params[0]["gid"] || '';
-    const response = await aria2.getFiles(gid);
-    const path = response.result[0].path || '';
-    const uris = response.result[0].uris || [];
-    const title = chrome.i18n.getMessage("taskNotification");
-    let message = '';
+    const gid = data.params?.length ? data.params[0]["gid"] : '';
+    let message = data.method;
+    let contextMessage = data.contextMessage ?? '';
+    if (!contextMessage && gid) {
+        try {
+            const response = await aria2.tellStatus(gid, ["dir", "files", "bittorrent"]);
+            if (response?.result) {
+                const dir = Utils.formatFilepath(response.result.dir);
+                const bittorrent = response.result.bittorrent;
+                const files = response.result.files ?? [];
+                if (bittorrent?.info?.name) {
+                    contextMessage = dir + bittorrent.info.name;
+                } else if (files.length && files[0].path) {
+                    contextMessage = Utils.formatFilepath(files[0].path, false);
+                } else {
+                    contextMessage = dir + Utils.getFileNameFromUrl(files[0].uris[0].uri);
+                }
+                if (bittorrent && !(contextMessage.startsWith("[METADATA]") || contextMessage.endsWith(".torrent"))) {
+                    message = 'aria2.onSeedingComplete';
+                }
+            }
+        } catch {
+            console.warn("NotifyStatus: Can not get context message");
+        }
+    }
+
+    let title = "taskNotification";
     let nid = NID_TASK_STOPPED + gid;
     let sign = '';
-    switch (data.method) {
-        // case "aria2.onDownloadStart":
-        //     message = "DownloadStart"
-        //     break;
+    switch (message) {
+        case "aria2.onDownloadStart":
+            message = "DownloadStart";
+            sign = ' ⬇️';
+            nid = NID_DEFAULT;
+            break;
         case "aria2.onDownloadComplete":
             message = "DownloadComplete";
             sign = ' ✅';
-            if (uris.length == 0 && !(path.startsWith("[METADATA]") || path.endsWith(".torrent"))) {
-                message = "seedingOver";
-                sign = ' ⬆️' + sign;
-                nid = NID_DEFAULT;
-            }
+            break;
+        case "aria2.onSeedingComplete":
+            message = "SeedingOver";
+            sign = ' ⬆️✅';
+            nid = NID_DEFAULT;
             break;
         case "aria2.onBtDownloadComplete":
             message = "DownloadComplete";
@@ -884,11 +913,23 @@ async function notifyTaskStatus(data) {
             message = "DownloadError";
             sign = ' ❌';
             break;
+        case "aria2.onExportSuccess":
+            title = "ExportSucceedStr"
+            message = "ExportSucceedDes";
+            sign = ' ⬇️';
+            nid = NID_DEFAULT;
+            break;
+        case "aria2.onExportError":
+            title = "ExportFailedStr";
+            message = "ExportFailedDes";
+            sign = ' ❌';
+            nid = NID_DEFAULT;
+            break;
     }
     if (message) {
-        message = chrome.i18n.getMessage(message, aria2.name) + sign;
+        title = chrome.i18n.getMessage(title);
+        message = chrome.i18n.getMessage(message, aria2 ? aria2.name : "Aria2") + sign;
         let silent = Configs.keepSilent;
-        let contextMessage = Utils.formatFilepath(path, false) || Utils.getFileName(uris[0].uri);
         Utils.showNotification({ title, message, contextMessage, silent }, nid);
     }
 }

@@ -4,7 +4,7 @@ const DEBUG = false;
 const DEFAULT_ARIA2 = { name: "Aria2", rpcUrl: "http://localhost:6800/jsonrpc", secretKey: '' };
 
 class Aria2 {
-    static requestId = 0;
+    static RequestId = 0;
 
     constructor(aria2 = DEFAULT_ARIA2) {
         Object.assign(this, aria2);
@@ -13,7 +13,7 @@ class Aria2 {
     }
 
     get sid() {
-        return Aria2.requestId++;
+        return Aria2.RequestId++;
     }
 
     get isLocalhost() {
@@ -152,7 +152,7 @@ class Aria2 {
     /**
      * Build rpc request
      * @param method {string} Aria2 rpc method
-     * @param params {array} Rpc params array     * 
+     * @param params {array} Rpc params array
      */
     #buildRequest(method, ...params) {
         let id = this.sid;
@@ -183,6 +183,16 @@ class Aria2 {
 
     getFiles(gid) {
         let request = this.#buildRequest("aria2.getFiles", gid);
+        return this.#doRPC(request);
+    }
+
+    tellStatus(gid, keys) {
+        let request = null;
+        if (Array.isArray(keys) && keys.length > 0) {
+            request = this.#buildRequest("aria2.tellStatus", gid, keys);
+        } else {
+            request = this.#buildRequest("aria2.tellStatus", gid);
+        }
         return this.#doRPC(request);
     }
 

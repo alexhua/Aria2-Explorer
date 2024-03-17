@@ -190,7 +190,7 @@ class Utils {
      * @return {string}
      */
     static formatFilepath(location, isDirectory = true) {
-        if (!location) return location;
+        if (!location || typeof location !== "string") return '';
 
         const winDelimiter = '\\', unixDelimiter = '/';
         let eol = '';
@@ -263,7 +263,7 @@ class Utils {
      * @param {string} url 
      * @return {string} filename
      */
-    static getFileName(url) {
+    static getFileNameFromUrl(url) {
         try {
             url = new URL(url);
         } catch (error) {
