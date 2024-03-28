@@ -144,7 +144,7 @@ async function send2Aria(downloadItem, rpcItem) {
         });
 
         if (Configs.allowNotification) {
-            const data = { method: "aria2.onExportSuccess", source: aria2 };
+            const data = { method: "aria2.onExportSuccess", source: aria2, gid: response.result };
             if (!downloadItem.filename)
                 downloadItem.filename = Utils.getFileNameFromUrl(downloadItem.url);
             data.contextMessage = Utils.formatFilepath(options.dir) + downloadItem.filename;
@@ -854,6 +854,13 @@ function initRemoteAria2() {
     }
 }
 
+/**
+ * @param {object} data received event
+ * @param {string} data.method  event name (required)
+ * @param {string} data.contextMessage context message to notify
+ * @param {string} data.gid corresponding task gid
+ * @param {Aria2} data.source the event source
+ */
 async function notifyTaskStatus(data) {
     const events = ["aria2.onDownloadComplete", "aria2.onBtDownloadComplete",
         "aria2.onDownloadError", "aria2.onExportSuccess", "aria2.onExportError"];
@@ -861,7 +868,7 @@ async function notifyTaskStatus(data) {
     if (!data || !events.includes(data.method)) return;
 
     const aria2 = data.source;
-    const gid = data.params?.length ? data.params[0]["gid"] : '';
+    const gid = data.params?.length ? data.params[0]["gid"] : data.gid ?? '';
     let message = data.method;
     let contextMessage = data.contextMessage ?? '';
     if (!contextMessage && gid) {
@@ -887,43 +894,44 @@ async function notifyTaskStatus(data) {
         }
     }
 
-    let title = "taskNotification";
-    let nid = NID_TASK_STOPPED + gid;
-    let sign = '';
+    let title = "taskNotification", sign = '', nid = '';
     switch (message) {
         case "aria2.onDownloadStart":
             message = "DownloadStart";
             sign = ' ⬇️';
-            nid = NID_DEFAULT;
+            nid = NID_DEFAULT + gid;
             break;
         case "aria2.onDownloadComplete":
             message = "DownloadComplete";
             sign = ' ✅';
+            nid = NID_TASK_STOPPED + gid;
             break;
         case "aria2.onSeedingComplete":
             message = "SeedingOver";
-            sign = ' ⬆️✅';
-            nid = NID_DEFAULT;
+            sign = ' ⬆️ ✅';
+            nid = NID_DEFAULT + gid;
             break;
         case "aria2.onBtDownloadComplete":
             message = "DownloadComplete";
             sign = ' ✅';
+            nid = NID_TASK_STOPPED + gid;
             break;
         case "aria2.onDownloadError":
             message = "DownloadError";
             sign = ' ❌';
+            nid = NID_TASK_STOPPED + gid;
             break;
         case "aria2.onExportSuccess":
             title = "ExportSucceedStr"
             message = "ExportSucceedDes";
             sign = ' ⬇️';
-            nid = NID_DEFAULT;
+            nid = NID_DEFAULT + gid;
             break;
         case "aria2.onExportError":
             title = "ExportFailedStr";
             message = "ExportFailedDes";
             sign = ' ❌';
-            nid = NID_DEFAULT;
+            nid = NID_DEFAULT + Aria2.RequestId;
             break;
     }
     if (message) {

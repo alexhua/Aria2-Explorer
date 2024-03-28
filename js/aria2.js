@@ -6,6 +6,12 @@ const DEFAULT_ARIA2 = { name: "Aria2", rpcUrl: "http://localhost:6800/jsonrpc", 
 class Aria2 {
     static RequestId = 0;
 
+/**
+ * @param {object} Aria2 
+ * @param {string} Aria2.name
+ * @param {string} Aria2.rpcUrl 
+ * @param {string} Aria2.secretKey
+ */
     constructor(aria2 = DEFAULT_ARIA2) {
         Object.assign(this, aria2);
         this._isLocalhost = Utils.isLocalhost(this.rpcUrl);
