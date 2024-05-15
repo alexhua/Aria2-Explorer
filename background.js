@@ -313,6 +313,10 @@ async function launchUI(info) {
         if (downloadItem.filename) {
             webUiUrl = webUiUrl + "&filename=" + encodeURIComponent(downloadItem.filename);
         }
+        let rpcItem = getRpcServer(downloadItem.url);
+        if (rpcItem?.pattern && rpcItem.pattern != '*' && rpcItem.location) {
+            webUiUrl = webUiUrl + "&dir=" + encodeURIComponent(rpcItem.location);
+        }
     } else if (typeof info === "string" && info.startsWith(NID_TASK_STOPPED)) { // launched from task done notification click
         const gid = info.slice(NID_TASK_STOPPED.length) || '';
         webUiUrl += gid ? "/task/detail/" + gid : "/stopped";
