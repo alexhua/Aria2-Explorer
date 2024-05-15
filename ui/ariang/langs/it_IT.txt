@@ -387,6 +387,7 @@ time.minutes={{value}} minuti
 time.hour={{value}} ora
 time.hours={{value}} ore
 requires.aria2-version=Richiede la versione {{version}} di aria2
+requires.aria2-enhanced-edition=Richiede la versione avanzata di aria2 (Installa Aria2 Manager da Microsoft Store)
 task.new.download-links=Collegamenti per il download ({{count}} collegamenti):
 task.pieceinfo=Completati: {{completed}}, Totale: {{total}} blocchi
 task.error-occurred=Si è verificato un errore ({{errorcode}})
@@ -619,6 +620,8 @@ follow-torrent.name=Scarica i file nel torrent
 follow-torrent.description=Se impostato su "Sì" o "Solo memoria", quando un file con suffisso .torrent o con tipo di contenuto application/x-bittorrent viene completato, aria2 leggerà e scaricherà i file menzionati nel file torrent. Se impostato su "Solo memoria", il file torrent non verrà scritto sul disco, ma solo memorizzato nella memoria. Se impostato su "No", il file .torrent verrà scaricato sul disco, ma non verrà letto e i file in esso contenuti non verranno scaricati.
 listen-port.name=Porta di ascolto
 listen-port.description=Imposta la porta TCP per i download BT. Più porte possono essere separate da virgole ",", ad esempio: 6881,6885. È anche possibile utilizzare un trattino "-" per indicare un intervallo: 6881-6999, oppure entrambi insieme: 6881-6889, 6999.
+enable-pmap.name=Abilita la mappatura delle porte UPnP
+enable-pmap.description=Abilita la mappatura automatica delle porte UPnP per i protocolli di download BT e DHT e imposta automaticamente l'indirizzo IP esterno (bt-external-ip) per migliorare la connettività BT e le capacità di rilevamento dei nodi. (Richiede il gateway LAN per abilitare la funzione UPnP)
 max-overall-upload-limit.name=Velocità massima di upload globale
 max-overall-upload-limit.description=Imposta la velocità massima di upload globale in byte/secondo. 0 indica che non ci sono limiti. Puoi aumentare il valore aggiungendo le unità K o M (1K=1024, 1M=1024K).
 max-upload-limit.name=Velocità massima di upload
