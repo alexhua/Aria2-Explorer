@@ -277,5 +277,14 @@
    },
    "FollowSystem":{
       "message": "시스템 따르기"
+   },
+   "Name":{
+      "message": "이름"
+   },
+   "SecretKey":{
+      "message": "비밀 키"
+   },
+   "downloadLocation":{
+      "message": "다운로드 위치"
    }
 }

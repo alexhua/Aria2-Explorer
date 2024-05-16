@@ -277,5 +277,14 @@
    },
    "followSystem":{
       "message": "跟随系统"
+   },
+   "Name":{
+      "message": "名称"
+   },
+   "SecretKey":{
+      "message": "访问密钥"
+   },
+   "downloadLocation":{
+      "message": "下载目录"
    }
 }

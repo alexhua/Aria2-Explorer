@@ -277,5 +277,14 @@
    },
    "FollowSystem":{
       "message": "Follow System"
+   },
+   "Name":{
+      "message": "Name"
+   },
+   "SecretKey":{
+      "message": "Secret Key"
+   },
+   "downloadLocation":{
+      "message": "Download Location"
    }
 }

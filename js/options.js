@@ -9,6 +9,10 @@ const ColorModeList = [
     { name: 'system', icon: 'fa-circle-half-stroke', title: 'FollowSystem' }
 ];
 
+const NameStr = chrome.i18n.getMessage("Name");
+const SecretKeyStr = chrome.i18n.getMessage("SecretKey");
+const DownloadLocationStr = chrome.i18n.getMessage("DownloadLocation");
+
 var Configs =
 {
     init: async function () {
@@ -76,10 +80,10 @@ var Configs =
             return `<div class="form-group row rpcGroup">` +
                 `<label class="col-form-label col-sm-2 text-info">` + (i == 0 ? `<i class="fa-solid fa-server"></i> Aria2-RPC-Server` : '') + `</label>` +
                 `<div id="rpcItem-${i}" class="input-group col-sm-10">` +
-                `<input id="name-${i}" type="text" class="form-control col-sm-1 name" placeholder="Name ∗" required>` +
-                `<input id="secretKey-${i}" type="password" class="form-control col-sm-2 secretKey" placeholder="Secret Key">` +
+                `<input id="name-${i}" type="text" class="form-control col-sm-1 name" placeholder="${NameStr} ∗" required>` +
+                `<input id="secretKey-${i}" type="password" class="form-control col-sm-2 secretKey" placeholder="${SecretKeyStr}">` +
                 `<input id="rpcUrl-${i}" type="url" class="form-control col-sm-4 rpcUrl" placeholder="RPC URL ∗" required>` +
-                `<input id="location-${i}" type="text" class="form-control col-sm-2 location" placeholder="Download Location">` + addBtnOrPattern(i) +
+                `<input id="location-${i}" type="text" class="form-control col-sm-2 location" placeholder="${DownloadLocationStr}">` + addBtnOrPattern(i) +
                 `</div>` +
                 `</div>`;
         };

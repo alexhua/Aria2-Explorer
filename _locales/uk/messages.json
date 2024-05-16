@@ -277,5 +277,14 @@
    },
    "FollowSystem":{
       "message": "Слідувати за системою"
+   },
+   "Name":{
+      "message": "назва"
+   },
+   "SecretKey":{
+      "message": "секретний ключ"
+   },
+   "downloadLocation":{
+      "message": "Місце завантаження"
    }
 }

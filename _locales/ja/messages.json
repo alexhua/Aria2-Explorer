@@ -277,5 +277,14 @@
    },
    "FollowSystem":{
       "message": "システムに従う"
+   },
+   "Name":{
+      "message": "名前"
+   },
+   "SecretKey":{
+      "message": "秘密鍵"
+   },
+   "downloadLocation":{
+      "message": "ダウンロード場所"
    }
 }

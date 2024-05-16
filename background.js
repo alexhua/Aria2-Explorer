@@ -29,6 +29,7 @@ const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListe
  * @type {Object}
  * @property {string} url - Single url or multiple urls which are conjunct with '\n'.
  * @property {string} filename
+ * @property {string} dir - Download directory
  * @property {string} referrer
  * @property {Object} options - Aria2 RPC options
  * @property {boolean} multiTask - Indicate whether includes multiple urls.
@@ -75,6 +76,10 @@ async function download(downloadItem, rpcItem) {
             enableCapture();
         }
     } else {
+        if (!rpcItem || !rpcItem.url) {
+            rpcItem = getRpcServer(downloadItem.url + downloadItem.filename);
+        }
+        downloadItem.dir = rpcItem.location;
         if (!downloadItem.filename) downloadItem.filename = '';
         if (Configs.askBeforeDownload || downloadItem.multiTask) {
             try {
@@ -84,7 +89,6 @@ async function download(downloadItem, rpcItem) {
                 console.warn("Download: Launch UI failed.")
             }
         } else {
-            if (!rpcItem || !rpcItem.url) rpcItem = getRpcServer(downloadItem.url);
             result = await send2Aria(downloadItem, rpcItem);
         }
     }
@@ -125,7 +129,7 @@ async function send2Aria(downloadItem, rpcItem) {
     options.header = headers;
     if (downloadItem.referrer) options.referer = downloadItem.referrer;
     if (downloadItem.filename) options.out = downloadItem.filename;
-    if (rpcItem.location) options.dir = rpcItem.location;
+    if (downloadItem.dir) options.dir = downloadItem.dir;
     if (downloadItem.hasOwnProperty('options')) {
         options = Object.assign(options, downloadItem.options);
     }
@@ -177,16 +181,21 @@ async function send2Aria(downloadItem, rpcItem) {
  * @return {RpcItem} a RpcItem which refers to an Aria2 RPC server
  */
 function getRpcServer(url) {
+    let defaultIndex = 0;
     for (let i = 1; i < Configs.rpcList.length; i++) {
-        let patterns = Configs.rpcList[i]['pattern'].split(',');
-        for (let pattern of patterns) {
+        const patternStr = Configs.rpcList[i]['pattern'];
+        if (patternStr == '*') {
+            defaultIndex = i;
+            continue;
+        }
+        for (let pattern of patternStr.split(',')) {
             pattern = pattern.trim();
             if (matchRule(url, pattern)) {
                 return Configs.rpcList[i];
             }
         }
     }
-    return Configs.rpcList[0];
+    return Configs.rpcList[defaultIndex];
 }
 
 function matchRule(str, rule) {
@@ -283,7 +292,7 @@ async function captureDownload(downloadItem, suggest) {
             downloadItem.referrer = "";
         }
 
-        let rpcItem = getRpcServer(downloadItem.url);
+        let rpcItem = getRpcServer(downloadItem.url + downloadItem.filename);
         let successful = await download(downloadItem, rpcItem);
 
         if (!successful && Utils.isLocalhost(rpcItem.url)) {
@@ -313,9 +322,8 @@ async function launchUI(info) {
         if (downloadItem.filename) {
             webUiUrl = webUiUrl + "&filename=" + encodeURIComponent(downloadItem.filename);
         }
-        let rpcItem = getRpcServer(downloadItem.url);
-        if (rpcItem?.pattern && rpcItem.pattern != '*' && rpcItem.location) {
-            webUiUrl = webUiUrl + "&dir=" + encodeURIComponent(rpcItem.location);
+        if (downloadItem.dir) {
+            webUiUrl = webUiUrl + "&dir=" + encodeURIComponent(downloadItem.dir);
         }
     } else if (typeof info === "string" && info.startsWith(NID_TASK_STOPPED)) { // launched from task done notification click
         const gid = info.slice(NID_TASK_STOPPED.length) || '';
@@ -529,10 +537,14 @@ function onMenuClick(info, tab) {
         chrome.storage.local.set(Configs);
     } else if (info.menuItemId.startsWith("MENU_EXPORT_TO")) {
         if (Configs.askBeforeExport) {
+            const rpcItem = getRpcServer(downloadItem.url);
+            downloadItem.dir = rpcItem.location;
             launchUI(downloadItem);
         } else {
             let id = info.menuItemId.split('-')[1];
-            send2Aria(downloadItem, Configs.rpcList[id]);
+            const rpcItem = Configs.rpcList[id];
+            downloadItem.dir = rpcItem.location;
+            send2Aria(downloadItem, rpcItem);
         }
     } else if (info.menuItemId == "MENU_EXPORT_ALL" && !tab.url.startsWith("chrome")) {
         chrome.scripting.executeScript({
