@@ -548,7 +548,7 @@ function onMenuClick(info, tab) {
         }
     } else if (info.menuItemId == "MENU_EXPORT_ALL" && !tab.url.startsWith("chrome")) {
         chrome.scripting.executeScript({
-            target: { tabId: tab.id, allFrames: false, frameIds: [info.frameId] },
+            target: { tabId: tab.id, allFrames: !info.frameId, frameIds: info.frameId ? [info.frameId] : undefined },
             func: exportAllLinks,
             args: [Configs.allowedExts, Configs.blockedExts]
         });
@@ -997,8 +997,7 @@ function exportAllLinks(allowedExts, blockedExts) {
             let filename = url.pathname.split('/').pop();
             let ext = filename.includes('.') ? filename.split('.').pop() : '';
             let valid = false;
-
-            if (url.protocol == "magnet:") {
+            if (url.protocol == "magnet:" || (tagName == "VIDEO" || tagName == "AUDIO") && url.protocol.startsWith("http")) {
                 valid = true;
             } else if (/^http|ftp|sftp/.test(url.protocol)) {
                 if (allowedExts.includes(ext) || allowedExts.includes('*')) {
@@ -1024,12 +1023,14 @@ function exportAllLinks(allowedExts, blockedExts) {
             console.warn("DownloadAllLinks: Invalid URL found, URL=", link);
         }
     }
-
     if (links.length > 0) {
         let downloadItem = { filename: '', url: links.join('\n'), referrer: window.location.href, multiTask: true };
         chrome.runtime.sendMessage({ type: "EXPORT_ALL", data: downloadItem });
     } else {
-        let des = chrome.i18n.getMessage("exportAllFailedDes");
-        alert("\nAria2-Explorer: " + des);
+        setTimeout(() => {
+            if (document.hasFocus()) {
+                alert("\nAria2-Explorer: " + chrome.i18n.getMessage("exportAllFailedDes"));
+            }
+        }, 300);
     }
 }
