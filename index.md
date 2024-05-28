@@ -13,9 +13,9 @@ Task management online: [https://ui.aria2e.com](https://ui.aria2e.com)
 Procedures:
 
 1. For Windows, please download <span style="vertical-align:middle;">[![Download Aria2 Manager](https://img.shields.io/github/downloads/alexhua/aria2-manager/total?color=blue&label=Aria2%20Manager )](https://github.com/alexhua/aria2-manager/ "Goto Aria2-Manager homepage for more details")</span>. Other platform, please download Aria2 utility: <span style="vertical-align:middle;">[![Download Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases "Goto Aria2 download page")</span>
-2. For Windows, please run **Aria2Manager.exe**. Other platform, please run Aria2 in the **Terminal** with typing `aria2c --enable-rpc`.
+2. For Windows, please run **Aria2Manager.exe**. Other platform, please run Aria2 in the **Terminal** with typing **aria2c --enable-rpc**.
 3. Install **Aria2 Explorer** from [Web Store](#-installation).
-4. Enable `auto-capture` on the extension options page and configure others as you need.
+4. Enable **auto-capture** on the extension options page and configure others as you need.
 
 After completing these steps, the extension will take over the download process, leading you to a high-speed download experience. 
 
@@ -79,14 +79,15 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 # Aria2 Manager
 
-**Aria2 Manager** Enhanced version has been delivered to Microsoft Store
+**Aria2 Manager** `Enhanced version` has been delivered to Microsoft Store
 
 ## ⭐ Enhanced features
-- 🔄️ Support for enabling startup on boot
-- 👆 One-click installation and automatic update
-- 🫷 Suppress task notification on Aria2 startup
 - 🛠️ Some Aria2 bug fixes
-- 🧼 Support for removing download file(s) (Remove .aria2 control file when remove task, remove download file(s) with Shift, needs Aria2 Explorer v2.4.0+)
+- 🔄️ Support for auto-startup on boot
+- 🔀 Support for BT and DHT port mapping via UPnP
+- 👆 One-click installation and automatic update
+- 🔕 Suppress task notification on Aria2 startup
+- 🧹 Support for removing **.aria2** control file and downloaded file(s) ( <kbd>Shift</kbd> + **Remove Task**, needs ***Aria2 Explorer v2.4.0+*** )
 
 The enhanced version will always keep the Aria2 binary latest and update BT tracker list opportunistically. Also, there will be more features in the future.
 
