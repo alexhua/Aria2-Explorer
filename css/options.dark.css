@@ -1,5 +1,6 @@
 body.dark-mode {
     color: gainsboro;
+    color-scheme: dark;
     background-color: #1a1a1a;
     transition: background-color .36s;
 }

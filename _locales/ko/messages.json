@@ -286,5 +286,17 @@
    },
    "downloadLocation":{
       "message": "다운로드 위치"
+   },
+   "RemindCaptureTip":{
+      "message": "다른 확장 프로그램 다운로드를 캡처했습니다"
+   },
+   "RemindCaptureTipDes":{
+      "message": "파일명이 비정상적인 경우 자동캡처를 꺼주세요."
+   },
+   "Dismiss":{
+      "message": "닫다"
+   },
+   "NeverRemind":{
+      "message": "다시 알림 안함"
    }
 }

@@ -36,7 +36,7 @@
       "message":"自動下載前詢問詳細設定"
    },
    "allowExternalRequestDes":{
-      "message":"接受來自其他擴充功能的下載請求"
+      "message":"接受來自其他擴充功能的Aria2下載請求"
    },
    "monitorAria2Str":{
       "message":"監測Aria2狀態"
@@ -286,5 +286,17 @@
    },
    "downloadLocation":{
       "message": "下載目錄"
+   },
+   "RemindCaptureTip":{
+      "message": "攔截到其他擴充的下載任務"
+   },
+   "RemindCaptureTipDes":{
+      "message": "若檔案名稱異常，請關閉「自動攔截」功能。"
+   },
+   "Dismiss":{
+      "message": "關閉"
+   },
+   "NeverRemind":{
+      "message": "不再提醒"
    }
 }

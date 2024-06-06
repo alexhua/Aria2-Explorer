@@ -36,7 +36,7 @@
       "message":"Ask detail settings before auto download"
    },
    "allowExternalRequestDes":{
-      "message":"Receive download request from other extension"
+      "message":"Receive Aria2 download request from other extension"
    },
    "monitorAria2Str":{
       "message":"Monitor Aria2 Status"
@@ -286,5 +286,17 @@
    },
    "downloadLocation":{
       "message": "Download Location"
+   },
+   "RemindCaptureTip":{
+      "message": "Captured other extension's download"
+   },
+   "RemindCaptureTipDes":{
+      "message": "If the file name is abnormal, please turn off auto-capture."
+   },
+   "Dismiss":{
+      "message": "Dismiss"
+   },
+   "NeverRemind":{
+      "message": "Don't remind again"
    }
 }

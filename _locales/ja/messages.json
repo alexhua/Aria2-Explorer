@@ -286,5 +286,17 @@
    },
    "downloadLocation":{
       "message": "ダウンロード場所"
+   },
+   "RemindCaptureTip":{
+      "message": "他の拡張機能のダウンロードをキャプチャしました"
+   },
+   "RemindCaptureTipDes":{
+      "message": "ファイル名が異常な場合は自動キャプチャをオフにしてください。"
+   },
+   "Dismiss":{
+      "message": "閉鎖"
+   },
+   "NeverRemind":{
+      "message": "再度思い出させない"
    }
 }

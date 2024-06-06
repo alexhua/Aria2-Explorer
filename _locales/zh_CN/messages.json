@@ -36,7 +36,7 @@
       "message":"自动下载前询问参数设置"
    },
    "allowExternalRequestDes":{
-      "message":"接受来自其他扩展的下载请求"
+      "message":"接受来自其他扩展的Aria2下载请求"
    },
    "monitorAria2Str":{
       "message":"监测Aria2状态"
@@ -286,5 +286,17 @@
    },
    "downloadLocation":{
       "message": "下载目录"
+   },
+   "RemindCaptureTip":{
+      "message": "拦截到其他扩展的下载任务"
+   },
+   "RemindCaptureTipDes":{
+      "message": "如果文件名异常，请关闭「自动拦截」功能。"
+   },
+   "Dismiss":{
+      "message": "明白了"
+   },
+   "NeverRemind":{
+      "message": "不再提醒"
    }
 }

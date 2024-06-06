@@ -286,5 +286,17 @@
    },
    "downloadLocation":{
       "message": "Місце завантаження"
+   },
+   "RemindCaptureTip":{
+      "message": "Перехоплювати завдання завантаження в інші розширення"
+   },
+   "RemindCaptureTipDes":{
+      "message": "Якщо ім'я файлу неправильне, вимкніть функцію Автоматичне перехоплення."
+   },
+   "Dismiss":{
+      "message": "закрити"
+   },
+   "NeverRemind":{
+      "message": "Більше не нагадувати"
    }
 }

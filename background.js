@@ -6,6 +6,7 @@ import Aria2Options from "./js/aria2Options.js";
 const NID_DEFAULT = "NID_DEFAULT";
 const NID_TASK_NEW = "NID_TASK_NEW";
 const NID_TASK_STOPPED = "NID_TASK_STOPPED";
+const NID_CAPTURED_OTHERS = "NID_CAPTURED_OTHERS";
 
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
@@ -61,7 +62,6 @@ async function download(downloadItem, rpcItem) {
 
     if (downloadItem.type == "DOWNLOAD_VIA_BROWSER") {
         try {
-            disableCapture();
             if (downloadItem.multiTask) {
                 let urls = downloadItem.url.split('\n');
                 for (const url of urls) {
@@ -72,8 +72,6 @@ async function download(downloadItem, rpcItem) {
             }
         } catch {
             result = false;
-        } finally {
-            enableCapture();
         }
     } else {
         if (!rpcItem || !rpcItem.url) {
@@ -86,7 +84,7 @@ async function download(downloadItem, rpcItem) {
                 await launchUI(downloadItem);
             } catch (error) {
                 result = false;
-                console.warn("Download: Launch UI failed.")
+                console.warn("Download: Launch UI failed.");
             }
         } else {
             result = await send2Aria(downloadItem, rpcItem);
@@ -277,6 +275,15 @@ async function captureDownload(downloadItem, suggest) {
         // and will be discarded by Chrome. No solution or workaround right now. The
         // only way is disabling capture before other extensions call chrome.downloads.download().
         suggest();
+        const title = chrome.i18n.getMessage("RemindCaptureTip");
+        const message = chrome.i18n.getMessage("RemindCaptureTipDes");
+        const requireInteraction = true;
+        const btnTitle1 = chrome.i18n.getMessage("Dismiss");
+        const btnTitle2 = chrome.i18n.getMessage("NeverRemind");
+        const buttons = [{ title: btnTitle1 }, { title: btnTitle2 }];
+        if (Configs.remindCaptureTip && downloadItem.byExtensionId != chrome.runtime.id) {
+            Utils.showNotification({ title, message, buttons, requireInteraction }, NID_CAPTURED_OTHERS);
+        }
     }
 
     //always use finalurl when it is available
@@ -328,6 +335,8 @@ async function launchUI(info) {
     } else if (typeof info === "string" && info.startsWith(NID_TASK_STOPPED)) { // launched from task done notification click
         const gid = info.slice(NID_TASK_STOPPED.length) || '';
         webUiUrl += gid ? "/task/detail/" + gid : "/stopped";
+    } else {
+        webUiUrl = index;
     }
 
     chrome.tabs.query({ "url": index }).then(function (tabs) {
@@ -761,6 +770,19 @@ function registerAllListeners() {
         chrome.notifications.clear(id);
     });
 
+    chrome.notifications.onButtonClicked.addListener(function (nid, buttonIndex) {
+        if (nid == NID_CAPTURED_OTHERS) {
+            switch (buttonIndex) {
+                case 0:
+                    break;
+                case 1:
+                    chrome.storage.local.set({ remindCaptureTip: false });
+                    break;
+            }
+        }
+        chrome.notifications.clear(nid);
+    });
+
     chrome.commands.onCommand.addListener(function (command) {
         if (command === "toggle-capture") {
             Configs.integration = !Configs.integration;
@@ -1009,7 +1031,7 @@ function exportAllLinks(allowedExts, blockedExts) {
                         valid = true;
                     }
                 } else if (ext) {
-                    if (/^[\da-z]{1,8}$/i.test(ext) && !/^(htm|asp|php|cgi|xml|js|css|\d+$)/i.test(ext)) {
+                    if (/^[\da-z]{1,8}$/i.test(ext) && !/^(htm|asp|php|cgi|xml|js|css|do|\d+$)/i.test(ext)) {
                         valid = true;
                     }
                 }
