@@ -2,7 +2,7 @@
 
 <h1 style="position:absolute; top: 14px; right:14px"><a href="index.html">[返回]</a></h1>
 
-**Aria2 Explorer** 是一款基于 [**Aria2**](https://github.com/aria2/aria2) 的下载工具，能够自动拦截浏览器或手动添加下载任务到 **Aria2** 完成网络资源下载，支持 **HTTP/HTTPS/FTP/SFTP/BT/Magnet** 协议。
+**Aria2 Explorer** 是一款基于 [**Aria2**](https://github.com/aria2/aria2) 的下载工具，能够自动拦截浏览器或手动添加下载任务到 **Aria2** 完成网络资源下载，支持 **HTTP/HTTPS/FTP/SFTP/BT/Magnet** 等协议。
 
 同时，引入了 [AriaNG](https://www.github.com/mayswind/AriaNg/) 作为前端，方便用户对 Aria2 进行操作和管理。
 
@@ -89,17 +89,19 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 ## ⭐ 增强特性
 
 - 🔄️ 支持开机自启动
+- 🪟 内置任务管理界面
 - 👆 一键安装并自动更新
 - 🛠️ 一些 Aria2 问题修复
+- ⚡ 点击任务名直接打开已下载文件
 - 🔕 禁止 Aria2 开启时的已完成任务通知
-- 🔀 支持通过 UPnP 进行 BT 和 DHT 端口映射，提升 BT 下载连接的连通性
-- 🧹 支持删除 **.aria2** 控制文件和已下载文件（ <kbd>Shift</kbd> + **删除任务**，*需要 **Aria2 Explorer** v2.4.0+* ）
+- 🔀 支持通过 UPnP 进行 BT 和 DHT 端口映射，提升 BT 下载的连通性
+- 🧹 支持删除 **.aria2** 控制文件和已下载文件（ <kbd>Shift</kbd> + **删除任务** ）
 
 商店版将会不定期更新 Aria2 主程序和 BT Tracker 列表，未来还会加入更多的功能，敬请期待。
 
 ## 📥 安装地址
 
-[<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height="56"/>](https://apps.microsoft.com/detail/Aria2%20Manager/9P5WQ68Q20WV?launch=true&cid=aria2e "从微软商店安装 Aria2-Manager")
+[<img src="https://get.microsoft.com/images/zh-cn%20dark.svg" height="56"/>](https://apps.microsoft.com/detail/Aria2%20Manager/9P5WQ68Q20WV?launch=true&cid=aria2e "从微软商店安装 Aria2-Manager")
 
 ## 💡 常见问题
 

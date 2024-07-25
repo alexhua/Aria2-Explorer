@@ -82,17 +82,20 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 **Aria2 Manager** `Enhanced version` has been delivered to Microsoft Store
 
 ## ⭐ Enhanced features
+
 - 🛠️ Some Aria2 bug fixes
+- 🪟 Built-in task management UI
 - 🔄️ Support for auto-startup on boot
 - 🔀 Support for BT and DHT port mapping via UPnP
 - 👆 One-click installation and automatic update
 - 🔕 Suppress task notification on Aria2 startup
-- 🧹 Support for removing **.aria2** control file and downloaded file(s) ( <kbd>Shift</kbd> + **Remove Task**, needs ***Aria2 Explorer v2.4.0+*** )
+- ⚡ Click on the task name to open the downloaded file directly
+- 🧹 Support for removing **.aria2** control file and downloaded file(s) ( <kbd>Shift</kbd> + **Remove Task** )
 
 The enhanced version will always keep the Aria2 binary latest and update BT tracker list opportunistically. Also, there will be more features in the future.
 
 ## 📥 Installation
-[<img src="https://get.microsoft.com/images/en-us%20light.svg" height="56"/>](https://apps.microsoft.com/detail/Aria2%20Manager/9P5WQ68Q20WV?launch=true&cid=aria2e "Install Aria2-Manager from Microsoft Store")
+[<img src="https://get.microsoft.com/images/en-us%20dark.svg" height="56"/>](https://apps.microsoft.com/detail/Aria2%20Manager/9P5WQ68Q20WV?launch=true&cid=aria2e "Install Aria2-Manager from Microsoft Store")
 
 ## 💡 Tips & FAQs
 
