@@ -3,6 +3,8 @@ import { DefaultConfigs, DefaultAriaNgOptions } from "./config.js";
 
 const AriaNgOptionsKey = "AriaNg.Options"; // AriaNG options local storage key
 
+const SHORTCUTS_PAGE_URL = "chrome://extensions/shortcuts";
+
 const ColorModeList = [
     { name: 'light', icon: 'fa-sun', title: 'LightMode' },
     { name: 'dark', icon: 'fa-moon', title: 'DarkMode' },
@@ -130,6 +132,23 @@ var Configs =
                 $("#rpcUrl-" + i).addClass('is-warning');
             }
         }
+
+        $("#shortcuts-setting").off().on("click", function () {
+            chrome.tabs.query({ "url": SHORTCUTS_PAGE_URL }).then(function (tabs) {
+                if (tabs?.length > 0) {
+                    chrome.windows.update(tabs[0].windowId, {
+                        focused: true
+                    });
+                    chrome.tabs.update(tabs[0].id, {
+                        active: true
+                    });
+                } else {
+                    chrome.tabs.create({
+                        url: SHORTCUTS_PAGE_URL
+                    });
+                }
+            });
+        });
 
         $("#add-rpc").off().on("click", function () {
             let i = $(".rpcGroup").length;

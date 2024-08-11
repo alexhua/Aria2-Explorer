@@ -345,8 +345,7 @@ async function launchUI(info) {
                 focused: true
             });
             chrome.tabs.update(tabs[0].id, {
-                active: true,
-                url: webUiUrl
+                active: true
             });
             return;
         }
@@ -527,7 +526,7 @@ function onMenuClick(info, tab) {
     if (info.menuItemId == "MENU_OPEN_WEB_UI") {
         launchUI();
     } else if (info.menuItemId == "MENU_START_ARIA2") {
-        const url = chrome.runtime.getURL('aria2.html')
+        const url = chrome.runtime.getURL('aria2.html');
         chrome.tabs.create({ url });
     } else if (info.menuItemId == "MENU_CAPTURE_DOWNLOAD") {
         chrome.storage.local.set({ integration: info.checked });
@@ -786,7 +785,10 @@ function registerAllListeners() {
     chrome.commands.onCommand.addListener(function (command) {
         if (command === "toggle-capture") {
             Configs.integration = !Configs.integration;
-            chrome.storage.local.set({ integration: Configs.integration })
+            chrome.storage.local.set({ integration: Configs.integration });
+        } else if (command === "launch-aria2") {
+            const url = chrome.runtime.getURL('aria2.html');
+            chrome.tabs.create({ url });
         }
     });
 
@@ -923,7 +925,7 @@ async function notifyTaskStatus(data) {
                 } else {
                     contextMessage = dir + Utils.getFileNameFromUrl(files[0].uris[0].uri);
                 }
-                if (bittorrent && !(contextMessage.startsWith("[METADATA]") || contextMessage.endsWith(".torrent"))) {
+                if (message == 'aria2.onDownloadComplete' && bittorrent && !(contextMessage.startsWith("[METADATA]") || contextMessage.endsWith(".torrent"))) {
                     message = 'aria2.onSeedingComplete';
                 }
             }

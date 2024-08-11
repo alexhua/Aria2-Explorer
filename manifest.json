@@ -1,7 +1,7 @@
 {
    "name": "__MSG_appName__",
    "short_name": "A2E",
-   "version": "2.5.1",
+   "version": "2.5.2",
    "manifest_version": 3,
    "minimum_chrome_version": "100.0.0",
    "default_locale": "en",
@@ -45,6 +45,12 @@
             "default": "Alt+A"
          },
          "description": "__MSG_toggleCapture__"
+      },
+      "launch-aria2": {
+         "suggested_key": {
+            "default": "Alt+X"
+         },
+         "description": "__MSG_startAria2Str__"
       }
    },
    "externally_connectable": {

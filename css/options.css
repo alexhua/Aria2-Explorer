@@ -125,29 +125,40 @@ a:hover>.fa-lightbulb,
   transform: rotateY(360deg) scale3d(1.2, 1.2, 1);
 }
 
-#colorMode {
+.clickable {
   font-size: 1.5rem;
   line-height: 1.5;
-  padding-inline: 1rem;
-  margin-right: -3rem;
   cursor: pointer;
   border-radius: 1.5rem;
-  text-shadow: 0 0 5px gray;
   transition: background-color .3s, box-shadow .3s;
 }
 
-#colorMode:hover {
+.clickable:hover {
   background-color: #fff5;
   box-shadow: 0 0 0.3rem #d0d0d0, inset 0 0 2px #eee;
 }
 
-#colorMode:active {
+.clickable:active {
   box-shadow: 0 0 0px #d0d0d0, inset 0 0 0.5rem #acacac;
 }
 
-#colorMode .fa {
-  color:gainsboro;
+.clickable .fa {
+  text-shadow: 0 0 3px gray;
   transition: transform .3s, color .48s;
+}
+
+.clickable .fa:hover {
+  text-decoration: none;
+  transform: rotateY(0deg) scale(1.1);
+}
+
+.clickable:active .fa {
+  transform: rotateY(90deg) scale(1);
+}
+
+#colorMode {
+  padding-inline: 1rem;
+  margin-right: -3rem;
 }
 
 #colorMode .fa-sun {
@@ -165,15 +176,6 @@ a:hover>.fa-lightbulb,
 #colorMode .fa-circle-half-stroke {
   color:#007bff;
   text-shadow: 0 0 5px #003d7e;
-}
-
-#colorMode .fa:hover {
-  text-decoration: none;
-  transform: rotateY(0deg) scale(1.1);
-}
-
-#colorMode:active .fa {
-  transform: rotateY(90deg) scale(1);
 }
 
 #copyright {
