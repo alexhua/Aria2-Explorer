@@ -27,7 +27,7 @@ body {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   border-radius: 5px;
 }
 
@@ -66,6 +66,10 @@ input[type=radio], input + label {
 
 #add-rpc {
   margin-left: .5rem;
+}
+
+div[id^="markRpc"] {
+  display: none;
 }
 
 .form-control, .btn, .input-group-text, textarea {
@@ -174,7 +178,7 @@ a:hover>.fa-lightbulb,
 }
 
 #colorMode .fa-circle-half-stroke {
-  color:#007bff;
+  color: #007bff;
   text-shadow: 0 0 5px #003d7e;
 }
 
@@ -223,10 +227,7 @@ a:hover>.fa-lightbulb,
   cursor: help;
 }
 
-.rpcGroup>.input-group::before {
-  visibility: hidden;
-  opacity: 0;
-  content: attr(tooltip-content);
+.rpcGroup .tool-tip::before {
   transition: opacity .2s ease-in .3s;
 }
 
@@ -234,8 +235,8 @@ a:hover>.fa-lightbulb,
   left: 15%;
 }
 
-.rpcGroup>.input-group.tool-tip:hover::before {
-  visibility: visible;
+.rpcGroup>.input-group.tool-tip:hover:has(div.tool-tip:hover)::before {
+  visibility: hidden;
   opacity: 1;
 }
 

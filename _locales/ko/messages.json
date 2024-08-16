@@ -298,5 +298,14 @@
    },
    "NeverRemind":{
       "message": "다시 알림 안함"
+   },
+   "Mark":{
+      "message": "표시하다"
+   },
+   "MarkAsSecureTip":{
+      "message": "안전한 RPC 프로토콜로 표시하다"
+   },
+   "MarkAsInsecureTip":{
+      "message": "안전하지 않은 RPC 프로토콜로 표시하다"
    }
 }

@@ -298,5 +298,14 @@
    },
    "NeverRemind":{
       "message": "Більше не нагадувати"
+   },
+   "Mark":{
+      "message": "позначити"
+   },
+   "MarkAsSecureTip":{
+      "message": "позначити як безпечний RPC-протокол"
+   },
+   "MarkAsInsecureTip":{
+      "message": "позначити як небезпечний RPC-протокол"
    }
 }

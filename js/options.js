@@ -11,9 +11,12 @@ const ColorModeList = [
     { name: 'system', icon: 'fa-circle-half-stroke', title: 'FollowSystem' }
 ];
 
+const Mark = chrome.i18n.getMessage("Mark");
 const NameStr = chrome.i18n.getMessage("Name");
 const SecretKeyStr = chrome.i18n.getMessage("SecretKey");
 const DownloadLocationStr = chrome.i18n.getMessage("DownloadLocation");
+const MarkAsSecureTip = chrome.i18n.getMessage("MarkAsSecureTip");
+const MarkAsInsecureTip = chrome.i18n.getMessage("MarkAsInsecureTip");
 
 var Configs =
 {
@@ -85,6 +88,11 @@ var Configs =
                 `<input id="name-${i}" type="text" class="form-control col-sm-1 name" placeholder="${NameStr} ∗" required>` +
                 `<input id="secretKey-${i}" type="password" class="form-control col-sm-2 secretKey" placeholder="${SecretKeyStr}">` +
                 `<input id="rpcUrl-${i}" type="url" class="form-control col-sm-4 rpcUrl" placeholder="RPC URL ∗" required>` +
+                `<div id="markRpc-${i}" class="input-group-append tool-tip" tooltip-content="">
+                    <button id="markButton-${i}" class="btn btn-success" type="button">
+                        <i class="fa-fw fa-solid fa-pencil"></i>${Mark}
+                    </button>
+                 </div>` +
                 `<input id="location-${i}" type="text" class="form-control col-sm-2 location" placeholder="${DownloadLocationStr}">` + addBtnOrPattern(i) +
                 `</div>` +
                 `</div>`;
@@ -110,6 +118,7 @@ var Configs =
 
         for (const i in rpcList) {
             $("#rpcList").append(rpcInputGroup(i).replaceAll("required", ''));
+            $(`#markRpc-${i}`).off().on('click', markRpc);
         }
         for (const i in rpcList) {
             $("#name-" + i).val(rpcList[i].name);
@@ -120,16 +129,24 @@ var Configs =
             if (i > 0)
                 $("#pattern-" + i).val(rpcList[i].pattern || '');
             if (Utils.validateRpcUrl(rpcList[i].url) == "WARNING") {
-                let tooltipRes = '';
-                if (Configs.askBeforeDownload || Configs.askBeforeExport) {
-                    tooltipRes = "ManualDownloadCookiesTooltipDes";
+                $(`#markRpc-${i}`).css('display', 'inline-block');
+                if (rpcList[i].ignoreInsecure) {
+                    $(`#markRpc-${i}`).attr('tooltip-content', MarkAsInsecureTip);
+                    $(`#markButton-${i}`).removeClass('btn-warning').addClass('btn-success');
                 } else {
-                    tooltipRes = "AutoDownloadCookiesTooltipDes";
+                    let tooltipRes = '';
+                    if (Configs.askBeforeDownload || Configs.askBeforeExport) {
+                        tooltipRes = "ManualDownloadCookiesTooltipDes";
+                    } else {
+                        tooltipRes = "AutoDownloadCookiesTooltipDes";
+                    }
+                    let tooltip = chrome.i18n.getMessage(tooltipRes);
+                    $("#rpcItem-" + i).addClass('tool-tip');
+                    $("#rpcItem-" + i).attr("tooltip-content", tooltip);
+                    $("#rpcUrl-" + i).addClass('is-warning');
+                    $(`#markRpc-${i}`).attr('tooltip-content', MarkAsSecureTip);
+                    $(`#markButton-${i}`).removeClass('btn-success').addClass('btn-warning');
                 }
-                let tooltip = chrome.i18n.getMessage(tooltipRes);
-                $("#rpcItem-" + i).addClass('tool-tip');
-                $("#rpcItem-" + i).attr("tooltip-content", tooltip);
-                $("#rpcUrl-" + i).addClass('is-warning');
             }
         }
 
@@ -431,4 +448,12 @@ function setColorMode() {
     let title = chrome.i18n.getMessage(ColorModeList[Configs.colorModeId].title);
     $("#colorMode .fa").removeClass('fa-moon fa-sun fa-circle-half-stroke')
         .addClass(ColorModeList[Configs.colorModeId].icon).attr("title", title);
+}
+
+function markRpc(event) {
+    let rpcIndex = event.delegateTarget.id.split('-')[1];
+    if (rpcIndex in Configs.rpcList) {
+        Configs.rpcList[rpcIndex].ignoreInsecure = !Configs.rpcList[rpcIndex].ignoreInsecure;
+        chrome.storage.local.set(Configs);
+    }
 }

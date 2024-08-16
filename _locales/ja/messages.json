@@ -298,5 +298,14 @@
    },
    "NeverRemind":{
       "message": "再度思い出させない"
+   },
+   "Mark":{
+      "message": "マークする"
+   },
+   "MarkAsSecureTip":{
+      "message": "安全なRPCプロトコルとしてマークする"
+   },
+   "MarkAsInsecureTip":{
+      "message": "安全でないRPCプロトコルとしてマークする"
    }
 }

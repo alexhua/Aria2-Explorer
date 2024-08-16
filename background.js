@@ -107,7 +107,7 @@ async function getCookies(downloadItem) {
 async function send2Aria(downloadItem, rpcItem) {
     let cookieItems = [];
     try {
-        if (Utils.isLocalhost(rpcItem.url) || /^(https|wss)/i.test(rpcItem.url)) {
+        if (rpcItem.ignoreInsecure || Utils.isLocalhost(rpcItem.url) || /^(https|wss)/i.test(rpcItem.url)) {
             cookieItems = await getCookies(downloadItem);
         }
     } catch (error) {

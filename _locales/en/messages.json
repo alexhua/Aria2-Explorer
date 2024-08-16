@@ -298,5 +298,14 @@
    },
    "NeverRemind":{
       "message": "Don't remind again"
+   },
+   "Mark":{
+      "message": "Mark"
+   },
+   "MarkAsSecureTip":{
+      "message": "Mark as secure RPC"
+   },
+   "MarkAsInsecureTip":{
+      "message": "Mark as insecure RPC protocol"
    }
 }

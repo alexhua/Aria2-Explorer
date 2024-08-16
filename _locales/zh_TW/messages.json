@@ -298,5 +298,14 @@
    },
    "NeverRemind":{
       "message": "不再提醒"
+   },
+   "Mark":{
+      "message": "標記"
+   },
+   "MarkAsSecureTip":{
+      "message": "標記為安全的RPC協議"
+   },
+   "MarkAsInsecureTip":{
+      "message": "標記為不安全的RPC協議"
    }
 }
