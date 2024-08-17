@@ -58,7 +58,9 @@ async function download(downloadItem, rpcItem) {
 
     let result = true;
 
-    downloadItem.multiTask = downloadItem.url.includes('\n');
+    if (!("multiTask" in downloadItem)) {
+        downloadItem.multiTask = downloadItem.url.includes('\n');
+    }
 
     if (downloadItem.type == "DOWNLOAD_VIA_BROWSER") {
         try {
@@ -344,9 +346,9 @@ async function launchUI(info) {
             chrome.windows.update(tabs[0].windowId, {
                 focused: true
             });
-            chrome.tabs.update(tabs[0].id, {
-                active: true
-            });
+            let prop = { active: true };
+            if (webUiUrl != index) prop.url = webUiUrl;
+            chrome.tabs.update(tabs[0].id, prop);
             return;
         }
         if (Configs.webUIOpenStyle == "window") {
