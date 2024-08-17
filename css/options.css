@@ -162,7 +162,7 @@ a:hover>.fa-lightbulb,
 
 #colorMode {
   padding-inline: 1rem;
-  margin-right: -3rem;
+  margin-right: -4rem;
 }
 
 #colorMode .fa-sun {
@@ -210,12 +210,23 @@ a:hover>.fa-lightbulb,
   padding: .5rem;
   font-size: .8rem;
   border-radius: 4px;
-  transition: opacity .2s ease-in-out 1s;
+  transition: opacity .2s ease-in-out .3s;
+}
+
+/* Prolong the button's tooltip delay */
+button.tool-tip::before {
+  transition: opacity .2s ease-in 1s;
 }
 
 .tool-tip:hover::before {
   visibility: visible;
   opacity: 1;
+}
+
+/* Hide tooltip if descendants are showing tooltip */
+.tool-tip:hover:has(.tool-tip:hover)::before {
+  visibility: hidden;
+  opacity: 0;
 }
 
 .tool-tip-icon::after {
@@ -227,17 +238,8 @@ a:hover>.fa-lightbulb,
   cursor: help;
 }
 
-.rpcGroup .tool-tip::before {
-  transition: opacity .2s ease-in .3s;
-}
-
 .rpcGroup>.input-group.tool-tip::before {
   left: 15%;
-}
-
-.rpcGroup>.input-group.tool-tip:hover:has(div.tool-tip:hover)::before {
-  visibility: hidden;
-  opacity: 1;
 }
 
 .rpcGroup>.input-group.tool-tip:focus-within::before {

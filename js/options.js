@@ -78,7 +78,7 @@ var Configs =
             : [{ "name": "Aria2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }];
 
         const addBtnOrPattern = (i) => {
-            return i == 0 ? `<button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-circle-plus"></i> Add RPC</button>` :
+            return i == 0 ? `<button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-circle-plus"></i> RPC Server</button>` :
                 `<input id="pattern-${i}" type="text" class="form-control col-sm-3 pattern" placeholder="URL Pattern(s) splitted by ,">`;
         };
         const rpcInputGroup = (i) => {
@@ -90,7 +90,7 @@ var Configs =
                 `<input id="rpcUrl-${i}" type="url" class="form-control col-sm-4 rpcUrl" placeholder="RPC URL ∗" required>` +
                 `<div id="markRpc-${i}" class="input-group-append tool-tip" tooltip-content="">
                     <button id="markButton-${i}" class="btn btn-success" type="button">
-                        <i class="fa-fw fa-solid fa-pencil"></i>${Mark}
+                        <i class="fa-solid fa-pencil"></i> ${Mark}
                     </button>
                  </div>` +
                 `<input id="location-${i}" type="text" class="form-control col-sm-2 location" placeholder="${DownloadLocationStr}">` + addBtnOrPattern(i) +
