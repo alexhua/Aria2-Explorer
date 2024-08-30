@@ -10,7 +10,7 @@ const NID_CAPTURED_OTHERS = "NID_CAPTURED_OTHERS";
 
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
-var MonitorRate = 3000; // Aria2 monitor interval 3000ms
+var MonitorInterval = 3000; // Aria2 monitor interval 3000ms
 var RemoteAria2List = [];
 
 
@@ -631,7 +631,7 @@ function enableMonitor() {
         return;
     }
     monitorAria2();
-    MonitorId = setInterval(monitorAria2, MonitorRate);
+    MonitorId = setInterval(monitorAria2, MonitorInterval);
     Configs.monitorAria2 = true;
     chrome.contextMenus.update("MENU_MONITOR_ARIA2", { checked: true });
 }
@@ -690,8 +690,8 @@ async function monitorAria2() {
     }
 
     if (active > 0) {
-        if (MonitorRate == 3000) {
-            MonitorRate = 1000;
+        if (MonitorInterval == 3000) {
+            MonitorInterval = 1000;
             disableMonitor();
             enableMonitor();
         }
@@ -700,8 +700,8 @@ async function monitorAria2() {
         else
             chrome.power.releaseKeepAwake();
     } else if (active == 0) {
-        if (MonitorRate == 1000) {
-            MonitorRate = 3000;
+        if (MonitorInterval == 1000) {
+            MonitorInterval = 3000;
             disableMonitor();
             enableMonitor();
         }
@@ -713,8 +713,13 @@ async function monitorAria2() {
     let disconnectedStr = chrome.i18n.getMessage("disconnected");
     if (Configs.monitorAll) title = `${connectedStr}: ${connected} ${disconnectedStr}: ${disconnected}\n`
     if (connected > 0) {
-        color = (Configs.monitorAll && connected < RemoteAria2List.length) ? '#0077cc' : 'green';
-        text = active.toString();
+        if (active > 0) {
+            color = (Configs.monitorAll && connected < RemoteAria2List.length) ? '#0077cc' : 'green';
+            text = active.toString();
+        } else if (waiting > 0) {
+            color = '#DDD';
+            text = waiting.toString();
+        }
         uploadSpeed = Utils.getReadableSpeed(uploadSpeed);
         downloadSpeed = Utils.getReadableSpeed(downloadSpeed);
         let uploadStr = chrome.i18n.getMessage("upload");
