@@ -160,8 +160,12 @@ var Configs =
                         active: true
                     });
                 } else {
-                    chrome.tabs.create({
-                        url: SHORTCUTS_PAGE_URL
+                    chrome.tabs.getCurrent().then(tab => {
+                        chrome.tabs.create({
+                            url: SHORTCUTS_PAGE_URL,
+                            openerTabId: tab.id,
+                            index: tab.index + 1
+                        });
                     });
                 }
             });

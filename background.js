@@ -708,7 +708,7 @@ async function monitorAria2() {
         chrome.power.releaseKeepAwake();
     }
 
-    let color = '', text = '', title = '';
+    let color = 'green', text = '', title = '';
     let connectedStr = chrome.i18n.getMessage("connected");
     let disconnectedStr = chrome.i18n.getMessage("disconnected");
     if (Configs.monitorAll) title = `${connectedStr}: ${connected} ${disconnectedStr}: ${disconnected}\n`
