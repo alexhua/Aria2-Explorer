@@ -708,17 +708,21 @@ async function monitorAria2() {
         chrome.power.releaseKeepAwake();
     }
 
-    let color = 'green', text = '', title = '';
+    let bgColor = 'green', textColor = 'white', text = '', title = '';
     let connectedStr = chrome.i18n.getMessage("connected");
     let disconnectedStr = chrome.i18n.getMessage("disconnected");
     if (Configs.monitorAll) title = `${connectedStr}: ${connected} ${disconnectedStr}: ${disconnected}\n`
     if (connected > 0) {
         if (active > 0) {
-            color = (Configs.monitorAll && connected < RemoteAria2List.length) ? '#0077cc' : 'green';
+            bgColor = (Configs.monitorAll && connected < RemoteAria2List.length) ? '#0077cc' : 'green';
             text = active.toString();
         } else if (waiting > 0) {
-            color = '#DDD';
+            bgColor = '#AAA';
             text = waiting.toString();
+        } else {
+            textColor = '#666';
+            bgColor = '#E1EEF5';
+            text = '0';
         }
         uploadSpeed = Utils.getReadableSpeed(uploadSpeed);
         downloadSpeed = Utils.getReadableSpeed(downloadSpeed);
@@ -729,7 +733,7 @@ async function monitorAria2() {
         title += `${downloadStr}: ${active}  ${waitStr}: ${waiting}  ${finishStr}: ${stopped}\n${uploadStr}: ${uploadSpeed}  ${downloadStr}: ${downloadSpeed}`;
     } else {
         if (localConnected == 0) chrome.power.releaseKeepAwake();
-        color = "#A83030" // red;
+        bgColor = "#A83030" // red;
         text = 'E';
         if (Configs.monitorAll)
             title += 'No Aria2 server is reachable.';
@@ -738,7 +742,8 @@ async function monitorAria2() {
     }
 
     if (Configs.monitorAria2) {
-        chrome.action.setBadgeBackgroundColor({ color });
+        chrome.action.setBadgeTextColor({ color: textColor });
+        chrome.action.setBadgeBackgroundColor({ color: bgColor });
         chrome.action.setBadgeText({ text });
         chrome.action.setTitle({ title });
     }
