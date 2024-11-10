@@ -185,6 +185,9 @@
    "WebUIOpenStyle3":{
       "message":"新しいウィンドウ"
    },
+   "WebUIOpenStyle4":{
+      "message":"サイドパネル"
+   },
    "openWebUIStr":{
       "message":"AriaNGを開く"
    },

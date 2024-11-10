@@ -185,6 +185,9 @@
    "WebUIOpenStyle3": {
       "message": "Нове вікно"
    },
+   "WebUIOpenStyle4":{
+      "message":"бічна панель"
+   },
    "openWebUIStr": {
       "message": "Відкрити AriaNG"
    },

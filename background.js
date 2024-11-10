@@ -8,6 +8,7 @@ const NID_TASK_NEW = "NID_TASK_NEW";
 const NID_TASK_STOPPED = "NID_TASK_STOPPED";
 const NID_CAPTURED_OTHERS = "NID_CAPTURED_OTHERS";
 
+var CurrentWindowId = 0;
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
 var MonitorInterval = 3000; // Aria2 monitor interval 3000ms
@@ -315,6 +316,20 @@ async function launchUI(info) {
     const index = chrome.runtime.getURL('ui/ariang/index.html');
     let webUiUrl = index + '#!'; // launched from notification, option menu or browser toolbar icon
 
+    let sidePanelOpened = false;
+    if (Configs.webUIOpenStyle == "sidePanel") {
+        try {
+            if (info && 'id' in info) {
+                await chrome.sidePanel.open({ tabId: info.id });
+            } else {
+                await chrome.sidePanel.open({ windowId: CurrentWindowId });
+            };
+            sidePanelOpened = true;
+        } catch {
+            sidePanelOpened = false;
+        }
+    }
+
     /* assemble the final web ui url */
     if (info?.hasOwnProperty("filename") && info.url) { // launched for new task
         const downloadItem = info;
@@ -339,6 +354,15 @@ async function launchUI(info) {
         webUiUrl += gid ? "/task/detail/" + gid : "/stopped";
     } else {
         webUiUrl = index;
+    }
+
+    if (sidePanelOpened) {
+        if (info && 'id' in info) {
+            await chrome.sidePanel.setOptions({ tabId: info.id, path: webUiUrl });
+        } else {
+            await chrome.sidePanel.setOptions({ path: webUiUrl });
+        }
+        return;
     }
 
     chrome.tabs.query({ "url": index }).then(function (tabs) {
@@ -526,7 +550,7 @@ function onMenuClick(info, tab) {
     let downloadItem = { url, referrer, filename };
 
     if (info.menuItemId == "MENU_OPEN_WEB_UI") {
-        launchUI();
+        launchUI(tab);
     } else if (info.menuItemId == "MENU_START_ARIA2") {
         const url = chrome.runtime.getURL('aria2.html');
         chrome.tabs.create({ url });
@@ -549,6 +573,7 @@ function onMenuClick(info, tab) {
         if (Configs.askBeforeExport) {
             const rpcItem = getRpcServer(downloadItem.url);
             downloadItem.dir = rpcItem.location;
+            downloadItem.id = tab.id;
             launchUI(downloadItem);
         } else {
             let id = info.menuItemId.split('-')[1];
@@ -749,6 +774,16 @@ async function monitorAria2() {
     }
 }
 
+async function resetSidePanel(tabId) {
+    if (Configs.webUIOpenStyle == "sidePanel") {
+        let { path } = await chrome.sidePanel.getOptions(tabId ? { tabId } : undefined);
+        const defaultPath = 'ui/ariang/index.html';
+        if (!path.endsWith(defaultPath)) {
+            chrome.sidePanel.setOptions(tabId ? { tabId, path: defaultPath } : { path: defaultPath });
+        }
+    }
+}
+
 function registerAllListeners() {
     chrome.action.onClicked.addListener(launchUI);
     chrome.contextMenus.onClicked.addListener(onMenuClick);
@@ -757,6 +792,7 @@ function registerAllListeners() {
             CurrentTabUrl = tab?.url || "about:blank";
             updateOptionMenu(tab);
         }
+        resetSidePanel(tabId);
     });
 
     chrome.tabs.onActivated.addListener(function (activeInfo) {
@@ -764,9 +800,11 @@ function registerAllListeners() {
             CurrentTabUrl = tab?.url || "about:blank";
             updateOptionMenu(tab);
         });
+        resetSidePanel(activeInfo.tabId);
     });
 
     chrome.windows.onFocusChanged.addListener(function (windowId) {
+        CurrentWindowId = windowId;
         chrome.tabs.query({ windowId: windowId, active: true }).then(function (tabs) {
             if (tabs?.length > 0) {
                 CurrentTabUrl = tabs[0].url || "about:blank";
@@ -883,6 +921,7 @@ function init() {
         Configs.monitorAria2 ? enableMonitor() : disableMonitor();
         url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-Explore/issues/98" : '';
         chrome.runtime.setUninstallURL(url);
+        chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: Configs.webUIOpenStyle == "sidePanel" });
     });
 }
 

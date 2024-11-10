@@ -180,10 +180,13 @@
       "message":"Popup"
    },
    "WebUIOpenStyle2":{
-      "message":"New tab"
+      "message":"New Tab"
    },
    "WebUIOpenStyle3":{
-      "message":"New window"
+      "message":"New Window"
+   },
+   "WebUIOpenStyle4":{
+      "message":"Side Panel"
    },
    "openWebUIStr":{
       "message":"Open AriaNG"
@@ -255,7 +258,7 @@
       "message":"Creating download task over insecure HTTP/WebSocket protocol can potentially expose Secret Key and related website Cookies on the public network."
    },
    "AutoDownloadCookiesTooltipDes":{
-      "message": "The related website cookies will not be attached when auto-download or direct export."
+      "message": "For insecure RPC, the related website cookies will not be attached when auto-download or direct export."
    },
    "ManualDownloadCookiesTooltipDes":{
       "message": "You should determine whether to delete the related website cookies when asking download settings."

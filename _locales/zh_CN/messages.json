@@ -185,6 +185,9 @@
    "WebUIOpenStyle3":{
       "message":"新窗口"
    },
+   "WebUIOpenStyle4":{
+      "message":"侧边栏"
+   },
    "openWebUIStr":{
       "message":"打开AriaNG"
    },
@@ -255,7 +258,7 @@
       "message":"通过不安全的 HTTP/WebSocket 协议创建下载任务可能会导致 Secret Key 和相关网站的 Cookies 信息暴露于公共网络。"
    },
    "AutoDownloadCookiesTooltipDes":{
-      "message": "在自动下载和右键导出下载时，将不会附带相关网站的Cookies信息。"
+      "message": "使用不安全的RPC协议，在自动下载和右键导出下载时，将不会附带相关网站的Cookies信息。"
    },
    "ManualDownloadCookiesTooltipDes":{
       "message": "在询问下载设置时，你需要决定是否删除相关网站的Cookies信息。"

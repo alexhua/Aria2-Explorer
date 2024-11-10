@@ -185,6 +185,9 @@
    "WebUIOpenStyle3": {
       "message": "새 창"
    },
+   "WebUIOpenStyle4":{
+      "message":"측면 패널"
+   },
    "openWebUIStr": {
       "message": "AriaNG 열기"
    },
