@@ -19,26 +19,26 @@ After completing these steps, the extension will take over the download process,
     - Capture notification
     - Support magnet links
     - Toggle auto-capture by shortcut (Default: <kbd>Alt</kbd>+<kbd>A</kbd>)
-    - Set all Aria2 options manually before download
-    - Filter task by the domain, file extensions or file sizes
+    - Configure each Aria2 option manually before download
+    - Filter intercepted task by the domain, file extensions or file sizes
     > Filter priority: domain > file-ext > file-size, white-list > black-list
-2. Auto-select Aria2 RPC server by matching the preset download URL pattern
+2. Auto-select Aria2 RPC server and download location by matching downloading URL with preset URL pattern
 
-3. Built-in Aria2 frontend: AriaNG, multiple present styles: popup, new tab, new window
+3. Built-in Aria2 frontend: AriaNG **Enhanced Version**. Multiple present styles: popup, new tab, new window, side panel
 
-4. Synchronize and store all settings on the cloud
+4. Synchronize and store all the settings (extension and AriaNG) on the cloud
 
 5. Support for zh-CN/zh-TW/en languages
 
-6. Monitor Aria2 download status via icon badge
+6. Monitor Aria2 download status via extension badge icon
 
 7. Batch export webpage resources (Image·Audio·Video·Magnet) links from context menu
 
-8. Receive download requests from other extensions
+8. Receive Aria2 download requests from other extensions
 
 9. Support shortcuts in the options page (Save:<kbd>Alt</kbd>+<kbd>S</kbd> Reset:<kbd>Alt</kbd>+<kbd>R</kbd> Download:<kbd>Alt</kbd>+<kbd>J</kbd> Upload:<kbd>Alt</kbd>+<kbd>U</kbd>)
 
-10. Support downloading URLs via browser
+10. Support downloading URLs via browser automatically if aria2 is disconnected
 
 ## 🧩 Integration
 
@@ -62,8 +62,8 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ## 📥 Installation
 
-[![Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 Explorer")
-[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 Explorer")
+[![Chrome Web Store](https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 Explorer")
+[<img src="https://get.microsoft.com/images/en-us%20light.svg" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 Explorer")
 
 ## 💡 Tips & FAQs
 

@@ -22,23 +22,23 @@
     - 通过域名、扩展名或文件大小过滤下载任务
     > 过滤优先级：网站 > 扩展名 > 文件大小，优先处理白名单
 
-2. 根据预设URL规则自动选择不同的 Aria2 RPC 服务端
+2. 根据预设URL规则匹配下载URL来自动选择不同的 Aria2 RPC 服务端和下载目录
 
-3. 内置 Aria2 前端：AriaNG，多种呈现方式：弹窗，新标签，新窗口
+3. 内置 Aria2 前端：AriaNG **增强版**。多种呈现方式：弹窗，新标签，新窗口，侧边栏
 
-4. 所有配置云端同步
+4. 所有配置（扩展和AriaNG）云端同步
 
 5. 中英双语支持
 
-6. Aria2下载状态监测
+6. Aria2下载状态监测和任务状态通知
 
 7. 右键菜单批量导出网页资源（图片·音频·视频·磁力链接）
 
-8. 接受来自其他扩展的下载请求
+8. 接受来自其他扩展的Aria2下载请求
 
 9. 选项配置页面快捷键（保存：<kbd>Alt</kbd>+<kbd>S</kbd> 重置：<kbd>Alt</kbd>+<kbd>R</kbd> 下载：<kbd>Alt</kbd>+<kbd>J</kbd> 上传：<kbd>Alt</kbd>+<kbd>U</kbd>）
 
-10. 支持通过浏览器下载网络链接
+10. 支持当没有连接Aria2时，通过浏览器下载网络链接
 
 ## 🧩 外部调用
 
@@ -62,8 +62,8 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ## 📥 安装地址
 
-[![Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 Explorer")
-[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 Explorer")
+[![Chrome Web Store](https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 Explorer")
+[<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 Explorer")
 
 ## 💡 常见问题
 
