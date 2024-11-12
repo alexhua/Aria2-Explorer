@@ -1044,8 +1044,7 @@ function exportAllLinks(allowedExts, blockedExts) {
     if (!Array.isArray(blockedExts)) blockedExts = [];
 
     let links = [];
-    const elements = document.querySelectorAll("a,img,audio,video,source");
-
+    const elements = document.querySelectorAll("a,img,audio,video,source,enclosure");
     for (const element of elements) {
         let link = '';
         let tagName = element.tagName.toUpperCase();
@@ -1055,15 +1054,19 @@ function exportAllLinks(allowedExts, blockedExts) {
                 case 'A':
                     srcProp = 'href';
                     break;
+                case 'ENCLOSURE':
+                    srcProp = 'url';
+                    break;
                 // case 'SOURCE':
                 //     srcProp = 'srcset';
                 //     break;
                 default:
                     srcProp = 'src';
             }
-
             if (element[srcProp]) {
                 link = element[srcProp];
+            } else if (element.attributes[srcProp]) { 
+                link = element.attributes[srcProp].value;
             } else {
                 continue;
             }
