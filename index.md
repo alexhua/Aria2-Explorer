@@ -30,7 +30,7 @@ After completing these steps, the extension will take over the download process,
     > Filter priority: domain > file-ext > file-size, allow-list > block-list
 2. Auto-select Aria2 RPC server by matching the preset download URL pattern
 
-3. Built-in Aria2 frontend: AriaNG **enhanced version**, multiple present styles: popup, new tab, new window, PWA
+3. Built-in Aria2 frontend: AriaNG **enhanced version**, multiple present styles: popup, new tab, new window, side panel, PWA
 
 4. Synchronize and store all settings on the cloud
 
@@ -72,7 +72,7 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ## 📥 Installation
 
-[<img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Install Aria2-Explorer from Chrome Web Store")
+[<img src="https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Install Aria2-Explorer from Chrome Web Store")
 [<img src="https://get.microsoft.com/images/en-us%20light.svg" height="56" >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Install Aria2-Explorer from Edge Web Store")
 
 ---
@@ -89,6 +89,7 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 - 🔀 Support for BT and DHT port mapping via UPnP
 - 👆 One-click installation and automatic update
 - 🔕 Suppress task notification on Aria2 startup
+- 📄 Associate Torrent file and set as default open program
 - ⚡ Click on the task name to open the downloaded file directly
 - 🧹 Support for removing **.aria2** control file and downloaded file(s) ( <kbd>Shift</kbd> + **Remove Task** )
 

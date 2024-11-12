@@ -31,7 +31,7 @@
 
 2. 根据预设URL规则自动选择不同的 Aria2 RPC 服务端
 
-3. 内置 Aria2 前端：AriaNG **增强版**，多种呈现方式：弹窗，新标签，新窗口，PWA
+3. 内置 Aria2 前端：AriaNG **增强版**，多种呈现方式：弹窗，新标签，新窗口，侧边栏，PWA
 
 4. 所有配置云端同步
 
@@ -73,7 +73,7 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ## 📥 安装地址
 
-[<img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "从 Chrome 商店安装 Aria2-Explorer")
+[<img src="https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "从 Chrome 商店安装 Aria2-Explorer")
 [<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height="56" >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "从 Edge 商店安装 Aria2-Explorer")
 
 ## 💡 常见问题
@@ -92,6 +92,7 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 - 🪟 内置任务管理界面
 - 👆 一键安装并自动更新
 - 🛠️ 一些 Aria2 问题修复
+- 📄 Torrent 文件关联和默认打开
 - ⚡ 点击任务名直接打开已下载文件
 - 🔕 禁止 Aria2 开启时的已完成任务通知
 - 🔀 支持通过 UPnP 进行 BT 和 DHT 端口映射，提升 BT 下载的连通性
