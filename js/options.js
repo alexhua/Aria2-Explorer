@@ -266,7 +266,7 @@ var Configs =
         }).catch(error => {
             let str = chrome.i18n.getMessage("uploadConfigFailed");
             if (error.message.includes("QUOTA_BYTES_PER_ITEM")) {
-                /* There must be too much BT trackers in the Aria2 settings */
+                /* There must be too many BT trackers in the Aria2 settings */
                 error.message = "Exceeded Quota (8KB). Please refine the Aria2 BT trackers."
             }
             Configs.notifySyncResult(`${str} (${error.message})`, "alert-danger", 5000);

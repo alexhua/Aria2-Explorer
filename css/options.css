@@ -7,7 +7,7 @@ body {
 #logo {
   background-repeat: no-repeat;
   font-size: x-large;
-  text-shadow: 0 0 20px gray;
+  text-shadow: 0 0 20px #aaa;
 }
 
 #version {
@@ -92,7 +92,7 @@ div[id^="markRpc"] {
   border-top: 1px solid #ddd;
   border-radius: 0 0 6px 6px;
   box-shadow: inset 0 1px 0 #fff;
-  text-shadow: 0 0 15px black;
+  text-shadow: 0 0 15px #79a4d3;
   transition: background-color .3s;
 }
 
