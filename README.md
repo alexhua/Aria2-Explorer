@@ -59,6 +59,9 @@ const downloadItem = {
 chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ```
+## 🔀 Flow Chart
+
+![Flow Chart](FlowChart-EN.SVG)
 
 ## 📥 Installation
 
@@ -67,7 +70,7 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ## 💡 Tips & FAQs
 
-[https://github.com/alexhua/aria2-explorer/issues?q=label:faq](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ+sort%3Acreated-asc)
+[https://github.com/alexhua/aria2-explorer/issues?q=label:faq](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ)
 
 ## 🔒 Privacy policy
 
