@@ -375,9 +375,14 @@ checksum.failed=Errore di verifica del checksum del file.
 
 [languages]
 English=Inglese
+French=Francese
+Italian=Italiano
+Japanese=Giapponese
+Korean=Coreano
+Russian=Russo
 Simplified Chinese=Cinese Semplificato
 Traditional Chinese=Cinese Tradizionale
-Italian=Italiano
+Ukrainian=Ucraino
 
 [format]
 longdate=DD/MM/YYYY HH:mm:ss
