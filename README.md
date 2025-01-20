@@ -28,7 +28,7 @@ After completing these steps, the extension will take over the download process,
 
 4. Synchronize and store all the settings (extension and AriaNG) on the cloud
 
-5. Support for zh-CN/zh-TW/en/fr/ja/ko/ru/uk languages
+5. Support for zh-CN/zh-TW/en/fr/ja/ko/it/ru/uk/cs/es languages
 
 6. Monitor Aria2 download status via extension badge icon
 

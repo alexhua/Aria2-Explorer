@@ -376,12 +376,14 @@ rpc.request.parse.failed=RPC 요청 처리 실패.
 checksum.failed=파일 체크섬 검증 실패.
 
 [languages]
+Czech=체코 사람
 English=영어
 French=프랑스어
 Italian=이탈리아어
 Japanese=일본어
 Korean=한국어
 Russian=러시아어
+Spanish=스페인 사람
 Simplified Chinese=간체 중국어
 Traditional Chinese=번체 중국어
 Ukrainian=우크라이나 말

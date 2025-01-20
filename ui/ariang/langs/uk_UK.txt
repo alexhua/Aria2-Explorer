@@ -376,12 +376,14 @@ rpc.request.parse.failed=Не вдалося обробити RPC запит.
 checksum.failed=Не вдалося перевірити контрольну суму файлу.
 
 [languages]
+Czech=чеська
 English=англійська
 French=французька
 Italian=італійська
 Japanese=японська
 Korean=корейська
 Russian=російська
+Spanish=Іспанська
 Simplified Chinese=спрощений китайський
 Traditional Chinese=традиційний китайський
 Ukrainian=українська

@@ -1,0 +1,314 @@
+{
+   "appName": {
+      "message":"Aria2 Explorer"
+   },
+   "description": {
+      "message":"Urychlete stahování pomocí Aria2, spravujte své úlohy stahování snadno."
+   },
+   "contextmenuTitle": {
+      "message":"Exportovat do "
+   },
+   "configPageTitle": {
+      "message":"Nastavení možností rozšíření"
+   },
+   "contextmenuStr": {
+      "message":"Kontextové menu"
+   },
+   "contextmenuDes": {
+      "message":"Exportovat úlohu z kontextového menu"
+   },
+   "exportAllDes": {
+      "message":"Exportovat všechny odkazy"
+   },
+   "exportAllFailedDes": {
+      "message":"Nebyl nalezen žádný platný odkaz ke stažení."
+   },
+   "askBeforeExportDes": {
+      "message":"Před exportem se zeptat na podrobné nastavení"
+   },
+   "downloadCaptureStr": {
+      "message":"Zachytávání stahování"
+   },
+   "downloadCaptureDes": {
+      "message":"Povolit automatické zachytávání, když velikost souboru ke stažení"
+   },
+   "askBeforeDownloadDes": {
+      "message":"Před automatickým stahováním se zeptat na podrobné nastavení"
+   },
+   "allowExternalRequestDes": {
+      "message":"Přijímat požadavky na stahování Aria2 z jiných rozšíření"
+   },
+   "monitorAria2Str": {
+      "message":"Monitorovat stav Aria2"
+   },
+   "monitorAria2Des": {
+      "message":"Monitorovat stav stahování Aria2"
+   },
+   "monitorAllDes": {
+      "message":"Monitorovat všechny servery Aria2"
+   },
+   "monitorAllTip": {
+      "message":"Pokud je nastaveno více serverů Aria2, monitorujte stav všech a zobrazte souhrnné výsledky."
+   },
+   "keepAwakeDes": {
+      "message":"Během stahování udržovat systém aktivní"
+   },
+   "allowNotificationDes": {
+      "message":"Oznámení o stavu úloh"
+   },
+   "keepSilentDes": {
+      "message":"Udržovat oznámení v tichém režimu"
+   },
+   "captureMagnetDes": {
+      "message":"Zachytit magnet odkaz"
+   },
+   "captureMagnetWarn": {
+      "message":"Zachytávání na úrovni OS, před odinstalací prosím zkontrolujte deaktivaci."
+   },
+   "captureMagnetTip": {
+      "message":"Pokud nechcete zachytávání na úrovni systému, klikněte na „Ne“ v dialogovém okně s potvrzením UAC v systému Windows."
+   },
+   "websiteStr": {
+      "message":"Webová stránka"
+   },
+   "websiteFilterStr": {
+      "message":"Filtr webových stránek"
+   },
+   "selectDefaultRpcStr": {
+      "message":"Výchozí Aria2"
+   },
+   "fileExtStr": {
+      "message":"Přípona souboru"
+   },
+   "whiteListStr": {
+      "message":"Seznam povolených"
+   },
+   "BlackListStr": {
+      "message":"Seznam blokovaných"
+   },
+   "addToWhiteListStr": {
+      "message":"Aktuální URL -> Seznam povolených"
+   },
+   "addToBlackListStr": {
+      "message":"Aktuální URL -> Seznam blokovaných"
+   },
+   "removeFromWhiteListStr": {
+      "message":"Odebrat ze Seznamu povolených"
+   },
+   "removeFromBlackListStr": {
+      "message":"Odebrat ze Seznamu blokovaných"
+   },
+   "exportFailedStr": {
+      "message":"Export se nezdařil"
+   },
+   "exportFailedDes": {
+      "message":"$rpcName$ nemohl spustit úlohu!",
+      "placeholders": {
+         "rpcName": {
+            "content":"$1",
+            "example":"Název Aria2 RPC."
+         }
+      }
+   },
+   "exportSucceedStr": {
+      "message":"Export úspěšný"
+   },
+   "exportSucceedDes": {
+      "message":"$rpcName$ zahájil stahování.",
+      "placeholders": {
+         "rpcName": {
+            "content":"$1",
+            "example":"Název Aria2 RPC."
+         }
+      }
+   },
+   "taskNotification": {
+      "message":"Oznámení o úkolu"
+   },
+   "downloadStart": {
+      "message":"Stahování $rpcName$ bylo zahájeno.",
+      "placeholders": {
+         "rpcName": {
+            "content":"$1",
+            "example":"Aria2"
+         }
+      }
+   },
+   "downloadComplete": {
+      "message":"Stahování $rpcName$ je dokončeno.",
+      "placeholders": {
+         "rpcName": {
+            "content":"$1",
+            "example":"Aria2"
+         }
+      }
+   },
+   "seedingOver": {
+      "message":"Seedování $rpcName$ je ukončeno.",
+      "placeholders": {
+         "rpcName": {
+            "content":"$1",
+            "example":"Aria2"
+         }
+      }
+   },
+   "downloadError": {
+      "message":"Při stahování $rpcName$ došlo k chybě.",
+      "placeholders": {
+         "rpcName": {
+            "content":"$1",
+            "example":"Aria2"
+         }
+      }
+   },
+   "allowedSitesPlaceholderDes": {
+      "message":"Nastavte domény, které chcete zachytávat, jednu webovou stránku na řádek, podporuje regulární výrazy. (Seznam povolených má vyšší prioritu)"
+   },
+   "blockedSitesPlaceholderDes": {
+      "message":"Nastavte domény, které nechcete zachytávat, jednu webovou stránku na řádek, podporuje regulární výrazy."
+   },
+   "allowedExtsPlaceholderDes": {
+      "message":"Nastavte typy souborů, které chcete zachytávat nebo exportovat, jednu příponu na řádek, * znamená všechny. (Seznam povolených má vyšší prioritu)"
+   },
+   "blockedExtsPlaceholderDes": {
+      "message":"Nastavte typy souborů, které nechcete zachytávat nebo exportovat, jednu příponu na řádek, * znamená všechny."
+   },
+   "WebUIOpenStyleStr": {
+      "message":"Otevřít AriaNG v"
+   },
+   "WebUIOpenStyle1": {
+      "message":"Vyskakovací okno"
+   },
+   "WebUIOpenStyle2": {
+      "message":"Nová karta"
+   },
+   "WebUIOpenStyle3": {
+      "message":"Nové okno"
+   },
+   "WebUIOpenStyle4": {
+      "message":"Boční panel"
+   },
+   "openWebUIStr": {
+      "message":"Otevřít AriaNG"
+   },
+   "startAria2Str": {
+      "message":"Spustit Aria2"
+   },
+   "toggleCapture": {
+      "message":"Přepnout zachytávání stahování"
+   },
+   "configCloudSync": {
+      "message":"Synchronizace s cloudem"
+   },
+   "configCloudSyncDes": {
+      "message":"Synchronizovat nastavení AriaNg a rozšíření s aktuálním přihlášeným účtem prohlížeče"
+   },
+   "uploadConfigWarn": {
+      "message":"Neplatná nebo prázdná data místní konfigurace, přesto pokračovat?"
+   },
+   "uploadConfigSucceed": {
+      "message":"Nahrávání konfigurací úspěšné"
+   },
+   "uploadConfigFailed": {
+      "message":"Nahrávání konfigurací se nezdařilo:"
+   },
+   "downloadConfigSucceed": {
+      "message":"Stahování konfigurací úspěšné"
+   },
+   "downloadConfigFailed": {
+      "message":"Stahování konfigurací se nezdařilo:Neplatná data nebo odpojená síť."
+   },
+   "download": {
+      "message":"Stáhnout"
+   },
+   "upload": {
+      "message":"Nahrát"
+   },
+   "wait": {
+      "message":"Čekat"
+   },
+   "finish": {
+      "message":"Dokončit"
+   },
+   "connected": {
+      "message":"Připojeno"
+   },
+   "disconnected": {
+      "message":"Odpojeno"
+   },
+   "review": {
+      "message":"Recenze"
+   },
+   "reviewDes": {
+      "message":"Ohodnoťte nás!"
+   },
+   "Save": {
+      "message":"Uložit"
+   },
+   "Reset": {
+      "message":"Resetovat"
+   },
+   "Acknowledgment": {
+      "message":"Potvrzení"
+   },
+   "OverwriteAriaNgRpcWarn": {
+      "message":"Nastavení RPC se změnilo. Synchronizovat tyto změny s AriaNG a přepsat?"
+   },
+   "RpcUrlTooltipWarnDes": {
+      "message":"Vytvoření úlohy ke stažení přes nezabezpečený protokol HTTP/WebSocket může potenciálně vystavit tajný klíč a související cookies webových stránek na veřejné síti."
+   },
+   "AutoDownloadCookiesTooltipDes": {
+      "message":"Pro nezabezpečené RPC nebudou při automatickém stahování nebo přímém exportu připojeny související cookies webových stránek."
+   },
+   "ManualDownloadCookiesTooltipDes": {
+      "message":"Při dotazování na nastavení stahování byste měli určit, zda smazat související cookies webových stránek."
+   },
+   "Aria2ManagerPromotionDes": {
+      "message":"Zdá se, že Aria2 Manager není nainstalován, přístup k kanálu \"Alex Recommends\" pro více informací?"
+   },
+   "ClearSettingsDes": {
+      "message":"Potvrdit vymazání všech nastavení?"
+   },
+   "ColorMode": {
+      "message":"Barevný režim"
+   },
+   "LightMode": {
+      "message":"Světlý režim"
+   },
+   "DarkMode": {
+      "message":"Tmavý režim"
+   },
+   "FollowSystem": {
+      "message":"Sledovat systém"
+   },
+   "Name": {
+      "message":"Jméno"
+   },
+   "SecretKey": {
+      "message":"Tajný klíč"
+   },
+   "downloadLocation": {
+      "message":"Umístění stahování"
+   },
+   "RemindCaptureTip": {
+      "message":"Zachyceno stahování jiného rozšíření"
+   },
+   "RemindCaptureTipDes": {
+      "message":"Pokud je název souboru abnormální, vypněte automatické zachytávání."
+   },
+   "Dismiss": {
+      "message":"Zavřít"
+   },
+   "NeverRemind": {
+      "message":"Nepřipomínat znovu"
+   },
+   "Mark": {
+      "message":"Označit"
+   },
+   "MarkAsSecureTip": {
+      "message":"Označit jako zabezpečené RPC"
+   },
+   "MarkAsInsecureTip": {
+      "message":"Označit jako nezabezpečený protokol RPC"
+   }
+}
