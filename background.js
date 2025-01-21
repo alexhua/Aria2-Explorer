@@ -2,6 +2,8 @@ import Utils from "./js/utils.js";
 import Configs from "./js/config.js";
 import Aria2 from "./js/aria2.js";
 import Aria2Options from "./js/aria2Options.js";
+import { IconManager } from "./js/IconUtils/IconManager.js";
+import { AnimationController } from './js/IconUtils/AnimationController.js';
 
 const NID_DEFAULT = "NID_DEFAULT";
 const NID_TASK_NEW = "NID_TASK_NEW";
@@ -13,7 +15,7 @@ var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
 var MonitorInterval = 3000; // Aria2 monitor interval 3000ms
 var RemoteAria2List = [];
-
+var IconAnimController = new AnimationController();
 
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload);
 
@@ -138,7 +140,6 @@ async function send2Aria(downloadItem, rpcItem) {
     let remote = Utils.parseUrl(rpcItem.url);
     remote.name = rpcItem.name;
     let aria2 = new Aria2(remote);
-    let silent = Configs.keepSilent;
     return aria2.addUri(downloadItem.url, options).then(function (response) {
         if (response && response.error) {
             return Promise.reject(response.error);
@@ -148,28 +149,24 @@ async function send2Aria(downloadItem, rpcItem) {
                 aria2.setGlobalOptions(globalOptions);
         });
 
-        if (Configs.allowNotification) {
-            const data = { method: "aria2.onExportSuccess", source: aria2, gid: response.result };
-            if (!downloadItem.filename)
-                downloadItem.filename = Utils.getFileNameFromUrl(downloadItem.url);
-            data.contextMessage = Utils.formatFilepath(options.dir) + downloadItem.filename;
-            notifyTaskStatus(data);
-        }
+        const data = { method: "aria2.onExportSuccess", source: aria2, gid: response.result };
+        if (!downloadItem.filename)
+            downloadItem.filename = Utils.getFileNameFromUrl(downloadItem.url);
+        data.contextMessage = Utils.formatFilepath(options.dir) + downloadItem.filename;
+        notifyTaskStatus(data);
         return Promise.resolve(true);
     }).catch(function (error) {
-        if (Configs.allowNotification) {
-            let contextMessage = '';
-            if (error && error.message) {
-                if (error.message.toLowerCase().includes('unauthorized'))
-                    contextMessage = "Secret key is incorrect."
-                else if (error.message.toLowerCase().includes("failed to fetch"))
-                    contextMessage = "Aria2 server is unreachable.";
-                else
-                    contextMessage = "Error:" + error.message;
-            }
-            const data = { method: "aria2.onExportError", source: aria2, contextMessage };
-            notifyTaskStatus(data);
+        let contextMessage = '';
+        if (error && error.message) {
+            if (error.message.toLowerCase().includes('unauthorized'))
+                contextMessage = "Secret key is incorrect."
+            else if (error.message.toLowerCase().includes("failed to fetch"))
+                contextMessage = "Aria2 server is unreachable.";
+            else
+                contextMessage = "Error:" + error.message;
         }
+        const data = { method: "aria2.onExportError", source: aria2, contextMessage };
+        notifyTaskStatus(data);
 
         return Promise.resolve(false);
     });
@@ -244,14 +241,7 @@ function enableCapture() {
     if (!isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.addListener(captureDownload);
     }
-    chrome.action.setIcon({
-        path: {
-            '32': "images/logo32.png",
-            '64': "images/logo64.png",
-            '128': "images/logo128.png",
-            '256': "images/logo256.png"
-        }
-    });
+    IconManager.setToDefault();
     Configs.integration = true;
     chrome.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
 }
@@ -260,14 +250,7 @@ function disableCapture() {
     if (isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
     }
-    chrome.action.setIcon({
-        path: {
-            '32': "images/logo32-dark.png",
-            '64': "images/logo64-dark.png",
-            '128': "images/logo128-dark.png",
-            '256': "images/logo256-dark.png"
-        }
-    });
+    IconManager.setToDark();
     Configs.integration = false;
     chrome.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: false });
 }
@@ -695,7 +678,7 @@ async function monitorAria2() {
             if (Configs.integration && i == 0 && !isDownloadListened()) {
                 chrome.downloads.onDeterminingFilename.addListener(captureDownload);
             }
-            if (Configs.allowNotification) remoteAria2.openSocket();
+            remoteAria2.openSocket();
         } catch (error) {
             disconnected++;
             if (i == 0) {
@@ -709,7 +692,7 @@ async function monitorAria2() {
                 }
             }
         } finally {
-            if (!Configs.allowNotification) remoteAria2.closeSocket();
+            if (!Configs.monitorAria2) remoteAria2.closeSocket();
             if (!Configs.monitorAll) break;
         }
     }
@@ -937,7 +920,7 @@ function initRemoteAria2() {
         } else {
             RemoteAria2List[i] = new Aria2(remote);
         }
-        if (Configs.monitorAria2 && Configs.allowNotification && (i == 0 || Configs.monitorAll)) {
+        if (Configs.monitorAria2 && (i == 0 || Configs.monitorAll)) {
             RemoteAria2List[i].regMessageHandler(notifyTaskStatus);
         } else {
             RemoteAria2List[i].unRegMessageHandler(notifyTaskStatus);
@@ -958,9 +941,23 @@ async function notifyTaskStatus(data) {
 
     if (!data || !events.includes(data.method)) return;
 
+    let event = data.method;
+
+    // notify via extension icon animations
+    if (event) {
+        if (event.endsWith("ExportSuccess")) {
+            IconAnimController.start("Download");
+        } else if (event.endsWith("Complete")) {
+            IconAnimController.start("Complete");
+        } else if (event.endsWith("Error")) {
+            IconAnimController.start("Error");
+        }
+    }
+
+    if (!Configs.allowNotification) return;
+
     const aria2 = data.source;
     const gid = data.params?.length ? data.params[0]["gid"] : data.gid ?? '';
-    let message = data.method;
     let contextMessage = data.contextMessage ?? '';
     if (!contextMessage && gid) {
         try {
@@ -976,8 +973,8 @@ async function notifyTaskStatus(data) {
                 } else {
                     contextMessage = dir + Utils.getFileNameFromUrl(files[0].uris[0].uri);
                 }
-                if (message == 'aria2.onDownloadComplete' && bittorrent && !(contextMessage.startsWith("[METADATA]") || contextMessage.endsWith(".torrent"))) {
-                    message = 'aria2.onSeedingComplete';
+                if (event == "aria2.onDownloadComplete" && bittorrent && !(contextMessage.startsWith("[METADATA]") || contextMessage.endsWith(".torrent"))) {
+                    event = "aria2.onSeedingComplete";
                 }
             }
         } catch {
@@ -985,8 +982,8 @@ async function notifyTaskStatus(data) {
         }
     }
 
-    let title = "taskNotification", sign = '', nid = '';
-    switch (message) {
+    let title = "taskNotification", message = '', sign = '', nid = '';
+    switch (event) {
         case "aria2.onDownloadStart":
             message = "DownloadStart";
             sign = ' ⬇️';
@@ -1025,6 +1022,8 @@ async function notifyTaskStatus(data) {
             nid = NID_DEFAULT + Aria2.RequestId;
             break;
     }
+
+    //notify via browser notification
     if (message) {
         title = chrome.i18n.getMessage(title);
         message = chrome.i18n.getMessage(message, aria2 ? aria2.name : "Aria2") + sign;
@@ -1065,7 +1064,7 @@ function exportAllLinks(allowedExts, blockedExts) {
             }
             if (element[srcProp]) {
                 link = element[srcProp];
-            } else if (element.attributes[srcProp]) { 
+            } else if (element.attributes[srcProp]) {
                 link = element.attributes[srcProp].value;
             } else {
                 continue;

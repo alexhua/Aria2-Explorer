@@ -9,7 +9,7 @@ class Aria2Options {
     /**
      * Extract Aria2 global options from ariaNG options
      * 
-     * Caution: The Aria2 options is extracted from ariaNG settings by its RPC URL, so a Aria2 server
+     * Caution: The Aria2 options is extracted from ariaNG settings by its RPC URL, so an Aria2 server
      *          with same RPC URL but different options will be treated as the same one. 
      * 
      * @param {string} rpcUrl the whole Aria2 RPC url
