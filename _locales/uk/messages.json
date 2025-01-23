@@ -17,11 +17,11 @@
    "contextmenuDes": {
       "message": "Експорт завдання з контекстного меню"
    },
-   "exportAllDes":{
-      "message":"експорт всіх посилань"
+   "exportAllDes": {
+      "message": "експорт всіх посилань"
    },
-   "exportAllFailedDes":{
-      "message":"Не знайдено дійсного посилання для завантаження."
+   "exportAllFailedDes": {
+      "message": "Не знайдено дійсного посилання для завантаження."
    },
    "askBeforeExportDes": {
       "message": "Питати налаштування деталей перед експортом"
@@ -53,11 +53,14 @@
    "keepAwakeDes": {
       "message": "Зберігайте систему працювати під час завантаження"
    },
+   "badgeTextDes": {
+      "message": "Позначте кількість завдань за допомогою значка"
+   },
    "allowNotificationDes": {
       "message": "Сповіщення стану завданн"
    },
-   "keepSilentDes":{
-      "message":"Зберігайте сповіщення мовчазними"
+   "keepSilentDes": {
+      "message": "Зберігайте сповіщення мовчазними"
    },
    "captureMagnetDes": {
       "message": "Захоплення магнітного посилання"
@@ -65,17 +68,17 @@
    "captureMagnetWarn": {
       "message": "Захоплення на рівні ОС, переконайтеся, що перед видаленням вимкнуто"
    },
-   "captureMagnetTip":{
-      "message":"Натисніть «Ні» у діалоговому вікні підтвердження UAC у Windows, якщо ви не бажаєте записувати системний рівень."
+   "captureMagnetTip": {
+      "message": "Натисніть «Ні» у діалоговому вікні підтвердження UAC у Windows, якщо ви не бажаєте записувати системний рівень."
    },
    "websiteStr": {
       "message": "Веб-сайт"
    },
-   "websiteFilterStr":{
-      "message":"фільтрація веб-сайту"
+   "websiteFilterStr": {
+      "message": "фільтрація веб-сайту"
    },
-   "selectDefaultRpcStr":{
-      "message":"типовий Aria2"
+   "selectDefaultRpcStr": {
+      "message": "типовий Aria2"
    },
    "fileExtStr": {
       "message": "Розширення файлу"
@@ -143,14 +146,14 @@
          }
       }
    },
-   "seedingOver":{
-      "message":"$rpcName$ Посів завершено",
+   "seedingOver": {
+      "message": "$rpcName$ Посів завершено",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
    "downloadError": {
       "message": "$rpcName$ сталася помилка завантаження.",
@@ -185,8 +188,8 @@
    "WebUIOpenStyle3": {
       "message": "Нове вікно"
    },
-   "WebUIOpenStyle4":{
-      "message":"бічна панель"
+   "WebUIOpenStyle4": {
+      "message": "бічна панель"
    },
    "openWebUIStr": {
       "message": "Відкрити AriaNG"
@@ -230,11 +233,11 @@
    "finish": {
       "message": "Завершено"
    },
-   "connected":{
-      "message":"підключено"
+   "connected": {
+      "message": "підключено"
    },
-   "disconnected":{
-      "message":"відключено"
+   "disconnected": {
+      "message": "відключено"
    },
    "review": {
       "message": "оцінити"
@@ -254,61 +257,61 @@
    "OverwriteAriaNgRpcWarn": {
       "message": "Налаштування RPC змінилися. Синхронізувати ці зміни з AriaNG?"
    },
-   "RpcUrlTooltipWarnDes":{
-      "message":"Завантаження через небезпечний протокол HTTP/WebSocket може потенційно викласти секретний ключ та файли cookie пов'язаного веб-сайту на відкритій мережі."
+   "RpcUrlTooltipWarnDes": {
+      "message": "Завантаження через небезпечний протокол HTTP/WebSocket може потенційно викласти секретний ключ та файли cookie пов'язаного веб-сайту на відкритій мережі."
    },
-   "AutoDownloadCookiesTooltipDes":{
+   "AutoDownloadCookiesTooltipDes": {
       "message": "Куки пов'язаного веб-сайту не будуть прикріплені під час автоматичного завантаження або прямого експорту."
    },
-   "ManualDownloadCookiesTooltipDes":{
+   "ManualDownloadCookiesTooltipDes": {
       "message": "Вам слід визначити, чи ви хочете видалити файли cookie пов'язаного веб-сайту при налаштуванні завантаження."
    },
-   "Aria2ManagerPromotionDes":{
+   "Aria2ManagerPromotionDes": {
       "message": "Здається, Aria2 Manager не встановлено, звертайтеся до каналу \"Alex Recommends\" для отримання додаткової інформації?"
    },
-   "ClearSettingsDes":{
+   "ClearSettingsDes": {
       "message": "Підтверджувати вилучення всіх параметрів?"
    },
-   "ColorMode":{
+   "ColorMode": {
       "message": "Колірний режим"
    },
-   "LightMode":{
+   "LightMode": {
       "message": "Світлий режим"
    },
-   "DarkMode":{
+   "DarkMode": {
       "message": "Темний режим"
    },
-   "FollowSystem":{
+   "FollowSystem": {
       "message": "Слідувати за системою"
    },
-   "Name":{
+   "Name": {
       "message": "назва"
    },
-   "SecretKey":{
+   "SecretKey": {
       "message": "секретний ключ"
    },
-   "downloadLocation":{
+   "downloadLocation": {
       "message": "Місце завантаження"
    },
-   "RemindCaptureTip":{
+   "RemindCaptureTip": {
       "message": "Перехоплювати завдання завантаження в інші розширення"
    },
-   "RemindCaptureTipDes":{
+   "RemindCaptureTipDes": {
       "message": "Якщо ім'я файлу неправильне, вимкніть функцію Автоматичне перехоплення."
    },
-   "Dismiss":{
+   "Dismiss": {
       "message": "закрити"
    },
-   "NeverRemind":{
+   "NeverRemind": {
       "message": "Більше не нагадувати"
    },
-   "Mark":{
+   "Mark": {
       "message": "позначити"
    },
-   "MarkAsSecureTip":{
+   "MarkAsSecureTip": {
       "message": "позначити як безпечний RPC-протокол"
    },
-   "MarkAsInsecureTip":{
+   "MarkAsInsecureTip": {
       "message": "позначити як небезпечний RPC-протокол"
    }
 }

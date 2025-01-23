@@ -46,6 +46,7 @@ export const DefaultConfigs = {
     monitorAria2: false,
     monitorAll: false,
     keepAwake: false,
+    badgeText: true,
     allowNotification: false,
     keepSilent: false,
     captureMagnet: false,

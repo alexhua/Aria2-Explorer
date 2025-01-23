@@ -1,314 +1,317 @@
 {
    "appName": {
-      "message":"Aria2 Explorer"
+      "message": "Aria2 Explorer"
    },
    "description": {
       "message": "Speed up your downloads with Aria2, manage your download tasks easily."
    },
-   "contextmenuTitle":{
-      "message":"Export to "
+   "contextmenuTitle": {
+      "message": "Export to "
    },
-   "configPageTitle":{
-      "message":"Extension Option Settings"
+   "configPageTitle": {
+      "message": "Extension Option Settings"
    },
-   "contextmenuStr":{
-      "message":"Context Menu"
+   "contextmenuStr": {
+      "message": "Context Menu"
    },
-   "contextmenuDes":{
-      "message":"Export task from context menu"
+   "contextmenuDes": {
+      "message": "Export task from context menu"
    },
-   "exportAllDes":{
-      "message":"Export all links"
+   "exportAllDes": {
+      "message": "Export all links"
    },
-   "exportAllFailedDes":{
-      "message":"No valid download link found."
+   "exportAllFailedDes": {
+      "message": "No valid download link found."
    },
-   "askBeforeExportDes":{
-      "message":"Ask detail settings before export"
+   "askBeforeExportDes": {
+      "message": "Ask detail settings before export"
    },
-   "downloadCaptureStr":{
-      "message":"Download Capture"
+   "downloadCaptureStr": {
+      "message": "Download Capture"
    },
-   "downloadCaptureDes":{
-      "message":"Enable auto capture when download file size"
+   "downloadCaptureDes": {
+      "message": "Enable auto capture when download file size"
    },
-   "askBeforeDownloadDes":{
-      "message":"Ask detail settings before auto download"
+   "askBeforeDownloadDes": {
+      "message": "Ask detail settings before auto download"
    },
-   "allowExternalRequestDes":{
-      "message":"Receive Aria2 download request from other extension"
+   "allowExternalRequestDes": {
+      "message": "Receive Aria2 download request from other extension"
    },
-   "monitorAria2Str":{
-      "message":"Monitor Aria2 Status"
+   "monitorAria2Str": {
+      "message": "Monitor Aria2 Status"
    },
-   "monitorAria2Des":{
-      "message":"Monitor Aria2 download status"
+   "monitorAria2Des": {
+      "message": "Monitor Aria2 download status"
    },
-   "monitorAllDes":{
-      "message":"Monitor all Aria2 Servers"
+   "monitorAllDes": {
+      "message": "Monitor all Aria2 Servers"
    },
-   "monitorAllTip":{
-      "message":"When multiple Aria2 servers are set, monitor all the status of them and display the aggregate results."
+   "monitorAllTip": {
+      "message": "When multiple Aria2 servers are set, monitor all the status of them and display the aggregate results."
    },
-   "keepAwakeDes":{
-      "message":"Keep system awake when downloading"
+   "keepAwakeDes": {
+      "message": "Keep system awake when downloading"
    },
-   "allowNotificationDes":{
-      "message":"Task status notifications"
+   "badgeTextDes": {
+      "message": "Mark tasks amount via icon badge"
    },
-   "keepSilentDes":{
-      "message":"Keep notifications silent"
+   "allowNotificationDes": {
+      "message": "Task status notifications"
    },
-   "captureMagnetDes":{
-      "message":"Capture magnet link"
+   "keepSilentDes": {
+      "message": "Keep notifications silent"
    },
-   "captureMagnetWarn":{
-      "message":"OS level capture, please ensure disabling before uninstall."
+   "captureMagnetDes": {
+      "message": "Capture magnet link"
    },
-   "captureMagnetTip":{
-      "message":"Click 'No' on Windows prompts UAC confirm dialog, if you don't want the system level capture."
+   "captureMagnetWarn": {
+      "message": "OS level capture, please ensure disabling before uninstall."
    },
-   "websiteStr":{
-      "message":"Website"
+   "captureMagnetTip": {
+      "message": "Click 'No' on Windows prompts UAC confirm dialog, if you don't want the system level capture."
    },
-   "websiteFilterStr":{
-      "message":"Website Filter"
+   "websiteStr": {
+      "message": "Website"
    },
-   "selectDefaultRpcStr":{
-      "message":"Default Aria2"
+   "websiteFilterStr": {
+      "message": "Website Filter"
    },
-   "fileExtStr":{
-      "message":"File Extension"
+   "selectDefaultRpcStr": {
+      "message": "Default Aria2"
    },
-   "whiteListStr":{
-      "message":"Allow-List"
+   "fileExtStr": {
+      "message": "File Extension"
    },
-   "BlackListStr":{
-      "message":"Block-List"
+   "whiteListStr": {
+      "message": "Allow-List"
    },
-      "addToWhiteListStr":{
-      "message":"Current URL -> Allow-List"
+   "BlackListStr": {
+      "message": "Block-List"
    },
-   "addToBlackListStr":{
-      "message":"Current URL -> Block-List"
+   "addToWhiteListStr": {
+      "message": "Current URL -> Allow-List"
    },
-   "removeFromWhiteListStr":{
-      "message":"Remove from Allow-List"
+   "addToBlackListStr": {
+      "message": "Current URL -> Block-List"
    },
-   "removeFromBlackListStr":{
-      "message":"Remove from Block-List"
+   "removeFromWhiteListStr": {
+      "message": "Remove from Allow-List"
    },
-   "exportFailedStr":{
-      "message":"Export Failed"
+   "removeFromBlackListStr": {
+      "message": "Remove from Block-List"
    },
-   "exportFailedDes":{
-      "message":"$rpcName$ could not start task!",
+   "exportFailedStr": {
+      "message": "Export Failed"
+   },
+   "exportFailedDes": {
+      "message": "$rpcName$ could not start task!",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2 RPC name."
+            "content": "$1",
+            "example": "Aria2 RPC name."
          }
-       }
+      }
    },
-   "exportSucceedStr":{
-      "message":"Export Successful"
+   "exportSucceedStr": {
+      "message": "Export Successful"
    },
-   "exportSucceedDes":{
-      "message":"$rpcName$ has begun the download.",
+   "exportSucceedDes": {
+      "message": "$rpcName$ has begun the download.",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2 RPC name."
+            "content": "$1",
+            "example": "Aria2 RPC name."
          }
-       }
+      }
    },
-   "taskNotification":{
-      "message":"Task Notification"
+   "taskNotification": {
+      "message": "Task Notification"
    },
-   "downloadStart":{
-      "message":"$rpcName$ Download is started.",
+   "downloadStart": {
+      "message": "$rpcName$ Download is started.",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "downloadComplete":{
-      "message":"$rpcName$ Download is complete.",
+   "downloadComplete": {
+      "message": "$rpcName$ Download is complete.",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "seedingOver":{
-      "message":"$rpcName$ Seeding is over.",
+   "seedingOver": {
+      "message": "$rpcName$ Seeding is over.",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "downloadError":{
-      "message":"$rpcName$ Download error occurred.",
+   "downloadError": {
+      "message": "$rpcName$ Download error occurred.",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "allowedSitesPlaceholderDes":{
-      "message":"Set the domains you want to capture, one website per line, supports regexp. (Allow-list has higher priority)"
+   "allowedSitesPlaceholderDes": {
+      "message": "Set the domains you want to capture, one website per line, supports regexp. (Allow-list has higher priority)"
    },
-   "blockedSitesPlaceholderDes":{
-      "message":"Set the domains you un-want to capture, one website per line, supports regexp."
+   "blockedSitesPlaceholderDes": {
+      "message": "Set the domains you un-want to capture, one website per line, supports regexp."
    },
-   "allowedExtsPlaceholderDes":{
-      "message":"Set the file types that you want to capture or export, one extension per line, * means all. (Allow-List has higher priority)"
+   "allowedExtsPlaceholderDes": {
+      "message": "Set the file types that you want to capture or export, one extension per line, * means all. (Allow-List has higher priority)"
    },
-   "blockedExtsPlaceholderDes":{
-      "message":"Set the file types that you un-want to capture or export, one extension per line, * means all."
+   "blockedExtsPlaceholderDes": {
+      "message": "Set the file types that you un-want to capture or export, one extension per line, * means all."
    },
-   "WebUIOpenStyleStr":{
-      "message":"AriaNG Open in"
+   "WebUIOpenStyleStr": {
+      "message": "AriaNG Open in"
    },
-   "WebUIOpenStyle1":{
-      "message":"Popup"
+   "WebUIOpenStyle1": {
+      "message": "Popup"
    },
-   "WebUIOpenStyle2":{
-      "message":"New Tab"
+   "WebUIOpenStyle2": {
+      "message": "New Tab"
    },
-   "WebUIOpenStyle3":{
-      "message":"New Window"
+   "WebUIOpenStyle3": {
+      "message": "New Window"
    },
-   "WebUIOpenStyle4":{
-      "message":"Side Panel"
+   "WebUIOpenStyle4": {
+      "message": "Side Panel"
    },
-   "openWebUIStr":{
-      "message":"Open AriaNG"
+   "openWebUIStr": {
+      "message": "Open AriaNG"
    },
-   "startAria2Str":{
-      "message":"Start Aria2"
+   "startAria2Str": {
+      "message": "Start Aria2"
    },
-   "toggleCapture":{
-      "message":"Toggle download capture"
+   "toggleCapture": {
+      "message": "Toggle download capture"
    },
-   "configCloudSync":{
-      "message":"Cloud Sync"
+   "configCloudSync": {
+      "message": "Cloud Sync"
    },
-   "configCloudSyncDes":{
-      "message":"Sync AriaNg and extension configs to current logged-in Browser account"
+   "configCloudSyncDes": {
+      "message": "Sync AriaNg and extension configs to current logged-in Browser account"
    },
-   "uploadConfigWarn":{
-      "message":"Invalid or empty local config data, still continue?"
+   "uploadConfigWarn": {
+      "message": "Invalid or empty local config data, still continue?"
    },
-   "uploadConfigSucceed":{
-      "message":"Configs upload successful"
+   "uploadConfigSucceed": {
+      "message": "Configs upload successful"
    },
-   "uploadConfigFailed":{
-      "message":"Configs upload failed: "
+   "uploadConfigFailed": {
+      "message": "Configs upload failed: "
    },
-   "downloadConfigSucceed":{
-      "message":"Configs download successful"
+   "downloadConfigSucceed": {
+      "message": "Configs download successful"
    },
-   "downloadConfigFailed":{
-      "message":"Configs download failed: Data invalid or network disconnected."
+   "downloadConfigFailed": {
+      "message": "Configs download failed: Data invalid or network disconnected."
    },
-   "download":{
-      "message":"Download"
+   "download": {
+      "message": "Download"
    },
-   "upload":{
-      "message":"Upload"
+   "upload": {
+      "message": "Upload"
    },
-   "wait":{
-      "message":"Wait"
+   "wait": {
+      "message": "Wait"
    },
-   "finish":{
-      "message":"Finish"
+   "finish": {
+      "message": "Finish"
    },
-   "connected":{
-      "message":"Connected"
+   "connected": {
+      "message": "Connected"
    },
-   "disconnected":{
-      "message":"Disconnected"
+   "disconnected": {
+      "message": "Disconnected"
    },
-   "review":{
-      "message":"Review"
+   "review": {
+      "message": "Review"
    },
-   "reviewDes":{
-      "message":"Rate us!"
+   "reviewDes": {
+      "message": "Rate us!"
    },
-   "Save":{
-      "message":"Save"
+   "Save": {
+      "message": "Save"
    },
-   "Reset":{
-      "message":"Reset"
+   "Reset": {
+      "message": "Reset"
    },
-   "Acknowledgment":{
-      "message":"Acknowledgment"
+   "Acknowledgment": {
+      "message": "Acknowledgment"
    },
-   "OverwriteAriaNgRpcWarn":{
-      "message":"RPC settings have changed. Synchronize these changes to AriaNG and overwrite?"
+   "OverwriteAriaNgRpcWarn": {
+      "message": "RPC settings have changed. Synchronize these changes to AriaNG and overwrite?"
    },
-   "RpcUrlTooltipWarnDes":{
-      "message":"Creating download task over insecure HTTP/WebSocket protocol can potentially expose Secret Key and related website Cookies on the public network."
+   "RpcUrlTooltipWarnDes": {
+      "message": "Creating download task over insecure HTTP/WebSocket protocol can potentially expose Secret Key and related website Cookies on the public network."
    },
-   "AutoDownloadCookiesTooltipDes":{
+   "AutoDownloadCookiesTooltipDes": {
       "message": "For insecure RPC, the related website cookies will not be attached when auto-download or direct export."
    },
-   "ManualDownloadCookiesTooltipDes":{
+   "ManualDownloadCookiesTooltipDes": {
       "message": "You should determine whether to delete the related website cookies when asking download settings."
    },
-   "Aria2ManagerPromotionDes":{
+   "Aria2ManagerPromotionDes": {
       "message": "It seems Aria2 Manager is not installed, access \"Alex Recommends\" channel for more information?"
    },
-   "ClearSettingsDes":{
+   "ClearSettingsDes": {
       "message": "Confirm to clear all settings?"
    },
-   "ColorMode":{
+   "ColorMode": {
       "message": "Color Mode"
    },
-   "LightMode":{
+   "LightMode": {
       "message": "Light Mode"
    },
-   "DarkMode":{
+   "DarkMode": {
       "message": "Dark Mode"
    },
-   "FollowSystem":{
+   "FollowSystem": {
       "message": "Follow System"
    },
-   "Name":{
+   "Name": {
       "message": "Name"
    },
-   "SecretKey":{
+   "SecretKey": {
       "message": "Secret Key"
    },
-   "downloadLocation":{
+   "downloadLocation": {
       "message": "Download Location"
    },
-   "RemindCaptureTip":{
+   "RemindCaptureTip": {
       "message": "Captured other extension's download"
    },
-   "RemindCaptureTipDes":{
+   "RemindCaptureTipDes": {
       "message": "If the file name is abnormal, please turn off auto-capture."
    },
-   "Dismiss":{
+   "Dismiss": {
       "message": "Dismiss"
    },
-   "NeverRemind":{
+   "NeverRemind": {
       "message": "Don't remind again"
    },
-   "Mark":{
+   "Mark": {
       "message": "Mark"
    },
-   "MarkAsSecureTip":{
+   "MarkAsSecureTip": {
       "message": "Mark as secure RPC"
    },
-   "MarkAsInsecureTip":{
+   "MarkAsInsecureTip": {
       "message": "Mark as insecure RPC protocol"
    }
 }

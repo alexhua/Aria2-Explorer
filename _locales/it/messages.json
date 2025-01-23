@@ -1,315 +1,317 @@
 {
-    "appName": {
-       "message":"Aria2 Explorer"
-    },
-    "description": {
-       "message": "Accelera i tuoi download con Aria2, gestisci facilmente le tue attività di download."
-    },
-    "contextmenuTitle":{
-       "message":"Esporta in "
-    },
-    "configPageTitle":{
-       "message":"Impostazioni dell'estensione"
-    },
-    "contextmenuStr":{
-       "message":"Menu contestuale"
-    },
-    "contextmenuDes":{
-       "message":"Esporta attività dal menu contestuale"
-    },
-    "exportAllDes":{
-       "message":"Esporta tutti i link"
-    },
-    "exportAllFailedDes":{
-       "message":"Nessun link di download valido trovato."
-    },
-    "askBeforeExportDes":{
-       "message":"Chiedi le impostazioni dettagliate prima di esportare"
-    },
-    "downloadCaptureStr":{
-       "message":"Cattura download"
-    },
-    "downloadCaptureDes":{
-       "message":"Abilita cattura automatica quando si scarica la dimensione del file"
-    },
-    "askBeforeDownloadDes":{
-       "message":"Chiedi le impostazioni dettagliate prima del download automatico"
-    },
-    "allowExternalRequestDes":{
-       "message":"Ricevi richieste di download Aria2 da altri componenti aggiuntivi"
-    },
-    "monitorAria2Str":{
-       "message":"Monitora lo stato di Aria2"
-    },
-    "monitorAria2Des":{
-       "message":"Monitora lo stato del download di Aria2"
-    },
-    "monitorAllDes":{
-       "message":"Monitora tutti i server Aria2"
-    },
-    "monitorAllTip":{
-       "message":"Quando sono configurati più server Aria2, monitora tutti i loro stati e visualizza i risultati aggregati."
-    },
-    "keepAwakeDes":{
-       "message":"Mantieni il sistema attivo durante il download"
-    },
-    "allowNotificationDes":{
-       "message":"Notifiche sullo stato delle attività"
-    },
-    "keepSilentDes":{
-       "message":"Mantieni silenziose le notifiche"
-    },
-    "captureMagnetDes":{
-       "message":"Cattura il link magnete"
-    },
-    "captureMagnetWarn":{
-       "message":"Cattura a livello di OS, assicurati di disabilitarlo prima della disinstallazione."
-    },
-    "captureMagnetTip":{
-       "message":"Fai clic su 'No' nella finestra di conferma UAC di Windows, se non vuoi la cattura a livello di sistema."
-    },
-    "websiteStr":{
-       "message":"Sito web"
-    },
-    "websiteFilterStr":{
-       "message":"Filtro sito web"
-    },
-    "selectDefaultRpcStr":{
-       "message":"Aria2 predefinito"
-    },
-    "fileExtStr":{
-       "message":"Estensione file"
-    },
-    "whiteListStr":{
-       "message":"Lista consentita"
-    },
-    "BlackListStr":{
-       "message":"Lista nera"
-    },
-    "addToWhiteListStr":{
-       "message":"URL corrente -> Lista consentita"
-    },
-    "addToBlackListStr":{
-       "message":"URL corrente -> Lista nera"
-    },
-    "removeFromWhiteListStr":{
-       "message":"Rimuovi dalla lista consentita"
-    },
-    "removeFromBlackListStr":{
-       "message":"Rimuovi dalla lista nera"
-    },
-    "exportFailedStr":{
-       "message":"Esportazione fallita"
-    },
-    "exportFailedDes":{
-       "message":"$rpcName$ non è riuscito a avviare l'attività!",
-       "placeholders": {
-          "rpcName": {
+   "appName": {
+      "message": "Aria2 Explorer"
+   },
+   "description": {
+      "message": "Accelera i tuoi download con Aria2, gestisci facilmente le tue attività di download."
+   },
+   "contextmenuTitle": {
+      "message": "Esporta in "
+   },
+   "configPageTitle": {
+      "message": "Impostazioni dell'estensione"
+   },
+   "contextmenuStr": {
+      "message": "Menu contestuale"
+   },
+   "contextmenuDes": {
+      "message": "Esporta attività dal menu contestuale"
+   },
+   "exportAllDes": {
+      "message": "Esporta tutti i link"
+   },
+   "exportAllFailedDes": {
+      "message": "Nessun link di download valido trovato."
+   },
+   "askBeforeExportDes": {
+      "message": "Chiedi le impostazioni dettagliate prima di esportare"
+   },
+   "downloadCaptureStr": {
+      "message": "Cattura download"
+   },
+   "downloadCaptureDes": {
+      "message": "Abilita cattura automatica quando si scarica la dimensione del file"
+   },
+   "askBeforeDownloadDes": {
+      "message": "Chiedi le impostazioni dettagliate prima del download automatico"
+   },
+   "allowExternalRequestDes": {
+      "message": "Ricevi richieste di download Aria2 da altri componenti aggiuntivi"
+   },
+   "monitorAria2Str": {
+      "message": "Monitora lo stato di Aria2"
+   },
+   "monitorAria2Des": {
+      "message": "Monitora lo stato del download di Aria2"
+   },
+   "monitorAllDes": {
+      "message": "Monitora tutti i server Aria2"
+   },
+   "monitorAllTip": {
+      "message": "Quando sono configurati più server Aria2, monitora tutti i loro stati e visualizza i risultati aggregati."
+   },
+   "keepAwakeDes": {
+      "message": "Mantieni il sistema attivo durante il download"
+   },
+   "badgeTextDes": {
+      "message": "Contrassegna l'importo delle attività tramite il badge dell'icona"
+   },
+   "allowNotificationDes": {
+      "message": "Notifiche sullo stato delle attività"
+   },
+   "keepSilentDes": {
+      "message": "Mantieni silenziose le notifiche"
+   },
+   "captureMagnetDes": {
+      "message": "Cattura il link magnete"
+   },
+   "captureMagnetWarn": {
+      "message": "Cattura a livello di OS, assicurati di disabilitarlo prima della disinstallazione."
+   },
+   "captureMagnetTip": {
+      "message": "Fai clic su 'No' nella finestra di conferma UAC di Windows, se non vuoi la cattura a livello di sistema."
+   },
+   "websiteStr": {
+      "message": "Sito web"
+   },
+   "websiteFilterStr": {
+      "message": "Filtro sito web"
+   },
+   "selectDefaultRpcStr": {
+      "message": "Aria2 predefinito"
+   },
+   "fileExtStr": {
+      "message": "Estensione file"
+   },
+   "whiteListStr": {
+      "message": "Lista consentita"
+   },
+   "BlackListStr": {
+      "message": "Lista nera"
+   },
+   "addToWhiteListStr": {
+      "message": "URL corrente -> Lista consentita"
+   },
+   "addToBlackListStr": {
+      "message": "URL corrente -> Lista nera"
+   },
+   "removeFromWhiteListStr": {
+      "message": "Rimuovi dalla lista consentita"
+   },
+   "removeFromBlackListStr": {
+      "message": "Rimuovi dalla lista nera"
+   },
+   "exportFailedStr": {
+      "message": "Esportazione fallita"
+   },
+   "exportFailedDes": {
+      "message": "$rpcName$ non è riuscito a avviare l'attività!",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Nome RPC di Aria2."
-          }
-        }
-    },
-    "exportSucceedStr":{
-       "message":"Esportazione riuscita"
-    },
-    "exportSucceedDes":{
-       "message":"$rpcName$ ha iniziato il download.",
-       "placeholders": {
-          "rpcName": {
+         }
+      }
+   },
+   "exportSucceedStr": {
+      "message": "Esportazione riuscita"
+   },
+   "exportSucceedDes": {
+      "message": "$rpcName$ ha iniziato il download.",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Nome RPC di Aria2."
-          }
-        }
-    },
-    "taskNotification":{
-       "message":"Notifica attività"
-    },
-    "downloadStart":{
-       "message":"Il download di $rpcName$ è iniziato.",
-       "placeholders": {
-          "rpcName": {
+         }
+      }
+   },
+   "taskNotification": {
+      "message": "Notifica attività"
+   },
+   "downloadStart": {
+      "message": "Il download di $rpcName$ è iniziato.",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Aria2"
-          }
-        }
-    },
-    "downloadComplete":{
-       "message":"Il download di $rpcName$ è completo.",
-       "placeholders": {
-          "rpcName": {
+         }
+      }
+   },
+   "downloadComplete": {
+      "message": "Il download di $rpcName$ è completo.",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Aria2"
-          }
-        }
-    },
-    "seedingOver":{
-       "message":"Il seeding di $rpcName$ è terminato.",
-       "placeholders": {
-          "rpcName": {
+         }
+      }
+   },
+   "seedingOver": {
+      "message": "Il seeding di $rpcName$ è terminato.",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Aria2"
-          }
-        }
-    },
-    "downloadError":{
-       "message":"Si è verificato un errore nel download di $rpcName$.",
-       "placeholders": {
-          "rpcName": {
+         }
+      }
+   },
+   "downloadError": {
+      "message": "Si è verificato un errore nel download di $rpcName$.",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Aria2"
-          }
-        }
-    },
-    "allowedSitesPlaceholderDes":{
-       "message":"Imposta i domini che vuoi catturare, uno per riga, supporta le espressioni regolari. (La lista consentita ha priorità più alta)"
-    },
-    "blockedSitesPlaceholderDes":{
-       "message":"Imposta i domini che non vuoi catturare, uno per riga, supporta le espressioni regolari."
-    },
-    "allowedExtsPlaceholderDes":{
-       "message":"Imposta i tipi di file che vuoi catturare o esportare, uno per riga, * significa tutti. (La lista consentita ha priorità più alta)"
-    },
-    "blockedExtsPlaceholderDes":{
-       "message":"Imposta i tipi di file che non vuoi catturare o esportare, uno per riga, * significa tutti."
-    },
-    "WebUIOpenStyleStr":{
-       "message":"Apri AriaNG in"
-    },
-    "WebUIOpenStyle1":{
-       "message":"Popup"
-    },
-    "WebUIOpenStyle2":{
-       "message":"Nuova scheda"
-    },
-    "WebUIOpenStyle3":{
-       "message":"Nuova finestra"
-    },
-    "WebUIOpenStyle4":{
-       "message":"Pannello laterale"
-    },
-    "openWebUIStr":{
-       "message":"Apri AriaNG"
-    },
-    "startAria2Str":{
-       "message":"Avvia Aria2"
-    },
-    "toggleCapture":{
-       "message":"Attiva/disattiva cattura download"
-    },
-    "configCloudSync":{
-       "message":"Sincronizzazione cloud"
-    },
-    "configCloudSyncDes":{
-       "message":"Sincronizza le configurazioni di AriaNg e dell'estensione con l'account browser attualmente connesso"
-    },
-    "uploadConfigWarn":{
-       "message":"Dati di configurazione locali non validi o vuoti, continuare?"
-    },
-    "uploadConfigSucceed":{
-       "message":"Caricamento configurazione riuscito"
-    },
-    "uploadConfigFailed":{
-       "message":"Caricamento configurazione fallito: "
-    },
-    "downloadConfigSucceed":{
-       "message":"Download configurazione riuscito"
-    },
-    "downloadConfigFailed":{
-       "message":"Download configurazione fallito: Dati non validi o rete disconnessa."
-    },
-    "download":{
-       "message":"Scarica"
-    },
-    "upload":{
-       "message":"Carica"
-    },
-    "wait":{
-       "message":"Aspetta"
-    },
-    "finish":{
-       "message":"Termina"
-    },
-    "connected":{
-       "message":"Connesso"
-    },
-    "disconnected":{
-       "message":"Disconnesso"
-    },
-    "review":{
-       "message":"Recensione"
-    },
-    "reviewDes":{
-       "message":"Votaci!"
-    },
-    "Save":{
-       "message":"Salva"
-    },
-    "Reset":{
-       "message":"Ripristina"
-    },
-    "Acknowledgment":{
-       "message":"Riconoscimenti"
-    },
-    "OverwriteAriaNgRpcWarn":{
-       "message":"Le impostazioni RPC sono cambiate. Sincronizzare queste modifiche con AriaNG e sovrascrivere?"
-    },
-    "RpcUrlTooltipWarnDes":{
-       "message":"Creare un'attività di download su protocollo HTTP/WebSocket non sicuro potrebbe esporre la chiave segreta e i relativi cookie del sito sulla rete pubblica."
-    },
-    "AutoDownloadCookiesTooltipDes":{
-       "message": "Per RPC non sicuro, i cookie relativi al sito non verranno allegati durante il download automatico o l'esportazione diretta."
-    },
-    "ManualDownloadCookiesTooltipDes":{
-       "message": "Devi decidere se eliminare i cookie relativi al sito quando chiedi le impostazioni di download."
-    },
-    "Aria2ManagerPromotionDes":{
-       "message": "Sembra che Aria2 Manager non sia installato, vuoi accedere al canale 'Alex Recommends' per maggiori informazioni?"
-    },
-    "ClearSettingsDes":{
-       "message": "Confermi di voler cancellare tutte le impostazioni?"
-    },
-    "ColorMode":{
-       "message": "Modalità colore"
-    },
-    "LightMode":{
-       "message": "Modalità chiara"
-    },
-    "DarkMode":{
-       "message": "Modalità scura"
-    },
-    "FollowSystem":{
-       "message": "Segui il sistema"
-    },
-    "Name":{
-       "message": "Nome"
-    },
-    "SecretKey":{
-       "message": "Chiave segreta"
-    },
-    "downloadLocation":{
-       "message": "Posizione di download"
-    },
-    "RemindCaptureTip":{
-       "message": "Catturato download di un altro componente aggiuntivo"
-    },
-    "RemindCaptureTipDes":{
-       "message": "Se il nome del file è anomalo, disabilita la cattura automatica."
-    },
-    "Dismiss":{
-       "message": "Annulla"
-    },
-    "NeverRemind":{
-       "message": "Non ricordare più"
-    },
-    "Mark":{
-       "message": "Segna"
-    },
-    "MarkAsSecureTip":{
-       "message": "Segna come RPC sicuro"
-    },
-    "MarkAsInsecureTip":{
-       "message": "Segna come protocollo RPC non sicuro"
-    }
- }
- 
+         }
+      }
+   },
+   "allowedSitesPlaceholderDes": {
+      "message": "Imposta i domini che vuoi catturare, uno per riga, supporta le espressioni regolari. (La lista consentita ha priorità più alta)"
+   },
+   "blockedSitesPlaceholderDes": {
+      "message": "Imposta i domini che non vuoi catturare, uno per riga, supporta le espressioni regolari."
+   },
+   "allowedExtsPlaceholderDes": {
+      "message": "Imposta i tipi di file che vuoi catturare o esportare, uno per riga, * significa tutti. (La lista consentita ha priorità più alta)"
+   },
+   "blockedExtsPlaceholderDes": {
+      "message": "Imposta i tipi di file che non vuoi catturare o esportare, uno per riga, * significa tutti."
+   },
+   "WebUIOpenStyleStr": {
+      "message": "Apri AriaNG in"
+   },
+   "WebUIOpenStyle1": {
+      "message": "Popup"
+   },
+   "WebUIOpenStyle2": {
+      "message": "Nuova scheda"
+   },
+   "WebUIOpenStyle3": {
+      "message": "Nuova finestra"
+   },
+   "WebUIOpenStyle4": {
+      "message": "Pannello laterale"
+   },
+   "openWebUIStr": {
+      "message": "Apri AriaNG"
+   },
+   "startAria2Str": {
+      "message": "Avvia Aria2"
+   },
+   "toggleCapture": {
+      "message": "Attiva/disattiva cattura download"
+   },
+   "configCloudSync": {
+      "message": "Sincronizzazione cloud"
+   },
+   "configCloudSyncDes": {
+      "message": "Sincronizza le configurazioni di AriaNg e dell'estensione con l'account browser attualmente connesso"
+   },
+   "uploadConfigWarn": {
+      "message": "Dati di configurazione locali non validi o vuoti, continuare?"
+   },
+   "uploadConfigSucceed": {
+      "message": "Caricamento configurazione riuscito"
+   },
+   "uploadConfigFailed": {
+      "message": "Caricamento configurazione fallito: "
+   },
+   "downloadConfigSucceed": {
+      "message": "Download configurazione riuscito"
+   },
+   "downloadConfigFailed": {
+      "message": "Download configurazione fallito: Dati non validi o rete disconnessa."
+   },
+   "download": {
+      "message": "Scarica"
+   },
+   "upload": {
+      "message": "Carica"
+   },
+   "wait": {
+      "message": "Aspetta"
+   },
+   "finish": {
+      "message": "Termina"
+   },
+   "connected": {
+      "message": "Connesso"
+   },
+   "disconnected": {
+      "message": "Disconnesso"
+   },
+   "review": {
+      "message": "Recensione"
+   },
+   "reviewDes": {
+      "message": "Votaci!"
+   },
+   "Save": {
+      "message": "Salva"
+   },
+   "Reset": {
+      "message": "Ripristina"
+   },
+   "Acknowledgment": {
+      "message": "Riconoscimenti"
+   },
+   "OverwriteAriaNgRpcWarn": {
+      "message": "Le impostazioni RPC sono cambiate. Sincronizzare queste modifiche con AriaNG e sovrascrivere?"
+   },
+   "RpcUrlTooltipWarnDes": {
+      "message": "Creare un'attività di download su protocollo HTTP/WebSocket non sicuro potrebbe esporre la chiave segreta e i relativi cookie del sito sulla rete pubblica."
+   },
+   "AutoDownloadCookiesTooltipDes": {
+      "message": "Per RPC non sicuro, i cookie relativi al sito non verranno allegati durante il download automatico o l'esportazione diretta."
+   },
+   "ManualDownloadCookiesTooltipDes": {
+      "message": "Devi decidere se eliminare i cookie relativi al sito quando chiedi le impostazioni di download."
+   },
+   "Aria2ManagerPromotionDes": {
+      "message": "Sembra che Aria2 Manager non sia installato, vuoi accedere al canale 'Alex Recommends' per maggiori informazioni?"
+   },
+   "ClearSettingsDes": {
+      "message": "Confermi di voler cancellare tutte le impostazioni?"
+   },
+   "ColorMode": {
+      "message": "Modalità colore"
+   },
+   "LightMode": {
+      "message": "Modalità chiara"
+   },
+   "DarkMode": {
+      "message": "Modalità scura"
+   },
+   "FollowSystem": {
+      "message": "Segui il sistema"
+   },
+   "Name": {
+      "message": "Nome"
+   },
+   "SecretKey": {
+      "message": "Chiave segreta"
+   },
+   "downloadLocation": {
+      "message": "Posizione di download"
+   },
+   "RemindCaptureTip": {
+      "message": "Catturato download di un altro componente aggiuntivo"
+   },
+   "RemindCaptureTipDes": {
+      "message": "Se il nome del file è anomalo, disabilita la cattura automatica."
+   },
+   "Dismiss": {
+      "message": "Annulla"
+   },
+   "NeverRemind": {
+      "message": "Non ricordare più"
+   },
+   "Mark": {
+      "message": "Segna"
+   },
+   "MarkAsSecureTip": {
+      "message": "Segna come RPC sicuro"
+   },
+   "MarkAsInsecureTip": {
+      "message": "Segna come protocollo RPC non sicuro"
+   }
+}

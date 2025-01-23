@@ -721,14 +721,16 @@ async function monitorAria2() {
     let disconnectedStr = chrome.i18n.getMessage("disconnected");
     if (Configs.monitorAll) title = `${connectedStr}: ${connected} ${disconnectedStr}: ${disconnected}\n`
     if (connected > 0) {
-        if (active > 0) {
+        if (!Configs.badgeText) {
+            text = '';
+        } else if (active > 0) {
             bgColor = (Configs.monitorAll && connected < RemoteAria2List.length) ? '#0077cc' : 'green';
             text = active.toString();
         } else if (waiting > 0) {
-            bgColor = '#AAA';
+            bgColor = '#AAA'; // grey
             text = waiting.toString();
         } else {
-            textColor = '#666';
+            textColor = '#666'; // light blue
             bgColor = '#E1EEF5';
             text = '0';
         }

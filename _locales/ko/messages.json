@@ -17,11 +17,11 @@
    "contextmenuDes": {
       "message": "다운로드를 마우스 오른쪽 단추로 내보내기"
    },
-   "exportAllDes":{
-      "message":"모든 링크 내보내기"
+   "exportAllDes": {
+      "message": "모든 링크 내보내기"
    },
-   "exportAllFailedDes":{
-      "message":"올바른 다운로드 링크를 찾을 수 없습니다."
+   "exportAllFailedDes": {
+      "message": "올바른 다운로드 링크를 찾을 수 없습니다."
    },
    "askBeforeExportDes": {
       "message": "내보내기 전에 자세한 매개 변수 설정 묻기"
@@ -44,20 +44,23 @@
    "monitorAria2Des": {
       "message": "Aria2 다운로드 상태 모니터링"
    },
-   "monitorAllDes":{
-      "message":"모든 Aria2 모니터링"
+   "monitorAllDes": {
+      "message": "모든 Aria2 모니터링"
    },
-   "monitorAllTip":{
-      "message":"여러 Aria2가 설정된 경우 모든 Aria2의 상태를 모니터링하고 결과를 집계합니다."
+   "monitorAllTip": {
+      "message": "여러 Aria2가 설정된 경우 모든 Aria2의 상태를 모니터링하고 결과를 집계합니다."
    },
    "keepAwakeDes": {
       "message": "다운로드할 때 시스템 깨우기 유지"
    },
+   "badgeTextDes": {
+      "message": "아이콘 배지를 통해 작업 금액 표시"
+   },
    "allowNotificationDes": {
       "message": "작업 상태 알림"
    },
-   "keepSilentDes":{
-      "message":"알림을 무음으로 유지"
+   "keepSilentDes": {
+      "message": "알림을 무음으로 유지"
    },
    "captureMagnetDes": {
       "message": "자력 링크 캡처"
@@ -65,8 +68,8 @@
    "captureMagnetWarn": {
       "message": "시스템 레벨 캡처, 마운트 해제 전에 꺼져 있는지 확인하십시오."
    },
-   "captureMagnetTip":{
-      "message":"시스템 수준 차단이 필요하지 않은 경우 Windows에서 UAC 대화 상자가 나타날 때 [아니오]를 클릭하세요."
+   "captureMagnetTip": {
+      "message": "시스템 수준 차단이 필요하지 않은 경우 Windows에서 UAC 대화 상자가 나타날 때 [아니오]를 클릭하세요."
    },
    "websiteStr": {
       "message": "웹 사이트"
@@ -74,8 +77,8 @@
    "websiteFilterStr": {
       "message": "웹 사이트 필터링"
    },
-   "selectDefaultRpcStr":{
-      "message":"기본 Aria2"
+   "selectDefaultRpcStr": {
+      "message": "기본 Aria2"
    },
    "fileExtStr": {
       "message": "확장자"
@@ -143,14 +146,14 @@
          }
       }
    },
-   "seedingOver":{
-      "message":"$rpcName$ 시딩이 종료되었습니다",
+   "seedingOver": {
+      "message": "$rpcName$ 시딩이 종료되었습니다",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
    "downloadError": {
       "message": "$rpcName$ 다운로드 오류",
@@ -185,14 +188,14 @@
    "WebUIOpenStyle3": {
       "message": "새 창"
    },
-   "WebUIOpenStyle4":{
-      "message":"측면 패널"
+   "WebUIOpenStyle4": {
+      "message": "측면 패널"
    },
    "openWebUIStr": {
       "message": "AriaNG 열기"
    },
-   "startAria2Str":{
-      "message":"Aria2 시작"
+   "startAria2Str": {
+      "message": "Aria2 시작"
    },
    "toggleCapture": {
       "message": "다운로드 자동 캡처 스위치"
@@ -230,11 +233,11 @@
    "finish": {
       "message": "종료"
    },
-   "connected":{
-      "message":"연결되었습니다"
+   "connected": {
+      "message": "연결되었습니다"
    },
-   "disconnected":{
-      "message":"연결이 끊어졌습니다"
+   "disconnected": {
+      "message": "연결이 끊어졌습니다"
    },
    "review": {
       "message": "채점"
@@ -254,61 +257,61 @@
    "OverwriteAriaNgRpcWarn": {
       "message": "RPC 설정이 변경되었습니다. AriaNG로 동기화됩니까?"
    },
-   "RpcUrlTooltipWarnDes":{
-      "message":"비안전한 HTTP/WebSocket 프로토콜을 통한 다운로드는 보안 키 및 관련 웹 사이트 쿠키가 공공 네트워크에서 잠재적으로 노출될 수 있으므로 피해야 합니다."
+   "RpcUrlTooltipWarnDes": {
+      "message": "비안전한 HTTP/WebSocket 프로토콜을 통한 다운로드는 보안 키 및 관련 웹 사이트 쿠키가 공공 네트워크에서 잠재적으로 노출될 수 있으므로 피해야 합니다."
    },
-   "AutoDownloadCookiesTooltipDes":{
+   "AutoDownloadCookiesTooltipDes": {
       "message": "자동 다운로드 또는 직접 익스포트할 때 관련 웹 사이트 쿠키가 첨부되지 않습니다."
    },
-   "ManualDownloadCookiesTooltipDes":{
+   "ManualDownloadCookiesTooltipDes": {
       "message": "다운로드 설정을 묻을 때 관련 웹 사이트 쿠키를 삭제할지 여부를 결정해야 합니다."
    },
-   "Aria2ManagerPromotionDes":{
+   "Aria2ManagerPromotionDes": {
       "message": "Aria2 Manager가 설치되어 있지 않은 것 같습니다.\"Alex 추천\"채널을 방문하여 자세한 내용을 확인하시겠습니까?"
    },
-   "ClearSettingsDes":{
+   "ClearSettingsDes": {
       "message": "모든 설정을 지우십니까?"
    },
-   "ColorMode":{
+   "ColorMode": {
       "message": "컬러 모드"
    },
-   "LightMode":{
+   "LightMode": {
       "message": "라이트 모드"
    },
-   "DarkMode":{
+   "DarkMode": {
       "message": "다크 모드"
    },
-   "FollowSystem":{
+   "FollowSystem": {
       "message": "시스템 따르기"
    },
-   "Name":{
+   "Name": {
       "message": "이름"
    },
-   "SecretKey":{
+   "SecretKey": {
       "message": "비밀 키"
    },
-   "downloadLocation":{
+   "downloadLocation": {
       "message": "다운로드 위치"
    },
-   "RemindCaptureTip":{
+   "RemindCaptureTip": {
       "message": "다른 확장 프로그램 다운로드를 캡처했습니다"
    },
-   "RemindCaptureTipDes":{
+   "RemindCaptureTipDes": {
       "message": "파일명이 비정상적인 경우 자동캡처를 꺼주세요."
    },
-   "Dismiss":{
+   "Dismiss": {
       "message": "닫다"
    },
-   "NeverRemind":{
+   "NeverRemind": {
       "message": "다시 알림 안함"
    },
-   "Mark":{
+   "Mark": {
       "message": "표시하다"
    },
-   "MarkAsSecureTip":{
+   "MarkAsSecureTip": {
       "message": "안전한 RPC 프로토콜로 표시하다"
    },
-   "MarkAsInsecureTip":{
+   "MarkAsInsecureTip": {
       "message": "안전하지 않은 RPC 프로토콜로 표시하다"
    }
 }

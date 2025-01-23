@@ -1,48 +1,48 @@
 {
    "appName": {
-      "message":"Aria2 Explorer"
+      "message": "Aria2 Explorer"
    },
    "description": {
-      "message":"讓Aria2無縫接管下載，加速下載體驗，内建Aria2前端，工作管理更方便。"
+      "message": "讓Aria2無縫接管下載，加速下載體驗，内建Aria2前端，工作管理更方便。"
    },
-   "contextmenuTitle":{
-      "message":"匯出到 "
+   "contextmenuTitle": {
+      "message": "匯出到 "
    },
-   "configPageTitle":{
-      "message":"擴充功能設定頁面"
+   "configPageTitle": {
+      "message": "擴充功能設定頁面"
    },
-   "contextmenuStr":{
-      "message":"右鍵選單"
+   "contextmenuStr": {
+      "message": "右鍵選單"
    },
-   "contextmenuDes":{
-      "message":"右鍵匯出下載"
+   "contextmenuDes": {
+      "message": "右鍵匯出下載"
    },
-   "exportAllDes":{
-      "message":"匯出所有連結"
+   "exportAllDes": {
+      "message": "匯出所有連結"
    },
-   "exportAllFailedDes":{
-      "message":"沒有找到有效的下載連結。"
+   "exportAllFailedDes": {
+      "message": "沒有找到有效的下載連結。"
    },
-   "askBeforeExportDes":{
-      "message":"匯出前詢問詳細設定"
+   "askBeforeExportDes": {
+      "message": "匯出前詢問詳細設定"
    },
-   "downloadCaptureStr":{
-      "message":"下載攔截"
+   "downloadCaptureStr": {
+      "message": "下載攔截"
    },
-   "downloadCaptureDes":{
-      "message":"自動攔截下載工作到Aria2，當檔案大小"
+   "downloadCaptureDes": {
+      "message": "自動攔截下載工作到Aria2，當檔案大小"
    },
-   "askBeforeDownloadDes":{
-      "message":"自動下載前詢問詳細設定"
+   "askBeforeDownloadDes": {
+      "message": "自動下載前詢問詳細設定"
    },
-   "allowExternalRequestDes":{
-      "message":"接受來自其他擴充功能的Aria2下載請求"
+   "allowExternalRequestDes": {
+      "message": "接受來自其他擴充功能的Aria2下載請求"
    },
-   "monitorAria2Str":{
-      "message":"監測Aria2狀態"
+   "monitorAria2Str": {
+      "message": "監測Aria2狀態"
    },
-   "monitorAria2Des":{
-      "message":"監測Aria2下載狀態"
+   "monitorAria2Des": {
+      "message": "監測Aria2下載狀態"
    },
    "monitorAllDes": {
       "message": "監測所有Aria2"
@@ -50,265 +50,268 @@
    "monitorAllTip": {
       "message": "當設置了多個Aria2時，監測所有Aria2狀態，並聚合顯示監測結果。"
    },
-   "keepAwakeDes":{
-      "message":"下載時保持系統喚醒"
+   "keepAwakeDes": {
+      "message": "下載時保持系統喚醒"
    },
-   "allowNotificationDes":{
-      "message":"工作狀態通知"
+   "badgeTextDes": {
+      "message": "圖示標記任務數量"
    },
-   "keepSilentDes":{
-      "message":"保持通知靜音"
+   "allowNotificationDes": {
+      "message": "工作狀態通知"
    },
-   "captureMagnetDes":{
-      "message":"攔截磁力連結"
+   "keepSilentDes": {
+      "message": "保持通知靜音"
    },
-   "captureMagnetWarn":{
-      "message":"系統級攔截，卸載前請確保關閉"
+   "captureMagnetDes": {
+      "message": "攔截磁力連結"
    },
-   "captureMagnetTip":{
-      "message":"如果不需要系統級攔截，請在Windows彈出UAC對話框時點擊[否]。"
+   "captureMagnetWarn": {
+      "message": "系統級攔截，卸載前請確保關閉"
    },
-   "websiteStr":{
-      "message":"網站"
+   "captureMagnetTip": {
+      "message": "如果不需要系統級攔截，請在Windows彈出UAC對話框時點擊[否]。"
    },
-   "websiteFilterStr":{
-      "message":"網站過濾"
+   "websiteStr": {
+      "message": "網站"
    },
-   "selectDefaultRpcStr":{
-      "message":"默認Aria2"
+   "websiteFilterStr": {
+      "message": "網站過濾"
    },
-   "fileExtStr":{
-      "message":"副檔名"
+   "selectDefaultRpcStr": {
+      "message": "默認Aria2"
    },
-   "whiteListStr":{
-      "message":"白名單"
+   "fileExtStr": {
+      "message": "副檔名"
    },
-   "BlackListStr":{
-      "message":"黑名單"
+   "whiteListStr": {
+      "message": "白名單"
    },
-   "addToWhiteListStr":{
-      "message":"當前網站->白名單"
+   "BlackListStr": {
+      "message": "黑名單"
    },
-   "addToBlackListStr":{
-      "message":"當前網站->黑名單"
+   "addToWhiteListStr": {
+      "message": "當前網站->白名單"
    },
-   "removeFromWhiteListStr":{
-      "message":"移出白名單"
+   "addToBlackListStr": {
+      "message": "當前網站->黑名單"
    },
-   "removeFromBlackListStr":{
-      "message":"移出黑名單"
+   "removeFromWhiteListStr": {
+      "message": "移出白名單"
    },
-   "exportFailedStr":{
-      "message":"匯出失敗"
+   "removeFromBlackListStr": {
+      "message": "移出黑名單"
    },
-   "exportFailedDes":{
-      "message":"$rpcName$ 無法開始下載！",
+   "exportFailedStr": {
+      "message": "匯出失敗"
+   },
+   "exportFailedDes": {
+      "message": "$rpcName$ 無法開始下載！",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2 RPC name."
+            "content": "$1",
+            "example": "Aria2 RPC name."
          }
       }
    },
-   "exportSucceedStr":{
-      "message":"匯出成功"
+   "exportSucceedStr": {
+      "message": "匯出成功"
    },
-   "exportSucceedDes":{
-      "message":"$rpcName$ 已經開始下載。",
+   "exportSucceedDes": {
+      "message": "$rpcName$ 已經開始下載。",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2 RPC name."
+            "content": "$1",
+            "example": "Aria2 RPC name."
          }
       }
    },
-   "downloadStart":{
-      "message":"$rpcName$ 下載開始",
+   "downloadStart": {
+      "message": "$rpcName$ 下載開始",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "taskNotification":{
-      "message":"工作通知"
+   "taskNotification": {
+      "message": "工作通知"
    },
-   "downloadComplete":{
-      "message":"$rpcName$ 下載完成",
+   "downloadComplete": {
+      "message": "$rpcName$ 下載完成",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "seedingOver":{
-      "message":"$rpcName$ 做種結束",
+   "seedingOver": {
+      "message": "$rpcName$ 做種結束",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "downloadError":{
-      "message":"$rpcName$ 下載出錯",
+   "downloadError": {
+      "message": "$rpcName$ 下載出錯",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "allowedSitesPlaceholderDes":{
-      "message":"設定需要攔截的站點，每行一個網站，支持規則運算式。\n（白名單優先）"
+   "allowedSitesPlaceholderDes": {
+      "message": "設定需要攔截的站點，每行一個網站，支持規則運算式。\n（白名單優先）"
    },
-   "blockedSitesPlaceholderDes":{
-      "message":"設定不需要攔截的站點，每行一個網站，支持規則運算式。"
+   "blockedSitesPlaceholderDes": {
+      "message": "設定不需要攔截的站點，每行一個網站，支持規則運算式。"
    },
-   "allowedExtsPlaceholderDes":{
-      "message":"設定需要攔截或匯出的文件類型，\n每行一個副檔名，*代表所有。\n（白名單優先）"
+   "allowedExtsPlaceholderDes": {
+      "message": "設定需要攔截或匯出的文件類型，\n每行一個副檔名，*代表所有。\n（白名單優先）"
    },
-   "blockedExtsPlaceholderDes":{
-      "message":"設定不需要攔截或匯出的文件類型，\n每行一個副檔名，*代表所有。"
+   "blockedExtsPlaceholderDes": {
+      "message": "設定不需要攔截或匯出的文件類型，\n每行一個副檔名，*代表所有。"
    },
-   "WebUIOpenStyleStr":{
-      "message":"AriaNG打開樣式"
+   "WebUIOpenStyleStr": {
+      "message": "AriaNG打開樣式"
    },
-   "WebUIOpenStyle1":{
-      "message":"彈出視窗"
+   "WebUIOpenStyle1": {
+      "message": "彈出視窗"
    },
-   "WebUIOpenStyle2":{
-      "message":"新分頁"
+   "WebUIOpenStyle2": {
+      "message": "新分頁"
    },
-   "WebUIOpenStyle3":{
-      "message":"新視窗"
+   "WebUIOpenStyle3": {
+      "message": "新視窗"
    },
-   "WebUIOpenStyle4":{
-      "message":"側邊面板"
+   "WebUIOpenStyle4": {
+      "message": "側邊面板"
    },
-   "openWebUIStr":{
-      "message":"打開AriaNG"
+   "openWebUIStr": {
+      "message": "打開AriaNG"
    },
-   "startAria2Str":{
-      "message":"啓動Aria2"
+   "startAria2Str": {
+      "message": "啓動Aria2"
    },
-   "toggleCapture":{
-      "message":"開關下載自動攔截"
+   "toggleCapture": {
+      "message": "開關下載自動攔截"
    },
-   "configCloudSync":{
-      "message":"雲端同步設定"
+   "configCloudSync": {
+      "message": "雲端同步設定"
    },
-   "configCloudSyncDes":{
-      "message":"同步AriaNG和擴充功能設定到當前瀏覽器登入帳號"
+   "configCloudSyncDes": {
+      "message": "同步AriaNG和擴充功能設定到當前瀏覽器登入帳號"
    },
-   "uploadConfigWarn":{
-      "message":"本機設定為空或無效，仍然繼續？"
+   "uploadConfigWarn": {
+      "message": "本機設定為空或無效，仍然繼續？"
    },
-   "uploadConfigSucceed":{
-      "message":"上傳設定成功"
+   "uploadConfigSucceed": {
+      "message": "上傳設定成功"
    },
-   "uploadConfigFailed":{
-      "message":"上傳設定失敗: "
+   "uploadConfigFailed": {
+      "message": "上傳設定失敗: "
    },
-   "downloadConfigSucceed":{
-      "message":"下載設定成功"
+   "downloadConfigSucceed": {
+      "message": "下載設定成功"
    },
-   "downloadConfigFailed":{
-      "message":"下載設定失敗：雲端數據無效或無網絡連接"
+   "downloadConfigFailed": {
+      "message": "下載設定失敗：雲端數據無效或無網絡連接"
    },
-   "download":{
-      "message":"下載"
+   "download": {
+      "message": "下載"
    },
-   "upload":{
-      "message":"上傳"
+   "upload": {
+      "message": "上傳"
    },
-   "wait":{
-      "message":"等待"
+   "wait": {
+      "message": "等待"
    },
-   "finish":{
-      "message":"結束"
+   "finish": {
+      "message": "結束"
    },
-   "connected":{
-      "message":"已連接"
+   "connected": {
+      "message": "已連接"
    },
-   "disconnected":{
-      "message":"已斷開"
+   "disconnected": {
+      "message": "已斷開"
    },
-   "review":{
-      "message":"評分"
+   "review": {
+      "message": "評分"
    },
-   "reviewDes":{
-      "message":"爲我們評分！"
+   "reviewDes": {
+      "message": "爲我們評分！"
    },
-   "Save":{
-      "message":"保存"
+   "Save": {
+      "message": "保存"
    },
-   "Reset":{
-      "message":"重置"
+   "Reset": {
+      "message": "重置"
    },
-   "Acknowledgment":{
-      "message":"致謝"
+   "Acknowledgment": {
+      "message": "致謝"
    },
-   "OverwriteAriaNgRpcWarn":{
-      "message":"RPC設定已更改，同步更改到AriaNG并覆蓋？"
+   "OverwriteAriaNgRpcWarn": {
+      "message": "RPC設定已更改，同步更改到AriaNG并覆蓋？"
    },
-   "RpcUrlTooltipWarnDes":{
-      "message":"使用不安全的HTTP/WebSocket協定創建下載工作可能會導致Secret Key和相關網站的Cookies資訊暴露於公共網絡。"
+   "RpcUrlTooltipWarnDes": {
+      "message": "使用不安全的HTTP/WebSocket協定創建下載工作可能會導致Secret Key和相關網站的Cookies資訊暴露於公共網絡。"
    },
-   "AutoDownloadCookiesTooltipDes":{
+   "AutoDownloadCookiesTooltipDes": {
       "message": "使用不安全的RPC協定，在自動下載和右鍵匯出下載時，將不會附帶相關網站的Cookies資訊。"
    },
-   "ManualDownloadCookiesTooltipDes":{
+   "ManualDownloadCookiesTooltipDes": {
       "message": "在詢問下載設定時，你需要决定是否删除相關網站的Cookies資訊。"
    },
-   "Aria2ManagerPromotionDes":{
+   "Aria2ManagerPromotionDes": {
       "message": "好像沒有安裝Aria2 Manager，訪問“Alex推薦”頻道瞭解更多資訊？"
    },
    "ClearSettingsDes": {
       "message": "確認清除所有設定？"
    },
-   "ColorMode":{
+   "ColorMode": {
       "message": "顔色模式"
    },
-   "LightMode":{
+   "LightMode": {
       "message": "明亮模式"
    },
-   "DarkMode":{
+   "DarkMode": {
       "message": "黑暗模式"
    },
-   "FollowSystem":{
+   "FollowSystem": {
       "message": "跟隨系統"
    },
-   "Name":{
+   "Name": {
       "message": "名稱"
    },
-   "SecretKey":{
+   "SecretKey": {
       "message": "訪問密碼"
    },
-   "downloadLocation":{
+   "downloadLocation": {
       "message": "下載目錄"
    },
-   "RemindCaptureTip":{
+   "RemindCaptureTip": {
       "message": "攔截到其他擴充的下載任務"
    },
-   "RemindCaptureTipDes":{
+   "RemindCaptureTipDes": {
       "message": "若檔案名稱異常，請關閉「自動攔截」功能。"
    },
-   "Dismiss":{
+   "Dismiss": {
       "message": "關閉"
    },
-   "NeverRemind":{
+   "NeverRemind": {
       "message": "不再提醒"
    },
-   "Mark":{
+   "Mark": {
       "message": "標記"
    },
-   "MarkAsSecureTip":{
+   "MarkAsSecureTip": {
       "message": "標記為安全的RPC協議"
    },
-   "MarkAsInsecureTip":{
+   "MarkAsInsecureTip": {
       "message": "標記為不安全的RPC協議"
    }
 }

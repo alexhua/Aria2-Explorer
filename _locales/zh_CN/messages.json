@@ -1,314 +1,317 @@
 {
    "appName": {
-      "message":"Aria2 Explorer"
+      "message": "Aria2 Explorer"
    },
    "description": {
-      "message":"让Aria2无缝接管下载，加速下载体验，内置Aria2前端，任务管理更方便。"
-   }, 
-   "contextmenuTitle":{
-      "message":"导出到 "
+      "message": "让Aria2无缝接管下载，加速下载体验，内置Aria2前端，任务管理更方便。"
    },
-   "configPageTitle":{
-      "message":"扩展配置页面"
+   "contextmenuTitle": {
+      "message": "导出到 "
    },
-   "contextmenuStr":{
-      "message":"右键菜单"
+   "configPageTitle": {
+      "message": "扩展配置页面"
    },
-   "contextmenuDes":{
-      "message":"右键导出下载"
+   "contextmenuStr": {
+      "message": "右键菜单"
    },
-   "exportAllDes":{
-      "message":"导出所有链接"
+   "contextmenuDes": {
+      "message": "右键导出下载"
+   },
+   "exportAllDes": {
+      "message": "导出所有链接"
    },
    "exportAllFailedDes": {
-      "message":"没有找到有效的下载链接。"
+      "message": "没有找到有效的下载链接。"
    },
-   "askBeforeExportDes":{
-      "message":"导出前询问详细参数设置"
+   "askBeforeExportDes": {
+      "message": "导出前询问详细参数设置"
    },
-   "downloadCaptureStr":{
-      "message":"下载拦截"
+   "downloadCaptureStr": {
+      "message": "下载拦截"
    },
-   "downloadCaptureDes":{
-      "message":"自动拦截下载任务到Aria2，当文件大小"
+   "downloadCaptureDes": {
+      "message": "自动拦截下载任务到Aria2，当文件大小"
    },
-   "askBeforeDownloadDes":{
-      "message":"自动下载前询问参数设置"
+   "askBeforeDownloadDes": {
+      "message": "自动下载前询问参数设置"
    },
-   "allowExternalRequestDes":{
-      "message":"接受来自其他扩展的Aria2下载请求"
+   "allowExternalRequestDes": {
+      "message": "接受来自其他扩展的Aria2下载请求"
    },
-   "monitorAria2Str":{
-      "message":"监测Aria2状态"
+   "monitorAria2Str": {
+      "message": "监测Aria2状态"
    },
-   "monitorAria2Des":{
-      "message":"监测Aria2下载状态"
+   "monitorAria2Des": {
+      "message": "监测Aria2下载状态"
    },
-   "monitorAllDes":{
-      "message":"监测所有Aria2"
+   "monitorAllDes": {
+      "message": "监测所有Aria2"
    },
-   "monitorAllTip":{
-      "message":"当设置了多个Aria2时，监测所有Aria2状态，并聚合显示监测结果。"
+   "monitorAllTip": {
+      "message": "当设置了多个Aria2时，监测所有Aria2状态，并聚合显示监测结果。"
    },
-   "keepAwakeDes":{
-      "message":"下载时保持系统唤醒"
+   "keepAwakeDes": {
+      "message": "下载时保持系统唤醒"
    },
-   "allowNotificationDes":{
-      "message":"任务状态通知"
+   "badgeTextDes": {
+      "message": "图标标记任务数量"
    },
-   "keepSilentDes":{
-      "message":"保持通知静音"
+   "allowNotificationDes": {
+      "message": "任务状态通知"
    },
-   "captureMagnetDes":{
-      "message":"拦截磁力链接"
+   "keepSilentDes": {
+      "message": "保持通知静音"
    },
-   "captureMagnetWarn":{
-      "message":"系统级拦截，卸载前请确保关闭"
+   "captureMagnetDes": {
+      "message": "拦截磁力链接"
    },
-   "captureMagnetTip":{
-      "message":"如果不需要系统级拦截，请在Windows弹出UAC对话框时点击[否]。"
+   "captureMagnetWarn": {
+      "message": "系统级拦截，卸载前请确保关闭"
    },
-   "websiteStr":{
-      "message":"网站"
+   "captureMagnetTip": {
+      "message": "如果不需要系统级拦截，请在Windows弹出UAC对话框时点击[否]。"
    },
-   "websiteFilterStr":{
-      "message":"网站过滤"
+   "websiteStr": {
+      "message": "网站"
    },
-   "selectDefaultRpcStr":{
-      "message":"默认Aria2"
+   "websiteFilterStr": {
+      "message": "网站过滤"
    },
-   "fileExtStr":{
-      "message":"扩展名"
+   "selectDefaultRpcStr": {
+      "message": "默认Aria2"
    },
-   "whiteListStr":{
-      "message":"白名单"
+   "fileExtStr": {
+      "message": "扩展名"
    },
-   "BlackListStr":{
-      "message":"黑名单"
+   "whiteListStr": {
+      "message": "白名单"
    },
-   "addToWhiteListStr":{
-      "message":"当前网站->白名单"
+   "BlackListStr": {
+      "message": "黑名单"
    },
-   "addToBlackListStr":{
-      "message":"当前网站->黑名单"
+   "addToWhiteListStr": {
+      "message": "当前网站->白名单"
    },
-   "removeFromWhiteListStr":{
-      "message":"移出白名单"
+   "addToBlackListStr": {
+      "message": "当前网站->黑名单"
    },
-   "removeFromBlackListStr":{
-      "message":"移出黑名单"
+   "removeFromWhiteListStr": {
+      "message": "移出白名单"
    },
-   "exportFailedStr":{
-      "message":"导出失败"
+   "removeFromBlackListStr": {
+      "message": "移出黑名单"
    },
-   "exportFailedDes":{
-      "message":"$rpcName$ 无法开始下载！",
+   "exportFailedStr": {
+      "message": "导出失败"
+   },
+   "exportFailedDes": {
+      "message": "$rpcName$ 无法开始下载！",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2 RPC name."
+            "content": "$1",
+            "example": "Aria2 RPC name."
          }
       }
    },
-   "exportSucceedStr":{
-      "message":"导出成功"
+   "exportSucceedStr": {
+      "message": "导出成功"
    },
-   "exportSucceedDes":{
-      "message":"$rpcName$ 已经开始下载。",
+   "exportSucceedDes": {
+      "message": "$rpcName$ 已经开始下载。",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2 RPC name."
+            "content": "$1",
+            "example": "Aria2 RPC name."
          }
-       }
+      }
    },
-   "taskNotification":{
-      "message":"任务通知"
+   "taskNotification": {
+      "message": "任务通知"
    },
-   "downloadStart":{
-      "message":"$rpcName$ 下载开始",
+   "downloadStart": {
+      "message": "$rpcName$ 下载开始",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "downloadComplete":{
-      "message":"$rpcName$ 下载完成",
+   "downloadComplete": {
+      "message": "$rpcName$ 下载完成",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "seedingOver":{
-      "message":"$rpcName$ 做种结束",
+   "seedingOver": {
+      "message": "$rpcName$ 做种结束",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "downloadError":{
-      "message":"$rpcName$ 下载出错",
+   "downloadError": {
+      "message": "$rpcName$ 下载出错",
       "placeholders": {
          "rpcName": {
-           "content": "$1",
-           "example": "Aria2"
+            "content": "$1",
+            "example": "Aria2"
          }
-       }
+      }
    },
-   "allowedSitesPlaceholderDes":{
-      "message":"设置需要拦截的域名，每行一个网站，支持正则表达式。\n（白名单优先）"
+   "allowedSitesPlaceholderDes": {
+      "message": "设置需要拦截的域名，每行一个网站，支持正则表达式。\n（白名单优先）"
    },
-   "blockedSitesPlaceholderDes":{
-      "message":"设置不需要拦截的域名，每行一个网站，支持正则表达式。"
+   "blockedSitesPlaceholderDes": {
+      "message": "设置不需要拦截的域名，每行一个网站，支持正则表达式。"
    },
-   "allowedExtsPlaceholderDes":{
-      "message":"设置需要拦截或导出的文件类型，\n每行一个扩展名，* 代表所有。\n（白名单优先）"
+   "allowedExtsPlaceholderDes": {
+      "message": "设置需要拦截或导出的文件类型，\n每行一个扩展名，* 代表所有。\n（白名单优先）"
    },
-   "blockedExtsPlaceholderDes":{
-      "message":"设置不需要拦截或导出的文件类型，\n每行一个扩展名，* 代表所有。"
+   "blockedExtsPlaceholderDes": {
+      "message": "设置不需要拦截或导出的文件类型，\n每行一个扩展名，* 代表所有。"
    },
-   "WebUIOpenStyleStr":{
-      "message":"AriaNG打开方式"
+   "WebUIOpenStyleStr": {
+      "message": "AriaNG打开方式"
    },
-	"WebUIOpenStyle1":{
-      "message":"弹窗"
+   "WebUIOpenStyle1": {
+      "message": "弹窗"
    },
-   "WebUIOpenStyle2":{
-      "message":"新标签页"
+   "WebUIOpenStyle2": {
+      "message": "新标签页"
    },
-   "WebUIOpenStyle3":{
-      "message":"新窗口"
+   "WebUIOpenStyle3": {
+      "message": "新窗口"
    },
-   "WebUIOpenStyle4":{
-      "message":"侧边栏"
+   "WebUIOpenStyle4": {
+      "message": "侧边栏"
    },
-   "openWebUIStr":{
-      "message":"打开AriaNG"
+   "openWebUIStr": {
+      "message": "打开AriaNG"
    },
-   "startAria2Str":{
-      "message":"启动Aria2"
+   "startAria2Str": {
+      "message": "启动Aria2"
    },
-   "toggleCapture":{
-      "message":"开关下载自动拦截"
+   "toggleCapture": {
+      "message": "开关下载自动拦截"
    },
-   "configCloudSync":{
-      "message":"配置云端同步"
+   "configCloudSync": {
+      "message": "配置云端同步"
    },
-   "configCloudSyncDes":{
-      "message":"同步AriaNG和扩展配置到当前浏览器登陆的账号"
+   "configCloudSyncDes": {
+      "message": "同步AriaNG和扩展配置到当前浏览器登陆的账号"
    },
-   "uploadConfigWarn":{
-      "message":"本地配置为空或无效，仍然继续？"
+   "uploadConfigWarn": {
+      "message": "本地配置为空或无效，仍然继续？"
    },
-   "uploadConfigSucceed":{
-      "message":"上传配置成功"
+   "uploadConfigSucceed": {
+      "message": "上传配置成功"
    },
-   "uploadConfigFailed":{
-      "message":"上传配置失败: "
+   "uploadConfigFailed": {
+      "message": "上传配置失败: "
    },
-   "downloadConfigSucceed":{
-      "message":"下载配置成功"
+   "downloadConfigSucceed": {
+      "message": "下载配置成功"
    },
-   "downloadConfigFailed":{
-      "message":"下载配置失败：云端数据无效或无网络连接"
+   "downloadConfigFailed": {
+      "message": "下载配置失败：云端数据无效或无网络连接"
    },
-   "download":{
-      "message":"下载"
+   "download": {
+      "message": "下载"
    },
-   "upload":{
-      "message":"上传"
+   "upload": {
+      "message": "上传"
    },
-   "wait":{
-      "message":"等待"
+   "wait": {
+      "message": "等待"
    },
-   "finish":{
-      "message":"结束"
+   "finish": {
+      "message": "结束"
    },
-   "connected":{
-      "message":"已连接"
+   "connected": {
+      "message": "已连接"
    },
-   "disconnected":{
-      "message":"已断开"
+   "disconnected": {
+      "message": "已断开"
    },
-   "review":{
-      "message":"评分"
+   "review": {
+      "message": "评分"
    },
-   "reviewDes":{
-      "message":"为我们评分！"
+   "reviewDes": {
+      "message": "为我们评分！"
    },
-   "Save":{
-      "message":"保存"
+   "Save": {
+      "message": "保存"
    },
-   "Reset":{
-      "message":"重置"
+   "Reset": {
+      "message": "重置"
    },
-   "Acknowledgment":{
-      "message":"致谢"
+   "Acknowledgment": {
+      "message": "致谢"
    },
-   "OverwriteAriaNgRpcWarn":{
-      "message":"RPC设置已更改，同步到AriaNG并覆盖？"
+   "OverwriteAriaNgRpcWarn": {
+      "message": "RPC设置已更改，同步到AriaNG并覆盖？"
    },
-   "RpcUrlTooltipWarnDes":{
-      "message":"通过不安全的 HTTP/WebSocket 协议创建下载任务可能会导致 Secret Key 和相关网站的 Cookies 信息暴露于公共网络。"
+   "RpcUrlTooltipWarnDes": {
+      "message": "通过不安全的 HTTP/WebSocket 协议创建下载任务可能会导致 Secret Key 和相关网站的 Cookies 信息暴露于公共网络。"
    },
-   "AutoDownloadCookiesTooltipDes":{
+   "AutoDownloadCookiesTooltipDes": {
       "message": "使用不安全的RPC协议，在自动下载和右键导出下载时，将不会附带相关网站的Cookies信息。"
    },
-   "ManualDownloadCookiesTooltipDes":{
+   "ManualDownloadCookiesTooltipDes": {
       "message": "在询问下载设置时，你需要决定是否删除相关网站的Cookies信息。"
    },
-   "Aria2ManagerPromotionDes":{
+   "Aria2ManagerPromotionDes": {
       "message": "好像没有安装Aria2 Manager，访问“Alex推荐”频道了解更多信息？"
    },
    "ClearSettingsDes": {
       "message": "确认清除所有设置？"
    },
-   "ColorMode":{
+   "ColorMode": {
       "message": "颜色模式"
    },
-   "lightMode":{
+   "lightMode": {
       "message": "明亮模式"
    },
-   "darkMode":{
+   "darkMode": {
       "message": "黑暗模式"
    },
-   "followSystem":{
+   "followSystem": {
       "message": "跟随系统"
    },
-   "Name":{
+   "Name": {
       "message": "名称"
    },
-   "SecretKey":{
+   "SecretKey": {
       "message": "访问密钥"
    },
-   "downloadLocation":{
+   "downloadLocation": {
       "message": "下载目录"
    },
-   "RemindCaptureTip":{
+   "RemindCaptureTip": {
       "message": "拦截到其他扩展的下载任务"
    },
-   "RemindCaptureTipDes":{
+   "RemindCaptureTipDes": {
       "message": "如果文件名异常，请关闭「自动拦截」功能。"
    },
-   "Dismiss":{
+   "Dismiss": {
       "message": "明白了"
    },
-   "NeverRemind":{
+   "NeverRemind": {
       "message": "不再提醒"
    },
-   "Mark":{
+   "Mark": {
       "message": "标记"
    },
-   "MarkAsSecureTip":{
+   "MarkAsSecureTip": {
       "message": "标记为安全的RPC协议"
    },
-   "MarkAsInsecureTip":{
+   "MarkAsInsecureTip": {
       "message": "标记为不安全的RPC协议"
    }
 }

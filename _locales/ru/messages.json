@@ -1,315 +1,317 @@
 {
-    "appName": {
-       "message":"Aria2 Explorer"
-    },
-    "description": {
-       "message": "Ускорьте загрузки с помощью Aria2, легко управляйте задачами загрузки."
-    },
-    "contextmenuTitle":{
-       "message":"Экспортировать в "
-    },
-    "configPageTitle":{
-       "message":"Настройки расширения"
-    },
-    "contextmenuStr":{
-       "message":"Контекстное меню"
-    },
-    "contextmenuDes":{
-       "message":"Экспорт задачи из контекстного меню"
-    },
-    "exportAllDes":{
-       "message":"Экспортировать все ссылки"
-    },
-    "exportAllFailedDes":{
-       "message":"Не найдена действительная ссылка для загрузки."
-    },
-    "askBeforeExportDes":{
-       "message":"Запрашивать настройки перед экспортом"
-    },
-    "downloadCaptureStr":{
-       "message":"Захват загрузки"
-    },
-    "downloadCaptureDes":{
-       "message":"Включить автоматический захват при загрузке файла"
-    },
-    "askBeforeDownloadDes":{
-       "message":"Запрашивать настройки перед автоматической загрузкой"
-    },
-    "allowExternalRequestDes":{
-       "message":"Получать запросы на загрузку Aria2 от других расширений"
-    },
-    "monitorAria2Str":{
-       "message":"Мониторинг состояния Aria2"
-    },
-    "monitorAria2Des":{
-       "message":"Мониторить состояние загрузки Aria2"
-    },
-    "monitorAllDes":{
-       "message":"Мониторить все серверы Aria2"
-    },
-    "monitorAllTip":{
-       "message":"Когда настроено несколько серверов Aria2, мониторьте все их статусы и отображайте агрегированные результаты."
-    },
-    "keepAwakeDes":{
-       "message":"Не отключать систему во время загрузки"
-    },
-    "allowNotificationDes":{
-       "message":"Уведомления о статусе задач"
-    },
-    "keepSilentDes":{
-       "message":"Отключить уведомления"
-    },
-    "captureMagnetDes":{
-       "message":"Захватить магнитную ссылку"
-    },
-    "captureMagnetWarn":{
-       "message":"Захват на уровне ОС, убедитесь, что он отключен перед удалением."
-    },
-    "captureMagnetTip":{
-       "message":"Нажмите 'Нет' в окне подтверждения UAC Windows, если не хотите захват на системном уровне."
-    },
-    "websiteStr":{
-       "message":"Веб-сайт"
-    },
-    "websiteFilterStr":{
-       "message":"Фильтр веб-сайтов"
-    },
-    "selectDefaultRpcStr":{
-       "message":"По умолчанию Aria2"
-    },
-    "fileExtStr":{
-       "message":"Расширение файла"
-    },
-    "whiteListStr":{
-       "message":"Список разрешённых"
-    },
-    "BlackListStr":{
-       "message":"Чёрный список"
-    },
-    "addToWhiteListStr":{
-       "message":"Текущий URL -> Список разрешённых"
-    },
-    "addToBlackListStr":{
-       "message":"Текущий URL -> Чёрный список"
-    },
-    "removeFromWhiteListStr":{
-       "message":"Удалить из списка разрешённых"
-    },
-    "removeFromBlackListStr":{
-       "message":"Удалить из чёрного списка"
-    },
-    "exportFailedStr":{
-       "message":"Экспорт не удался"
-    },
-    "exportFailedDes":{
-       "message":"$rpcName$ не удалось начать задачу!",
-       "placeholders": {
-          "rpcName": {
+   "appName": {
+      "message": "Aria2 Explorer"
+   },
+   "description": {
+      "message": "Ускорьте загрузки с помощью Aria2, легко управляйте задачами загрузки."
+   },
+   "contextmenuTitle": {
+      "message": "Экспортировать в "
+   },
+   "configPageTitle": {
+      "message": "Настройки расширения"
+   },
+   "contextmenuStr": {
+      "message": "Контекстное меню"
+   },
+   "contextmenuDes": {
+      "message": "Экспорт задачи из контекстного меню"
+   },
+   "exportAllDes": {
+      "message": "Экспортировать все ссылки"
+   },
+   "exportAllFailedDes": {
+      "message": "Не найдена действительная ссылка для загрузки."
+   },
+   "askBeforeExportDes": {
+      "message": "Запрашивать настройки перед экспортом"
+   },
+   "downloadCaptureStr": {
+      "message": "Захват загрузки"
+   },
+   "downloadCaptureDes": {
+      "message": "Включить автоматический захват при загрузке файла"
+   },
+   "askBeforeDownloadDes": {
+      "message": "Запрашивать настройки перед автоматической загрузкой"
+   },
+   "allowExternalRequestDes": {
+      "message": "Получать запросы на загрузку Aria2 от других расширений"
+   },
+   "monitorAria2Str": {
+      "message": "Мониторинг состояния Aria2"
+   },
+   "monitorAria2Des": {
+      "message": "Мониторить состояние загрузки Aria2"
+   },
+   "monitorAllDes": {
+      "message": "Мониторить все серверы Aria2"
+   },
+   "monitorAllTip": {
+      "message": "Когда настроено несколько серверов Aria2, мониторьте все их статусы и отображайте агрегированные результаты."
+   },
+   "keepAwakeDes": {
+      "message": "Не отключать систему во время загрузки"
+   },
+   "badgeTextDes": {
+      "message": "Отметьте количество задач с помощью значка-значка"
+   },
+   "allowNotificationDes": {
+      "message": "Уведомления о статусе задач"
+   },
+   "keepSilentDes": {
+      "message": "Отключить уведомления"
+   },
+   "captureMagnetDes": {
+      "message": "Захватить магнитную ссылку"
+   },
+   "captureMagnetWarn": {
+      "message": "Захват на уровне ОС, убедитесь, что он отключен перед удалением."
+   },
+   "captureMagnetTip": {
+      "message": "Нажмите 'Нет' в окне подтверждения UAC Windows, если не хотите захват на системном уровне."
+   },
+   "websiteStr": {
+      "message": "Веб-сайт"
+   },
+   "websiteFilterStr": {
+      "message": "Фильтр веб-сайтов"
+   },
+   "selectDefaultRpcStr": {
+      "message": "По умолчанию Aria2"
+   },
+   "fileExtStr": {
+      "message": "Расширение файла"
+   },
+   "whiteListStr": {
+      "message": "Список разрешённых"
+   },
+   "BlackListStr": {
+      "message": "Чёрный список"
+   },
+   "addToWhiteListStr": {
+      "message": "Текущий URL -> Список разрешённых"
+   },
+   "addToBlackListStr": {
+      "message": "Текущий URL -> Чёрный список"
+   },
+   "removeFromWhiteListStr": {
+      "message": "Удалить из списка разрешённых"
+   },
+   "removeFromBlackListStr": {
+      "message": "Удалить из чёрного списка"
+   },
+   "exportFailedStr": {
+      "message": "Экспорт не удался"
+   },
+   "exportFailedDes": {
+      "message": "$rpcName$ не удалось начать задачу!",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Имя RPC Aria2."
-          }
-        }
-    },
-    "exportSucceedStr":{
-       "message":"Экспорт успешен"
-    },
-    "exportSucceedDes":{
-       "message":"$rpcName$ начал загрузку.",
-       "placeholders": {
-          "rpcName": {
+         }
+      }
+   },
+   "exportSucceedStr": {
+      "message": "Экспорт успешен"
+   },
+   "exportSucceedDes": {
+      "message": "$rpcName$ начал загрузку.",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Имя RPC Aria2."
-          }
-        }
-    },
-    "taskNotification":{
-       "message":"Уведомление о задаче"
-    },
-    "downloadStart":{
-       "message":"Загрузка $rpcName$ началась.",
-       "placeholders": {
-          "rpcName": {
+         }
+      }
+   },
+   "taskNotification": {
+      "message": "Уведомление о задаче"
+   },
+   "downloadStart": {
+      "message": "Загрузка $rpcName$ началась.",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Aria2"
-          }
-        }
-    },
-    "downloadComplete":{
-       "message":"Загрузка $rpcName$ завершена.",
-       "placeholders": {
-          "rpcName": {
+         }
+      }
+   },
+   "downloadComplete": {
+      "message": "Загрузка $rpcName$ завершена.",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Aria2"
-          }
-        }
-    },
-    "seedingOver":{
-       "message":"Сидирование $rpcName$ завершено.",
-       "placeholders": {
-          "rpcName": {
+         }
+      }
+   },
+   "seedingOver": {
+      "message": "Сидирование $rpcName$ завершено.",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Aria2"
-          }
-        }
-    },
-    "downloadError":{
-       "message":"Произошла ошибка при загрузке $rpcName$.",
-       "placeholders": {
-          "rpcName": {
+         }
+      }
+   },
+   "downloadError": {
+      "message": "Произошла ошибка при загрузке $rpcName$.",
+      "placeholders": {
+         "rpcName": {
             "content": "$1",
             "example": "Aria2"
-          }
-        }
-    },
-    "allowedSitesPlaceholderDes":{
-       "message":"Укажите домены, которые вы хотите захватывать, по одному на строку, поддерживается регулярное выражение. (Список разрешённых имеет более высокий приоритет)"
-    },
-    "blockedSitesPlaceholderDes":{
-       "message":"Укажите домены, которые не хотите захватывать, по одному на строку, поддерживается регулярное выражение."
-    },
-    "allowedExtsPlaceholderDes":{
-       "message":"Укажите типы файлов, которые вы хотите захватывать или экспортировать, по одному расширению на строку, * означает все. (Список разрешённых имеет более высокий приоритет)"
-    },
-    "blockedExtsPlaceholderDes":{
-       "message":"Укажите типы файлов, которые не хотите захватывать или экспортировать, по одному расширению на строку, * означает все."
-    },
-    "WebUIOpenStyleStr":{
-       "message":"Открыть AriaNG в"
-    },
-    "WebUIOpenStyle1":{
-       "message":"Всплывающее окно"
-    },
-    "WebUIOpenStyle2":{
-       "message":"Новая вкладка"
-    },
-    "WebUIOpenStyle3":{
-       "message":"Новое окно"
-    },
-    "WebUIOpenStyle4":{
-       "message":"Боковая панель"
-    },
-    "openWebUIStr":{
-       "message":"Открыть AriaNG"
-    },
-    "startAria2Str":{
-       "message":"Запустить Aria2"
-    },
-    "toggleCapture":{
-       "message":"Переключить захват загрузки"
-    },
-    "configCloudSync":{
-       "message":"Облачная синхронизация"
-    },
-    "configCloudSyncDes":{
-       "message":"Синхронизировать конфигурации AriaNg и расширения с текущей учетной записью браузера"
-    },
-    "uploadConfigWarn":{
-       "message":"Некорректные или пустые данные локальной конфигурации, продолжить?"
-    },
-    "uploadConfigSucceed":{
-       "message":"Конфигурация успешно загружена"
-    },
-    "uploadConfigFailed":{
-       "message":"Ошибка загрузки конфигурации: "
-    },
-    "downloadConfigSucceed":{
-       "message":"Конфигурация успешно загружена"
-    },
-    "downloadConfigFailed":{
-       "message":"Ошибка загрузки конфигурации: Недействительные данные или ошибка сети."
-    },
-    "download":{
-       "message":"Загрузить"
-    },
-    "upload":{
-       "message":"Загрузить"
-    },
-    "wait":{
-       "message":"Подождите"
-    },
-    "finish":{
-       "message":"Завершить"
-    },
-    "connected":{
-       "message":"Подключено"
-    },
-    "disconnected":{
-       "message":"Отключено"
-    },
-    "review":{
-       "message":"Оценить"
-    },
-    "reviewDes":{
-       "message":"Оцените нас!"
-    },
-    "Save":{
-       "message":"Сохранить"
-    },
-    "Reset":{
-       "message":"Сбросить"
-    },
-    "Acknowledgment":{
-       "message":"Признание"
-    },
-    "OverwriteAriaNgRpcWarn":{
-       "message":"Настройки RPC изменены. Синхронизировать эти изменения с AriaNG и перезаписать?"
-    },
-    "RpcUrlTooltipWarnDes":{
-       "message":"Создание задачи на загрузку через небезопасный HTTP/WebSocket протокол может потенциально раскрыть секретный ключ и связанные с ним Cookies в открытой сети."
-    },
-    "AutoDownloadCookiesTooltipDes":{
-       "message": "Для небезопасного RPC, связанные Cookies веб-сайта не будут прикрепляться при автоматической загрузке или прямом экспорте."
-    },
-    "ManualDownloadCookiesTooltipDes":{
-       "message": "Вы должны решить, удалять ли связанные Cookies веб-сайта при запросе настроек загрузки."
-    },
-    "Aria2ManagerPromotionDes":{
-       "message": "Похоже, Aria2 Manager не установлен, хотите перейти в канал 'Alex Recommends' для получения дополнительной информации?"
-    },
-    "ClearSettingsDes":{
-       "message": "Подтвердите, что хотите очистить все настройки?"
-    },
-    "ColorMode":{
-       "message": "Режим цвета"
-    },
-    "LightMode":{
-       "message": "Светлый режим"
-    },
-    "DarkMode":{
-       "message": "Тёмный режим"
-    },
-    "FollowSystem":{
-       "message": "Следовать за системой"
-    },
-    "Name":{
-       "message": "Имя"
-    },
-    "SecretKey":{
-       "message": "Секретный ключ"
-    },
-    "downloadLocation":{
-       "message": "Место для загрузки"
-    },
-    "RemindCaptureTip":{
-       "message": "Захвачена загрузка другого расширения"
-    },
-    "RemindCaptureTipDes":{
-       "message": "Если имя файла аномально, отключите авто-захват."
-    },
-    "Dismiss":{
-       "message": "Отклонить"
-    },
-    "NeverRemind":{
-       "message": "Больше не напоминать"
-    },
-    "Mark":{
-       "message": "Отметить"
-    },
-    "MarkAsSecureTip":{
-       "message": "Отметить как безопасный RPC"
-    },
-    "MarkAsInsecureTip":{
-       "message": "Отметить как небезопасный RPC протокол"
-    }
- }
- 
+         }
+      }
+   },
+   "allowedSitesPlaceholderDes": {
+      "message": "Укажите домены, которые вы хотите захватывать, по одному на строку, поддерживается регулярное выражение. (Список разрешённых имеет более высокий приоритет)"
+   },
+   "blockedSitesPlaceholderDes": {
+      "message": "Укажите домены, которые не хотите захватывать, по одному на строку, поддерживается регулярное выражение."
+   },
+   "allowedExtsPlaceholderDes": {
+      "message": "Укажите типы файлов, которые вы хотите захватывать или экспортировать, по одному расширению на строку, * означает все. (Список разрешённых имеет более высокий приоритет)"
+   },
+   "blockedExtsPlaceholderDes": {
+      "message": "Укажите типы файлов, которые не хотите захватывать или экспортировать, по одному расширению на строку, * означает все."
+   },
+   "WebUIOpenStyleStr": {
+      "message": "Открыть AriaNG в"
+   },
+   "WebUIOpenStyle1": {
+      "message": "Всплывающее окно"
+   },
+   "WebUIOpenStyle2": {
+      "message": "Новая вкладка"
+   },
+   "WebUIOpenStyle3": {
+      "message": "Новое окно"
+   },
+   "WebUIOpenStyle4": {
+      "message": "Боковая панель"
+   },
+   "openWebUIStr": {
+      "message": "Открыть AriaNG"
+   },
+   "startAria2Str": {
+      "message": "Запустить Aria2"
+   },
+   "toggleCapture": {
+      "message": "Переключить захват загрузки"
+   },
+   "configCloudSync": {
+      "message": "Облачная синхронизация"
+   },
+   "configCloudSyncDes": {
+      "message": "Синхронизировать конфигурации AriaNg и расширения с текущей учетной записью браузера"
+   },
+   "uploadConfigWarn": {
+      "message": "Некорректные или пустые данные локальной конфигурации, продолжить?"
+   },
+   "uploadConfigSucceed": {
+      "message": "Конфигурация успешно загружена"
+   },
+   "uploadConfigFailed": {
+      "message": "Ошибка загрузки конфигурации: "
+   },
+   "downloadConfigSucceed": {
+      "message": "Конфигурация успешно загружена"
+   },
+   "downloadConfigFailed": {
+      "message": "Ошибка загрузки конфигурации: Недействительные данные или ошибка сети."
+   },
+   "download": {
+      "message": "Загрузить"
+   },
+   "upload": {
+      "message": "Загрузить"
+   },
+   "wait": {
+      "message": "Подождите"
+   },
+   "finish": {
+      "message": "Завершить"
+   },
+   "connected": {
+      "message": "Подключено"
+   },
+   "disconnected": {
+      "message": "Отключено"
+   },
+   "review": {
+      "message": "Оценить"
+   },
+   "reviewDes": {
+      "message": "Оцените нас!"
+   },
+   "Save": {
+      "message": "Сохранить"
+   },
+   "Reset": {
+      "message": "Сбросить"
+   },
+   "Acknowledgment": {
+      "message": "Признание"
+   },
+   "OverwriteAriaNgRpcWarn": {
+      "message": "Настройки RPC изменены. Синхронизировать эти изменения с AriaNG и перезаписать?"
+   },
+   "RpcUrlTooltipWarnDes": {
+      "message": "Создание задачи на загрузку через небезопасный HTTP/WebSocket протокол может потенциально раскрыть секретный ключ и связанные с ним Cookies в открытой сети."
+   },
+   "AutoDownloadCookiesTooltipDes": {
+      "message": "Для небезопасного RPC, связанные Cookies веб-сайта не будут прикрепляться при автоматической загрузке или прямом экспорте."
+   },
+   "ManualDownloadCookiesTooltipDes": {
+      "message": "Вы должны решить, удалять ли связанные Cookies веб-сайта при запросе настроек загрузки."
+   },
+   "Aria2ManagerPromotionDes": {
+      "message": "Похоже, Aria2 Manager не установлен, хотите перейти в канал 'Alex Recommends' для получения дополнительной информации?"
+   },
+   "ClearSettingsDes": {
+      "message": "Подтвердите, что хотите очистить все настройки?"
+   },
+   "ColorMode": {
+      "message": "Режим цвета"
+   },
+   "LightMode": {
+      "message": "Светлый режим"
+   },
+   "DarkMode": {
+      "message": "Тёмный режим"
+   },
+   "FollowSystem": {
+      "message": "Следовать за системой"
+   },
+   "Name": {
+      "message": "Имя"
+   },
+   "SecretKey": {
+      "message": "Секретный ключ"
+   },
+   "downloadLocation": {
+      "message": "Место для загрузки"
+   },
+   "RemindCaptureTip": {
+      "message": "Захвачена загрузка другого расширения"
+   },
+   "RemindCaptureTipDes": {
+      "message": "Если имя файла аномально, отключите авто-захват."
+   },
+   "Dismiss": {
+      "message": "Отклонить"
+   },
+   "NeverRemind": {
+      "message": "Больше не напоминать"
+   },
+   "Mark": {
+      "message": "Отметить"
+   },
+   "MarkAsSecureTip": {
+      "message": "Отметить как безопасный RPC"
+   },
+   "MarkAsInsecureTip": {
+      "message": "Отметить как небезопасный RPC протокол"
+   }
+}
