@@ -21,7 +21,7 @@ export class TransitionManager {
     this.startTime = performance.now();
   }
 
-  update(currentTime) {
+  requestFrame(currentTime) {
     if (!this.isTransitioning) {
       return this.currentAnimation?.draw();
     }

@@ -1,12 +1,14 @@
 import { Canvas } from "./Canvas.js";
+import { FRAME_RATE, ANIMATION_DURATION } from "./Constants.js"
 
 class BaseAnimation {
   constructor() {
     this.canvas = new Canvas();
     this.ctx = this.canvas.getContext();
     this.frameId = 0;
-    this.totalFrames = 60;
+    this.totalFrames = FRAME_RATE;
     this.scaleFactor = this.canvas.getSize() / 16;
+    this.duration = ANIMATION_DURATION;
   }
 
   setupContext() {
@@ -180,5 +182,99 @@ export class CompleteAnimation extends BaseAnimation {
     }
 
     this.ctx.stroke();
+  }
+}
+
+export class ProgressAnimation extends BaseAnimation {
+  constructor() {
+    super();
+    this.currentProgress = 0;
+    this.targetProgress = 0;
+    this.animationSpeed = 0.02;
+    this.ctx.lineWidth = 1.5;
+    this.colors = [
+      [0, '#4FC3F7'],    // Light blue
+      [0.5, '#2196F3'],  // Medium blue
+      [1, '#1976D2']     // Dark blue
+    ];
+  }
+
+  setProgress(progress) {
+    this.targetProgress = Math.max(0, Math.min(1, progress));
+  }
+
+  #updateProgress() {
+    if (this.currentProgress !== this.targetProgress) {
+      const diff = this.targetProgress - this.currentProgress;
+      if (Math.abs(diff) < this.animationSpeed) {
+        this.currentProgress = this.targetProgress;
+      } else {
+        this.currentProgress += diff > 0 ? this.animationSpeed : -this.animationSpeed;
+      }
+    }
+  }
+
+  #drawArrow() {
+    const gradient = this.createGradient(this.colors, 8, 0, 8, 16);
+
+    this.ctx.beginPath();
+
+    // Arrow shaft
+    this.ctx.moveTo(8, 4);
+    this.ctx.lineTo(8, 12);
+
+    // Arrow head
+    this.ctx.lineTo(5, 9);
+    this.ctx.moveTo(8, 12);
+    this.ctx.lineTo(11, 9);
+
+    this.ctx.lineCap = 'round';
+    this.ctx.lineJoin = 'round';
+    this.ctx.strokeStyle = gradient;
+    this.ctx.stroke();
+  }
+
+  #drawProgressCircle() {
+    const centerX = 8;
+    const centerY = 8;
+    const radius = 7;
+
+    // Background circle
+    this.ctx.beginPath();
+    this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    this.ctx.strokeStyle = 'rgba(33, 150, 243, 0.2)';
+    this.ctx.stroke();
+
+    const gradient = this.ctx.createConicGradient(
+      -Math.PI / 2,
+      centerX,
+      centerY
+    );
+
+    gradient.addColorStop(0, this.colors[0][1]);
+    gradient.addColorStop(this.currentProgress, this.colors[2][1]);
+    gradient.addColorStop(1, this.colors[0][1]);
+
+    // Progress arc
+    this.ctx.beginPath();
+    this.ctx.arc(
+      centerX,
+      centerY,
+      radius,
+      -Math.PI / 2,
+      -Math.PI / 2 + this.currentProgress * Math.PI * 2
+    );
+    this.ctx.strokeStyle = gradient;
+    this.ctx.stroke();
+  }
+
+  render() {
+    this.addShadow('rgba(33, 150, 243, 0.3)', 2);
+
+    this.#updateProgress();
+    this.ctx.clearRect(0, 0, 16, 16);
+
+    this.#drawProgressCircle();
+    this.#drawArrow();
   }
 }

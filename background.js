@@ -678,7 +678,14 @@ async function monitorAria2() {
             if (Configs.integration && i == 0 && !isDownloadListened()) {
                 chrome.downloads.onDeterminingFilename.addListener(captureDownload);
             }
-            remoteAria2.openSocket();
+
+            if (!remoteAria2.socket) remoteAria2.openSocket();
+
+            // Only for default aria2, needs Aria2 enhanced version
+            const percent = response.result.percentActive;
+            if (i == 0 && percent && !isNaN(percent)) {
+                IconAnimController.start('Progress', percent / 100);
+            }
         } catch (error) {
             disconnected++;
             if (i == 0) {
