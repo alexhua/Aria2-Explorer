@@ -34,7 +34,7 @@ After completing these steps, the extension will take over the download process,
 
 4. Synchronize and store all settings on the cloud
 
-5. Support for zh-CN/zh-TW/en languages
+5. Support for zh-CN/zh-TW/en/cs/ru/uk/es/it/fr/ja/ko languages
 
 6. Monitor Aria2 download status via icon badge
 
@@ -72,8 +72,8 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ## 📥 Installation
 
-[<img src="https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Install Aria2-Explorer from Chrome Web Store")
-[<img src="https://get.microsoft.com/images/en-us%20light.svg" height="56" >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Install Aria2-Explorer from Edge Web Store")
+[<img src="https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Google Chrome Web Store")
+[<img src="https://get.microsoft.com/images/en-us%20light.svg" height="56" >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Microsoft Edge Addon Store")
 
 ---
 

@@ -35,7 +35,7 @@
 
 4. 所有配置云端同步
 
-5. 中/英双语言支持
+5. 中/英/日/韩/法/意/俄/乌/捷克语/西班牙语多语言支持
 
 6. Aria2下载状态监测
 
@@ -73,8 +73,8 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ## 📥 安装地址
 
-[<img src="https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "从 Chrome 商店安装 Aria2-Explorer")
-[<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height="56" >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "从 Edge 商店安装 Aria2-Explorer")
+[<img src="https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png" style="box-shadow: 1px 1px 1px #888;border-radius:8px" height="55">](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Google Chrome 扩展商店")
+[<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height="56" >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Microsoft Edge 加载项商店")
 
 ## 💡 常见问题
 
