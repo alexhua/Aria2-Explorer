@@ -67,7 +67,7 @@ export class AnimationController {
 
     // Set new timeout for auto-stop
     this.timeoutId = setTimeout(() => {
-      this.#stop(type);
+      this.#stop();
     }, newAnimation.duration);
   }
 
@@ -81,7 +81,7 @@ export class AnimationController {
     }, FRAME_INTERVAL);
   }
 
-  async #stop(type) {
+  async #stop() {
     // Clear the auto-stop timeout if it exists
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
@@ -92,13 +92,6 @@ export class AnimationController {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
-
-    // No need fade-out for progress animation
-    if (type == 'Progress') {
-      this.progressAnimation?.setProgress(0);
-      this.transitionManager.currentAnimation = null;
-      return;
-    };
 
     if (this.transitionManager.currentAnimation) {
       let progress = 0;
@@ -111,11 +104,11 @@ export class AnimationController {
           clearInterval(this.fadeIntervalId);
           this.fadeIntervalId = null;
           this.transitionManager.currentAnimation = null;
-          await IconManager.setToDefault();
+          await IconManager.restore();
         }
       }, FADE_INTERVAL);
     } else {
-      await IconManager.setToDefault();
+      await IconManager.restore();
     }
   }
 }

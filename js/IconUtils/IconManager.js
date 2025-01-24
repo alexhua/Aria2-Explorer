@@ -1,4 +1,5 @@
 export class IconManager {
+  static IconType = 'Default';
   static async setIcon(imageData) {
     try {
       await chrome.action.setIcon({ imageData });
@@ -7,8 +8,19 @@ export class IconManager {
     }
   }
 
+  static async restore() {
+    if (IconManager.IconType == 'Default') {
+      await this.setToDefault();
+    } else if (IconManager.IconType == 'Dark') {
+      await this.setToDark();
+    } else {
+      throw new Error("IconManager: Invalid icon type");
+    }
+  }
+
   static async setToDefault() {
     try {
+      IconManager.IconType = 'Default';
       await chrome.action.setIcon({
         path: {
           '32': "images/logo32.png",
@@ -24,6 +36,7 @@ export class IconManager {
 
   static async setToDark() {
     try {
+      IconManager.IconType = 'Dark';
       await chrome.action.setIcon({
         path: {
           '32': "images/logo32-dark.png",
