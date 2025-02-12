@@ -721,6 +721,9 @@ async function monitorAria2() {
             enableMonitor();
         }
         chrome.power.releaseKeepAwake();
+        if (waiting > 0) {
+            IconAnimController.start('Pause');
+        }
     }
 
     let bgColor = 'green', textColor = 'white', text = '', title = '';

@@ -1,4 +1,4 @@
-import { DownloadAnimation, CompleteAnimation, ErrorAnimation, ProgressAnimation } from './Animation.js';
+import { DownloadAnimation, CompleteAnimation, ErrorAnimation, ProgressAnimation, PauseAnimation } from './Animation.js';
 import { FRAME_INTERVAL, FADE_INTERVAL } from './Constants.js';
 import { IconManager } from './IconManager.js';
 import { TransitionManager } from './TransitionManager.js';
@@ -17,6 +17,9 @@ export class AnimationController {
     switch (type) {
       case 'Download':
         newAnimation = new DownloadAnimation();
+        break;
+      case 'Pause':
+        newAnimation = new PauseAnimation();
         break;
       case 'Complete':
         newAnimation = new CompleteAnimation();
@@ -39,13 +42,13 @@ export class AnimationController {
         throw new Error(`AnimationController: Invalid animation type: ${type}`);
     }
 
-    if (this.transitionManager.currentAnimation &&
-      this.transitionManager.currentAnimation != this.progressAnimation) {
-      const currentAnimation = this.transitionManager.isTransitioning ?
-        this.transitionManager.nextAnimation : this.transitionManager.currentAnimationAnimation;
+    const currentAnimation = this.transitionManager.isTransitioning ?
+      this.transitionManager.nextAnimation : this.transitionManager.currentAnimation;
 
+    // Start transition between different animation
+    if (currentAnimation?.constructor !== newAnimation.constructor) {
       this.transitionManager.startTransition(currentAnimation, newAnimation);
-    } else {
+    } else if (!this.transitionManager.isTransitioning) {
       this.transitionManager.currentAnimation = newAnimation;
     }
 

@@ -41,25 +41,21 @@ export class TransitionManager {
   }
 
   #blend(progress) {
-    const canvas1 = new Canvas();
-    const canvas2 = new Canvas();
+    const ctx = this.canvas.getContext();
+
+    this.canvas.clear();
 
     if (this.currentAnimation) {
-      canvas1.ctx.putImageData(this.currentAnimation.draw(), 0, 0);
+      this.currentAnimation.draw();
+      ctx.globalAlpha = 1 - progress;
+      ctx.drawImage(this.currentAnimation.canvas.getCanvas(), 0, 0);
     }
 
     if (this.nextAnimation) {
-      canvas2.ctx.putImageData(this.nextAnimation.draw(), 0, 0);
+      this.nextAnimation.draw();
+      ctx.globalAlpha = progress;
+      ctx.drawImage(this.nextAnimation.canvas.getCanvas(), 0, 0);
     }
-
-    this.canvas.clear();
-    const ctx = this.canvas.getContext();
-
-    ctx.globalAlpha = 1 - progress;
-    ctx.drawImage(canvas1.getCanvas(), 0, 0);
-    ctx.globalAlpha = progress;
-    ctx.drawImage(canvas2.getCanvas(), 0, 0);
-    ctx.globalAlpha = 1;
 
     return this.canvas.getImageData();
   }

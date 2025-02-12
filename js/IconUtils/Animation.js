@@ -36,7 +36,6 @@ class BaseAnimation {
     this.ctx.globalAlpha = alpha;
     this.ctx.scale(this.scaleFactor, this.scaleFactor);
     this.render();
-    this.ctx.globalAlpha = 1;
     this.frameId = (this.frameId + 1) % this.totalFrames;
     this.ctx.restore();
     return this.canvas.getImageData();
@@ -276,5 +275,49 @@ export class ProgressAnimation extends BaseAnimation {
 
     this.#drawProgressCircle();
     this.#drawArrow();
+  }
+}
+
+export class PauseAnimation extends BaseAnimation {
+  constructor() {
+    super();
+    this.duration = 3010;
+    this.colors = [
+      [0, '#4FC3F7'],    // Light blue
+      [0.5, '#2196F3'],  // Medium blue
+      [1, '#1976D2']     // Dark blue   
+    ];
+  }
+
+  render() {
+
+    // Draw circle
+    this.ctx.beginPath();
+    this.ctx.lineWidth = 1.5;
+    this.ctx.strokeStyle = 'rgba(33, 150, 243, .6)';
+    this.ctx.arc(8, 8, 7, 0, Math.PI * 2);
+    this.ctx.stroke();
+
+    // set round conner
+    this.ctx.lineCap = 'round';
+    this.ctx.lineJoin = 'round';
+
+    // Draw pause symbol
+    this.addShadow('rgba(3, 169, 244, 0.2)', 1);
+    const gradient = this.createGradient(this.colors, 0, 0, 16, 16);
+    this.ctx.strokeStyle = gradient;
+    this.ctx.lineWidth = 1.5;
+
+    // left line
+    this.ctx.beginPath();
+    this.ctx.moveTo(6.75, 5);
+    this.ctx.lineTo(6.75, 11);
+    this.ctx.stroke();
+
+    // right line
+    this.ctx.beginPath();
+    this.ctx.moveTo(9.25, 5);
+    this.ctx.lineTo(9.25, 11);
+    this.ctx.stroke();
   }
 }
