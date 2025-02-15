@@ -10,10 +10,13 @@ const NID_TASK_NEW = "NID_TASK_NEW";
 const NID_TASK_STOPPED = "NID_TASK_STOPPED";
 const NID_CAPTURED_OTHERS = "NID_CAPTURED_OTHERS";
 
+const INTERVAL_SHORT = 1000;
+const INTERVAL_LONG = 3000;
+
 var CurrentWindowId = 0;
 var CurrentTabUrl = "about:blank";
 var MonitorId = -1;
-var MonitorInterval = 3000; // Aria2 monitor interval 3000ms
+var MonitorInterval = INTERVAL_LONG; // Aria2 monitor interval 3000ms
 var RemoteAria2List = [];
 var IconAnimController = new AnimationController();
 
@@ -645,6 +648,7 @@ function enableMonitor() {
 }
 
 function disableMonitor() {
+    monitorAria2();
     clearInterval(MonitorId);
     MonitorId = -1;
     chrome.action.setBadgeText({ text: "" });
@@ -664,6 +668,8 @@ async function monitorAria2() {
     for (const i in RemoteAria2List) {
         const remoteAria2 = RemoteAria2List[i];
         try {
+            if (!remoteAria2.socket) remoteAria2.openSocket();
+
             let response = await remoteAria2.getGlobalStat();
             if (response && response.error) {
                 throw response.error;
@@ -678,8 +684,6 @@ async function monitorAria2() {
             if (Configs.integration && i == 0 && !isDownloadListened()) {
                 chrome.downloads.onDeterminingFilename.addListener(captureDownload);
             }
-
-            if (!remoteAria2.socket) remoteAria2.openSocket();
 
             // Only for default aria2, needs Aria2 enhanced version
             const percent = response.result.percentActive;
@@ -705,8 +709,8 @@ async function monitorAria2() {
     }
 
     if (active > 0) {
-        if (MonitorInterval == 3000) {
-            MonitorInterval = 1000;
+        if (MonitorInterval == INTERVAL_LONG) {
+            MonitorInterval = INTERVAL_SHORT;
             disableMonitor();
             enableMonitor();
         }
@@ -715,8 +719,8 @@ async function monitorAria2() {
         else
             chrome.power.releaseKeepAwake();
     } else if (active == 0) {
-        if (MonitorInterval == 1000) {
-            MonitorInterval = 3000;
+        if (MonitorInterval == INTERVAL_SHORT) {
+            MonitorInterval = INTERVAL_LONG;
             disableMonitor();
             enableMonitor();
         }
