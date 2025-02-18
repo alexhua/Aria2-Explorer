@@ -382,6 +382,7 @@ French=французька
 Italian=італійська
 Japanese=японська
 Korean=корейська
+Polish=польський
 Russian=російська
 Spanish=Іспанська
 Simplified Chinese=спрощений китайський

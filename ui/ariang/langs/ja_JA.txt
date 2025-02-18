@@ -382,6 +382,7 @@ French=フランス語
 Italian=イタリア語
 Japanese=日本語
 Korean=韓国語
+Polish=ポーランド語
 Russian=ロシア語
 Spanish=スペイン語
 Simplified Chinese=簡体字中国語

@@ -381,6 +381,7 @@ French=Francese
 Italian=Italiano
 Japanese=Giapponese
 Korean=Coreano
+Polish=Polacco
 Russian=Russo
 Simplified Chinese=Cinese Semplificato
 Traditional Chinese=Cinese Tradizionale

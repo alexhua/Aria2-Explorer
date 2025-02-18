@@ -383,6 +383,7 @@ English=Inglés
 Spanish=Español
 French=Francés
 Italian=Italiano
+Polish=Polaco
 Russian=Ruso
 Japanese=Japonés
 Korean=Coreano
