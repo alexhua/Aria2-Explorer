@@ -648,7 +648,6 @@ function enableMonitor() {
 }
 
 function disableMonitor() {
-    monitorAria2();
     clearInterval(MonitorId);
     MonitorId = -1;
     chrome.action.setBadgeText({ text: "" });
