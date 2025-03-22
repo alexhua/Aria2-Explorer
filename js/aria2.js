@@ -191,6 +191,11 @@ class Aria2 {
         } else { // Use HTTP fetch as a fallback.
             let url = request.url;
             url = url.replace(/^ws/, "http");
+
+            const controller = new AbortController();
+            const { signal } = controller;
+            const timeoutId = setTimeout(() => controller.abort(), SOCKET_TIMEOUT);
+
             try {
                 const response = await fetch(url, {
                     method: "POST",
@@ -198,11 +203,17 @@ class Aria2 {
                     headers: {
                         "Accept": "application/json",
                         "Content-Type": "application/json"
-                    }
+                    },
+                    signal
                 });
                 this.#online = true;
+                clearTimeout(timeoutId);
                 return await response.json();
             } catch (error) {
+                clearTimeout(timeoutId);
+                if (error.name === 'AbortError') {
+                    console.error(`Abort Request to ${this.name}: net::ERR_CONNECTION_TIMED_OUT`);
+                }
                 // Fetching error usually means aria2 is offline.
                 this.#online = false;
                 this.#supportsWebSocket = true;
