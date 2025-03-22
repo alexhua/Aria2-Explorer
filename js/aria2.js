@@ -1,7 +1,6 @@
 import Utils from "./utils.js";
 
-const DEBUG = false;
-const SOCKET_TIMEOUT = 30 * 1000;
+const SOCKET_TIMEOUT = 8 * 1000;
 const DEFAULT_ARIA2 = { name: "Aria2", rpcUrl: "http://localhost:6800/jsonrpc", secretKey: '' };
 
 class Aria2 {
@@ -10,6 +9,9 @@ class Aria2 {
     #isLocalhost;
     #messageHandlers;
     #pendingRequests;
+    #socket;
+    #online;
+    #supportsWebSocket;
 
     /**
      * @param {object} Aria2 
@@ -22,7 +24,9 @@ class Aria2 {
         this.#isLocalhost = Utils.isLocalhost(this.rpcUrl);
         this.#messageHandlers = new Set();
         this.#pendingRequests = new Map(); // Used to manage pending RPC requests
-        this.socket = null;
+        this.#socket = null;
+        this.#online = false;
+        this.#supportsWebSocket = true;
     }
 
     get sid() {
@@ -53,47 +57,58 @@ class Aria2 {
      * Open the WebSocket connection and register global event listeners.
      */
     openSocket() {
+        if (!this.#supportsWebSocket) return;
+
         let url = this.rpcUrl;
-        if (url.startsWith("http"))
-            url = url.replace(/^http/, "ws");
-        if (this.socket && this.socket.url === url && this.socket.readyState <= WebSocket.OPEN)
-            return this.socket;
+        url = url.replace(/^http/, "ws");
+        if (this.#socket && this.#socket.url === url && this.#socket.readyState <= WebSocket.OPEN)
+            return this.#socket;
 
         try {
-            this.socket = new WebSocket(url);
+            this.#socket = new WebSocket(url);
+
+            this.#socket.addEventListener('open', (event) => {
+                this.#online = true;
+            });
 
             // Register a global message event listener to handle all RPC responses and subscription messages.
-            this.socket.addEventListener('message', this.#onMessage.bind(this));
+            this.#socket.addEventListener('message', this.#onMessage.bind(this));
 
             // Error event: notify all pending requests about the error.
-            this.socket.addEventListener('error', (event) => {
+            this.#socket.addEventListener('error', (event) => {
                 this.#pendingRequests.forEach(({ reject }) => {
                     reject(new Error("WebSocket encountered an error"));
                 });
                 this.#pendingRequests.clear();
+                if (this.#online) {
+                    this.#supportsWebSocket = false
+                    console.warn(`Failed to connect to ${this.name} via WebSocket. Task notification will not be received.`);
+                };
             });
 
             // Close event: also notify all pending requests.
-            this.socket.addEventListener('close', (event) => {
+            this.#socket.addEventListener('close', (event) => {
                 this.#pendingRequests.forEach(({ reject }) => {
                     reject(new Error("WebSocket closed"));
                 });
                 this.#pendingRequests.clear();
+                this.#socket = null;
             });
         } catch (error) {
             console.error(error.message);
         }
-        return this.socket;
+        return this.#socket;
     }
 
     /**
      * Close the WebSocket connection.
      */
     closeSocket() {
-        if (this.socket) {
-            this.socket.close();
-            this.socket = null;
+        if (this.#socket) {
+            this.#socket.close();
+            this.#socket = null;
         }
+        this.#supportsWebSocket = true;
     }
 
     /**
@@ -102,24 +117,24 @@ class Aria2 {
      * @param {MessageEvent} event 
      */
     #onMessage(event) {
-        let data;
+        let message = null;
         try {
-            data = JSON.parse(event.data);
-            data.source = this;
+            message = JSON.parse(event.data);
+            message.source = this;
         } catch (error) {
             console.error(`${this.name} received invalid message: ${event.data}`);
             return;
         }
         // If the message includes an id, check if it corresponds to a pending request.
-        if (data.id !== undefined && this.#pendingRequests.has(data.id)) {
-            const { resolve } = this.#pendingRequests.get(data.id);
-            resolve(data);
-            this.#pendingRequests.delete(data.id);
+        if (message.id !== undefined && this.#pendingRequests.has(message.id)) {
+            const { resolve } = this.#pendingRequests.get(message.id);
+            resolve(message);
+            this.#pendingRequests.delete(message.id);
         }
         // Dispatch the message to all registered message handlers.
         this.#messageHandlers.forEach((handler) => {
             try {
-                handler(data);
+                handler(message);
             } catch (error) {
                 console.error("Message handler error:", error);
             }
@@ -155,17 +170,17 @@ class Aria2 {
      */
     async #doRPC(request) {
         // Prefer using WebSocket if it is open.
-        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+        if (this.#socket && this.#socket.readyState === WebSocket.OPEN) {
             return new Promise((resolve, reject) => {
                 // Add the request to the pending queue.
                 this.#pendingRequests.set(request.id, { resolve, reject });
                 try {
-                    this.socket.send(request.payload);
+                    this.#socket.send(request.payload);
                 } catch (error) {
                     this.#pendingRequests.delete(request.id);
                     return reject(error);
                 }
-                // Set a timeout (e.g., 30 seconds) for the RPC request.
+                // Set a timeout (e.g., 8 seconds) for the RPC request.
                 setTimeout(() => {
                     if (this.#pendingRequests.has(request.id)) {
                         this.#pendingRequests.delete(request.id);
@@ -175,8 +190,7 @@ class Aria2 {
             });
         } else { // Use HTTP fetch as a fallback.
             let url = request.url;
-            if (url.startsWith("ws"))
-                url = url.replace(/^ws/, "http");
+            url = url.replace(/^ws/, "http");
             try {
                 const response = await fetch(url, {
                     method: "POST",
@@ -186,9 +200,12 @@ class Aria2 {
                         "Content-Type": "application/json"
                     }
                 });
+                this.#online = true;
                 return await response.json();
             } catch (error) {
-                this.closeSocket(); // Fetch error means aria2 is offline, so close socket.
+                // Fetching error usually means aria2 is offline.
+                this.#online = false;
+                this.#supportsWebSocket = true;
                 return Promise.reject(error);
             }
         }

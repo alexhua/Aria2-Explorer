@@ -15,7 +15,7 @@ const INTERVAL_LONG = 3000;
 
 var CurrentWindowId = 0;
 var CurrentTabUrl = "about:blank";
-var MonitorId = -1;
+var MonitorId = null;
 var MonitorInterval = INTERVAL_LONG; // Aria2 monitor interval 3000ms
 var RemoteAria2List = [];
 var IconAnimController = new AnimationController();
@@ -637,7 +637,7 @@ function updateBlockedSites(tab) {
 }
 
 function enableMonitor() {
-    if (MonitorId !== -1) {
+    if (MonitorId) {
         console.warn("Warn: Monitor has already started.");
         return;
     }
@@ -648,8 +648,8 @@ function enableMonitor() {
 }
 
 function disableMonitor() {
-    clearInterval(MonitorId);
-    MonitorId = -1;
+    MonitorId = clearInterval(MonitorId);
+    RemoteAria2List.forEach(aria2 => aria2.closeSocket());
     chrome.action.setBadgeText({ text: "" });
     chrome.action.setTitle({ title: "" });
     Configs.monitorAria2 = false;
@@ -667,7 +667,7 @@ async function monitorAria2() {
     for (const i in RemoteAria2List) {
         const remoteAria2 = RemoteAria2List[i];
         try {
-            if (!remoteAria2.socket) remoteAria2.openSocket();
+            remoteAria2.openSocket();
 
             let response = await remoteAria2.getGlobalStat();
             if (response && response.error) {
@@ -710,8 +710,8 @@ async function monitorAria2() {
     if (active > 0) {
         if (MonitorInterval == INTERVAL_LONG) {
             MonitorInterval = INTERVAL_SHORT;
-            disableMonitor();
-            enableMonitor();
+            clearInterval(MonitorId);
+            MonitorId = setInterval(monitorAria2, MonitorInterval);
         }
         if (Configs.keepAwake && localConnected > 0)
             chrome.power.requestKeepAwake("system");
@@ -720,8 +720,8 @@ async function monitorAria2() {
     } else if (active == 0) {
         if (MonitorInterval == INTERVAL_SHORT) {
             MonitorInterval = INTERVAL_LONG;
-            disableMonitor();
-            enableMonitor();
+            clearInterval(MonitorId);
+            MonitorId = setInterval(monitorAria2, MonitorInterval);
         }
         chrome.power.releaseKeepAwake();
         if (waiting > 0) {
