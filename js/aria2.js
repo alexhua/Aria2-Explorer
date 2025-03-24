@@ -83,7 +83,7 @@ class Aria2 {
                 if (this.#online) {
                     this.#supportsWebSocket = false
                     console.warn(`Failed to connect to ${this.name} via WebSocket. Task notification will not be received.`);
-                };
+                }
             });
 
             // Close event: also notify all pending requests.
@@ -122,23 +122,26 @@ class Aria2 {
             message = JSON.parse(event.data);
             message.source = this;
         } catch (error) {
-            console.error(`${this.name} received invalid message: ${event.data}`);
+            console.error(`${this.name} received invalid message: ${event.data}`, error);
             return;
         }
+        
         // If the message includes an id, check if it corresponds to a pending request.
         if (message.id !== undefined && this.#pendingRequests.has(message.id)) {
             const { resolve } = this.#pendingRequests.get(message.id);
             resolve(message);
             this.#pendingRequests.delete(message.id);
         }
+        
         // Dispatch the message to all registered message handlers.
-        this.#messageHandlers.forEach((handler) => {
+        for (const handler of this.#messageHandlers) {
             try {
                 handler(message);
             } catch (error) {
-                console.error("Message handler error:", error);
+                console.error(`${this.name} message handler error:`, error);
+                // Continue processing other handlers despite the error
             }
-        });
+        }
     }
 
     /**
@@ -227,19 +230,32 @@ class Aria2 {
      * @param {string} method Aria2 RPC method.
      * @param  {...any} params Parameter list.
      * @returns {object} Request object containing id, url, and payload.
+     * @throws {Error} If method is invalid
      */
     #buildRequest(method, ...params) {
+        if (!method || typeof method !== 'string') {
+            throw new Error("Invalid RPC method: method must be a non-empty string");
+        }
+        
+        // Validate method format - should start with "aria2."
+        if (!method.startsWith("aria2.")) {
+            throw new Error(`Invalid RPC method: ${method}. Method should start with "aria2."`);
+        }
+        
         const id = this.sid;
         const request = { id, url: this.rpcUrl, payload: '' };
+        
         if (this.secretKey) {
             params.unshift("token:" + this.secretKey);
         }
+        
         request.payload = JSON.stringify({
             jsonrpc: "2.0",
             method: method,
             id: id,
             params: params
         });
+        
         return request;
     }
 
