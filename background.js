@@ -533,7 +533,7 @@ function onMenuClick(info, tab) {
     const referrer = info.frameUrl || info.pageUrl;
     const filename = '';
     // mock a DownloadItem
-    let downloadItem = { url, referrer, filename };
+    let downloadItem = { url, referrer, filename, incognito: tab.incognito };
 
     if (info.menuItemId == "MENU_OPEN_WEB_UI") {
         launchUI(tab);
@@ -579,7 +579,8 @@ function onMenuClick(info, tab) {
 function updateOptionMenu(tab) {
     let blockedSitesSet = new Set(Configs.blockedSites);
     let allowedSitesSet = new Set(Configs.allowedSites);
-    if (tab == null || !tab.active) {
+
+    if (tab == null || !tab.active || tab.incognito !== chrome.extension.inIncognitoContext) {
         if (!tab) {
             console.warn("Could not get active tab, update option menu failed.")
         };
@@ -911,10 +912,11 @@ function init() {
             popup: url
         });
         initRemoteAria2();
-        chrome.contextMenus.removeAll();
-        createOptionMenu();
-        createContextMenu();
-        updateOptionMenu({ url: CurrentTabUrl, active: true });
+        chrome.contextMenus.removeAll(function () {
+            createOptionMenu();
+            createContextMenu();
+            updateOptionMenu({ url: CurrentTabUrl, active: true });
+        });
         Configs.integration ? enableCapture() : disableCapture();
         Configs.monitorAria2 ? enableMonitor() : disableMonitor();
         url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-Explore/issues/98" : '';
