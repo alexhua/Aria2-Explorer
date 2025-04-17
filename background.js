@@ -2,6 +2,7 @@ import Utils from "./js/utils.js";
 import Configs from "./js/config.js";
 import Aria2 from "./js/aria2.js";
 import Aria2Options from "./js/aria2Options.js";
+import ContextMenu from "./js/contextMenu.js";
 import { IconManager } from "./js/IconUtils/IconManager.js";
 import { AnimationController } from './js/IconUtils/AnimationController.js';
 
@@ -18,7 +19,9 @@ var CurrentTabUrl = "about:blank";
 var MonitorId = null;
 var MonitorInterval = INTERVAL_LONG; // Aria2 monitor interval 3000ms
 var RemoteAria2List = [];
-var IconAnimController = new AnimationController();
+
+const IconAnimController = new AnimationController();
+const ContextMenus = new ContextMenu();
 
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload);
 
@@ -246,7 +249,7 @@ function enableCapture() {
     }
     IconManager.setToDefault();
     Configs.integration = true;
-    chrome.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
+    ContextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
 }
 
 function disableCapture() {
@@ -255,7 +258,7 @@ function disableCapture() {
     }
     IconManager.setToDark();
     Configs.integration = false;
-    chrome.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: false });
+    ContextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: false });
 }
 
 async function captureDownload(downloadItem, suggest) {
@@ -407,7 +410,7 @@ function createRpcOptionsMenu() {
     for (const menuItem of rpcOptionsList) {
         if (needParentMenu) {
             let title = '🔘 ' + chrome.i18n.getMessage("selectDefaultRpcStr");
-            chrome.contextMenus.create({
+            ContextMenus.create({
                 "type": "normal",
                 "id": "MENU_RPC_LIST",
                 "title": title,
@@ -416,7 +419,7 @@ function createRpcOptionsMenu() {
             needParentMenu = false;
         }
         let checked = Configs.rpcList[menuItem.id].pattern == '*'
-        chrome.contextMenus.create({
+        ContextMenus.create({
             "type": "radio",
             "checked": checked,
             "id": "MENU_RPC_LIST-" + menuItem.id,
@@ -429,7 +432,7 @@ function createRpcOptionsMenu() {
 
 function createOptionMenu() {
     let title = chrome.i18n.getMessage("downloadCaptureStr");
-    chrome.contextMenus.create({
+    ContextMenus.create({
         "type": "checkbox",
         "checked": Configs.integration,
         "id": "MENU_CAPTURE_DOWNLOAD",
@@ -437,21 +440,21 @@ function createOptionMenu() {
         "contexts": ["action"]
     });
     title = chrome.i18n.getMessage("monitorAria2Str");
-    chrome.contextMenus.create({
+    ContextMenus.create({
         "type": "checkbox",
         "checked": Configs.monitorAria2,
         "id": "MENU_MONITOR_ARIA2",
         "title": '🩺 ' + title,
         "contexts": ["action"]
     });
-    chrome.contextMenus.create({
+    ContextMenus.create({
         "type": "separator",
-        "id": "separator",
+        "id": "MENU_SEPARATOR",
         "contexts": ["action"]
     });
     if (Utils.getPlatform() == `Windows` && RemoteAria2List[0]?.isLocalhost) {
         title = chrome.i18n.getMessage("startAria2Str");
-        chrome.contextMenus.create({
+        ContextMenus.create({
             "type": "normal",
             "id": "MENU_START_ARIA2",
             "title": '⚡️ ' + title,
@@ -459,7 +462,7 @@ function createOptionMenu() {
         });
     } else {
         title = chrome.i18n.getMessage("openWebUIStr");
-        chrome.contextMenus.create({
+        ContextMenus.create({
             "type": "normal",
             "id": "MENU_OPEN_WEB_UI",
             "title": '🪟 ' + title,
@@ -467,14 +470,14 @@ function createOptionMenu() {
         });
     }
     title = chrome.i18n.getMessage("websiteFilterStr");
-    chrome.contextMenus.create({
+    ContextMenus.create({
         "type": "normal",
         "id": "MENU_WEBSITE_FILTER",
         "title": '🔛 ' + title,
         "contexts": ["action"]
     });
     title = chrome.i18n.getMessage("addToWhiteListStr");
-    chrome.contextMenus.create({
+    ContextMenus.create({
         "type": "normal",
         "id": "MENU_UPDATE_ALLOW_SITE",
         "parentId": "MENU_WEBSITE_FILTER",
@@ -482,7 +485,7 @@ function createOptionMenu() {
         "contexts": ["action"]
     });
     title = chrome.i18n.getMessage("addToBlackListStr");
-    chrome.contextMenus.create({
+    ContextMenus.create({
         "type": "normal",
         "id": "MENU_UPDATE_BLOCK_SITE",
         "parentId": "MENU_WEBSITE_FILTER",
@@ -496,7 +499,7 @@ function createContextMenu() {
     var strExport = chrome.i18n.getMessage("contextmenuTitle");
     let strExportAllDes = chrome.i18n.getMessage("exportAllDes");
     if (Configs.exportAll) {
-        chrome.contextMenus.create({
+        ContextMenus.create({
             id: "MENU_EXPORT_ALL",
             title: strExportAllDes,
             contexts: ['page']
@@ -504,7 +507,7 @@ function createContextMenu() {
     }
     if (Configs.contextMenus) {
         if (Configs.askBeforeExport) {
-            chrome.contextMenus.create({
+            ContextMenus.create({
                 id: "MENU_EXPORT_TO",
                 title: strExport + "AriaNG",
                 contexts: ['link', 'selection']
@@ -518,7 +521,7 @@ function createContextMenu() {
                     title = '📥 ' + strExport + Configs.rpcList[i]['name'];
                 }
 
-                chrome.contextMenus.create({
+                ContextMenus.create({
                     id: "MENU_EXPORT_TO-" + i,
                     title: title,
                     contexts: ['link', 'selection']
@@ -593,14 +596,14 @@ function updateOptionMenu(tab) {
     } else {
         title += chrome.i18n.getMessage("addToWhiteListStr");
     }
-    chrome.contextMenus.update("MENU_UPDATE_ALLOW_SITE", { title });
+    ContextMenus.update("MENU_UPDATE_ALLOW_SITE", { title });
     title = '🚫 '
     if (blockedSitesSet.has(url.hostname)) {
         title += chrome.i18n.getMessage("removeFromBlackListStr");
     } else {
         title += chrome.i18n.getMessage("addToBlackListStr");
     }
-    chrome.contextMenus.update("MENU_UPDATE_BLOCK_SITE", { title });
+    ContextMenus.update("MENU_UPDATE_BLOCK_SITE", { title });
 }
 
 function updateAllowedSites(tab) {
@@ -645,7 +648,7 @@ function enableMonitor() {
     monitorAria2();
     MonitorId = setInterval(monitorAria2, MonitorInterval);
     Configs.monitorAria2 = true;
-    chrome.contextMenus.update("MENU_MONITOR_ARIA2", { checked: true });
+    ContextMenus.update("MENU_MONITOR_ARIA2", { checked: true });
 }
 
 function disableMonitor() {
@@ -654,7 +657,7 @@ function disableMonitor() {
     chrome.action.setBadgeText({ text: "" });
     chrome.action.setTitle({ title: "" });
     Configs.monitorAria2 = false;
-    chrome.contextMenus.update("MENU_MONITOR_ARIA2", { checked: false });
+    ContextMenus.update("MENU_MONITOR_ARIA2", { checked: false });
     if (Configs.integration && !isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.addListener(captureDownload);
     }
@@ -785,7 +788,7 @@ async function resetSidePanel(tabId) {
 
 function registerAllListeners() {
     chrome.action.onClicked.addListener(launchUI);
-    chrome.contextMenus.onClicked.addListener(onMenuClick);
+    ContextMenus.onClicked.addListener(onMenuClick);
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         if (changeInfo.status == "loading" && tab?.active) {
             CurrentTabUrl = tab?.url || "about:blank";
@@ -912,13 +915,13 @@ function init() {
             popup: url
         });
         initRemoteAria2();
-        chrome.contextMenus.removeAll(function () {
+        ContextMenus.removeAll(function () {
             createOptionMenu();
             createContextMenu();
             updateOptionMenu({ url: CurrentTabUrl, active: true });
+            Configs.integration ? enableCapture() : disableCapture();
+            Configs.monitorAria2 ? enableMonitor() : disableMonitor();
         });
-        Configs.integration ? enableCapture() : disableCapture();
-        Configs.monitorAria2 ? enableMonitor() : disableMonitor();
         url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-Explore/issues/98" : '';
         chrome.runtime.setUninstallURL(url);
         chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: Configs.webUIOpenStyle == "sidePanel" });
