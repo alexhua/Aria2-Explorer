@@ -583,7 +583,7 @@ function updateOptionMenu(tab) {
     let blockedSitesSet = new Set(Configs.blockedSites);
     let allowedSitesSet = new Set(Configs.allowedSites);
 
-    if (tab == null || !tab.active || tab.incognito !== chrome.extension.inIncognitoContext) {
+    if (tab == null || !tab.active) {
         if (!tab) {
             console.warn("Could not get active tab, update option menu failed.")
         };
