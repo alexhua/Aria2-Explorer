@@ -25,8 +25,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. v2.1.0]
+ - Browser [e.g. Chrome, Edge]
+ - Extension Version [e.g. v2.6.0]
 
 **Additional context**
 Add any other context about the problem here.

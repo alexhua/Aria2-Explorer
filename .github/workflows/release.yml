@@ -1,5 +1,7 @@
 ---
 name: "tagged-release"
+permissions:
+  contents: write
 
 on:
   push:

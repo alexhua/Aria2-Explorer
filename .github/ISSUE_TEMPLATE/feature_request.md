@@ -15,9 +15,6 @@ A clear and concise description of what this feature does.
 * xxxxxx
 * xxxxxx
 
-**Is the solution code ready**
-Yes / No
-
 **Willing to maintain the related code in the future**
 Yes / No
 
