@@ -105,7 +105,7 @@ async function download(downloadItem, rpcItem) {
 }
 
 async function getCookies(downloadItem) {
-    let storeId = downloadItem.incognito == true ? "1" : "0";
+    let storeId = chrome.extension.inIncognitoContext ? "1" : "0";
     let url = downloadItem.multiTask ? downloadItem.referrer : downloadItem.url;
     let cookies = await chrome.cookies.getAll({ url, storeId });
     let cookieItems = [];
