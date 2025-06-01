@@ -23,10 +23,9 @@ export class IconManager {
       IconManager.IconType = 'Default';
       await chrome.action.setIcon({
         path: {
+          '16': "images/logo16.png",
           '32': "images/logo32.png",
-          '64': "images/logo64.png",
-          '128': "images/logo128.png",
-          '256': "images/logo256.png"
+          '48': "images/logo48.png"
         }
       });
     } catch (error) {
@@ -39,10 +38,9 @@ export class IconManager {
       IconManager.IconType = 'Dark';
       await chrome.action.setIcon({
         path: {
-          '32': "images/logo32-dark.png",
-          '64': "images/logo64-dark.png",
-          '128': "images/logo128-dark.png",
-          '256': "images/logo256-dark.png"
+          '16': "images/logo16-dusk.png",
+          '32': "images/logo32-dusk.png",
+          '48': "images/logo48-dusk.png"
         }
       });
     } catch (error) {
