@@ -23,6 +23,12 @@
    "exportAllFailedDes": {
       "message": "有効なダウンロードリンクが見つかりません。"
    },
+   "checkAltClickDes": {
+      "message": "Altキーを押してダウンロードのインターセプトを防止"
+   },
+   "checkAltClickTip": {
+      "message": "Altキーを押しながらリンクをクリックしたときにダウンロードのインターセプトを防止します。新しい設定はページを更新した後に有効になります。"
+   },
    "askBeforeExportDes": {
       "message": "エクスポート前に詳細設定を確認する"
    },

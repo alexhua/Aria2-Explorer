@@ -230,9 +230,10 @@ button.tool-tip::before {
 }
 
 .tool-tip-icon::after {
-  content: "\f059";
+  content: "\f05a";
   font-family: "Font Awesome 6 Free";
   font-weight: bold;
+  font-size: .9rem;
   margin-left: .3rem;
   color: #0455ca;
   cursor: help;

@@ -23,6 +23,12 @@
    "exportAllFailedDes": {
       "message": "Nebyl nalezen žádný platný odkaz ke stažení."
    },
+   "checkAltClickDes": {
+      "message": "Zabránit zachycení stahování stisknutím klávesy Alt"
+   },
+   "checkAltClickTip": {
+      "message": "Zabránit zachycení stahování při stisknutí klávesy Alt a kliknutí na odkaz. Nové nastavení se projeví po obnovení stránek."
+   },
    "askBeforeExportDes": {
       "message": "Před exportem se zeptat na podrobné nastavení"
    },
@@ -69,7 +75,7 @@
       "message": "Zachytávání na úrovni OS, před odinstalací prosím zkontrolujte deaktivaci."
    },
    "captureMagnetTip": {
-      "message": "Pokud nechcete zachytávání na úrovni systému, klikněte na „Ne“ v dialogovém okně s potvrzením UAC v systému Windows."
+      "message": "Pokud nechcete zachytávání na úrovni systému, klikněte na \"Ne\" v dialogovém okně s potvrzením UAC v systému Windows."
    },
    "websiteStr": {
       "message": "Webová stránka"

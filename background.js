@@ -14,6 +14,7 @@ const NID_CAPTURED_OTHERS = "NID_CAPTURED_OTHERS";
 const INTERVAL_SHORT = 1000;
 const INTERVAL_LONG = 3000;
 
+var AltKeyPressed = false;  // record wether alt key is pressed when mouse click
 var CurrentWindowId = 0;
 var CurrentTabUrl = "about:blank";
 var MonitorId = null;
@@ -211,6 +212,11 @@ function shouldCapture(downloadItem) {
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
     if (downloadItem.byExtensionId == chrome.runtime.id) {
+        return false;
+    }
+
+    if (AltKeyPressed) {
+        AltKeyPressed = false;
         return false;
     }
 
@@ -887,6 +893,9 @@ function registerAllListeners() {
                         (window) => { sendResponse({ data: window }) }
                     );
                     return true;
+                case "ALT_KEY_EVENT":
+                    AltKeyPressed = !!message.data.pressed;
+                    break;
             }
         }
     );
@@ -894,14 +903,21 @@ function registerAllListeners() {
     /* Listen to the setting changes from options menu and page to control the extension behaviors */
     chrome.storage.onChanged.addListener(function (changes, area) {
         if (area !== "local") return;
-        let needReInit = changes.rpcList || changes.contextMenus || changes.askBeforeExport || changes.exportAll || changes.allowNotification
-            || changes.integration || changes.monitorAria2 || changes.monitorAll || changes.captureMagnet || changes.webUIOpenStyle;
+
+        let needReInit = changes.rpcList || changes.contextMenus || changes.askBeforeExport ||
+            changes.exportAll || changes.allowNotification || changes.integration ||
+            changes.monitorAria2 || changes.monitorAll || changes.captureMagnet || changes.webUIOpenStyle;
+
         if (needReInit) {
             init();
         } else {
             for (const [key, { oldValue, newValue }] of Object.entries(changes)) {
                 Configs[key] = newValue;
             }
+        }
+
+        if ("checkClick" in changes) {
+            initClickChecker();
         }
     });
 }
@@ -915,6 +931,7 @@ function init() {
             popup: url
         });
         initRemoteAria2();
+        initClickChecker();
         ContextMenus.removeAll(function () {
             createOptionMenu();
             createContextMenu();
@@ -945,6 +962,22 @@ function initRemoteAria2() {
         } else {
             RemoteAria2List[i].unRegMessageHandler(notifyTaskStatus);
         }
+    }
+}
+
+async function initClickChecker() {
+    const CS_ID = 'ALT_CLICK_CHECKER';
+    const scripts = await chrome.scripting.getRegisteredContentScripts({ ids: [CS_ID] });
+    if (Configs.checkClick && scripts.length == 0) {
+        chrome.scripting.registerContentScripts([{
+            id: CS_ID,
+            matches: ['<all_urls>'],
+            js: ['js/content/clickChecker.js'],
+            runAt: 'document_end',
+            allFrames: true
+        }]);
+    } else if (!Configs.checkClick && scripts.length != 0) {
+        chrome.scripting.unregisterContentScripts({ ids: [CS_ID] });
     }
 }
 

@@ -21,7 +21,7 @@
       "message": "Exportar todos los enlaces"
    },
    "exportAllFailedDes": {
-      "message": "No se encontraron enlaces de descarga válidos."
+      "message": "No se encontró ningún enlace de descarga válido."
    },
    "askBeforeExportDes": {
       "message": "Preguntar la configuración detallada antes de exportar"
@@ -34,6 +34,12 @@
    },
    "askBeforeDownloadDes": {
       "message": "Preguntar la configuración detallada antes de la descarga automática"
+   },
+   "checkAltClickDes": {
+      "message": "Prevenir la interceptación de descargas presionando la tecla Alt"
+   },
+   "checkAltClickTip": {
+      "message": "Prevenir la interceptación de descargas al presionar la tecla Alt y hacer clic en un enlace. La nueva configuración entrará en vigor después de actualizar las páginas."
    },
    "allowExternalRequestDes": {
       "message": "Recibir solicitudes de descarga de Aria2 de otras extensiones"

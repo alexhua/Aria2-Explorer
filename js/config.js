@@ -41,6 +41,7 @@ export const DefaultConfigs = {
     exportAll: true,
     integration: false,
     fileSize: "100",
+    checkClick: false,
     askBeforeDownload: false,
     allowExternalRequest: false,
     monitorAria2: false,

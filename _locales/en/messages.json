@@ -23,6 +23,12 @@
    "exportAllFailedDes": {
       "message": "No valid download link found."
    },
+   "checkAltClickDes": {
+      "message": "Prevent download interception by pressing Alt key"
+   },
+   "checkAltClickTip": {
+      "message": "Prevent download interception when pressing the Alt key and clicking on a link. New setting will take effect after refreshing pages."
+   },
    "askBeforeExportDes": {
       "message": "Ask detail settings before export"
    },

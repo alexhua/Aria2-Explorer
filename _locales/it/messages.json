@@ -23,6 +23,12 @@
    "exportAllFailedDes": {
       "message": "Nessun link di download valido trovato."
    },
+   "checkAltClickDes": {
+      "message": "Previeni l'intercettazione del download premendo il tasto Alt"
+   },
+   "checkAltClickTip": {
+      "message": "Previeni l'intercettazione del download quando si preme il tasto Alt e si fa clic su un collegamento. Le nuove impostazioni avranno effetto dopo l'aggiornamento delle pagine."
+   },
    "askBeforeExportDes": {
       "message": "Chiedi le impostazioni dettagliate prima di esportare"
    },

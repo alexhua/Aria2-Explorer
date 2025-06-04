@@ -23,6 +23,12 @@
    "exportAllFailedDes": {
       "message": "올바른 다운로드 링크를 찾을 수 없습니다."
    },
+   "checkAltClickDes": {
+      "message": "Alt 키를 눌러 다운로드 가로채기 방지"
+   },
+   "checkAltClickTip": {
+      "message": "Alt 키를 누른 상태에서 링크를 클릭할 때 다운로드 가로채기를 방지합니다. 새 설정은 페이지를 새로고침한 후 적용됩니다."
+   },
    "askBeforeExportDes": {
       "message": "내보내기 전에 자세한 매개 변수 설정 묻기"
    },

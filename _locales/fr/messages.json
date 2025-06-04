@@ -23,6 +23,12 @@
    "exportAllFailedDes": {
       "message": "Aucun lien de téléchargement valide trouvé."
    },
+   "checkAltClickDes": {
+      "message": "Empêcher l'interception du téléchargement en appuyant sur la touche Alt"
+   },
+   "checkAltClickTip": {
+      "message": "Empêcher l'interception du téléchargement lors de l'appui sur la touche Alt et du clic sur un lien. Les nouveaux paramètres prendront effet après l'actualisation des pages."
+   },
    "askBeforeExportDes": {
       "message": "Demander les paramètres détaillés avant l'exportation"
    },

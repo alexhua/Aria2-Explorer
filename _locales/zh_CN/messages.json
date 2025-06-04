@@ -23,6 +23,12 @@
    "exportAllFailedDes": {
       "message": "没有找到有效的下载链接。"
    },
+   "checkAltClickDes": {
+      "message": "按住Alt键不拦截下载"
+   },
+   "checkAltClickTip": {
+      "message": "按住Alt键点击链接，不拦截下载。更改设置，刷新页面后生效。"
+   },
    "askBeforeExportDes": {
       "message": "导出前询问详细参数设置"
    },
