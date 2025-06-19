@@ -182,6 +182,9 @@
    "blockedExtsPlaceholderDes": {
       "message": "Nastavte typy souborů, které nechcete zachytávat nebo exportovat, jednu příponu na řádek, * znamená všechny."
    },
+   "IconOffStyleStr": {
+      "message": "Ikona stavu vypnutí odposlechu"
+   },
    "WebUIOpenStyleStr": {
       "message": "Otevřít AriaNG v"
    },

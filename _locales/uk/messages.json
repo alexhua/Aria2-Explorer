@@ -182,6 +182,9 @@
    "blockedExtsPlaceholderDes": {
       "message": "Встановте тип файлу, який ви не хочете захоплювати або експортувати, один розширення на рядок, * означає все."
    },
+   "IconOffStyleStr": {
+      "message": "Піктограма стану вимкнення перехоплення"
+   },
    "WebUIOpenStyleStr": {
       "message": "AriaNG відкрити в"
    },

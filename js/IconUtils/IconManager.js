@@ -1,50 +1,52 @@
 export class IconManager {
-  static IconType = 'Default';
-  static async setIcon(imageData) {
+  static IconStyle = 'Default';
+
+  static async setIconImage(imageData) {
     try {
       await chrome.action.setIcon({ imageData });
     } catch (error) {
-      console.error('Failed to set extension icon:', error);
+      console.error('Failed to set extension icon image:', error);
+    }
+  }
+
+  static async setIconPath(iconStyle = 'Default') {
+    try {
+      IconManager.IconStyle = iconStyle;
+      await chrome.action.setIcon({ path: IconSet[iconStyle] });
+    } catch (error) {
+      console.error('Failed to set extension icon path:', error);
     }
   }
 
   static async restore() {
-    if (IconManager.IconType == 'Default') {
-      await this.setToDefault();
-    } else if (IconManager.IconType == 'Dark') {
-      await this.setToDark();
-    } else {
-      throw new Error("IconManager: Invalid icon type");
-    }
+    await this.setIconPath(IconManager.IconStyle);
   }
 
-  static async setToDefault() {
-    try {
-      IconManager.IconType = 'Default';
-      await chrome.action.setIcon({
-        path: {
-          '16': "images/logo16.png",
-          '32': "images/logo32.png",
-          '48': "images/logo48.png"
-        }
-      });
-    } catch (error) {
-      console.error('Failed to reset extension icon:', error);
-    }
+  static async turnOn() {
+    await this.setIconPath('Default');
   }
 
-  static async setToDark() {
-    try {
-      IconManager.IconType = 'Dark';
-      await chrome.action.setIcon({
-        path: {
-          '16': "images/logo16-dusk.png",
-          '32': "images/logo32-dusk.png",
-          '48': "images/logo48-dusk.png"
-        }
-      });
-    } catch (error) {
-      console.error('Failed to reset extension icon:', error);
-    }
+  static async turnOff(iconStyle = 'Dusk') {
+    await this.setIconPath(iconStyle);
+  }
+}
+
+const IconSet = {
+  'Default': {
+    '16': "images/logo16.png",
+    '32': "images/logo32.png",
+    '48': "images/logo48.png"
+  },
+  'Grey': {
+    '16': "images/logo16-grey.png",
+    '32': "images/logo32-grey.png",
+  },
+  'Dark': {
+    '16': "images/logo16-dark.png",
+    '32': "images/logo32-dark.png",
+  },
+  'Dusk': {
+    '16': "images/logo16-dusk.png",
+    '32': "images/logo32-dusk.png"
   }
 }

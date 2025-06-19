@@ -79,7 +79,7 @@ export class AnimationController {
       const currentTime = performance.now();
       const imageData = this.transitionManager.requestFrame(currentTime);
       if (imageData) {
-        await IconManager.setIcon(imageData);
+        await IconManager.setIconImage(imageData);
       }
     }, FRAME_INTERVAL);
   }
@@ -101,7 +101,7 @@ export class AnimationController {
       this.fadeIntervalId = setInterval(async () => {
         progress += 0.1;
         const imageData = this.transitionManager.currentAnimation.draw(1 - progress);
-        await IconManager.setIcon(imageData);
+        await IconManager.setIconImage(imageData);
 
         if (progress >= 1) {
           clearInterval(this.fadeIntervalId);

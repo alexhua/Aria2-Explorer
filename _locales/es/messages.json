@@ -182,6 +182,9 @@
    "blockedExtsPlaceholderDes": {
       "message": "Establezca los tipos de archivo que no desea capturar o exportar, una extensión por línea, * significa todos."
    },
+   "IconOffStyleStr": {
+      "message": "Icono de estado de intercepción desactivada"
+   },
    "WebUIOpenStyleStr": {
       "message": "AriaNG Abrir en"
    },

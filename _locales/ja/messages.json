@@ -182,6 +182,9 @@
    "blockedExtsPlaceholderDes": {
       "message": "キャプチャまたはエクスポートしたくないファイルの種類を1行に1つの拡張子で設定します。* はすべてを意味します。"
    },
+   "IconOffStyleStr": {
+      "message": "インターセプトオフ状態アイコン"
+   },
    "WebUIOpenStyleStr": {
       "message": "AriaNGで開く"
    },

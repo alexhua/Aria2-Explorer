@@ -253,7 +253,7 @@ function enableCapture() {
     if (!isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.addListener(captureDownload);
     }
-    IconManager.setToDefault();
+    IconManager.turnOn();
     Configs.integration = true;
     ContextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
 }
@@ -262,7 +262,7 @@ function disableCapture() {
     if (isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.removeListener(captureDownload);
     }
-    IconManager.setToDark();
+    IconManager.turnOff(Configs.iconOffStyle);
     Configs.integration = false;
     ContextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: false });
 }
@@ -918,6 +918,10 @@ function registerAllListeners() {
 
         if ("checkClick" in changes) {
             initClickChecker();
+        }
+
+        if ("iconOffStyle" in changes && !Configs.monitorAria2) {
+            IconManager.turnOff(Configs.iconOffStyle);
         }
     });
 }

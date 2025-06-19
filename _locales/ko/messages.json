@@ -182,6 +182,9 @@
    "blockedExtsPlaceholderDes": {
       "message": "캡처하거나 내보내기 원하지 않는 파일 유형을 1 줄에 1 개의 확장자로 설정하십시오. *는 모두를 의미합니다."
    },
+   "IconOffStyleStr": {
+      "message": "차단 해제 상태 아이콘"
+   },
    "WebUIOpenStyleStr": {
       "message": "AriaNG 켜기"
    },

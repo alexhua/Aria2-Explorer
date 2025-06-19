@@ -182,6 +182,9 @@
    "blockedExtsPlaceholderDes": {
       "message": "Set the file types that you un-want to capture or export, one extension per line, * means all."
    },
+   "IconOffStyleStr": {
+      "message": "Capture-off state icon"
+   },
    "WebUIOpenStyleStr": {
       "message": "AriaNG Open in"
    },

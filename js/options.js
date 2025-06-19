@@ -38,6 +38,7 @@ var Configs =
         $("input[type=text],input[type=number]").val("");
         $("textarea").val("");
         $(`#${Configs.webUIOpenStyle}`).prop('checked', true);
+        $(`#${Configs.iconOffStyle}`).prop('checked', true);
 
         for (const checkbox of $("input[type=checkbox]")) {
             if (Configs[checkbox.id])
@@ -234,6 +235,7 @@ var Configs =
         }
 
         Configs.webUIOpenStyle = $("[name=webUIOpenStyle]:checked").val();
+        Configs.iconOffStyle = $("[name=iconOffStyle]:checked").val();
 
         for (const textarea of $("textarea")) {
             Configs[textarea.id] = textarea.value.trim().split("\n");

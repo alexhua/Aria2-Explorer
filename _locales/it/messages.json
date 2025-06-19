@@ -182,6 +182,9 @@
    "blockedExtsPlaceholderDes": {
       "message": "Imposta i tipi di file che non vuoi catturare o esportare, uno per riga, * significa tutti."
    },
+   "IconOffStyleStr": {
+      "message": "Icona dello stato di intercettazione disattivata"
+   },
    "WebUIOpenStyleStr": {
       "message": "Apri AriaNG in"
    },

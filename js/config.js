@@ -53,7 +53,8 @@ export const DefaultConfigs = {
     captureMagnet: false,
     remindCaptureTip: true,
     rpcList: [{ "name": "Aria2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }],
-    webUIOpenStyle: "window",
+    webUIOpenStyle: "window",   // window, popup, tab, sidePanel
+    iconOffStyle: "Dusk",   // Dusk, Dark, Grey
     colorModeId: 2,
     allowedSites: [],
     blockedSites: [],

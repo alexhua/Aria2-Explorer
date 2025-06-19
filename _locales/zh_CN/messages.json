@@ -182,6 +182,9 @@
    "blockedExtsPlaceholderDes": {
       "message": "设置不需要拦截或导出的文件类型，\n每行一个扩展名，* 代表所有。"
    },
+   "IconOffStyleStr": {
+      "message": "拦截关闭状态图标"
+   },
    "WebUIOpenStyleStr": {
       "message": "AriaNG打开方式"
    },

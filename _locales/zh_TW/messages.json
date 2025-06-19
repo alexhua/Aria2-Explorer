@@ -182,6 +182,9 @@
    "blockedExtsPlaceholderDes": {
       "message": "設定不需要攔截或匯出的文件類型，\n每行一個副檔名，*代表所有。"
    },
+   "IconOffStyleStr": {
+      "message": "攔截關閉狀態圖示"
+   },
    "WebUIOpenStyleStr": {
       "message": "AriaNG打開樣式"
    },
