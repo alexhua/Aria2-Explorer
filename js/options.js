@@ -438,16 +438,16 @@ async function upgradeStorage() {
 function setColorMode() {
     switch (Configs.colorModeId) {
         case 0:
-            $('body').removeClass("dark-mode");
+            $('html').removeClass("dark-mode");
             break;
         case 1:
-            $('body').addClass("dark-mode");
+            $('html').addClass("dark-mode");
             break;
         case 2:
             if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                $('body').addClass("dark-mode");
+                $('html').addClass("dark-mode");
             } else {
-                $('body').removeClass("dark-mode");
+                $('html').removeClass("dark-mode");
             }
             break;
     }

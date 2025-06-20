@@ -920,7 +920,7 @@ function registerAllListeners() {
             initClickChecker();
         }
 
-        if ("iconOffStyle" in changes && !Configs.monitorAria2) {
+        if ("iconOffStyle" in changes && !Configs.integration) {
             IconManager.turnOff(Configs.iconOffStyle);
         }
     });

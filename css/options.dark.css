@@ -1,61 +1,61 @@
-body.dark-mode {
+html.dark-mode body{
     color: gainsboro;
     color-scheme: dark;
     background-color: #1a1a1a;
     transition: background-color .36s;
 }
 
-body.dark-mode .navbar-inner {
+html.dark-mode .navbar-inner {
     background-image: linear-gradient(to bottom, #505050, #2a2a2a);
     border: 1px solid #3a3a3a;
 }
 
-body.dark-mode>form>fieldset {
+html.dark-mode form fieldset {
     background-color: #2a2a2a;
 }
 
-body.dark-mode .form-control {
+html.dark-mode .form-control {
     color: gainsboro;
     border: 1px solid #7b7f83;
     background-color: #2c2c2c;
 }
 
-body.dark-mode .input-group-text {
+html.dark-mode .input-group-text {
     color: gainsboro;
     background-color: #989898;
     border-color: #9c9c9c;
 }
 
-body.dark-mode .custom-control-label::before,
-body.dark-mode .custom-control-input:checked~.custom-control-label::after {
+html.dark-mode .custom-control-label::before,
+html.dark-mode .custom-control-input:checked~.custom-control-label::after {
     background-color: #111;
 }
 
-body.dark-mode .form-group>label {
+html.dark-mode .form-group>label {
     color: rgb(110, 130, 160) !important;
 }
 
-body.dark-mode textarea::placeholder {
+html.dark-mode textarea::placeholder {
     color: gainsboro;
 }
 
-body.dark-mode .footer {
+html.dark-mode .footer {
     background-color: #5d606460;
     box-shadow: inset 0 1px 0 #7e7e7e;
     border-top: 1px solid #838383;
 }
 
-body.dark-mode .btn-primary {
+html.dark-mode .btn-primary {
     color: rgb(238, 238, 238);
     background-color: #005fc4;
     border-color: #005fc4;
 }
 
-body.dark-mode .tool-tip-icon::after {
+html.dark-mode .tool-tip-icon::after {
     color: #6d8ebe;
 }
 
-body.dark-mode .is-warning {
+html.dark-mode .is-warning {
     color: #856404;
     border-color: #ebb103 !important;
     background-color: #ffc107 !important;
