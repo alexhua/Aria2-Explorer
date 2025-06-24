@@ -972,7 +972,7 @@ function initRemoteAria2() {
 async function initClickChecker() {
     const CS_ID = 'ALT_CLICK_CHECKER';
     const scripts = await chrome.scripting.getRegisteredContentScripts({ ids: [CS_ID] });
-    if (Configs.checkClick && scripts.length == 0) {
+    if (Configs.integration && Configs.checkClick && scripts.length == 0) {
         chrome.scripting.registerContentScripts([{
             id: CS_ID,
             matches: ['<all_urls>'],

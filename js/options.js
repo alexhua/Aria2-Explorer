@@ -11,6 +11,12 @@ const ColorModeList = [
     { name: 'system', icon: 'fa-circle-half-stroke', title: 'FollowSystem' }
 ];
 
+const OptionDeps = { // Key named option depends on the value named option
+    askBeforeExport: 'contextMenus',
+    checkClick: 'integration',
+    keepAwake: 'monitorAria2'
+}
+
 const Mark = chrome.i18n.getMessage("Mark");
 const NameStr = chrome.i18n.getMessage("Name");
 const SecretKeyStr = chrome.i18n.getMessage("SecretKey");
@@ -47,15 +53,12 @@ var Configs =
 
         Configs.rpcList.length > 1 ? $("#monitor-all").show() : $("#monitor-all").hide();
 
-        $("#askBeforeExport").prop("disabled", !Configs.contextMenus);
-        $("#contextMenus").change(() => {
-            $("#askBeforeExport").prop("disabled", !$("#contextMenus").prop("checked"));
-        })
-
-        $("#keepAwake").prop("disabled", !Configs.monitorAria2);
-        $("#monitorAria2").change(() => {
-            $("#keepAwake").prop("disabled", !$("#monitorAria2").prop("checked"));
-        })
+        for (const [dependent, dependency] of Object.entries(OptionDeps)) {
+            $(`#${dependent}`).prop("disabled", !Configs[dependency]);
+            $(`#${dependency}`).change(() => {
+                $(`#${dependent}`).prop("disabled", !$(`#${dependency}`).prop("checked"));
+            })
+        }
 
         if (Utils.getPlatform() == "Windows") {
             let tooltip = chrome.i18n.getMessage("captureMagnetTip")
