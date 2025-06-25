@@ -893,8 +893,8 @@ function registerAllListeners() {
                         (window) => { sendResponse({ data: window }) }
                     );
                     return true;
-                case "ALT_KEY_EVENT":
-                    AltKeyPressed = !!message.data.pressed;
+                case "CLICK_EVENT":
+                    AltKeyPressed = message.data.altKeyPressed;
                     break;
             }
         }
