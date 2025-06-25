@@ -11,8 +11,8 @@
 
 ## 📑 如何使用
 
-1. Windows 系统请下载 <span style="vertical-align:middle;">[![下载Aria2 Manager](https://img.shields.io/github/downloads/alexhua/aria2-manager/total?color=blue&label=Aria2%20Manager)](https://github.com/alexhua/aria2-manager/ "去 Aria2-Manager 主页了解更多信息")</span>，其他系统请下载 Aria2 主程序：<span style="vertical-align:middle;">[![下载 Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases "跳转到 Aria2 下载页面")</span>
-2. Windows 系统请运行 **Aria2Manager.exe** ，其他系统，请打开 **Terminal** 输入 `aria2c --enable-rpc`
+1. Windows 系统, 请从 [Microsoft Store](#-安装地址-1) 安装 **Aria2 Manager**，其他系统请下载 Aria2 主程序：<span style="vertical-align:middle;">[![下载 Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases "跳转到 Aria2 下载页面")</span>
+2. Windows 系统请运行 **Aria2 Manager**，其他系统，请打开 **Terminal** 输入 `aria2c --enable-rpc`
 3. 从 [在线商店](#-安装地址) 安装 **Aria2 Explorer**
 4. 在扩展选项中打开 `自动拦截下载`，并根据需求配置其他选项
 
@@ -92,11 +92,13 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 - 🪟 内置任务管理界面
 - 👆 一键安装并自动更新
 - 🛠️ 一些 Aria2 问题修复
-- 📄 Torrent 文件关联和默认打开
+- 🔔 系统通知提醒任务状态
+- 🩺 在托盘图标提示下载状态
+- 📄 关联种子文件和磁力链接
 - ⚡ 点击任务名直接打开已下载文件
 - 🔕 禁止 Aria2 开启时的已完成任务通知
-- 🔀 支持通过 UPnP 进行 BT 和 DHT 端口映射，提升 BT 下载的连通性
-- 🧹 支持删除 **.aria2** 控制文件和已下载文件（ <kbd>Shift</kbd> + **删除任务** ）
+- 🔀 支持通过 UPnP 协议进行 BT 和 DHT 端口映射，提升 BT 下载连接的连通性
+- 🧹 支持删除 .aria2 控制文件和已下载文件（ Shift + 删除任务）
 
 商店版将会不定期更新 Aria2 主程序和 BT Tracker 列表，未来还会加入更多的功能，敬请期待。
 
