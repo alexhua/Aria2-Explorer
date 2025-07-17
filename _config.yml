@@ -1,3 +1,4 @@
 theme: jekyll-theme-modernist
 title: Aria2-Explorer & Aria2-Manager
 description: A Lightweight and Powerful Download Solution Based on Aria2 
+include: [".well-known"]
