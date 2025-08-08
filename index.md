@@ -106,9 +106,27 @@ The enhanced version will always keep the Aria2 binary latest and update BT trac
 
 ---
 
-## 🔒 Privacy policy
+## 🔒 Privacy Policy
 
-**Aria2 Explorer** just captures download tasks and related website cookies from the user's browser for the purpose of connecting to the user's Aria2 server to download the network resources. Any connection and configuration information for Aria2 will be stored locally or can be optionally uploaded to the user's logged-in cloud. This download solution does not collect any personal data or network activity from the user, nor will it share any such data with 3rd parties.
+The **Aria2 Explorer** and **Aria2 Manager** are a suite designed to help users manage downloads via Aria2. We take privacy seriously and strive to ensure that your personal information is protected. This policy outlines what data we collect and how it's handled.
+
+### Aria2 Configuration Data
+
+The **Aria2 Explorer** and **Aria2 Manager** do not collect, transmit or store any personal data and network activities. All Aria2 configurations are stored locally or can be optionally uploaded to the user’s logged-in browser cloud storage. We will never collect nor share any such data with 3rd parties.
+
+### The Embedded Web Page
+
+**Aria2 Explorer** and **Aria2 Manager** embed an `Alex Recommends` channel that feature a managed cloud-hosted comment system (Waline). 
+
+- Comments and related user data (such as nickname, email address, and IP address) are stored directly by the comment system.
+
+- **Aria2 Explorer** and **Aria2 Manager** does not process or access any of this data.
+
+- The IP address is used for comments system's anti-spam. The email address is used only for sending notifications and is not shared with third parties.
+
+These suite themselves does not collect, store, or process any user information.
+
+```update at 2025-8-8```
 
 ## 📜 License
 
