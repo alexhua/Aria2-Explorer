@@ -127,6 +127,18 @@ Download Url=URL di download
 Download Dir=Percorso di download
 Open download folder=Apri la cartella di download
 BT Tracker Servers=Server tracker BT
+BT Tracker Auto Update=Aggiornamento automatico BT Tracker
+BT Tracker Sources=Fonti BT Tracker
+One URL per line. Only HTTP/HTTPS URLs are supported.=Un URL per riga. Sono supportati solo URL HTTP/HTTPS.
+BT Tracker Last Update=Ultimo aggiornamento BT Tracker
+Update Now=Aggiorna ora
+Updating...=Aggiornamento...
+Successfully updated {count} trackers from {sources} sources=Aggiornati con successo {{count}} tracker da {{sources}} fonti
+No trackers found or network access failed=Nessun tracker trovato o accesso di rete fallito
+Failed to update trackers: {errorMessage}=Aggiornamento tracker fallito: {{errorMessage}}
+Daily=Giornaliero
+Weekly=Settimanale
+Monthly=Mensile
 Copy=Copia
 (Choose Files)=(Scegli file)
 Videos=Video
@@ -246,6 +258,8 @@ Each Task List Page Uses Independent Display Order=
 Recently Used=
 RPC Alias=
 Default Tasks Page=Pagina attività predefinita=
+Save Aria2 Settings to Local=Salva impostazioni Aria2 localmente
+Save Aria2 settings to local and sync these settings every time when connecting to Aria2.=Salva le impostazioni Aria2 localmente e applica queste impostazioni ogni volta che ti connetti ad Aria2.
 Import / Export AriaNg Settings=
 Import Settings=
 Export Settings=
@@ -375,6 +389,7 @@ checksum.failed=Errore di verifica del checksum del file.
 
 [languages]
 Czech=Ceco
+German=Tedesco
 English=Inglese
 Spanish=Spagnolo
 French=Francese

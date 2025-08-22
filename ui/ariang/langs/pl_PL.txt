@@ -114,6 +114,18 @@ Seed Creation Time=Czas utworzenia seeda
 Download Url=Adres URL pobierania
 Download Dir=Katalog pobierania
 BT Tracker Servers=Serwery BT Tracker
+BT Tracker Auto Update=Automatyczna aktualizacja BT Tracker
+BT Tracker Sources=Źródła BT Tracker
+One URL per line. Only HTTP/HTTPS URLs are supported.=Jeden URL na linię. Obsługiwane są tylko URL HTTP/HTTPS.
+BT Tracker Last Update=Ostatnia aktualizacja BT Tracker
+Update Now=Aktualizuj teraz
+Updating...=Aktualizowanie...
+Successfully updated {count} trackers from {sources} sources=Pomyślnie zaktualizowano {{count}} trackerów z {{sources}} źródeł
+No trackers found or network access failed=Nie znaleziono trackerów lub dostęp do sieci nie powiódł się
+Failed to update trackers: {errorMessage}=Nie udało się zaktualizować trackerów: {{errorMessage}}
+Daily=Codziennie
+Weekly=Tygodniowo
+Monthly=Miesięcznie
 Copy=Kopiuj
 (Choose Files)=(Wybierz pliki)
 Videos=Wideo
@@ -218,6 +230,8 @@ RPC List Display Order=Kolejność wyświetlania listy RPC
 Each Task List Page Uses Independent Display Order=Każda strona listy zadań używa niezależnej kolejności wyświetlania
 Recently Used=Ostatnio używane
 RPC Alias=Alias RPC
+Save Aria2 Settings to Local=Zapisz ustawienia Aria2 lokalnie
+Save Aria2 settings to local and sync these settings every time when connecting to Aria2.=Zapisz ustawienia Aria2 lokalnie i zastosuj te ustawienia za każdym razem podczas łączenia z Aria2.
 Import / Export AriaNg Settings=Importuj / Eksportuj ustawienia AriaNg
 Import Settings=Importuj ustawienia
 Export Settings=Eksportuj ustawienia
@@ -379,6 +393,7 @@ Aria2 is disconnected, All tasks will be downloaded via Browser. Invalid URL wil
 
 [languages]
 Czech=Czeski
+German=Niemiecki
 English=Angielski
 Spanish=Hiszpański
 French=Francuski

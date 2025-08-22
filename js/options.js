@@ -14,7 +14,8 @@ const ColorModeList = [
 const OptionDeps = { // Key named option depends on the value named option
     askBeforeExport: 'contextMenus',
     checkClick: 'integration',
-    keepAwake: 'monitorAria2'
+    keepAwake: 'monitorAria2',
+    keepSilent: 'allowNotification'
 }
 
 const Mark = chrome.i18n.getMessage("Mark");
