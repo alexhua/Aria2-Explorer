@@ -1,6 +1,7 @@
 /* Dark Theme */
 [data-theme="dark"] {
   --color-primary: #3b82f6;
+  --color-primary-rgb: 59, 130, 246;
   --color-secondary: #8b5cf6;
   --color-accent: #10b981;
   --color-neutral: #1f2937;
@@ -20,6 +21,7 @@
 @media (prefers-color-scheme: dark) {
   [data-theme="auto"] {
     --color-primary: #3b82f6;
+    --color-primary-rgb: 59, 130, 246;
     --color-secondary: #8b5cf6;
     --color-accent: #10b981;
     --color-neutral: #1f2937;

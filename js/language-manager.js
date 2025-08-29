@@ -1,3 +1,5 @@
+import TranslationManager from './translations.js';
+
 /**
  * Language Management System
  * Handles bilingual content switching between English and Chinese
@@ -5,7 +7,8 @@
 class LanguageManager {
     constructor() {
         this.currentLanguage = this.detectLanguage();
-        this.translations = {};
+        this.translationManager = new TranslationManager();
+        this.isInitialized = false;
         this.init();
     }
 
@@ -17,13 +20,13 @@ class LanguageManager {
         if (saved && ['en', 'zh'].includes(saved)) {
             return saved;
         }
-        
+
         // Try to detect from browser language
         const browserLang = navigator.language || navigator.userLanguage;
         if (browserLang.startsWith('zh')) {
             return 'zh';
         }
-        
+
         return 'en';
     }
 
@@ -31,10 +34,15 @@ class LanguageManager {
      * Initialize language system
      */
     async init() {
-        await this.loadTranslations();
-        this.applyLanguage();
-        this.bindEvents();
-        this.updateToggleButton();
+        try {
+            await this.loadTranslations();
+            this.isInitialized = true;
+            this.applyLanguage();
+            this.bindEvents();
+            this.updateToggleButton();
+        } catch (error) {
+            console.error('Failed to initialize language system:', error);
+        }
     }
 
     /**
@@ -42,60 +50,12 @@ class LanguageManager {
      */
     async loadTranslations() {
         try {
-            // Load English translations
-            const enResponse = await fetch('data/en.json');
-            this.translations.en = await enResponse.json();
-            
-            // Load Chinese translations
-            const zhResponse = await fetch('data/zh.json');
-            this.translations.zh = await zhResponse.json();
+            // Load both English and Chinese translations
+            await this.translationManager.loadLanguages(['en', 'zh']);
         } catch (error) {
             console.error('Failed to load translations:', error);
-            // Fallback to inline translations if files not found
-            this.loadFallbackTranslations();
+            throw error;
         }
-    }
-
-    /**
-     * Fallback translations if JSON files are not available
-     */
-    loadFallbackTranslations() {
-        this.translations = {
-            en: {
-                "brand": { "name": "Aria2 Suite" },
-                "nav": {
-                    "features": "Features",
-                    "products": "Products", 
-                    "download": "Download",
-                    "support": "Support"
-                },
-                "hero": {
-                    "headline": "Complete Aria2 Download Solution",
-                    "description": "Seamlessly integrate browser extension with desktop software for the ultimate downloading experience",
-                    "cta_primary": "Get Started Now",
-                    "cta_secondary": "Learn More",
-                    "screenshot_placeholder": "App Screenshot",
-                    "screenshot_note": "Coming Soon"
-                }
-            },
-            zh: {
-                "brand": { "name": "Aria2 套件" },
-                "nav": {
-                    "features": "功能特性",
-                    "products": "产品介绍",
-                    "download": "立即下载", 
-                    "support": "技术支持"
-                },
-                "hero": {
-                    "headline": "完整的 Aria2 下载解决方案",
-                    "description": "浏览器扩展与桌面软件完美结合，打造极致下载体验",
-                    "cta_primary": "立即开始",
-                    "cta_secondary": "了解更多",
-                    "screenshot_placeholder": "应用截图",
-                    "screenshot_note": "即将推出"
-                }
-            }
-        };
     }
 
     /**
@@ -112,6 +72,10 @@ class LanguageManager {
      * Toggle between English and Chinese
      */
     toggleLanguage() {
+        if (!this.isInitialized) {
+            return;
+        }
+
         this.currentLanguage = this.currentLanguage === 'en' ? 'zh' : 'en';
         localStorage.setItem('language', this.currentLanguage);
         this.applyLanguage();
@@ -122,8 +86,12 @@ class LanguageManager {
      * Apply current language to all elements with data-i18n
      */
     applyLanguage() {
+        if (!this.isInitialized) {
+            return;
+        }
+
         document.documentElement.lang = this.currentLanguage;
-        
+
         const elements = document.querySelectorAll('[data-i18n]');
         elements.forEach(element => {
             const key = element.getAttribute('data-i18n');
@@ -148,18 +116,7 @@ class LanguageManager {
      * Get translation by key path (e.g., "nav.features")
      */
     getTranslation(keyPath) {
-        const keys = keyPath.split('.');
-        let value = this.translations[this.currentLanguage];
-        
-        for (const key of keys) {
-            if (value && typeof value === 'object' && key in value) {
-                value = value[key];
-            } else {
-                return null;
-            }
-        }
-        
-        return typeof value === 'string' ? value : null;
+        return this.translationManager.getTranslation(this.currentLanguage, keyPath);
     }
 
     /**
@@ -195,3 +152,5 @@ class LanguageManager {
         }
     }
 }
+
+export default LanguageManager;

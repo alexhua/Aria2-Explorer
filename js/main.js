@@ -1,3 +1,5 @@
+import LanguageManager from './language-manager.js';
+
 /**
  * Main Application
  * Initializes and coordinates all application components
@@ -42,13 +44,18 @@ class Aria2SuiteApp {
             // Initialize language manager (async due to translation loading)
             this.languageManager = new LanguageManager();
             
+            // Wait for language manager to be fully initialized
+            let attempts = 0;
+            while (!this.languageManager.isInitialized && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            
             // Mark as initialized
             this.isInitialized = true;
             
             // Dispatch ready event
             this.dispatchReadyEvent();
-            
-            console.log('Aria2 Suite application initialized successfully');
         } catch (error) {
             console.error('Failed to initialize components:', error);
         }
@@ -117,7 +124,6 @@ class Aria2SuiteApp {
     destroy() {
         // Clean up event listeners and resources
         this.isInitialized = false;
-        console.log('Aria2 Suite application destroyed');
     }
 }
 

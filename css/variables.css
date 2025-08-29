@@ -2,16 +2,17 @@
 :root {
   /* Color Palette - Light Theme */
   --color-primary: #2563eb;
+  --color-primary-rgb: 37, 99, 235;
   --color-secondary: #7c3aed;
   --color-accent: #059669;
   --color-neutral: #374151;
-  --color-background: #f9fafb;
+  --color-background: #eff6fc;
   --color-text: #111827;
   --color-text-light: #6b7280;
   --color-white: #ffffff;
   --color-border: #e5e7eb;
   --color-card-bg: #ffffff;
-  --color-header-bg: rgba(255, 255, 255, 0.95);
+  --color-header-bg: rgba(255, 255, 255, 0.8);
   --color-footer-bg: #374151;
   --color-hero-bg: linear-gradient(135deg, #f9fafb 0%, rgba(37, 99, 235, 0.05) 100%);
   --color-download-bg: linear-gradient(135deg, #f9fafb 0%, rgba(37, 99, 235, 0.05) 100%);

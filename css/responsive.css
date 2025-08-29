@@ -8,7 +8,15 @@
     gap: var(--space-4);
   }
   
+  .hero-stats {
+    justify-content: center;
+  }
+  
   .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .steps-grid {
     grid-template-columns: repeat(2, 1fr);
   }
   
@@ -87,6 +95,10 @@
     justify-content: flex-start;
   }
   
+  .hero-stats {
+    justify-content: flex-start;
+  }
+  
   .hero-subtitle {
     margin-left: 0;
     margin-right: 0;
@@ -95,6 +107,10 @@
   .features-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-6);
+  }
+  
+  .steps-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
   
   .product-showcase {
