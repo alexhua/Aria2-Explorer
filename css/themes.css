@@ -1,0 +1,92 @@
+/* Dark Theme */
+[data-theme="dark"] {
+  --color-primary: #3b82f6;
+  --color-secondary: #8b5cf6;
+  --color-accent: #10b981;
+  --color-neutral: #1f2937;
+  --color-background: #111827;
+  --color-text: #f9fafb;
+  --color-text-light: #d1d5db;
+  --color-white: #1f2937;
+  --color-border: #374151;
+  --color-card-bg: #1f2937;
+  --color-header-bg: rgba(31, 41, 55, 0.95);
+  --color-footer-bg: #0f172a;
+  --color-hero-bg: linear-gradient(135deg, #111827 0%, rgba(59, 130, 246, 0.1) 100%);
+  --color-download-bg: linear-gradient(135deg, #111827 0%, rgba(59, 130, 246, 0.1) 100%);
+}
+
+/* Auto Theme - follows system preference */
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] {
+    --color-primary: #3b82f6;
+    --color-secondary: #8b5cf6;
+    --color-accent: #10b981;
+    --color-neutral: #1f2937;
+    --color-background: #111827;
+    --color-text: #f9fafb;
+    --color-text-light: #d1d5db;
+    --color-white: #1f2937;
+    --color-border: #374151;
+    --color-card-bg: #1f2937;
+    --color-header-bg: rgba(31, 41, 55, 0.95);
+    --color-footer-bg: #0f172a;
+    --color-hero-bg: linear-gradient(135deg, #111827 0%, rgba(59, 130, 246, 0.1) 100%);
+    --color-download-bg: linear-gradient(135deg, #111827 0%, rgba(59, 130, 246, 0.1) 100%);
+  }
+}
+
+/* Dark Theme Specific Adjustments */
+[data-theme="dark"] .screenshot-placeholder {
+  background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(59, 130, 246, 0.05) 100%);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .screenshot-placeholder:hover {
+  border-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(59, 130, 246, 0.1) 100%);
+}
+
+[data-theme="dark"] .store-badge img {
+  filter: brightness(0.9) contrast(1.1);
+}
+
+[data-theme="dark"] .store-badge:hover img {
+  filter: brightness(1) contrast(1);
+}
+
+/* Auto Theme - Dark Mode Adjustments */
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] .screenshot-placeholder {
+    background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(59, 130, 246, 0.05) 100%);
+    border-color: var(--color-border);
+  }
+
+  [data-theme="auto"] .screenshot-placeholder:hover {
+    border-color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(59, 130, 246, 0.1) 100%);
+  }
+
+  [data-theme="auto"] .store-badge img {
+    filter: brightness(0.9) contrast(1.1);
+  }
+
+  [data-theme="auto"] .store-badge:hover img {
+    filter: brightness(1) contrast(1);
+  }
+}
+
+/* Theme Transition */
+html {
+  transition: background-color var(--transition-normal);
+}
+
+body, 
+.header, 
+.feature-card, 
+.download-section, 
+.screenshot-placeholder {
+  transition: background-color var(--transition-normal), 
+              color var(--transition-normal), 
+              border-color var(--transition-normal);
+}
