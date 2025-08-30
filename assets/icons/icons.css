@@ -1,0 +1,84 @@
+/* Local Font Awesome Icons */
+@font-face {
+  font-family: "Font Awesome 6 Free";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../fonts/fa-solid-900.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/fa-brands-400.woff2") format("woff2");
+}
+
+.fas, .fa-solid {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+}
+
+.fab, .fa-brands {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fas, .fab, .fa-solid, .fa-brands {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-rendering: auto;
+}
+
+/* Icon definitions - only icons used in the project */
+.fa-arrow-left:before { content: "\f060"; }
+.fa-sun:before { content: "\f185"; }
+.fa-moon:before { content: "\f186"; }
+.fa-circle-half-stroke:before { content: "\f042"; }
+.fa-download:before { content: "\f019"; }
+.fa-info-circle:before { content: "\f05a"; }
+.fa-magic:before { content: "\f0d0"; }
+.fa-filter:before { content: "\f0b0"; }
+.fa-server:before { content: "\f233"; }
+.fa-tachometer-alt:before { content: "\f625"; }
+.fa-gauge-high:before { content: "\f625"; }
+.fa-cloud:before { content: "\f0c2"; }
+.fa-globe:before { content: "\f0ac"; }
+.fa-puzzle-piece:before { content: "\f12e"; }
+.fa-desktop:before { content: "\f108"; }
+.fa-windows:before { content: "\f17a"; }
+.fa-apple:before { content: "\f179"; }
+.fa-linux:before { content: "\f17c"; }
+.fa-github:before { content: "\f09b"; }
+
+/* Fallback for when fonts fail to load - using simple text symbols */
+.fas:not([class*="fa-"]):before,
+.fab:not([class*="fa-"]):before {
+  content: "?";
+}
+
+/* Specific fallbacks without emoji */
+.fa-arrow-left.fallback:before { content: "←"; }
+.fa-sun.fallback:before { content: "☀"; }
+.fa-moon.fallback:before { content: "☽"; }
+.fa-circle-half-stroke.fallback:before { content: "◐"; }
+.fa-download.fallback:before { content: "↓"; }
+.fa-info-circle.fallback:before { content: "i"; }
+.fa-magic.fallback:before { content: "✦"; }
+.fa-filter.fallback:before { content: "⚏"; }
+.fa-server.fallback:before { content: "⚏"; }
+.fa-tachometer-alt.fallback:before { content: "⚡"; }
+.fa-gauge-high.fallback:before { content: "⚡"; }
+.fa-cloud.fallback:before { content: "☁"; }
+.fa-globe.fallback:before { content: "⚬"; }
+.fa-puzzle-piece.fallback:before { content: "⚏"; }
+.fa-desktop.fallback:before { content: "⚏"; }
+.fa-windows.fallback:before { content: "⊞"; }
+.fa-apple.fallback:before { content: "⌘"; }
+.fa-linux.fallback:before { content: "⚏"; }
+.fa-github.fallback:before { content: "⚏"; }

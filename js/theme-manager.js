@@ -123,4 +123,5 @@ class ThemeManager {
             this.updateToggleButton();
         }
     }
-}
+}// Export for ES6 modules
+export default ThemeManager;

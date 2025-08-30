@@ -6,17 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Privacy Policy - Aria2 Suite</title>
+    <title>Privacy Policy - Aria2 Download Suite</title>
     <meta name="description" content="Privacy Policy for Aria2 Explorer browser extension and desktop software.">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Local Fonts -->
+    <link rel="stylesheet" href="fonts/inter.css">
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        crossorigin="anonymous">
+    <!-- Local Icons -->
+    <link rel="stylesheet" href="assets/icons/icons.css">
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="css/variables.css">
@@ -26,119 +23,107 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/themes.css">
 
-    <style>
-        .privacy-header {
-            background: var(--color-background);
-            border-bottom: 1px solid var(--color-border);
-            padding: 1rem 0;
-            margin-bottom: 2rem;
-        }
-        .privacy-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        .privacy-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem 2rem;
-            line-height: 1.6;
-        }
-        .privacy-content h1 {
-            color: var(--color-primary);
-            margin-bottom: 1rem;
-        }
-        .privacy-content h2 {
-            color: var(--color-text);
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-        }
-        .privacy-content p {
-            margin-bottom: 1rem;
-            color: var(--color-text-secondary);
-        }
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            color: var(--color-primary);
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .theme-toggle, .lang-toggle {
-            background: none;
-            border: 1px solid var(--color-border);
-            color: var(--color-text);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .theme-toggle:hover, .lang-toggle:hover {
-            background: var(--color-background-secondary);
-        }
-    </style>
+
 </head>
 
 <body>
     <!-- Header with Navigation -->
-    <header class="privacy-header">
-        <nav class="privacy-nav">
-            <a href="index.html" class="back-link">
-                <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>
-                <span data-i18n="privacy.back_to_home">Back to Home</span>
-            </a>
-            
+    <header id="header" class="header">
+        <nav class="navbar container">
+            <div class="nav-brand">
+                <a href="index.html" class="brand-link">
+                    <img src="image/logo64.png" alt="Aria2 Download Suite Logo" class="brand-logo">
+                    <span class="brand-text" data-i18n="brand.name">Aria2 Download Suite</span>
+                </a>
+            </div>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html#features" class="nav-link" data-i18n="nav.features">Features</a>
+                <a href="index.html#products" class="nav-link" data-i18n="nav.products">Products</a>
+                <a href="index.html#download" class="nav-link" data-i18n="nav.download">Download</a>
+                <a href="index.html#support" class="nav-link" data-i18n="nav.support">Support</a>
+            </div>
+
             <div class="nav-actions">
+                <a href="https://github.com/alexhua/Aria2-Explorer" class="github-link" target="_blank" rel="noopener" aria-label="View on GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
                 <button class="theme-toggle" id="themeToggle" aria-label="Switch Theme">
                     <i class="fas fa-sun theme-icon"></i>
                 </button>
                 <button class="lang-toggle" id="langToggle" data-lang="en" aria-label="Switch Language">
                     <span class="lang-text">EN | 中文</span>
                 </button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
             </div>
         </nav>
     </header>
 
-    <div class="privacy-content">
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="legal-header">
+                <div class="back-link">
+                    <a href="index.html" data-i18n="privacy.back_to_home">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+                </div>
 
-        <h1 data-i18n="privacy.title">Privacy Policy</h1>
-        
-        <p><strong data-i18n="privacy.last_updated">Last updated:</strong> <span data-i18n="privacy.date">December 2024</span></p>
+                <div class="legal-title-section">
+                    <h1 class="legal-title" data-i18n="privacy.title">Privacy Policy</h1>
+                    <p class="legal-updated"><strong data-i18n="privacy.last_updated">Last updated:</strong> <span
+                            data-i18n="privacy.date">August 2025</span></p>
+                </div>
+            </div>
 
-        <h2 data-i18n="privacy.data_collection.title">Data Collection</h2>
-        <p data-i18n="privacy.data_collection.content">
-            Aria2 Explorer captures download tasks and related website cookies from your browser solely to connect to your Aria2 server for downloading network resources.
-        </p>
+            <div class="legal-content">
+                <section class="legal-section">
+                    <h2 data-i18n="privacy.data_collection.title">Data Collection</h2>
+                    <p data-i18n="privacy.data_collection.content">
+                        Aria2 Explorer captures download tasks and related website cookies from your browser solely to connect to
+                        your Aria2 server for downloading network resources.
+                    </p>
+                </section>
 
-        <h2 data-i18n="privacy.data_storage.title">Data Storage</h2>
-        <p data-i18n="privacy.data_storage.content">
-            All Aria2 connection and configuration information is stored locally on your device. You may optionally upload settings to your logged-in cloud account for synchronization across devices.
-        </p>
+                <section class="legal-section">
+                    <h2 data-i18n="privacy.data_storage.title">Data Storage</h2>
+                    <p data-i18n="privacy.data_storage.content">
+                        All Aria2 connection and configuration information is stored locally on your device. You may optionally
+                        upload settings to your logged-in cloud account for synchronization across devices.
+                    </p>
+                </section>
 
-        <h2 data-i18n="privacy.data_sharing.title">Data Sharing</h2>
-        <p data-i18n="privacy.data_sharing.content">
-            We do not collect personal data or monitor your network activity. No data is shared with third parties.
-        </p>
+                <section class="legal-section">
+                    <h2 data-i18n="privacy.data_sharing.title">Data Sharing</h2>
+                    <p data-i18n="privacy.data_sharing.content">
+                        We do not collect personal data or monitor your network activity. No data is shared with third parties.
+                    </p>
+                </section>
 
-        <h2 data-i18n="privacy.contact.title">Contact</h2>
-        <p data-i18n="privacy.contact.content">
-            If you have questions about this Privacy Policy, please contact us through our support channels.
-        </p>
-    </div>
+                <section class="legal-section">
+                    <h2 data-i18n="privacy.contact.title">Contact</h2>
+                    <p data-i18n="privacy.contact.content">
+                        If you have questions about this Privacy Policy, please contact us through our support channels.
+                    </p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p data-i18n="footer.copyright">© 2023 Aria2 Download Suite. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- JavaScript Files -->
-    <script src="js/theme-manager.js"></script>
-    <script src="js/ui-components.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 

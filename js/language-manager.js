@@ -110,6 +110,64 @@ class LanguageManager {
                 element.setAttribute('alt', translation);
             }
         });
+
+        // Handle title attributes
+        const titleElements = document.querySelectorAll('[data-i18n-title]');
+        titleElements.forEach(element => {
+            const key = element.getAttribute('data-i18n-title');
+            const translation = this.getTranslation(key);
+            if (translation) {
+                element.setAttribute('title', translation);
+            }
+        });
+
+        // Handle special list structures for terms page
+        this.handleSpecialLists();
+    }
+
+    /**
+     * Handle special list structures with items array
+     */
+    handleSpecialLists() {
+        // Handle user responsibilities list
+        const userRespList = document.getElementById('user-responsibilities-list');
+        if (userRespList) {
+            const items = this.getTranslationObject('terms.user_responsibilities.items');
+            if (items && Array.isArray(items)) {
+                userRespList.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+            }
+        }
+
+        // Handle prohibited uses list
+        const prohibitedList = document.getElementById('prohibited-uses-list');
+        if (prohibitedList) {
+            const items = this.getTranslationObject('terms.prohibited_uses.items');
+            if (items && Array.isArray(items)) {
+                prohibitedList.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+            }
+        }
+    }
+
+    /**
+     * Get translation object (not just string) by key path
+     */
+    getTranslationObject(keyPath) {
+        if (!this.translationManager.translations[this.currentLanguage]) {
+            return null;
+        }
+
+        const keys = keyPath.split('.');
+        let value = this.translationManager.translations[this.currentLanguage];
+
+        for (const key of keys) {
+            if (value && typeof value === 'object' && key in value) {
+                value = value[key];
+            } else {
+                return null;
+            }
+        }
+
+        return value;
     }
 
     /**

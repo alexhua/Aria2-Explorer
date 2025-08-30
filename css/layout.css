@@ -12,12 +12,12 @@
   top: 0;
   left: 0;
   right: 0;
+  border-radius: var(--radius-xxxl);
   background-color: var(--color-header-bg);
-  backdrop-filter: blur(10px);
+  backdrop-filter: var(--blur-lg);
   border-bottom: 1px solid var(--color-border);
   z-index: var(--z-sticky);
   transition: all var(--transition-fast);
-  backdrop-filter: blur(10px);
 }
 
 .navbar {
@@ -43,10 +43,20 @@
   color: var(--color-primary);
 }
 
+.brand-link:hover .brand-logo {
+  transform: scale(1.05);
+}
+
+.brand-link:hover .brand-icon {
+  transform: rotate(5deg) scale(1.05);
+}
+
 .brand-logo {
   width: 32px;
   height: 32px;
   flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  transition: transform var(--transition-fast);
 }
 
 .nav-menu {
@@ -60,7 +70,7 @@
   color: var(--color-text-light);
   text-decoration: none;
   font-weight: var(--font-weight-medium);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xxxl);
   transition: all var(--transition-fast);
 }
 
@@ -120,7 +130,9 @@
   flex-direction: column;
   gap: var(--space-3);
   align-items: center;
-}/* Section
+}
+
+/* Section
  Styling */
 .section {
   padding: var(--space-8) 0;
@@ -164,7 +176,7 @@
   direction: rtl;
 }
 
-.product-showcase.reverse > * {
+.product-showcase.reverse>* {
   direction: ltr;
 }
 

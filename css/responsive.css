@@ -37,6 +37,11 @@
     display: none;
   }
   
+  .nav-actions {
+    gap: var(--space-3);
+  }
+  
+  .github-link,
   .theme-toggle {
     font-size: var(--font-size-xl);
     width: 44px;
@@ -134,5 +139,55 @@
   
   .footer-content {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+/* Mobile-specific styles */
+@media (max-width: 767px) {
+  .nav-actions {
+    gap: var(--space-2);
+  }
+  
+  .github-link,
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    font-size: var(--font-size-base);
+  }
+  
+  .lang-toggle {
+    padding: var(--space-1) var(--space-1);
+    font-size: var(--font-size-xs);
+  }
+  
+  .lang-text {
+    display: none;
+  }
+  
+  .lang-toggle::after {
+    content: '中/EN';
+    font-size: var(--font-size-xs);
+  }
+  
+  .brand-logo{
+    width: 28px;
+    height: 28px;
+  }
+  
+  .brand-text {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .nav-actions {
+    gap: var(--space-1);
+  }
+  
+  .github-link,
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+    font-size: var(--font-size-sm);
   }
 }

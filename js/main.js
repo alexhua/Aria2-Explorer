@@ -1,4 +1,6 @@
 import LanguageManager from './language-manager.js';
+import ThemeManager from './theme-manager.js';
+import UIComponents from './ui-components.js';
 
 /**
  * Main Application
@@ -107,7 +109,7 @@ class Aria2SuiteApp {
      * Handle application errors
      */
     handleError(error, context = 'Unknown') {
-        console.error(`Aria2 Suite Error [${context}]:`, error);
+        console.error(`Aria2 Download Suite Error [${context}]:`, error);
         
         // Show user-friendly error message
         if (this.uiComponents) {

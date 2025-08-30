@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="terms.title">Terms of Service - Aria2 Download Suite</title>
+    <meta name="description"
+        content="Terms of Service for Aria2 Explorer browser extension and Aria2 Manager desktop application">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Header with Navigation -->
+    <header id="header" class="header">
+        <nav class="navbar container">
+            <div class="nav-brand">
+                <a href="index.html" class="brand-link">
+                    <img src="image/logo64.png" alt="Aria2 Download Suite Logo" class="brand-logo">
+                    <span class="brand-text" data-i18n="brand.name">Aria2 Download Suite</span>
+                </a>
+            </div>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html#features" class="nav-link" data-i18n="nav.features">Features</a>
+                <a href="index.html#products" class="nav-link" data-i18n="nav.products">Products</a>
+                <a href="index.html#download" class="nav-link" data-i18n="nav.download">Download</a>
+                <a href="index.html#support" class="nav-link" data-i18n="nav.support">Support</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="https://github.com/alexhua/Aria2-Explorer" class="github-link" target="_blank" rel="noopener" aria-label="View on GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Switch Theme">
+                    <i class="fas fa-sun theme-icon"></i>
+                </button>
+                <button class="lang-toggle" id="langToggle" data-lang="en" aria-label="Switch Language">
+                    <span class="lang-text">EN | 中文</span>
+                </button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="legal-header">
+                <div class="back-link">
+                    <a href="index.html" data-i18n="terms.back_to_home">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+                </div>
+
+                <div class="legal-title-section">
+                    <h1 class="legal-title" data-i18n="terms.title">Terms of Service</h1>
+                    <p class="legal-updated"><strong data-i18n="terms.last_updated">Last updated:</strong> <span
+                            data-i18n="terms.date">August 2025</span></p>
+                </div>
+            </div>
+
+            <div class="legal-content">
+
+                <section class="legal-section">
+                    <h2 data-i18n="terms.acceptance.title">Acceptance of Terms</h2>
+                    <p data-i18n="terms.acceptance.content">By downloading, installing, or using Aria2 Explorer browser
+                        extension or Aria2 Manager desktop application (collectively, "the Software"), you agree to be bound by
+                        these Terms of Service. If you do not agree to these terms, please do not use the Software.</p>
+                </section>
+
+                <section class="legal-section">
+                    <h2 data-i18n="terms.description.title">Software Description</h2>
+                    <p data-i18n="terms.description.content">Aria2 Explorer is a browser extension that integrates with the
+                        Aria2 download utility to manage download tasks. Aria2 Manager is a desktop application that provides an
+                        enhanced interface for Aria2. Both applications are designed to work with the open-source Aria2 download
+                        utility.</p>
+                </section>
+
+                <section class="legal-section">
+                    <h2 data-i18n="terms.license.title">License and Usage</h2>
+                    <p data-i18n="terms.license.content">The Software is provided under an open-source license. You are granted
+                        a non-exclusive, non-transferable license to use the Software for personal and commercial purposes. You
+                        may not reverse engineer, decompile, or attempt to extract the source code unless explicitly permitted
+                        by the applicable open-source license.</p>
+                </section>
+
+            <section class="legal-section">
+                <h2 data-i18n="terms.user_responsibilities.title">User Responsibilities</h2>
+                <p data-i18n="terms.user_responsibilities.content">You are responsible for:</p>
+                <ul class="legal-list" id="user-responsibilities-list">
+                    <li>Using the Software in compliance with all applicable laws and regulations</li>
+                    <li>Ensuring you have the right to download content through the Software</li>
+                    <li>Respecting intellectual property rights and copyright laws</li>
+                    <li>Not using the Software for illegal or unauthorized purposes</li>
+                    <li>Maintaining the security of your download configurations and credentials</li>
+                </ul>
+            </section>
+
+            <section class="legal-section">
+                <h2 data-i18n="terms.prohibited_uses.title">Prohibited Uses</h2>
+                <p data-i18n="terms.prohibited_uses.content">You may not use the Software to:</p>
+                <ul class="legal-list" id="prohibited-uses-list">
+                    <li>Download copyrighted content without proper authorization</li>
+                    <li>Engage in any illegal downloading activities</li>
+                    <li>Violate any third-party terms of service or website policies</li>
+                    <li>Distribute malware or engage in harmful activities</li>
+                    <li>Attempt to circumvent security measures or access restrictions</li>
+                </ul>
+            </section>
+
+                <section class="legal-section">
+                    <h2 data-i18n="terms.disclaimer.title">Disclaimer of Warranties</h2>
+                    <p data-i18n="terms.disclaimer.content">The Software is provided "as is" without warranties of any kind,
+                        either express or implied. We do not warrant that the Software will be error-free, secure, or
+                        continuously available. Your use of the Software is at your own risk.</p>
+                </section>
+
+                <section class="legal-section">
+                    <h2 data-i18n="terms.limitation.title">Limitation of Liability</h2>
+                    <p data-i18n="terms.limitation.content">In no event shall the developers be liable for any indirect,
+                        incidental, special, consequential, or punitive damages, including but not limited to loss of data, loss
+                        of profits, or business interruption, arising out of your use of the Software.</p>
+                </section>
+
+                <section class="legal-section">
+                    <h2 data-i18n="terms.updates.title">Software Updates</h2>
+                    <p data-i18n="terms.updates.content">We may provide updates, patches, or new versions of the Software. These
+                        updates may be automatically installed or require manual installation. Continued use of updated Software
+                        constitutes acceptance of any revised terms.</p>
+                </section>
+
+                <section class="legal-section">
+                    <h2 data-i18n="terms.termination.title">Termination</h2>
+                    <p data-i18n="terms.termination.content">You may stop using the Software at any time by uninstalling it from
+                        your devices. We reserve the right to discontinue the Software or restrict access if these terms are
+                        violated.</p>
+                </section>
+
+                <section class="legal-section">
+                    <h2 data-i18n="terms.changes.title">Changes to Terms</h2>
+                    <p data-i18n="terms.changes.content">We reserve the right to modify these Terms of Service at any time.
+                        Changes will be effective immediately upon posting. Your continued use of the Software after changes
+                        constitutes acceptance of the new terms.</p>
+                </section>
+
+                <section class="legal-section">
+                    <h2 data-i18n="terms.contact.title">Contact Information</h2>
+                    <p data-i18n="terms.contact.content">If you have questions about these Terms of Service, please contact us
+                        through our GitHub repository or support channels.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p data-i18n="footer.copyright">© 2023 Aria2 Download Suite. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

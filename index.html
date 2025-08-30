@@ -7,30 +7,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <title>Aria2 Suite - Browser Extension + Desktop Software Solution</title>
+    <title>Aria2 Download Suite - Browser Extension + Desktop Software Solution</title>
     <meta name="description"
         content="Complete Aria2 download solution combining browser extension and desktop software for seamless file downloading.">
     <meta name="keywords" content="aria2, download manager, browser extension, desktop software">
-    <meta name="author" content="Aria2 Suite">
+    <meta name="author" content="Aria2 Download Suite">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Aria2 Suite - Complete Download Solution">
+    <meta property="og:title" content="Aria2 Download Suite - Complete Download Solution">
     <meta property="og:description" content="Browser extension + desktop software for enhanced downloading experience">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Aria2 Suite - Complete Download Solution">
+    <meta name="twitter:title" content="Aria2 Download Suite - Complete Download Solution">
     <meta name="twitter:description" content="Browser extension + desktop software for enhanced downloading experience">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        crossorigin="anonymous">
+    <!-- Local Icons -->
+    <link rel="stylesheet" href="assets/icons/icons.css">
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="css/variables.css">
@@ -47,13 +41,8 @@
         <nav class="navbar container">
             <div class="nav-brand">
                 <a href="#" class="brand-link">
-                    <svg class="brand-logo" width="32" height="32" viewBox="0 0 32 32" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <rect width="32" height="32" rx="8" fill="var(--color-primary)" />
-                        <path d="M8 12L16 8L24 12V20L16 24L8 20V12Z" stroke="white" stroke-width="2" fill="none" />
-                        <circle cx="16" cy="16" r="3" fill="white" />
-                    </svg>
-                    <span class="brand-text" data-i18n="brand.name">Aria2 Suite</span>
+                    <img src="image/logo64.png" alt="Aria2 Download Suite Logo" class="brand-logo">
+                    <span class="brand-text" data-i18n="brand.name">Aria2 Download Suite</span>
                 </a>
             </div>
 
@@ -61,10 +50,14 @@
                 <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
                 <a href="#products" class="nav-link" data-i18n="nav.products">Products</a>
                 <a href="#download" class="nav-link" data-i18n="nav.download">Download</a>
-                <a href="#support" class="nav-link" data-i18n="nav.support">Support</a>
+                <a href="#footer" class="nav-link" data-i18n="nav.support">Support</a>
             </div>
 
             <div class="nav-actions">
+                <a href="https://github.com/alexhua/Aria2-Explorer" class="github-link" target="_blank" rel="noopener"
+                    aria-label="View on GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
                 <button class="theme-toggle" id="themeToggle" aria-label="Switch Theme">
                     <i class="fas fa-sun theme-icon"></i>
                 </button>
@@ -106,6 +99,10 @@
                             <div class="stat-item">
                                 <div class="stat-number" data-i18n="hero.stats.platforms">3+</div>
                                 <div class="stat-label" data-i18n="hero.stats.platforms_label">Platforms</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-i18n="hero.stats.users">100K+</div>
+                                <div class="stat-label" data-i18n="hero.stats.users_label">Users</div>
                             </div>
                         </div>
                         <div class="hero-actions">
@@ -232,35 +229,43 @@
                 <div class="steps-grid">
                     <div class="step-card">
                         <div class="step-number">1</div>
-                        <h3 class="step-title" data-i18n="howto.step1.title">Install Aria2</h3>
-                        <p class="step-description" data-i18n="howto.step1.description">
-                            For Windows users, install Aria2 Manager from Microsoft Store. Other platforms, download
-                            Aria2 utility.
-                        </p>
+                        <div class="step-shine">
+                            <h3 class="step-title" data-i18n="howto.step1.title">Install Aria2</h3>
+                            <p class="step-description" data-i18n="howto.step1.description">
+                                For Windows users, install Aria2 Manager from Microsoft Store. Other platforms, download
+                                Aria2 utility.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="step-card">
                         <div class="step-number">2</div>
-                        <h3 class="step-title" data-i18n="howto.step2.title">Run Aria2</h3>
-                        <p class="step-description" data-i18n="howto.step2.description">
-                            For Windows, run Aria2 Manager. Other platforms, run aria2c --enable-rpc in Terminal.
-                        </p>
+                        <div class="step-shine">
+                            <h3 class="step-title" data-i18n="howto.step2.title">Run Aria2</h3>
+                            <p class="step-description" data-i18n="howto.step2.description">
+                                For Windows, run Aria2 Manager. Other platforms, run aria2c --enable-rpc in Terminal.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="step-card">
                         <div class="step-number">3</div>
-                        <h3 class="step-title" data-i18n="howto.step3.title">Install Extension</h3>
-                        <p class="step-description" data-i18n="howto.step3.description">
-                            Install Aria2 Explorer from Chrome Web Store or Microsoft Edge Add-ons.
-                        </p>
+                        <div class="step-shine">
+                            <h3 class="step-title" data-i18n="howto.step3.title">Install Extension</h3>
+                            <p class="step-description" data-i18n="howto.step3.description">
+                                Install Aria2 Explorer from Chrome Web Store or Microsoft Edge Add-ons.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="step-card">
                         <div class="step-number">4</div>
-                        <h3 class="step-title" data-i18n="howto.step4.title">Configure & Enjoy</h3>
-                        <p class="step-description" data-i18n="howto.step4.description">
-                            Enable auto-capture in extension options and configure as needed. Start downloading!
-                        </p>
+                        <div class="step-shine">
+                            <h3 class="step-title" data-i18n="howto.step4.title">Configure & Enjoy</h3>
+                            <p class="step-description" data-i18n="howto.step4.description">
+                                Enable auto-capture in extension options and configure as needed. Start downloading!
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -315,14 +320,14 @@
                             Enhanced version with bug fixes, auto-startup, built-in UI, and system notifications
                         </p>
                         <ul class="product-features">
+                            <li data-i18n="products.desktop.features.size">Just 10MB+ installation size</li>
                             <li data-i18n="products.desktop.features.management">Auto-startup on boot</li>
                             <li data-i18n="products.desktop.features.ui">Built-in task management UI</li>
                             <li data-i18n="products.desktop.features.tray">Display status on tray icon</li>
+                            <li data-i18n="products.desktop.features.install">One-click installation and auto-update</li>
+                            <li data-i18n="products.desktop.features.torrent">Associate Torrent files and Magnet links</li>
+                            <li data-i18n="products.desktop.features.tracker">Auto update BT trackers</li>
                             <li data-i18n="products.desktop.features.upnp">UPnP port mapping for BT and DHT</li>
-                            <li data-i18n="products.desktop.features.install">One-click installation and auto-update
-                            </li>
-                            <li data-i18n="products.desktop.features.torrent">Associate Torrent files and Magnet links
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -348,13 +353,15 @@
                             Install from your browser's extension store
                         </p>
                         <div class="download-buttons">
-                            <a href="#" class="store-badge">
-                                <img src="https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png"
-                                    alt="Chrome Web Store" data-i18n-alt="download.extension.chrome_alt">
+                            <a href="https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn"
+                                class="store-badge" target="_blank" rel="noopener">
+                                <img src="assets/badges/chrome-web-store.png" alt="Chrome Web Store"
+                                    data-i18n-alt="download.extension.chrome_alt">
                             </a>
-                            <a href="#" class="store-badge">
-                                <img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg"
-                                    alt="Firefox Add-ons" data-i18n-alt="download.extension.firefox_alt">
+                            <a href="https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh"
+                                class="store-badge" target="_blank" rel="noopener">
+                                <img src="assets/badges/microsoft-en-light.svg" alt="Microsoft Edge Add-ons"
+                                    data-i18n-alt="download.extension.edge_alt">
                             </a>
                         </div>
                     </div>
@@ -368,15 +375,13 @@
                             Available for Windows, macOS, and Linux
                         </p>
                         <div class="download-buttons">
-                            <a href="#" class="btn btn-primary btn-lg" data-i18n="download.desktop.windows">
+                            <a href="https://apps.microsoft.com/detail/Aria2%20Manager/9P5WQ68Q20WV?launch=true&cid=aria2e"
+                                class="btn btn-primary btn-lg" target="_blank" rel="noopener">
                                 <i class="fab fa-windows"></i> Windows
                             </a>
-                            <a href="#" class="btn btn-primary btn-lg" data-i18n="download.desktop.macos">
+                            <button class="btn btn-disabled btn-lg" data-i18n-title="download.desktop.unavailable" disabled>
                                 <i class="fab fa-apple"></i> macOS
-                            </a>
-                            <a href="#" class="btn btn-primary btn-lg" data-i18n="download.desktop.linux">
-                                <i class="fab fa-linux"></i> Linux
-                            </a>
+                            </button>                            
                         </div>
                     </div>
                 </div>
@@ -392,29 +397,27 @@
                     <h4 class="footer-title" data-i18n="footer.product.title">Product</h4>
                     <div class="footer-links">
                         <a href="#features" data-i18n="footer.product.features">Features</a>
-                        <a href="#download" data-i18n="footer.product.download">Download</a>
-                        <a href="#" data-i18n="footer.product.changelog">Changelog</a>
-                        <a href="#" data-i18n="footer.product.roadmap">Roadmap</a>
+                        <a href="https://github.com/alexhua/Aria2-Explorer/releases"
+                            data-i18n="footer.product.changelog" target="_blank" rel="noopener">Changelog</a>
                     </div>
                 </div>
 
                 <div class="footer-section">
                     <h4 class="footer-title" data-i18n="footer.support.title">Support</h4>
                     <div class="footer-links">
-                        <a href="#" data-i18n="footer.support.documentation">Documentation</a>
-                        <a href="#" data-i18n="footer.support.faq">FAQ</a>
-                        <a href="#" data-i18n="footer.support.contact">Contact</a>
-                        <a href="#" data-i18n="footer.support.community">Community</a>
+                        <a href="https://github.com/alexhua/Aria2-Explorer/issues?q=label%3AFAQ"
+                            data-i18n="footer.support.faq" target="_blank" rel="noopener">FAQ</a>
+                        <a href="https://github.com/alexhua/aria2-explorer/discussions"
+                            data-i18n="footer.support.community" target="_blank" rel="noopener">Community</a>
                     </div>
                 </div>
 
                 <div class="footer-section">
                     <h4 class="footer-title" data-i18n="footer.company.title">Company</h4>
                     <div class="footer-links">
-                        <a href="#" data-i18n="footer.company.about">About</a>
-                        <a href="#" data-i18n="footer.company.blog">Blog</a>
-                        <a href="#" data-i18n="footer.company.careers">Careers</a>
-                        <a href="#" data-i18n="footer.company.press">Press</a>
+                        <a href="https://github.com/alexhua" data-i18n="footer.company.about" target="_blank"
+                            rel="noopener">About</a>
+                        <a href="https://rec.aria2e.com" data-i18n="footer.company.blog">Blog</a>
                     </div>
                 </div>
 
@@ -422,22 +425,18 @@
                     <h4 class="footer-title" data-i18n="footer.legal.title">Legal</h4>
                     <div class="footer-links">
                         <a href="privacy.html" data-i18n="footer.legal.privacy">Privacy Policy</a>
-                        <a href="#" data-i18n="footer.legal.terms">Terms of Service</a>
-                        <a href="#" data-i18n="footer.legal.cookies">Cookie Policy</a>
-                        <a href="#" data-i18n="footer.legal.licenses">Licenses</a>
+                        <a href="terms.html" data-i18n="footer.legal.terms">Terms of Service</a>
                     </div>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p data-i18n="footer.copyright">© 2024 Aria2 Suite. All rights reserved.</p>
+                <p data-i18n="footer.copyright">© 2023 Aria2 Download Suite. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- JavaScript Files -->
-    <script src="js/theme-manager.js"></script>
-    <script src="js/ui-components.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 

@@ -41,16 +41,16 @@ class UIComponents {
     initMobileMenu() {
         const mobileToggle = document.getElementById('mobileMenuToggle');
         const navMenu = document.getElementById('navMenu');
-        
+
         if (mobileToggle && navMenu) {
             mobileToggle.addEventListener('click', () => {
                 navMenu.classList.toggle('active');
                 mobileToggle.classList.toggle('active');
-                
+
                 // Toggle hamburger animation
                 const lines = mobileToggle.querySelectorAll('.hamburger-line');
                 lines.forEach((line, index) => {
-                    line.style.transform = navMenu.classList.contains('active') 
+                    line.style.transform = navMenu.classList.contains('active')
                         ? this.getHamburgerTransform(index)
                         : 'none';
                 });
@@ -61,7 +61,7 @@ class UIComponents {
                 if (!mobileToggle.contains(e.target) && !navMenu.contains(e.target)) {
                     navMenu.classList.remove('active');
                     mobileToggle.classList.remove('active');
-                    
+
                     const lines = mobileToggle.querySelectorAll('.hamburger-line');
                     lines.forEach(line => {
                         line.style.transform = 'none';
@@ -92,7 +92,7 @@ class UIComponents {
 
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
-            
+
             // Header background opacity based on scroll
             if (header) {
                 if (currentScrollY > 50) {
@@ -127,7 +127,7 @@ class UIComponents {
         const animateElements = document.querySelectorAll(
             '.feature-card, .product-showcase, .download-section'
         );
-        
+
         animateElements.forEach(el => {
             observer.observe(el);
         });
@@ -160,13 +160,13 @@ class UIComponents {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.textContent = message;
-        
+
         // Add to page
         document.body.appendChild(notification);
-        
+
         // Animate in
         setTimeout(() => notification.classList.add('show'), 100);
-        
+
         // Remove after delay
         setTimeout(() => {
             notification.classList.remove('show');
@@ -194,7 +194,7 @@ class UIComponents {
      */
     throttle(func, limit) {
         let inThrottle;
-        return function() {
+        return function () {
             const args = arguments;
             const context = this;
             if (!inThrottle) {
@@ -204,4 +204,5 @@ class UIComponents {
             }
         };
     }
-}
+}// Export for ES6 modules
+export default UIComponents;

@@ -1,6 +1,6 @@
-# Aria2 Suite 重构版本
+# Aria2 Download Suite 重构版本
 
-这是 Aria2 Suite 的重构版本，采用模块化架构，将 HTML、CSS、JavaScript 分离，便于维护和扩展。
+这是 Aria2 Download Suite 的重构版本，采用模块化架构，将 HTML、CSS、JavaScript 分离，便于维护和扩展。
 
 ## 项目结构
 
@@ -120,9 +120,8 @@ php -S localhost:8000
 ## 浏览器兼容性
 
 - Chrome 60+
-- Firefox 55+
+- Microsoft Edge 79+
 - Safari 12+
-- Edge 79+
 
 ## 部署
 
