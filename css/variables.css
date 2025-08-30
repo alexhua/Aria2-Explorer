@@ -18,6 +18,12 @@
   --color-hero-bg: linear-gradient(135deg, #f9fafb 0%, rgba(37, 99, 235, 0.05) 100%);
   --color-download-bg: linear-gradient(135deg, #f9fafb 0%, rgba(37, 99, 235, 0.05) 100%);
   
+  /* Navigation Slider Colors */
+  --color-nav-slider-start: rgba(37, 99, 235, 0.12);
+  --color-nav-slider-end: rgba(37, 99, 235, 0.06);
+  --color-nav-slider-shadow-primary: rgba(37, 99, 235, 0.2);
+  --color-nav-slider-shadow-secondary: rgba(37, 99, 235, 0.1);
+  
   /* Typography */
   --font-family-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', 'Microsoft YaHei', sans-serif;

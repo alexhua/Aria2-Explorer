@@ -46,7 +46,7 @@
                 </a>
             </div>
 
-            <div class="nav-menu" id="navMenu">
+            <div class="nav-menu" id="navMenu" aria-hidden="true">
                 <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
                 <a href="#products" class="nav-link" data-i18n="nav.products">Products</a>
                 <a href="#download" class="nav-link" data-i18n="nav.download">Download</a>
@@ -64,7 +64,10 @@
                 <button class="lang-toggle" id="langToggle" data-lang="en" aria-label="Switch Language">
                     <span class="lang-text">EN | 中文</span>
                 </button>
-                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" 
+                        aria-label="Toggle Menu" 
+                        aria-expanded="false" 
+                        aria-controls="navMenu">
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>

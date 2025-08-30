@@ -16,6 +16,12 @@
   --color-footer-bg: #0f172a;
   --color-hero-bg: linear-gradient(135deg, #111827 0%, rgba(59, 130, 246, 0.1) 100%);
   --color-download-bg: linear-gradient(135deg, #111827 0%, rgba(59, 130, 246, 0.1) 100%);
+  
+  /* Navigation Slider Colors - Dark Theme */
+  --color-nav-slider-start: rgba(59, 130, 246, 0.15);
+  --color-nav-slider-end: rgba(59, 130, 246, 0.08);
+  --color-nav-slider-shadow-primary: rgba(59, 130, 246, 0.25);
+  --color-nav-slider-shadow-secondary: rgba(59, 130, 246, 0.12);
 }
 
 /* Auto Theme - follows system preference */
@@ -37,6 +43,12 @@
     --color-footer-bg: #0f172a;
     --color-hero-bg: linear-gradient(135deg, #111827 0%, rgba(59, 130, 246, 0.1) 100%);
     --color-download-bg: linear-gradient(135deg, #111827 0%, rgba(59, 130, 246, 0.1) 100%);
+    
+    /* Navigation Slider Colors - Auto Theme Dark Mode */
+    --color-nav-slider-start: rgba(59, 130, 246, 0.15);
+    --color-nav-slider-end: rgba(59, 130, 246, 0.08);
+    --color-nav-slider-shadow-primary: rgba(59, 130, 246, 0.25);
+    --color-nav-slider-shadow-secondary: rgba(59, 130, 246, 0.12);
   }
 }
 
