@@ -13,7 +13,7 @@
   --color-white: #ffffff;
   --color-border: #e5e7eb;
   --color-card-bg: #ffffff;
-  --color-header-bg: rgba(255, 255, 255, 0.8);
+  --color-header-bg: rgba(255, 255, 255, 0.2);
   --color-footer-bg: #374151;
   --color-hero-bg: linear-gradient(135deg, #f9fafb 0%, rgba(37, 99, 235, 0.05) 100%);
   --color-download-bg: linear-gradient(135deg, #f9fafb 0%, rgba(37, 99, 235, 0.05) 100%);

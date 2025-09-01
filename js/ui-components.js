@@ -4,6 +4,7 @@
  */
 class UIComponents {
     constructor() {
+        this.navEffectsInitialized = false;
         this.init();
     }
 
@@ -250,75 +251,82 @@ class UIComponents {
 
     /**
      * Initialize navigation link sliding background effects
+     * Ensures effects are initialized when resizing from mobile to desktop
      */
     initNavLinkEffects() {
-        // Only enable on desktop (768px and above)
-        if (window.innerWidth < 768) return;
-
         const navMenu = document.querySelector('.nav-menu');
         const navLinks = document.querySelectorAll('.nav-link');
-        
         if (!navMenu || navLinks.length === 0) return;
 
         let isHoveringMenu = false;
 
-        // Function to move slider to target link
+        // Move slider to target link
         const moveSliderToLink = (targetLink) => {
             if (!targetLink || window.innerWidth < 768) return;
-
-            // Get positions relative to the nav menu
             const menuRect = navMenu.getBoundingClientRect();
             const linkRect = targetLink.getBoundingClientRect();
-            
-            // Calculate relative position
             const left = linkRect.left - menuRect.left;
             const width = linkRect.width;
-            
-            // Update CSS custom properties
             navMenu.style.setProperty('--slider-left', `${left}px`);
             navMenu.style.setProperty('--slider-width', `${width}px`);
             navMenu.style.setProperty('--slider-opacity', '1');
         };
 
-        // Function to hide slider
+        // Hide slider
         const hideSlider = () => {
             navMenu.style.setProperty('--slider-opacity', '0');
         };
 
-        // Add event listeners to each nav link
-        navLinks.forEach((link) => {
-            link.addEventListener('mouseenter', () => {
+        // Bind events once
+        const bindEvents = () => {
+            if (navMenu.dataset.sliderBound === '1') return;
+
+            navLinks.forEach((link) => {
+                link.addEventListener('mouseenter', () => {
+                    if (window.innerWidth >= 768) {
+                        isHoveringMenu = true;
+                        moveSliderToLink(link);
+                    }
+                });
+            });
+
+            navMenu.addEventListener('mouseleave', () => {
                 if (window.innerWidth >= 768) {
-                    isHoveringMenu = true;
-                    moveSliderToLink(link);
+                    isHoveringMenu = false;
+                    setTimeout(() => {
+                        if (!isHoveringMenu) {
+                            hideSlider();
+                        }
+                    }, 100);
                 }
             });
-        });
 
-        // Handle mouse leave from entire nav menu
-        navMenu.addEventListener('mouseleave', () => {
+            navMenu.addEventListener('mouseenter', () => {
+                if (window.innerWidth >= 768) {
+                    isHoveringMenu = true;
+                }
+            });
+
+            navMenu.dataset.sliderBound = '1';
+        };
+
+        // Initialize immediately if on desktop
+        if (window.innerWidth >= 768 && !this.navEffectsInitialized) {
+            bindEvents();
+            this.navEffectsInitialized = true;
+        }
+
+        // Handle window resize to (re)init or hide
+        window.addEventListener('resize', this.throttle(() => {
             if (window.innerWidth >= 768) {
-                isHoveringMenu = false;
-                setTimeout(() => {
-                    if (!isHoveringMenu) {
-                        hideSlider();
-                    }
-                }, 100);
-            }
-        });
-
-        navMenu.addEventListener('mouseenter', () => {
-            if (window.innerWidth >= 768) {
-                isHoveringMenu = true;
-            }
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth < 768) {
+                if (!this.navEffectsInitialized) {
+                    bindEvents();
+                    this.navEffectsInitialized = true;
+                }
+            } else {
                 hideSlider();
             }
-        });
+        }, 150));
 
         // Initialize CSS custom properties
         navMenu.style.setProperty('--slider-left', '0px');
