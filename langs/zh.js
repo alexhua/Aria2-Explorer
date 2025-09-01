@@ -23,7 +23,7 @@ export default {
             "languages_label": "多语言",
             "platforms": "3+",
             "platforms_label": "平台支持",
-            "users": "100k+",
+            "users": "100K+",
             "users_label": "用户"
         },
         "cta_primary": "安装扩展",

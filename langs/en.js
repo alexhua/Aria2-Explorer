@@ -23,7 +23,7 @@ export default {
       "languages_label": "Languages",
       "platforms": "3+",
       "platforms_label": "Platforms",
-      "users": "100k+",
+      "users": "100K+",
       "users_label": "Users"
     },
     "cta_primary": "Install Extension",

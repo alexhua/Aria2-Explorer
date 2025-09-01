@@ -37,7 +37,7 @@
 
 /* Icon definitions - only icons used in the project */
 .fa-arrow-left:before { content: "\f060"; }
-.fa-sun:before { content: "\f185"; }
+.fa-sun:before { content: "\f185"; color: gold; text-shadow: 0 0 2px #7f6c00;}
 .fa-moon:before { content: "\f186"; }
 .fa-circle-half-stroke:before { content: "\f042"; }
 .fa-download:before { content: "\f019"; }
