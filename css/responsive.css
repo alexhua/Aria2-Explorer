@@ -183,6 +183,7 @@
     display: flex;
     background-color: var(--color-header-bg);
     backdrop-filter: var(--blur-lg);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: var(--space-3);
@@ -196,6 +197,14 @@
     box-shadow: var(--shadow-lg);
     max-height: calc(100vh - 80px);
     overflow-y: auto;
+  }
+
+
+  /* Fallback for browsers without backdrop-filter support */
+  @supports not ((-webkit-backdrop-filter: blur(0px)) or (backdrop-filter: blur(0px))) {
+    .nav-menu {
+      background-color: rgba(255, 255, 255, 0.9) !important;
+    }
   }
 
   .nav-menu.active {
