@@ -24,7 +24,7 @@
 }
 
 /* Medium screens (768px and up) */
-@media (min-width: 768px) {
+@media (min-width: 800px) {
   .nav-menu {
     display: flex;
   }
@@ -139,7 +139,7 @@
 }
 
 /* Mobile-specific styles */
-@media (max-width: 767px) {
+@media (max-width: 799px) {
   .nav-actions {
     gap: var(--space-2);
   }

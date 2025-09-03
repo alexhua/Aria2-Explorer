@@ -133,8 +133,9 @@ export default {
         "extension": {
             "title": "浏览器扩展",
             "description": "从浏览器扩展商店安装",
-            "chrome_alt": "Chrome 网上应用店下载",
-            "edge_alt": "Microsoft Edge 加载项下载"
+            "chrome_title": "Chrome 网上应用店下载",
+            "edge_title": "Microsoft Edge 加载项下载",
+            "manual_install_title": "手动下载安装"
         },
         "desktop": {
             "title": "桌面应用",

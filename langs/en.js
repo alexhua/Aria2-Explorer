@@ -133,8 +133,9 @@ export default {
     "extension": {
       "title": "Browser Extension",
       "description": "Install from your browser's extension store",
-      "chrome_alt": "Available on Chrome Web Store",
-      "edge_alt": "Available on Microsoft Edge Add-ons"
+      "chrome_title": "Available on Chrome Web Store",
+      "edge_title": "Available on Microsoft Edge Add-ons",
+      "manual_install_title": "Manual Install"
     },
     "desktop": {
       "title": "Desktop Application",
