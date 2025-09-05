@@ -259,7 +259,8 @@
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   margin-bottom: var(--space-4);
-  color: var(--color-white);
+  color: var(--color-text-meta);
+  text-align: center;
 }
 
 .footer-links {
