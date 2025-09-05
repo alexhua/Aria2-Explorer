@@ -28,6 +28,7 @@ export default {
     },
     "cta_primary": "Install Extension",
     "cta_secondary": "Learn More",
+    "cta_online": "Online Manager",
     "screenshot_placeholder": "App Screenshot",
     "screenshot_note": "Coming Soon"
   },

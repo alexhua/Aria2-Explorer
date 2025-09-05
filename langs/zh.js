@@ -28,6 +28,7 @@ export default {
         },
         "cta_primary": "安装扩展",
         "cta_secondary": "了解更多",
+        "cta_online": "在线管理",
         "screenshot_placeholder": "应用截图",
         "screenshot_note": "即将推出"
     },
