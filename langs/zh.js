@@ -171,7 +171,7 @@ export default {
             "terms": "服务条款",
             "licenses": "开源许可"
         },
-        "copyright": "© 2023 Aria2 下载套件。保留所有权利。"
+        "copyright": "© 2023 Alex Hua 保留所有权利。"
     },
     "privacy": {
         "back_to_home": "返回首页",

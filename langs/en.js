@@ -171,7 +171,7 @@ export default {
       "terms": "Terms of Service",
       "licenses": "Licenses"
     },
-    "copyright": "© 2023 Aria2 Download Suite. All rights reserved."
+    "copyright": "© 2023 Alex Hua. All rights reserved."
   },
   "privacy": {
     "back_to_home": "Back to Home",
