@@ -1,7 +1,7 @@
 {
    "name": "__MSG_appName__",
    "short_name": "A2E",
-   "version": "2.7.3",
+   "version": "2.7.4",
    "manifest_version": 3,
    "minimum_chrome_version": "116.0.0",
    "default_locale": "en",
@@ -40,7 +40,7 @@
       "default_path": "ui/ariang/index.html"
    },
    "content_security_policy": {
-      "extension_pages": "script-src 'self';object-src 'self';frame-src https://*.aria2e.com/;"
+      "extension_pages": "script-src 'self';object-src 'self';frame-src 'self' aria2://* https://*.aria2e.com/;"
    },
    "icons": {
       "16": "images/logo16.png",
