@@ -322,5 +322,29 @@
    },
    "MarkAsInsecureTip": {
       "message": "Mark as insecure RPC protocol"
+   },
+   "exportConfig": {
+      "message": "Export Config"
+   },
+   "importConfig": {
+      "message": "Import Config"
+   },
+   "exportConfigSuccess": {
+      "message": "Configuration exported successfully"
+   },
+   "importConfigSuccess": {
+      "message": "Configuration imported successfully"
+   },
+   "importConfigFailed": {
+      "message": "Configuration import failed"
+   },
+   "importConfigConfirm": {
+      "message": "Confirm to import configuration? This will overwrite all current settings."
+   },
+   "configImportExportStr": {
+      "message": "Configuration Import/Export"
+   },
+   "configImportExportDes": {
+      "message": "Backup and restore extension settings"
    }
 }

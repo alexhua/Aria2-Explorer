@@ -322,5 +322,29 @@
    },
    "MarkAsInsecureTip": {
       "message": "Отметить как небезопасный RPC протокол"
+   },
+   "exportConfig": {
+      "message": "Экспорт конфигурации"
+   },
+   "importConfig": {
+      "message": "Импорт конфигурации"
+   },
+   "exportConfigSuccess": {
+      "message": "Конфигурация успешно экспортирована"
+   },
+   "importConfigSuccess": {
+      "message": "Конфигурация успешно импортирована"
+   },
+   "importConfigFailed": {
+      "message": "Ошибка импорта конфигурации"
+   },
+   "importConfigConfirm": {
+      "message": "Подтвердить импорт конфигурации? Это перезапишет все текущие настройки."
+   },
+   "configImportExportStr": {
+      "message": "Импорт/Экспорт конфигурации"
+   },
+   "configImportExportDes": {
+      "message": "Резервное копирование и восстановление настроек расширения"
    }
 }

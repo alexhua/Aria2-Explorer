@@ -205,6 +205,10 @@ var Configs =
             Configs.colorModeId = (Configs.colorModeId + 1) % ColorModeList.length;
             chrome.storage.local.set({ colorModeId: Configs.colorModeId });
         });
+
+        $("#exportConfig").off().on("click", Configs.export);
+        $("#importConfig").off().on("click", Configs.import);
+        $("#configFileInput").off().on("change", Configs.handleConfigImport);
     },
     reset: async function () {
         if (confirm(chrome.i18n.getMessage("ClearSettingsDes"))) {
@@ -315,6 +319,97 @@ var Configs =
             $("#sync-result").text("");
             $("#sync-result").removeClass(style);
         }, timeout);
+    },
+    notifyImportExportResult: function (msg, style, timeout = 2000) {
+        $("#import-export-result").addClass(style);
+        $("#import-export-result").text(msg);
+        setTimeout(function () {
+            $("#import-export-result").text("");
+            $("#import-export-result").removeClass(style);
+        }, timeout);
+    },
+    export: function () {
+        const configData = {};
+        
+        for (const key in Configs) {
+            if (typeof Configs[key] !== 'function') {
+                configData[key] = Configs[key];
+            }
+        }
+        
+        try {
+            let ariaNgOptionsValue = localStorage.getItem(AriaNgOptionsKey);
+            if (typeof ariaNgOptionsValue === "string") {
+                configData.ariaNgOptions = JSON.parse(ariaNgOptionsValue);
+            }
+        } catch {
+            configData.ariaNgOptions = DefaultAriaNgOptions;
+        }
+        
+        const dataStr = JSON.stringify(configData, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `aria2-explorer-config-${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        const msg = chrome.i18n.getMessage("exportConfigSuccess");
+        Configs.notifyImportExportResult(msg, "alert-success");
+    },
+    import: function () {
+        const fileInput = document.getElementById('configFileInput');
+        fileInput.click();
+    },
+    handleConfigImport: function (event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = async function (e) {
+            try {
+                const configData = JSON.parse(e.target.result);
+                
+                if (!configData || typeof configData !== 'object') {
+                    throw new Error('Invalid config format');
+                }
+                
+                const confirmMsg = chrome.i18n.getMessage("importConfigConfirm");
+                if (!confirm(confirmMsg)) {
+                    return;
+                }
+                
+                if (configData.ariaNgOptions) {
+                    try {
+                        localStorage.setItem(AriaNgOptionsKey, JSON.stringify(configData.ariaNgOptions));
+                    } catch (error) {
+                        console.warn("Failed to import AriaNG options:", error);
+                    }
+                    delete configData.ariaNgOptions;
+                }
+                
+                Object.assign(Configs, DefaultConfigs, configData);
+                
+                await chrome.storage.local.set(Configs);
+                
+                await Configs.init();
+                
+                const msg = chrome.i18n.getMessage("importConfigSuccess");
+                Configs.notifyImportExportResult(msg, "alert-success");
+                
+            } catch (error) {
+                console.error("Import config error:", error);
+                const msg = chrome.i18n.getMessage("importConfigFailed");
+                Configs.notifyImportExportResult(`${msg} (${error.message})`, "alert-danger", 5000);
+            }
+        };
+        reader.readAsText(file);
+        
+        event.target.value = '';
     }
 };
 
@@ -359,10 +454,16 @@ window.onkeyup = function (e) {
             button = document.getElementById("reset");
         } else if (e.key == 'u') {
             Configs.upload();
-            button = document.getElementById("uploadConfig");
+            button = document.getElementById("upload");
         } else if (e.key == 'j') {
             Configs.download();
-            button = document.getElementById("downloadConfig");
+            button = document.getElementById("download");
+        } else if (e.key == 'e') {
+            Configs.export();
+            button = document.getElementById("exportConfig");
+        } else if (e.key == 'i') {
+            Configs.import();
+            button = document.getElementById("importConfig");
         }
         button?.focus({ focusVisible: true });
     }

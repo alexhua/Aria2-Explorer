@@ -322,5 +322,29 @@
    },
    "MarkAsInsecureTip": {
       "message": "안전하지 않은 RPC 프로토콜로 표시하다"
+   },
+   "exportConfig": {
+      "message": "설정 내보내기"
+   },
+   "importConfig": {
+      "message": "설정 가져오기"
+   },
+   "exportConfigSuccess": {
+      "message": "설정 내보내기 성공"
+   },
+   "importConfigSuccess": {
+      "message": "설정 가져오기 성공"
+   },
+   "importConfigFailed": {
+      "message": "설정 가져오기 실패"
+   },
+   "importConfigConfirm": {
+      "message": "설정을 가져오시겠습니까? 현재 모든 설정이 덮어쓰여집니다."
+   },
+   "configImportExportStr": {
+      "message": "설정 가져오기/내보내기"
+   },
+   "configImportExportDes": {
+      "message": "확장 프로그램 설정 백업 및 복원"
    }
 }

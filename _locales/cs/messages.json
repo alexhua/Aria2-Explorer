@@ -322,5 +322,29 @@
    },
    "MarkAsInsecureTip": {
       "message": "Označit jako nezabezpečený protokol RPC"
+   },
+   "configImportExportStr": {
+      "message": "Import/Export konfigurace"
+   },
+   "configImportExportDes": {
+      "message": "Zálohování a obnovení nastavení rozšíření"
+   },
+   "exportConfig": {
+      "message": "Exportovat konfiguraci"
+   },
+   "importConfig": {
+      "message": "Importovat konfiguraci"
+   },
+   "exportConfigSuccess": {
+      "message": "Konfigurace byla úspěšně exportována"
+   },
+   "importConfigSuccess": {
+      "message": "Konfigurace byla úspěšně importována"
+   },
+   "importConfigFailed": {
+      "message": "Import konfigurace se nezdařil"
+   },
+   "importConfigConfirm": {
+      "message": "Potvrdit import konfigurace? Tím se přepíší všechna aktuální nastavení."
    }
 }

@@ -234,6 +234,22 @@
           <span class="alert" id="sync-result"></span>
         </div>
       </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 text-info"><i class="fa-solid fa-file-arrow-up"></i>
+          __MSG_configImportExportStr__</label>
+        <div class="col-sm-auto">
+          <button type="button" class="btn btn-success mx-1 tool-tip" id="importConfig"
+            tooltip-content="⌨: Alt + I"><i class="fa-solid fa-file-import"></i>
+            __MSG_importConfig__</button>
+          <button type="button" class="btn btn-secondary mx-1 tool-tip" id="exportConfig"
+            tooltip-content="⌨: Alt + E"><i class="fa-solid fa-file-export"></i>
+            __MSG_exportConfig__</button>
+          <em>(__MSG_configImportExportDes__)</em>
+          <input type="file" id="configFileInput" accept=".json" style="display: none;">
+          <span class="alert" id="import-export-result"></span>
+        </div>
+      </div>
     </fieldset>
 
     <footer class="footer">

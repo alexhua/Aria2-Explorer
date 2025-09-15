@@ -322,5 +322,29 @@
    },
    "MarkAsInsecureTip": {
       "message": "标记为不安全的RPC协议"
+   },
+   "exportConfig": {
+      "message": "导出配置"
+   },
+   "importConfig": {
+      "message": "导入配置"
+   },
+   "exportConfigSuccess": {
+      "message": "配置导出成功"
+   },
+   "importConfigSuccess": {
+      "message": "配置导入成功"
+   },
+   "importConfigFailed": {
+      "message": "配置导入失败"
+   },
+   "importConfigConfirm": {
+      "message": "确认导入配置？这将覆盖当前所有设置。"
+   },
+   "configImportExportStr": {
+      "message": "配置导入导出"
+   },
+   "configImportExportDes": {
+      "message": "备份和恢复扩展设置"
    }
 }

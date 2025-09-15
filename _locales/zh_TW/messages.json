@@ -322,5 +322,29 @@
    },
    "MarkAsInsecureTip": {
       "message": "標記為不安全的RPC協議"
+   },
+   "configImportExportStr": {
+      "message": "設定匯入匯出"
+   },
+   "configImportExportDes": {
+      "message": "備份和還原擴充功能設定"
+   },
+   "exportConfig": {
+      "message": "匯出設定"
+   },
+   "importConfig": {
+      "message": "匯入設定"
+   },
+   "exportConfigSuccess": {
+      "message": "設定匯出成功"
+   },
+   "importConfigSuccess": {
+      "message": "設定匯入成功"
+   },
+   "importConfigFailed": {
+      "message": "設定匯入失敗"
+   },
+   "importConfigConfirm": {
+      "message": "確認匯入設定？這將覆蓋目前所有設定。"
    }
 }

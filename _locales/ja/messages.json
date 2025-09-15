@@ -322,5 +322,29 @@
    },
    "MarkAsInsecureTip": {
       "message": "安全でないRPCプロトコルとしてマークする"
+   },
+   "exportConfig": {
+      "message": "設定をエクスポート"
+   },
+   "importConfig": {
+      "message": "設定をインポート"
+   },
+   "exportConfigSuccess": {
+      "message": "設定のエクスポートが成功しました"
+   },
+   "importConfigSuccess": {
+      "message": "設定のインポートが成功しました"
+   },
+   "importConfigFailed": {
+      "message": "設定のインポートに失敗しました"
+   },
+   "importConfigConfirm": {
+      "message": "設定をインポートしますか？現在の設定がすべて上書きされます。"
+   },
+   "configImportExportStr": {
+      "message": "設定のインポート/エクスポート"
+   },
+   "configImportExportDes": {
+      "message": "拡張機能の設定をバックアップ・復元"
    }
 }

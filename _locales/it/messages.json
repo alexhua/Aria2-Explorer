@@ -322,5 +322,29 @@
    },
    "MarkAsInsecureTip": {
       "message": "Segna come protocollo RPC non sicuro"
+   },
+   "exportConfig": {
+      "message": "Esporta configurazione"
+   },
+   "importConfig": {
+      "message": "Importa configurazione"
+   },
+   "exportConfigSuccess": {
+      "message": "Configurazione esportata con successo"
+   },
+   "importConfigSuccess": {
+      "message": "Configurazione importata con successo"
+   },
+   "importConfigFailed": {
+      "message": "Importazione configurazione fallita"
+   },
+   "importConfigConfirm": {
+      "message": "Confermare l'importazione della configurazione? Questo sovrascriverà tutte le impostazioni attuali."
+   },
+   "configImportExportStr": {
+      "message": "Importa/Esporta configurazione"
+   },
+   "configImportExportDes": {
+      "message": "Backup e ripristino delle impostazioni dell'estensione"
    }
 }

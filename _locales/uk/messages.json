@@ -322,5 +322,29 @@
    },
    "MarkAsInsecureTip": {
       "message": "позначити як небезпечний RPC-протокол"
+   },
+   "configImportExportStr": {
+      "message": "Імпорт/Експорт конфігурації"
+   },
+   "configImportExportDes": {
+      "message": "Резервне копіювання та відновлення налаштувань розширення"
+   },
+   "exportConfig": {
+      "message": "Експорт конфігурації"
+   },
+   "importConfig": {
+      "message": "Імпорт конфігурації"
+   },
+   "exportConfigSuccess": {
+      "message": "Конфігурацію успішно експортовано"
+   },
+   "importConfigSuccess": {
+      "message": "Конфігурацію успішно імпортовано"
+   },
+   "importConfigFailed": {
+      "message": "Помилка імпорту конфігурації"
+   },
+   "importConfigConfirm": {
+      "message": "Підтвердити імпорт конфігурації? Це перезапише всі поточні налаштування."
    }
 }
