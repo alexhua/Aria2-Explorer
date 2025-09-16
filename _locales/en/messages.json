@@ -171,10 +171,10 @@
       }
    },
    "allowedSitesPlaceholderDes": {
-      "message": "Set the domains you want to capture, one website per line, supports regexp. (Allow-list has higher priority)"
+      "message": "Set domains or extension IDs to intercept, one per line, regular expressions supported. (Allow-list has higher priority)"
    },
    "blockedSitesPlaceholderDes": {
-      "message": "Set the domains you un-want to capture, one website per line, supports regexp."
+      "message": "Set domains or extension IDs to exclude from interception, one per line, regular expressions supported, * means all."
    },
    "allowedExtsPlaceholderDes": {
       "message": "Set the file types that you want to capture or export, one extension per line, * means all. (Allow-List has higher priority)"

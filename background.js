@@ -211,7 +211,11 @@ function shouldCapture(downloadItem) {
     var currentTabUrl = new URL(CurrentTabUrl);
     var url = new URL(downloadItem.referrer || downloadItem.url);
 
-    if (downloadItem.byExtensionId == chrome.runtime.id) {
+    if (downloadItem.byExtensionId == chrome.runtime.id) return false;
+
+    // Filter other extensions's downloads by blocked domain settings
+    if (downloadItem.byExtensionId && !Configs.allowedSites.includes(downloadItem.byExtensionId) &&
+        (Configs.blockedSites.includes("*") || Configs.blockedSites.includes(downloadItem.byExtensionId))) {
         return false;
     }
 

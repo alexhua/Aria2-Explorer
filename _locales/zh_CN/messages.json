@@ -171,10 +171,10 @@
       }
    },
    "allowedSitesPlaceholderDes": {
-      "message": "设置需要拦截的域名，每行一个网站，支持正则表达式。\n（白名单优先）"
+      "message": "设置需要拦截的域名、扩展ID，每行一个，支持正则表达式。（白名单优先）"
    },
    "blockedSitesPlaceholderDes": {
-      "message": "设置不需要拦截的域名，每行一个网站，支持正则表达式。"
+      "message": "设置不需要拦截的域名、扩展ID，每行一个，支持正则表达式，* 代表所有。"
    },
    "allowedExtsPlaceholderDes": {
       "message": "设置需要拦截或导出的文件类型，\n每行一个扩展名，* 代表所有。\n（白名单优先）"

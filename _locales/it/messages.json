@@ -171,10 +171,10 @@
       }
    },
    "allowedSitesPlaceholderDes": {
-      "message": "Imposta i domini che vuoi catturare, uno per riga, supporta le espressioni regolari. (La lista consentita ha priorità più alta)"
+      "message": "Imposta domini o ID estensione da intercettare, uno per riga, supportate espressioni regolari. (La lista consentita ha priorità più alta)"
    },
    "blockedSitesPlaceholderDes": {
-      "message": "Imposta i domini che non vuoi catturare, uno per riga, supporta le espressioni regolari."
+      "message": "Imposta domini o ID estensione da escludere dall'intercettazione, uno per riga, supportate espressioni regolari, * significa tutti."
    },
    "allowedExtsPlaceholderDes": {
       "message": "Imposta i tipi di file che vuoi catturare o esportare, uno per riga, * significa tutti. (La lista consentita ha priorità più alta)"

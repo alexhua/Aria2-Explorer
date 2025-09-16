@@ -171,10 +171,10 @@
       }
    },
    "allowedSitesPlaceholderDes": {
-      "message": "Establezca los dominios que desea capturar, un sitio web por línea, admite expresiones regulares. (La lista de permitidos tiene mayor prioridad)"
+      "message": "Establezca dominios o IDs de extensión para interceptar, uno por línea, se admiten expresiones regulares. (La lista de permitidos tiene mayor prioridad)"
    },
    "blockedSitesPlaceholderDes": {
-      "message": "Establezca los dominios que no desea capturar, un sitio web por línea, admite expresiones regulares."
+      "message": "Establezca dominios o IDs de extensión para excluir de la interceptación, uno por línea, se admiten expresiones regulares, * significa todos."
    },
    "allowedExtsPlaceholderDes": {
       "message": "Establezca los tipos de archivo que desea capturar o exportar, una extensión por línea, * significa todos. (La lista de permitidos tiene mayor prioridad)"

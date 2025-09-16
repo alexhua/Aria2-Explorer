@@ -171,10 +171,10 @@
       }
    },
    "allowedSitesPlaceholderDes": {
-      "message": "Définissez les domaines que vous souhaitez capturer, un par ligne, prend en charge les expressions régulières. (La liste autorisée a une priorité plus élevée)"
+      "message": "Définissez les domaines ou les ID d'extension à intercepter, un par ligne ; les expressions régulières sont prises en charge. (La liste blanche a la priorité)"
    },
    "blockedSitesPlaceholderDes": {
-      "message": "Définissez les domaines que vous ne souhaitez pas capturer, un par ligne, prend en charge les expressions régulières."
+      "message": "Définissez les domaines ou les ID d'extension à exclure de l'interception, un par ligne ; les expressions régulières sont prises en charge. * signifie tous."
    },
    "allowedExtsPlaceholderDes": {
       "message": "Définissez les types de fichiers que vous souhaitez capturer ou exporter, un par ligne, * signifie tous. (La liste autorisée a une priorité plus élevée)"

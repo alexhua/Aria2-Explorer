@@ -171,10 +171,10 @@
       }
    },
    "allowedSitesPlaceholderDes": {
-      "message": "設定需要攔截的站點，每行一個網站，支持規則運算式。\n（白名單優先）"
+      "message": "設定需要攔截的域名、擴充功能ID，每行一個，支援正規表達式。（白名單優先）"
    },
    "blockedSitesPlaceholderDes": {
-      "message": "設定不需要攔截的站點，每行一個網站，支持規則運算式。"
+      "message": "設定不需要攔截的域名、擴充功能ID，每行一個，支援正規表達式，* 代表所有。"
    },
    "allowedExtsPlaceholderDes": {
       "message": "設定需要攔截或匯出的文件類型，\n每行一個副檔名，*代表所有。\n（白名單優先）"

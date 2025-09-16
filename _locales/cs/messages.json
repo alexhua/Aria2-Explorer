@@ -171,10 +171,10 @@
       }
    },
    "allowedSitesPlaceholderDes": {
-      "message": "Nastavte domény, které chcete zachytávat, jednu webovou stránku na řádek, podporuje regulární výrazy. (Seznam povolených má vyšší prioritu)"
+      "message": "Nastavte domény nebo ID rozšíření, které chcete zachytávat, jeden na řádek, podporovány jsou regulární výrazy. (Seznam povolených má vyšší prioritu)"
    },
    "blockedSitesPlaceholderDes": {
-      "message": "Nastavte domény, které nechcete zachytávat, jednu webovou stránku na řádek, podporuje regulární výrazy."
+      "message": "Nastavte domény nebo ID rozšíření, které nechcete zachytávat, jeden na řádek, podporovány jsou regulární výrazy, * znamená všechny."
    },
    "allowedExtsPlaceholderDes": {
       "message": "Nastavte typy souborů, které chcete zachytávat nebo exportovat, jednu příponu na řádek, * znamená všechny. (Seznam povolených má vyšší prioritu)"
