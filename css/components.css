@@ -996,3 +996,142 @@ dvanced Visual Effects */
   outline-offset: 2px;
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
+
+/* Notice Bar */
+.notice-bar {
+  position: sticky;
+  top: 64px; /* align to header min-height */
+  z-index: var(--z-sticky);
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.18), rgba(124, 58, 237, 0.14));
+  border-bottom: 1px solid rgba(var(--color-primary-rgb), 0.25);
+  color: var(--color-text);
+  transition: transform 150ms ease-in-out, opacity 150ms ease-in-out, background 200ms ease-in-out;
+  transform: translateY(-8px);
+  opacity: 0;
+  cursor: default;
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.15);
+  backdrop-filter: var(--blur-lg);
+}
+
+.notice-bar.show {
+  transform: translateY(100%);
+  opacity: 1;
+}
+
+.notice-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1) var(--space-2);
+  padding-right: calc(var(--space-2) + 28px); /* space for close button */
+  min-height: 40px;
+  position: relative; /* for close button positioning */
+}
+
+.notice-content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+/* link inside notice */
+.notice-link {
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+}
+
+.notice-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.notice-clickable {
+  cursor: pointer;
+}
+
+.notice-clickable .notice-content {
+  text-decoration: none;
+}
+
+.notice-clickable:hover .notice-link {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.notice-arrow {
+  color: var(--color-text-light);
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+/* Subtle right arrow nudge animation to indicate clickability */
+@keyframes notice-arrow-nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+
+/* Animate only when the bar is clickable and visible */
+.notice-bar.show.notice-clickable .notice-arrow {
+  animation: notice-arrow-nudge 1.6s ease-in-out infinite;
+}
+
+/* Hover keeps existing stronger hint */
+.notice-clickable:hover .notice-arrow {
+  transform: translateX(3px);
+  color: var(--color-primary);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .notice-bar.show.notice-clickable .notice-arrow {
+    animation: none;
+  }
+}
+
+/* Close button */
+.notice-close {
+  position: absolute;
+  right: var(--space-1);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
+  line-height: 22px;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.25);
+  background: rgba(100, 125, 224, 0.6);
+  color: var(--color-text-light);
+  cursor: pointer;
+  font-size: 16px;
+  transition: all var(--transition-fast);
+}
+
+.notice-close:hover,
+.notice-close:focus-visible {
+  background: var(--color-white);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.15);
+}
+
+.notice-clickable:hover .notice-arrow {
+  transform: translateX(2px);
+  color: var(--color-primary);
+}
+
+/* Responsive tweaks */
+@media (max-width: 799px) {
+  .notice-inner {
+    padding: var(--space-1) var(--space-2);
+    min-height: 36px;
+  }
+  .notice-content {
+    font-size: var(--font-size-xs);
+  }
+}

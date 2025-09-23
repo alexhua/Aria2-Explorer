@@ -1,6 +1,9 @@
 import LanguageManager from './language-manager.js';
 import ThemeManager from './theme-manager.js';
 import UIComponents from './ui-components.js';
+import NoticeManager from './notice-manager.js';
+
+const NOTICE_DATA_URL = 'https://rec.aria2e.com/notice.json';
 
 /**
  * Main Application
@@ -11,8 +14,9 @@ class Aria2SuiteApp {
         this.themeManager = null;
         this.languageManager = null;
         this.uiComponents = null;
+        this.noticeManager = null;
         this.isInitialized = false;
-        
+
         this.init();
     }
 
@@ -39,23 +43,37 @@ class Aria2SuiteApp {
         try {
             // Initialize theme manager first (for immediate theme application)
             this.themeManager = new ThemeManager();
-            
+
             // Initialize UI components
             this.uiComponents = new UIComponents();
-            
+
             // Initialize language manager (async due to translation loading)
             this.languageManager = new LanguageManager();
-            
+
             // Wait for language manager to be fully initialized
             let attempts = 0;
             while (!this.languageManager.isInitialized && attempts < 50) {
                 await new Promise(resolve => setTimeout(resolve, 100));
                 attempts++;
             }
-            
+
+            // Initialize notice manager after language manager is ready (dynamic announcement bar)
+            this.noticeManager = new NoticeManager(NOTICE_DATA_URL, {
+                pollIntervalMs: 30 * 60 * 1000,
+                getCurrentLang: () => {
+                    if (this.languageManager && typeof this.languageManager.getCurrentLanguage === 'function') {
+                        return this.languageManager.getCurrentLanguage();
+                    }
+                    // fallback: html[lang] -> 'en'
+                    const htmlLang = (document.documentElement.getAttribute('lang') || '').trim().toLowerCase();
+                    if (htmlLang.startsWith('zh')) return 'zh';
+                    return 'en';
+                }
+            });
+
             // Mark as initialized
             this.isInitialized = true;
-            
+
             // Dispatch ready event
             this.dispatchReadyEvent();
         } catch (error) {
@@ -71,7 +89,8 @@ class Aria2SuiteApp {
             detail: {
                 themeManager: this.themeManager,
                 languageManager: this.languageManager,
-                uiComponents: this.uiComponents
+                uiComponents: this.uiComponents,
+                noticeManager: this.noticeManager
             }
         });
         document.dispatchEvent(event);
@@ -110,7 +129,7 @@ class Aria2SuiteApp {
      */
     handleError(error, context = 'Unknown') {
         console.error(`Aria2 Download Suite Error [${context}]:`, error);
-        
+
         // Show user-friendly error message
         if (this.uiComponents) {
             this.uiComponents.showNotification(
