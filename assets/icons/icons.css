@@ -55,6 +55,9 @@
 .fa-apple:before { content: "\f179"; }
 .fa-linux:before { content: "\f17c"; }
 .fa-github:before { content: "\f09b"; }
+.fa-folder-open:before { content: "\f07c"; }
+.fa-sync-alt:before { content: "\f2f1"; }
+.fa-network-wired:before { content: "\f6ff"; }
 
 /* Fallback for when fonts fail to load - using simple text symbols */
 .fas:not([class*="fa-"]):before,
@@ -82,3 +85,6 @@
 .fa-apple.fallback:before { content: "⌘"; }
 .fa-linux.fallback:before { content: "⚏"; }
 .fa-github.fallback:before { content: "⚏"; }
+.fa-folder-open.fallback:before { content: "📁"; }
+.fa-sync-alt.fallback:before { content: "🔄"; }
+.fa-network-wired.fallback:before { content: "🔗"; }

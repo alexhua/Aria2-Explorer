@@ -14,8 +14,8 @@ export default {
         "auto": "跟随系统"
     },
     "hero": {
-        "headline": "Aria2 Explorer",
-        "description": "基于 Aria2 的下载工具，能够自动拦截浏览器或手动添加下载任务到 Aria2 完成网络资源下载，支持 HTTP/HTTPS/FTP/SFTP/BT/Magnet 等协议。",
+        "headline": "完整下载解决方案",
+        "description": "基于 Aria2 的专业下载套件。Aria2 Explorer 浏览器扩展 + Aria2 Manager 桌面应用，为您提供终极 BT/磁力链接下载体验，并支持 HTTP/HTTPS/FTP 协议和增强付费功能。",
         "stats": {
             "protocols": "6+",
             "protocols_label": "协议支持",
@@ -26,8 +26,8 @@ export default {
             "users": "100K+",
             "users_label": "用户"
         },
-        "cta_primary": "安装扩展",
-        "cta_secondary": "了解更多",
+        "cta_primary": "立即下载",
+        "cta_secondary": "查看产品",
         "cta_online": "在线管理",
         "screenshot_placeholder": "应用截图",
         "screenshot_note": "即将推出"
@@ -53,8 +53,8 @@ export default {
         }
     },
     "features": {
-        "title": "核心功能",
-        "subtitle": "使用 Aria2 进行高效下载所需的一切功能",
+        "title": "全面功能",
+        "subtitle": "完整下载解决方案，具备高级 BT 管理和文件组织功能",
         "auto_capture": {
             "title": "自动拦截",
             "description": "自动拦截浏览器下载任务，支持通知提醒和磁力链接",
@@ -90,6 +90,24 @@ export default {
             "description": "支持中文、英文、日文、韩文等 10+ 种语言",
             "tag1": "10+ 语言",
             "tag2": "全球化"
+        },
+        "file_management": {
+            "title": "完整文件管理",
+            "description": "分类设置下载目录，直接打开或删除文件，集成文件操作功能",
+            "tag1": "分类目录",
+            "tag2": "直接访问"
+        },
+        "tracker_update": {
+            "title": "BT Tracker 自动更新",
+            "description": "自动刷新和更新 BT Tracker，保持最佳节点连接和下载速度",
+            "tag1": "自动刷新",
+            "tag2": "更好连接"
+        },
+        "upnp_mapping": {
+            "title": "UPnP 自动端口映射",
+            "description": "基于 UPnP 的智能自动端口映射，优化 BT 连接性和 NAT 穿透",
+            "tag1": "自动配置",
+            "tag2": "NAT 穿透"
         }
     },
     "products": {
@@ -111,18 +129,24 @@ export default {
             "screenshot_note": "即将推出"
         },
         "desktop": {
-            "badge": "桌面软件",
+            "badge": "专业 Aria2 管理器",
             "name": "Aria2 Manager",
-            "description": "提供 Aria2 增强版本，包含问题修复、开机自启、内置界面和系统通知",
-            "features": {
-                "size": "只 10MB+ 安装大小",
-                "management": "支持开机自启动",
-                "ui": "内置任务管理界面",
-                "tray": "在托盘图标显示状态",
-                "upnp": "支持 UPnP 协议进行 BT 和 DHT 端口映射",
-                "install": "一键安装并自动更新",
-                "tracker": "自动更新 BT Trackers",
-                "torrent": "关联种子文件和磁力链接",
+            "description": "基于 Aria2 的专业 BT 种子下载管理器。试用版提供完整下载体验，付费版解锁增强功能，满足高级用户需求。",
+            "trial": {
+                "title": "🆓 试用版 - 完整 Aria2 体验",
+                "bt": "完整 BT/BitTorrent 下载支持",
+                "protocols": "HTTP/HTTPS/FTP/磁力链接协议支持",
+                "ui": "内置高级任务管理界面",
+                "basic": "基础种子和磁力链接处理"
+            },
+            "premium": {
+                "title": "⭐ 付费版 - 增强功能",
+                "management": "高级文件管理：高效组织和管理下载内容",
+                "tracker": "自动 BT Tracker 更新：保持 Tracker 活跃，优化节点发现",
+                "upnp": "UPnP 端口映射：自动网络配置，提升连接性",
+                "notifications": "智能通知：实时下载状态和完成提醒",
+                "startup": "开机自启动和系统集成",
+                "tray": "增强系统托盘，详细状态显示"
             },
             "screenshot_placeholder": "桌面应用截图",
             "screenshot_note": "即将推出"
@@ -172,6 +196,25 @@ export default {
             "licenses": "开源许可"
         },
         "copyright": "© 2023 Alex Hua 保留所有权利。"
+    },
+    "faq": {
+        "title": "常见问题",
+        "q1": {
+            "question": "这套完整的下载解决方案包含什么？",
+            "answer": "我们的套件包括 Aria2 Explorer（免费浏览器扩展）用于自动拦截下载，以及 Aria2 Manager（专业桌面应用）提供试用版和付费版，带来完整的HTTP(s)/磁力/BT下载体验。"
+        },
+        "q2": {
+            "question": "试用版和付费版有什么区别？",
+            "answer": "试用版提供基于 Aria2 的完整下载体验，包含完整 BT 支持。付费版增加增强功能，如高级文件管理、自动 Tracker 更新、UPnP 端口映射和智能通知等。"
+        },
+        "q3": {
+            "question": "真的支持专业级 BT 下载吗？",
+            "answer": "当然！基于经过验证的 Aria2 引擎，我们的解决方案支持磁力链接、.torrent 文件、DHT、节点交换和所有现代 BT 协议。付费版还增加了高级 BT 优化功能。"
+        },
+        "q4": {
+            "question": "浏览器扩展和桌面应用如何协同工作？",
+            "answer": "Aria2 Explorer 从浏览器捕获下载任务并发送给 Aria2 Manager 处理。这创造了从网页浏览到专业下载管理的无缝工作流程。"
+        }
     },
     "privacy": {
         "back_to_home": "返回首页",

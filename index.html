@@ -9,19 +9,83 @@
     <!-- SEO Meta Tags -->
     <title>Aria2 Download Suite — Aria2 Explorer + Aria2 Manager</title>
     <meta name="description"
-        content="Complete Aria2 download solution combining browser extension and desktop software for seamless file downloading.">
-    <meta name="keywords" content="aria2, download manager, browser extension, desktop software">
+        content="Complete Download Solution: Aria2 Explorer browser extension + Aria2 Manager desktop app. Professional torrent downloader supporting HTTP/HTTPS/FTP/BT/Magnet with enhanced features like auto tracker updates, UPnP mapping, file management.">
+    <meta name="keywords" content="bt download, torrent download, magnet links, aria2 explorer, aria2 manager, download manager, browser extension, bittorrent client, p2p download, bt下载工具, 种子下载, 磁力链接, 下载管理器">
     <meta name="author" content="Aria2 Download Suite">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Aria2 Download Suite - Complete Download Solution">
-    <meta property="og:description" content="Browser extension + desktop software for enhanced downloading experience">
+    <meta property="og:title" content="Aria2 Complete Download Suite - Professional BT Torrent Manager">
+    <meta property="og:description" content="Complete Download Solution with browser extension + desktop app. Professional torrent downloader with enhanced features">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Aria2 Download Suite - Complete Download Solution">
-    <meta name="twitter:description" content="Browser extension + desktop software for enhanced downloading experience">
+    <meta name="twitter:title" content="Aria2 Complete Download Suite - BT Torrent Download Manager">
+    <meta name="twitter:description" content="Professional BT download solution: browser extension + desktop app with enhanced torrent features"
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Aria2 Complete Download Suite",
+        "applicationCategory": "BitTorrentClient",
+        "operatingSystem": "Windows, macOS, Linux",
+        "description": "Professional BT torrent download solution combining Aria2 Explorer browser extension and Aria2 Manager desktop application with enhanced features",
+        "hasPart": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "Aria2 Explorer",
+                "applicationCategory": "BrowserExtension",
+                "description": "Free browser extension for auto-capturing downloads and integrating with Aria2",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                }
+            },
+            {
+                "@type": "SoftwareApplication", 
+                "name": "Aria2 Manager",
+                "applicationCategory": "DesktopApplication",
+                "description": "Professional BT torrent download manager with trial and premium versions",
+                "offers": [
+                    {
+                        "@type": "Offer",
+                        "name": "Trial Version",
+                        "price": "0",
+                        "priceCurrency": "USD",
+                        "description": "Complete Aria2-based download experience"
+                    },
+                    {
+                        "@type": "Offer",
+                        "name": "Premium Version",
+                        "priceSpecification": {
+                            "@type": "PriceSpecification",
+                            "priceCurrency": "USD"
+                        },
+                        "description": "Enhanced features including file management, auto tracker updates, UPnP mapping"
+                    }
+                ]
+            }
+        ],
+        "features": [
+            "Professional BT/BitTorrent downloads",
+            "Magnet link support",
+            "Multi-protocol support (HTTP/HTTPS/FTP/BT)",
+            "Browser extension integration",
+            "Auto-capture downloads",
+            "Enhanced file management (Premium)",
+            "Auto BT tracker updates (Premium)",
+            "UPnP port mapping (Premium)",
+            "Download notifications (Premium)"
+        ],
+        "author": {
+            "@type": "Person",
+            "name": "Alex Hua"
+        }
+    }
+    </script>
 
     <!-- Local Icons -->
     <link rel="stylesheet" href="assets/icons/icons.css">
@@ -82,11 +146,10 @@
                 <div class="hero-content">
                     <div class="hero-text">
                         <h1 class="hero-title" data-i18n="hero.headline">
-                            Aria2 Explorer
+                            Complete Download Solution
                         </h1>
                         <p class="hero-subtitle" data-i18n="hero.description">
-                            A download tool based on Aria2, which could export URLs from browser to Aria2 to complete
-                            downloads and support for HTTP/HTTPS/FTP/SFTP/BT/Magnet protocols.
+                            Professional torrent download suite powered by Aria2. Aria2 Explorer browser extension + Aria2 Manager desktop app deliver the ultimate BT/torrent downloading experience with HTTP/HTTPS/FTP support and enhanced premium features.
                         </p>
                         <div class="hero-stats">
                             <div class="stat-item">
@@ -108,14 +171,14 @@
                         </div>
                         <div class="hero-actions">
                             <a href="#download" class="btn btn-primary btn-lg" data-i18n="hero.cta_primary">
-                                <i class="fas fa-download"></i> Install Extension
+                                <i class="fas fa-download"></i> Download Now
                             </a>
                             <a href="https://ui.aria2e.com" class="btn btn-primary btn-lg" target="_blank"
                                 rel="noopener" data-i18n="hero.cta_online">
-                                <i class="fas fa-globe"></i>Online Manager
+                                <i class="fas fa-globe"></i> Online Manager
                             </a>
-                            <a href="#features" class="btn btn-secondary btn-lg" data-i18n="hero.cta_secondary">
-                                <i class="fas fa-info-circle"></i> Learn More
+                            <a href="#products" class="btn btn-secondary btn-lg" data-i18n="hero.cta_secondary">
+                                <i class="fas fa-info-circle"></i> View Products
                             </a>
                         </div>
                     </div>
@@ -130,9 +193,9 @@
         <!-- Features Section -->
         <section id="features" class="section">
             <div class="container">
-                <h2 class="section-title" data-i18n="features.title">Key Features</h2>
+                <h2 class="section-title" data-i18n="features.title">Comprehensive Features</h2>
                 <p class="section-subtitle" data-i18n="features.subtitle">
-                    Everything you need for efficient downloading with Aria2
+                    Complete download solution with advanced BT management and file organization
                 </p>
 
                 <div class="features-grid">
@@ -217,6 +280,48 @@
                         <div class="feature-tags">
                             <span class="tag" data-i18n="features.i18n.tag1">10+ Languages</span>
                             <span class="tag" data-i18n="features.i18n.tag2">Global Ready</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card github-style">
+                        <div class="feature-icon">
+                            <i class="fas fa-folder-open"></i>
+                        </div>
+                        <h3 class="feature-title" data-i18n="features.file_management.title">Complete File Management</h3>
+                        <p class="feature-description" data-i18n="features.file_management.description">
+                            Organize downloads with category-based folder settings, direct file access, and integrated file operations
+                        </p>
+                        <div class="feature-tags">
+                            <span class="tag" data-i18n="features.file_management.tag1">Category Folders</span>
+                            <span class="tag" data-i18n="features.file_management.tag2">Direct Access</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card github-style">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3 class="feature-title" data-i18n="features.tracker_update.title">Auto BT Tracker Updates</h3>
+                        <p class="feature-description" data-i18n="features.tracker_update.description">
+                            Automatically refresh and update BT trackers to maintain optimal peer connections and download speeds
+                        </p>
+                        <div class="feature-tags">
+                            <span class="tag" data-i18n="features.tracker_update.tag1">Auto Refresh</span>
+                            <span class="tag" data-i18n="features.tracker_update.tag2">Better Peers</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card github-style">
+                        <div class="feature-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="feature-title" data-i18n="features.upnp_mapping.title">UPnP Auto Port Mapping</h3>
+                        <p class="feature-description" data-i18n="features.upnp_mapping.description">
+                            Intelligent UPnP-based automatic port mapping for optimal BT connectivity and NAT traversal
+                        </p>
+                        <div class="feature-tags">
+                            <span class="tag" data-i18n="features.upnp_mapping.tag1">Auto Config</span>
+                            <span class="tag" data-i18n="features.upnp_mapping.tag2">NAT Bypass</span>
                         </div>
                     </div>
                 </div>
@@ -319,23 +424,62 @@
                         </div>
                     </div>
                     <div class="product-info">
-                        <div class="product-badge" data-i18n="products.desktop.badge">Desktop Software</div>
+                        <div class="product-badge" data-i18n="products.desktop.badge">Professional Aria2 Manager</div>
                         <h3 class="product-name" data-i18n="products.desktop.name">Aria2 Manager</h3>
                         <p class="product-description" data-i18n="products.desktop.description">
-                            Enhanced version with bug fixes, auto-startup, built-in UI, and system notifications
+                            Professional BT torrent download manager based on Aria2. Trial version provides complete download experience, Premium version unlocks enhanced features for power users.
                         </p>
-                        <ul class="product-features">
-                            <li data-i18n="products.desktop.features.size">Just 10MB+ installation size</li>
-                            <li data-i18n="products.desktop.features.management">Auto-startup on boot</li>
-                            <li data-i18n="products.desktop.features.ui">Built-in task management UI</li>
-                            <li data-i18n="products.desktop.features.tray">Display status on tray icon</li>
-                            <li data-i18n="products.desktop.features.install">One-click installation and auto-update
-                            </li>
-                            <li data-i18n="products.desktop.features.torrent">Associate Torrent files and Magnet links
-                            </li>
-                            <li data-i18n="products.desktop.features.tracker">Auto update BT trackers</li>
-                            <li data-i18n="products.desktop.features.upnp">UPnP port mapping for BT and DHT</li>
-                        </ul>
+                        <div class="product-versions">
+                            <div class="version-section">
+                                <h4 data-i18n="products.desktop.trial.title">🆓 Trial Version - Complete Aria2 Experience</h4>
+                                <ul class="product-features">
+                                    <li data-i18n="products.desktop.trial.bt">Full BT/BitTorrent download support</li>
+                                    <li data-i18n="products.desktop.trial.protocols">HTTP/HTTPS/FTP/Magnet protocol support</li>
+                                    <li data-i18n="products.desktop.trial.ui">Built-in AriaNG management interface</li>
+                                    <li data-i18n="products.desktop.trial.basic">Basic torrent and magnet link handling</li>
+                                </ul>
+                            </div>
+                            <div class="version-section">
+                                <h4 data-i18n="products.desktop.premium.title">⭐ Premium Version - Enhanced Features</h4>
+                                <ul class="product-features">
+                                    <li data-i18n="products.desktop.premium.management"><strong>Advanced File Management:</strong> Organize and manage downloads efficiently</li>
+                                    <li data-i18n="products.desktop.premium.tracker"><strong>Auto BT Tracker Updates:</strong> Keep trackers fresh for optimal peer discovery</li>
+                                    <li data-i18n="products.desktop.premium.upnp"><strong>UPnP Port Mapping:</strong> Automatic network configuration for better connectivity</li>
+                                    <li data-i18n="products.desktop.premium.notifications"><strong>Smart Notifications:</strong> Real-time download status and completion alerts</li>
+                                    <li data-i18n="products.desktop.premium.startup">Auto-startup and system integration</li>
+                                    <li data-i18n="products.desktop.premium.tray">Enhanced system tray with detailed status</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="section">
+            <div class="container">
+                <h2 class="section-title" data-i18n="faq.title">Frequently Asked Questions</h2>
+                
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3 data-i18n="faq.q1.question">What's the difference between Aria2 Explorer and Aria2 Manager?</h3>
+                        <p data-i18n="faq.q1.answer">Aria2 Explorer is a browser extension that captures downloads and sends them to Aria2. Aria2 Manager is a desktop application that runs the Aria2 engine with BT/torrent support and management UI.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3 data-i18n="faq.q2.question">Does Aria2 Manager support BT/torrent downloads?</h3>
+                        <p data-i18n="faq.q2.answer">Yes! Aria2 Manager has full BT/BitTorrent support including magnet links, .torrent files, DHT, peer exchange, UPnP port mapping, and automatic tracker updates.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3 data-i18n="faq.q3.question">Can I use them together?</h3>
+                        <p data-i18n="faq.q3.answer">Absolutely! They work perfectly together. Install Aria2 Manager for the download engine, then add Aria2 Explorer extension to capture browser downloads automatically.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3 data-i18n="faq.q4.question">Is it free and safe to use?</h3>
+                        <p data-i18n="faq.q4.answer">Yes, both Aria2 Explorer and Aria2 Manager are completely free and open-source. They're safe, lightweight, and don't contain ads or malware.</p>
                     </div>
                 </div>
             </div>

@@ -25,7 +25,7 @@
   width: 100%;
   height: 100%;
   backdrop-filter: var(--blur-lg);
-  -webkit-backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: var(--blur-lg);
   border-radius: var(--radius-xxxl);
   z-index: -1;
 }

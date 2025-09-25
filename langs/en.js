@@ -14,8 +14,8 @@ export default {
     "auto": "Auto Theme"
   },
   "hero": {
-    "headline": "Aria2 Explorer",
-    "description": "A download tool based on Aria2, which could export URLs from browser to Aria2 to complete downloads and support for HTTP/HTTPS/FTP/SFTP/BT/Magnet protocols.",
+    "headline": "Complete Download Solution",
+    "description": "Professional download suite powered by Aria2. Aria2 Explorer browser extension + Aria2 Manager desktop app deliver the ultimate BitTorrent/Magnet link downloading experience also with HTTP/HTTPS/FTP support and enhanced premium features.",
     "stats": {
       "protocols": "6+",
       "protocols_label": "Protocols",
@@ -26,8 +26,8 @@ export default {
       "users": "100K+",
       "users_label": "Users"
     },
-    "cta_primary": "Install Extension",
-    "cta_secondary": "Learn More",
+    "cta_primary": "Download Now",
+    "cta_secondary": "View Products",
     "cta_online": "Online Manager",
     "screenshot_placeholder": "App Screenshot",
     "screenshot_note": "Coming Soon"
@@ -53,8 +53,8 @@ export default {
     }
   },
   "features": {
-    "title": "Key Features",
-    "subtitle": "Everything you need for efficient downloading with Aria2",
+    "title": "Comprehensive Features",
+    "subtitle": "Complete download solution with advanced BT management and file organization",
     "auto_capture": {
       "title": "Auto Capture",
       "description": "Automatically capture browser download tasks with notification support and magnet links",
@@ -90,6 +90,24 @@ export default {
       "description": "Support for 10+ languages including Chinese, English, Japanese, Korean, and more",
       "tag1": "10+ Languages",
       "tag2": "Global Ready"
+    },
+    "file_management": {
+      "title": "Complete File Management",
+      "description": "Organize downloads with category-based folder settings, direct file access, and integrated file operations",
+      "tag1": "Category Folders",
+      "tag2": "Direct Access"
+    },
+    "tracker_update": {
+      "title": "Auto BT Tracker Updates",
+      "description": "Automatically refresh and update BT trackers to maintain optimal peer connections and download speeds",
+      "tag1": "Auto Refresh",
+      "tag2": "Better Peers"
+    },
+    "upnp_mapping": {
+      "title": "UPnP Auto Port Mapping",
+      "description": "Intelligent UPnP-based automatic port mapping for optimal BT connectivity and NAT traversal",
+      "tag1": "Auto Config",
+      "tag2": "NAT Bypass"
     }
   },
   "products": {
@@ -111,18 +129,24 @@ export default {
       "screenshot_note": "Coming Soon"
     },
     "desktop": {
-      "badge": "Desktop Software",
+      "badge": "Professional Aria2 Manager",
       "name": "Aria2 Manager",
-      "description": "Enhanced Aria2 with bug fixes, auto-startup, built-in UI, and system notifications",
-      "features": {
-        "size": "Just 10MB+ installation size",
-        "management": "Auto-startup on boot",
-        "ui": "Built-in task management UI",
-        "tray": "Display status on tray icon",
-        "upnp": "UPnP port mapping for BT and DHT",
-        "install": "One-click installation and auto-update",
-        "tracker": "Auto-Update BT Trackers",
-        "torrent": "Associate Torrent files and Magnet links",
+      "description": "Professional BT torrent download manager based on Aria2. Trial version provides complete download experience, Premium version unlocks enhanced features for power users.",
+      "trial": {
+        "title": "🆓 Trial Version - Complete Aria2 Experience",
+        "bt": "Full BT/BitTorrent download support",
+        "protocols": "HTTP/HTTPS/FTP/Magnet protocol support",
+        "ui": "Built-in advanced task management interface",
+        "basic": "Basic torrent and magnet link handling"
+      },
+      "premium": {
+        "title": "⭐ Premium Version - Enhanced Features",
+        "management": "Advanced File Management: Organize and manage downloads efficiently",
+        "tracker": "Auto BT Tracker Updates: Keep trackers fresh for optimal peer discovery",
+        "upnp": "UPnP Port Mapping: Automatic network configuration for better connectivity",
+        "notifications": "Smart Notifications: Real-time download status and completion alerts",
+        "startup": "Auto-startup and system integration",
+        "tray": "Enhanced system tray with detailed status"
       },
       "screenshot_placeholder": "Desktop App Screenshot",
       "screenshot_note": "Coming Soon"
@@ -172,6 +196,25 @@ export default {
       "licenses": "Licenses"
     },
     "copyright": "© 2023 Alex Hua. All rights reserved."
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "q1": {
+      "question": "What's included in this Complete Download Solution?",
+      "answer": "Our suite includes Aria2 Explorer (free browser extension) for auto-capturing downloads, and Aria2 Manager (professional desktop app) with trial and premium versions for complete HTTP(S)/BT/Magnet downloading experience."
+    },
+    "q2": {
+      "question": "What's the difference between Trial and Premium versions?",
+      "answer": "Trial version provides complete Aria2-based download experience with full BT support. Premium version adds enhanced features like advanced file management, auto tracker updates, UPnP port mapping, and smart notifications."
+    },
+    "q3": {
+      "question": "Does it really support professional BT downloading?",
+      "answer": "Absolutely! Built on proven Aria2 engine, our solution supports magnet links, .torrent files, DHT, peer exchange, and all modern BT protocols. Premium version adds advanced BT optimizations."
+    },
+    "q4": {
+      "question": "How do the browser extension and desktop app work together?",
+      "answer": "Aria2 Explorer captures downloads from your browser and sends them to Aria2 Manager for processing. This creates a seamless workflow from web browsing to professional download management."
+    }
   },
   "privacy": {
     "back_to_home": "Back to Home",

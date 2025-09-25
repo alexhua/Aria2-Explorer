@@ -231,7 +231,8 @@
   background: var(--color-card-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  padding: var(--space-6);
+  padding: var(--space-4);
+  margin: var(--space-2);
   text-align: left;
   position: relative;
   overflow: hidden;
@@ -1011,6 +1012,7 @@ dvanced Visual Effects */
   cursor: default;
   box-shadow: 0 2px 10px rgba(37, 99, 235, 0.15);
   backdrop-filter: var(--blur-lg);
+  -webkit-backdrop-filter: var(--blur-lg);
 }
 
 .notice-bar.show {
@@ -1134,4 +1136,48 @@ dvanced Visual Effects */
   .notice-content {
     font-size: var(--font-size-xs);
   }
+}/* Produ
+ct Version Sections */
+.product-versions {
+  margin-top: var(--space-4);
+}
+
+.version-section {
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.version-section h4 {
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.version-section .product-features {
+  margin-top: var(--space-2);
+}
+
+.version-section .product-features li {
+  padding: var(--space-1) 0;
+  font-size: var(--font-size-sm);
+}
+
+/* Enhanced feature highlighting */
+.product-features li strong {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Premium version styling */
+.version-section:last-child {
+  background: linear-gradient(135deg, var(--color-surface-secondary), var(--color-surface-tertiary));
+  border-color: var(--color-primary);
+}
+
+.version-section:last-child h4 {
+  color: var(--color-primary);
 }

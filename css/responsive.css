@@ -110,6 +110,14 @@
     gap: var(--space-6);
   }
 
+  /* For 9 items, create a 3x3 grid on large screens */
+  @media (min-width: 1200px) {
+    .features-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+  }
+
   .steps-grid {
     grid-template-columns: repeat(4, 1fr);
   }
