@@ -1,5 +1,6 @@
 body {
   font-size: .875rem;
+  text-autospace: normal;
   background-color: #f4f4f4;
   transition: background-color .48s;
 }

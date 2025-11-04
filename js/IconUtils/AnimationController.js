@@ -10,9 +10,22 @@ export class AnimationController {
     this.timeoutId = null;
     this.fadeIntervalId = null;
     this.progressAnimation = null;
+    // 添加状态管理
+    this.isBlocked = false;
+    this.blockEndTime = 0;
+    this.priorityAnimations = new Set(['Complete', 'Error']);
   }
 
   start(type, progress) {
+    // 检查是否被阻塞，以及是否是优先级动画
+    const currentTime = performance.now();
+    const isPriorityAnimation = this.priorityAnimations.has(type);
+    
+    // 如果当前被阻塞且不是优先级动画，则忽略
+    if (this.isBlocked && currentTime < this.blockEndTime && !isPriorityAnimation) {
+      return;
+    }
+
     let newAnimation = null;
     switch (type) {
       case 'Download':
@@ -23,9 +36,11 @@ export class AnimationController {
         break;
       case 'Complete':
         newAnimation = new CompleteAnimation();
+        this.#setBlocked(newAnimation.duration * 0.5);
         break;
       case 'Error':
         newAnimation = new ErrorAnimation();
+        this.#setBlocked(newAnimation.duration * 0.5);
         break;
       case 'Progress':
         if (progress < 0 || progress > 1) {
@@ -82,6 +97,17 @@ export class AnimationController {
         await IconManager.setIconImage(imageData);
       }
     }, FRAME_INTERVAL);
+  }
+
+  // 设置阻塞状态
+  #setBlocked(duration) {
+    this.isBlocked = true;
+    this.blockEndTime = performance.now() + duration;
+    
+    // 设置定时器清除阻塞状态
+    setTimeout(() => {
+      this.isBlocked = false;
+    }, duration);
   }
 
   async #stop() {
