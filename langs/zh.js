@@ -253,7 +253,11 @@ export default {
         },
         "license": {
             "title": "许可证和使用",
-            "content": "本软件在开源许可证下提供。您被授予非独占、不可转让的许可证，可将本软件用于个人和商业目的。除非适用的开源许可证明确允许，否则您不得逆向工程、反编译或试图提取源代码。"
+            "explorer_title": "Aria2 Explorer",
+            "explorer_content": "Aria2 Explorer 浏览器扩展采用 BSD-3-Clause 许可证授权。您可以根据 BSD-3-Clause 许可证的条款自由使用、修改和分发该软件。源代码可在 GitHub 上获取。",
+            "manager_title": "Aria2 Manager",
+            "manager_content": "通过微软商店分发的 Aria2 Manager 桌面应用程序为专有软件，保留所有权利。您被授予非独占、不可转让的许可证，可将本软件用于个人和商业目的。您不得逆向工程、反编译、修改或试图提取源代码。未经明确书面许可，禁止重新分发本软件。",
+            "manager_note": "注意：Aria2 Manager 在微软商店提供试用版和付费版两个版本，两个版本均为专有软件，受相同的许可证限制约束。"
         },
         "user_responsibilities": {
             "title": "用户责任",

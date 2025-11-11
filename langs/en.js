@@ -253,7 +253,11 @@ export default {
     },
     "license": {
       "title": "License and Usage",
-      "content": "The Software is provided under an open-source license. You are granted a non-exclusive, non-transferable license to use the Software for personal and commercial purposes. You may not reverse engineer, decompile, or attempt to extract the source code unless explicitly permitted by the applicable open-source license."
+      "explorer_title": "Aria2 Explorer",
+      "explorer_content": "Aria2 Explorer browser extension is licensed under the BSD-3-Clause License. You are free to use, modify, and distribute the software in accordance with the terms of the BSD-3-Clause License. The source code is available on GitHub.",
+      "manager_title": "Aria2 Manager",
+      "manager_content": "Aria2 Manager desktop application distributed through Microsoft Store is proprietary software. All rights reserved. You are granted a non-exclusive, non-transferable license to use the Software for personal and commercial purposes. You may not reverse engineer, decompile, modify, or attempt to extract the source code. Redistribution of the software is prohibited without explicit written permission.",
+      "manager_note": "Note: Aria2 Manager is available in both Trial and Premium versions through Microsoft Store, both versions are proprietary software subject to the same license restrictions."
     },
     "user_responsibilities": {
       "title": "User Responsibilities",
