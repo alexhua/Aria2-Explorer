@@ -960,15 +960,20 @@ function initRemoteAria2() {
         let rpcItem = uniqueRpcList[i];
         let remote = Utils.parseUrl(rpcItem.url);
         remote.name = rpcItem.name;
-        if (RemoteAria2List[i]) {
-            RemoteAria2List[i].setRemote(remote.name, remote.rpcUrl, remote.secretKey);
-        } else {
-            RemoteAria2List[i] = new Aria2(remote);
-        }
-        if (Configs.monitorAria2 && (i == 0 || Configs.monitorAll)) {
-            RemoteAria2List[i].regMessageHandler(notifyTaskStatus);
-        } else {
-            RemoteAria2List[i].unRegMessageHandler(notifyTaskStatus);
+        try {
+            if (RemoteAria2List[i]) {
+                RemoteAria2List[i].setRemote(remote.name, remote.rpcUrl, remote.secretKey);
+            } else {
+                RemoteAria2List[i] = new Aria2(remote);
+            }
+            if (Configs.monitorAria2 && (i == 0 || Configs.monitorAll)) {
+                RemoteAria2List[i].regMessageHandler(notifyTaskStatus);
+            } else {
+                RemoteAria2List[i].unRegMessageHandler(notifyTaskStatus);
+            }
+        } catch (error) {
+            console.error('Failed to initialize Aria2 RPC server', error.message);
+            // Skip this invalid RPC server and continue with the next one
         }
     }
 }

@@ -79,8 +79,7 @@ var Configs =
         if ($(".rpcGroup").length !== 0) {
             $(".rpcGroup").remove();
         }
-        const rpcList = Configs.rpcList && Configs.rpcList.length ? Configs.rpcList
-            : [{ "name": "Aria2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }];
+        const rpcList = Configs.rpcList && Configs.rpcList.length ? Configs.rpcList : DefaultConfigs.rpcList;
 
         const addBtnOrPattern = (i) => {
             return i == 0 ? `<button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-circle-plus"></i> RPC Server</button>` :
@@ -122,7 +121,8 @@ var Configs =
         };
 
         for (const i in rpcList) {
-            $("#rpcList").append(rpcInputGroup(i).replaceAll("required", ''));
+            // Append the rpc list elements and make sure the first item could not be empty.
+            $("#rpcList").append(i == 0 ? rpcInputGroup(i) : rpcInputGroup(i).replaceAll("required", ''));
             $(`#markRpc-${i}`).off().on('click', markRpc);
         }
         for (const i in rpcList) {
@@ -213,7 +213,7 @@ var Configs =
     reset: async function () {
         if (confirm(chrome.i18n.getMessage("ClearSettingsDes"))) {
             localStorage.clear();
-            await chrome.storage.local.clear();
+            await chrome.storage.local.clear().then(() => { chrome.storage.local.set(DefaultConfigs) });
         }
     },
     save: function () {
@@ -231,6 +231,10 @@ var Configs =
                     "pattern": $("#pattern-" + i).val()?.trim() || ''
                 });
             }
+        }
+
+        if (!Configs.rpcList || !Configs.rpcList.length) {
+            Configs.rpcList = DefaultConfigs.rpcList;
         }
 
         for (const checkbox of $("input[type=checkbox]")) {
@@ -330,13 +334,13 @@ var Configs =
     },
     export: function () {
         const configData = {};
-        
+
         for (const key in Configs) {
             if (typeof Configs[key] !== 'function') {
                 configData[key] = Configs[key];
             }
         }
-        
+
         try {
             let ariaNgOptionsValue = localStorage.getItem(AriaNgOptionsKey);
             if (typeof ariaNgOptionsValue === "string") {
@@ -345,11 +349,11 @@ var Configs =
         } catch {
             configData.ariaNgOptions = DefaultAriaNgOptions;
         }
-        
+
         const dataStr = JSON.stringify(configData, null, 2);
         const dataBlob = new Blob([dataStr], { type: 'application/json' });
         const url = URL.createObjectURL(dataBlob);
-        
+
         const link = document.createElement('a');
         link.href = url;
         link.download = `aria2-explorer-config-${new Date().toISOString().slice(0, 10)}.json`;
@@ -357,7 +361,7 @@ var Configs =
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-        
+
         const msg = chrome.i18n.getMessage("exportConfigSuccess");
         Configs.notifyImportExportResult(msg, "alert-success");
     },
@@ -368,21 +372,21 @@ var Configs =
     handleConfigImport: function (event) {
         const file = event.target.files[0];
         if (!file) return;
-        
+
         const reader = new FileReader();
         reader.onload = async function (e) {
             try {
                 const configData = JSON.parse(e.target.result);
-                
+
                 if (!configData || typeof configData !== 'object') {
                     throw new Error('Invalid config format');
                 }
-                
+
                 const confirmMsg = chrome.i18n.getMessage("importConfigConfirm");
                 if (!confirm(confirmMsg)) {
                     return;
                 }
-                
+
                 if (configData.ariaNgOptions) {
                     try {
                         localStorage.setItem(AriaNgOptionsKey, JSON.stringify(configData.ariaNgOptions));
@@ -391,16 +395,16 @@ var Configs =
                     }
                     delete configData.ariaNgOptions;
                 }
-                
+
                 Object.assign(Configs, DefaultConfigs, configData);
-                
+
                 await chrome.storage.local.set(Configs);
-                
+
                 await Configs.init();
-                
+
                 const msg = chrome.i18n.getMessage("importConfigSuccess");
                 Configs.notifyImportExportResult(msg, "alert-success");
-                
+
             } catch (error) {
                 console.error("Import config error:", error);
                 const msg = chrome.i18n.getMessage("importConfigFailed");
@@ -408,7 +412,7 @@ var Configs =
             }
         };
         reader.readAsText(file);
-        
+
         event.target.value = '';
     }
 };

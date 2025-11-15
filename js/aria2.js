@@ -41,12 +41,15 @@ class Aria2 {
      * Change the remote RPC URL and secretKey, closing any existing WebSocket connection.
      * @param {string} rpcUrl Aria2 RPC URL
      * @param {string} secretKey Aria2 RPC secretKey
+     * @returns {Aria2} Returns this for chaining
+     * @throws {Error} If rpcUrl is invalid
      */
     setRemote(name = "Aria2", rpcUrl, secretKey = '') {
         if (rpcUrl === this.rpcUrl && secretKey === this.secretKey)
             return this;
-        if (Utils.validateRpcUrl(rpcUrl) !== 'VALID')
-            throw new Error("Invalid RPC URL!");
+        if (Utils.validateRpcUrl(rpcUrl) === 'INVALID') {
+            throw new Error(`Invalid RPC URL for ${name}: ${rpcUrl}`);
+        }
         this.closeSocket();
         this.#isLocalhost = Utils.isLocalhost(rpcUrl);
         Object.assign(this, { name, rpcUrl, secretKey });
@@ -125,14 +128,14 @@ class Aria2 {
             console.error(`${this.name} received invalid message: ${event.data}`, error);
             return;
         }
-        
+
         // If the message includes an id, check if it corresponds to a pending request.
         if (message.id !== undefined && this.#pendingRequests.has(message.id)) {
             const { resolve } = this.#pendingRequests.get(message.id);
             resolve(message);
             this.#pendingRequests.delete(message.id);
         }
-        
+
         // Dispatch the message to all registered message handlers.
         for (const handler of this.#messageHandlers) {
             try {
@@ -236,26 +239,26 @@ class Aria2 {
         if (!method || typeof method !== 'string') {
             throw new Error("Invalid RPC method: method must be a non-empty string");
         }
-        
+
         // Validate method format - should start with "aria2."
         if (!method.startsWith("aria2.")) {
             throw new Error(`Invalid RPC method: ${method}. Method should start with "aria2."`);
         }
-        
+
         const id = this.sid;
         const request = { id, url: this.rpcUrl, payload: '' };
-        
+
         if (this.secretKey) {
             params.unshift("token:" + this.secretKey);
         }
-        
+
         request.payload = JSON.stringify({
             jsonrpc: "2.0",
             method: method,
             id: id,
             params: params
         });
-        
+
         return request;
     }
 
