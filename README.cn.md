@@ -6,8 +6,8 @@
 
 **功能强大的 Chrome 扩展，无缝集成 Aria2 下载管理器**
 
-[![Chrome 网上应用店](https://img.shields.io/badge/Chrome-网上应用店-blue?logo=google-chrome)](https://chrome.google.com/webstore)
-[![许可证](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Chrome 应用商店](https://img.shields.io/badge/Chrome-应用商店-blue?logo=google-chrome)](https://chrome.google.com/webstore)
+[![许可证](https://img.shields.io/badge/license-BSD--3--Clause-green.svg)](LICENSE)
 [![版本](https://img.shields.io/badge/version-2.7.6-orange.svg)](manifest.json)
 
 [English](./README.md) | [中文](#中文)
@@ -168,7 +168,7 @@ Aria2 Explorer 是一款功能强大的 Chrome 扩展，可将 Aria2 下载管�
 
 ## 📝 许可证
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
+本项目采用 BSD 3-Clause 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ## 🙏 致谢
 
