@@ -66,7 +66,12 @@ export class MonitorManager {
         this._monitor();
         this.monitorId = setInterval(() => this._monitor(), this.monitorInterval);
         this.configProvider.updateConfig({ monitorAria2: true });
-        this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: true });
+        // Only update menu if it exists
+        try {
+            this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: true });
+        } catch (error) {
+            console.warn("Menu item MENU_MONITOR_ARIA2 not found:", error);
+        }
     }
 
     /**
@@ -82,7 +87,12 @@ export class MonitorManager {
         chrome.action.setBadgeText({ text: "" });
         chrome.action.setTitle({ title: "" });
         this.configProvider.updateConfig({ monitorAria2: false });
-        this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: false });
+        // Only update menu if it exists
+        try {
+            this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: false });
+        } catch (error) {
+            console.warn("Menu item MENU_MONITOR_ARIA2 not found:", error);
+        }
         chrome.power.releaseKeepAwake();
     }
 

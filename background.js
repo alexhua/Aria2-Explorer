@@ -81,8 +81,8 @@ class Application {
             : '';
         await chrome.action.setPopup({ popup: popupUrl });
 
-        // Create menus
-        this.managers.menuManager.createAllMenus();
+        // Create menus and wait for completion
+        await this.managers.menuManager.createAllMenus();
 
         // Enable/disable capture
         if (config.integration) {

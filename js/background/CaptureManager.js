@@ -11,6 +11,8 @@ export class CaptureManager {
         this.contextMenus = contextMenus;
         this.altKeyPressed = false;
         this.currentTabUrl = "about:blank";
+        // Bind the capture function once to maintain the same reference
+        this._boundCaptureDownload = this._captureDownload.bind(this);
     }
 
     /**
@@ -18,11 +20,16 @@ export class CaptureManager {
      */
     enable() {
         if (!this.isListening()) {
-            chrome.downloads.onDeterminingFilename.addListener(this._captureDownload.bind(this));
+            chrome.downloads.onDeterminingFilename.addListener(this._boundCaptureDownload);
         }
         IconManager.turnOn();
         this.configProvider.updateConfig({ integration: true });
-        this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
+        // Only update menu if it exists
+        try {
+            this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
+        } catch (error) {
+            console.warn("Menu item MENU_CAPTURE_DOWNLOAD not found:", error);
+        }
     }
 
     /**
@@ -30,19 +37,24 @@ export class CaptureManager {
      */
     disable() {
         if (this.isListening()) {
-            chrome.downloads.onDeterminingFilename.removeListener(this._captureDownload.bind(this));
+            chrome.downloads.onDeterminingFilename.removeListener(this._boundCaptureDownload);
         }
         const config = this.configProvider.getConfig();
         IconManager.turnOff(config.iconOffStyle);
         this.configProvider.updateConfig({ integration: false });
-        this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: false });
+        // Only update menu if it exists
+        try {
+            this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: false });
+        } catch (error) {
+            console.warn("Menu item MENU_CAPTURE_DOWNLOAD not found:", error);
+        }
     }
 
     /**
      * Check if currently listening
      */
     isListening() {
-        return chrome.downloads.onDeterminingFilename.hasListener(this._captureDownload.bind(this));
+        return chrome.downloads.onDeterminingFilename.hasListener(this._boundCaptureDownload);
     }
 
     /**
