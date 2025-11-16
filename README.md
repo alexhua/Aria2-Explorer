@@ -7,7 +7,7 @@
 **A powerful Chrome extension for seamless Aria2 integration**
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-blue?logo=google-chrome)](https://chrome.google.com/webstore)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-BSD--3--Clause-green.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-2.7.6-orange.svg)](manifest.json)
 
 [English](#english) | [中文](./README.cn.md)
@@ -168,7 +168,7 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
