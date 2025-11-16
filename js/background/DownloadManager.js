@@ -1,5 +1,5 @@
 /**
- * DownloadManager - 负责处理所有下载相关的逻辑
+ * DownloadManager - Handles all download-related logic
  */
 import Utils from "../utils.js";
 import Aria2 from "../aria2.js";
@@ -13,9 +13,9 @@ export class DownloadManager {
     }
 
     /**
-     * 执行下载任务
-     * @param {Object} downloadItem - 下载项
-     * @param {Object} rpcItem - RPC服务器配置
+     * Execute download task
+     * @param {Object} downloadItem - Download item
+     * @param {Object} rpcItem - RPC server configuration
      * @returns {Promise<boolean>}
      */
     async download(downloadItem, rpcItem) {
@@ -49,7 +49,7 @@ export class DownloadManager {
     }
 
     /**
-     * 通过浏览器下载
+     * Download via browser
      */
     async _downloadViaBrowser(downloadItem) {
         try {
@@ -71,7 +71,7 @@ export class DownloadManager {
     }
 
     /**
-     * 发送到Aria2
+     * Send to Aria2
      */
     async send2Aria(downloadItem, rpcItem) {
         const cookieItems = await this._getCookies(downloadItem, rpcItem);
@@ -112,7 +112,7 @@ export class DownloadManager {
     }
 
     /**
-     * 获取Cookies
+     * Get cookies
      */
     async _getCookies(downloadItem, rpcItem) {
         try {
@@ -133,7 +133,7 @@ export class DownloadManager {
     }
 
     /**
-     * 构建请求头
+     * Build request headers
      */
     _buildHeaders(cookieItems) {
         const headers = [];
@@ -145,7 +145,7 @@ export class DownloadManager {
     }
 
     /**
-     * 构建Aria2选项
+     * Build Aria2 options
      */
     async _buildAria2Options(downloadItem, rpcItem, headers) {
         let options = await Aria2Options.getUriTaskOptions(rpcItem.url);
@@ -169,7 +169,7 @@ export class DownloadManager {
     }
 
     /**
-     * 设置全局选项
+     * Set global options
      */
     async _setGlobalOptions(aria2, rpcUrl) {
         const globalOptions = await Aria2Options.getGlobalOptions(rpcUrl);
@@ -179,7 +179,7 @@ export class DownloadManager {
     }
 
     /**
-     * 构建上下文消息
+     * Build context message
      */
     _buildContextMessage(downloadItem, options) {
         const filename = downloadItem.filename || Utils.getFileNameFromUrl(downloadItem.url);
@@ -187,7 +187,7 @@ export class DownloadManager {
     }
 
     /**
-     * 解析错误消息
+     * Parse error message
      */
     _parseErrorMessage(error) {
         if (!error?.message) return '';
@@ -202,7 +202,7 @@ export class DownloadManager {
     }
 
     /**
-     * 获取匹配的RPC服务器
+     * Get matching RPC server
      */
     getRpcServer(url) {
         const config = this.configProvider.getConfig();
@@ -229,7 +229,7 @@ export class DownloadManager {
     }
 
     /**
-     * 匹配规则
+     * Match rule
      */
     _matchRule(str, rule) {
         return new RegExp("^" + rule.replaceAll('*', '.*') + "$").test(str);

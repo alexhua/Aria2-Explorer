@@ -1,5 +1,5 @@
 /**
- * ConfigProvider - 配置提供者，统一管理配置访问
+ * ConfigProvider - Configuration provider, manages unified config access
  */
 import { DefaultConfigs } from "../config.js";
 
@@ -10,7 +10,7 @@ export class ConfigProvider {
     }
 
     /**
-     * 初始化配置
+     * Initialize configuration
      */
     async init() {
         try {
@@ -22,28 +22,28 @@ export class ConfigProvider {
     }
 
     /**
-     * 获取配置
+     * Get configuration
      */
     getConfig() {
         return this.config;
     }
 
     /**
-     * 更新配置
+     * Update configuration
      */
     updateConfig(updates) {
         Object.assign(this.config, updates);
     }
 
     /**
-     * 设置远程Aria2列表引用
+     * Set remote Aria2 list reference
      */
     setRemoteAria2List(list) {
         this.remoteAria2List = list;
     }
 
     /**
-     * 获取远程Aria2列表
+     * Get remote Aria2 list
      */
     getRemoteAria2List() {
         return this.remoteAria2List;

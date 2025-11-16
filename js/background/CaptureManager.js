@@ -1,5 +1,5 @@
 /**
- * CaptureManager - 负责下载捕获相关的逻辑
+ * CaptureManager - Handles download capture logic
  */
 import Utils from "../utils.js";
 import { IconManager } from "../IconUtils/IconManager.js";
@@ -14,7 +14,7 @@ export class CaptureManager {
     }
 
     /**
-     * 启用下载捕获
+     * Enable download capture
      */
     enable() {
         if (!this.isListening()) {
@@ -26,7 +26,7 @@ export class CaptureManager {
     }
 
     /**
-     * 禁用下载捕获
+     * Disable download capture
      */
     disable() {
         if (this.isListening()) {
@@ -39,39 +39,39 @@ export class CaptureManager {
     }
 
     /**
-     * 检查是否正在监听
+     * Check if currently listening
      */
     isListening() {
         return chrome.downloads.onDeterminingFilename.hasListener(this._captureDownload.bind(this));
     }
 
     /**
-     * 设置Alt键状态
+     * Set Alt key pressed state
      */
     setAltKeyPressed(pressed) {
         this.altKeyPressed = pressed;
     }
 
     /**
-     * 设置当前标签页URL
+     * Set current tab URL
      */
     setCurrentTabUrl(url) {
         this.currentTabUrl = url;
     }
 
     /**
-     * 捕获下载
+     * Capture download
      */
     async _captureDownload(downloadItem, suggest) {
         const config = this.configProvider.getConfig();
 
-        // 处理扩展下载提示
+        // Handle extension download reminder
         if (downloadItem.byExtensionId) {
             suggest();
             this._showCaptureReminder(downloadItem);
         }
 
-        // 使用finalUrl
+        // Use finalUrl if available
         if (downloadItem.finalUrl && downloadItem.finalUrl !== "about:blank") {
             downloadItem.url = downloadItem.finalUrl;
         }
@@ -80,7 +80,7 @@ export class CaptureManager {
             return;
         }
 
-        // 取消Chrome下载
+        // Cancel Chrome download
         chrome.downloads.cancel(downloadItem.id).then(() => {
             if (chrome.runtime.lastError) {
                 chrome.runtime.lastError = null;
@@ -94,7 +94,7 @@ export class CaptureManager {
         const rpcItem = this.downloadManager.getRpcServer(downloadItem.url + downloadItem.filename);
         const successful = await this.downloadManager.download(downloadItem, rpcItem);
 
-        // 如果失败且是本地服务器，临时禁用捕获并使用浏览器下载
+        // If failed and is localhost, temporarily disable capture and use browser download
         if (!successful && Utils.isLocalhost(rpcItem.url)) {
             this.disable();
             chrome.downloads.download({ url: downloadItem.url }).then(() => this.enable());
@@ -102,7 +102,7 @@ export class CaptureManager {
     }
 
     /**
-     * 显示捕获提醒
+     * Show capture reminder
      */
     _showCaptureReminder(downloadItem) {
         const config = this.configProvider.getConfig();
@@ -124,30 +124,30 @@ export class CaptureManager {
     }
 
     /**
-     * 判断是否应该捕获
+     * Determine if download should be captured
      */
     _shouldCapture(downloadItem) {
         const config = this.configProvider.getConfig();
         
-        // 检查Alt键
+        // Check Alt key
         if (this.altKeyPressed) {
             this.altKeyPressed = false;
             return false;
         }
 
-        // 检查下载状态
+        // Check download state
         if (downloadItem.error || 
             downloadItem.state !== "in_progress" || 
             !/^(https?|s?ftp):/i.test(downloadItem.url)) {
             return false;
         }
 
-        // 检查扩展ID
+        // Check extension ID
         if (downloadItem.byExtensionId === chrome.runtime.id) {
             return false;
         }
 
-        // 检查扩展黑名单
+        // Check extension blacklist
         if (downloadItem.byExtensionId && 
             !config.allowedSites.includes(downloadItem.byExtensionId) &&
             (config.blockedSites.includes("*") || 
@@ -158,7 +158,7 @@ export class CaptureManager {
         const currentTabUrl = new URL(this.currentTabUrl);
         const url = new URL(downloadItem.referrer || downloadItem.url);
 
-        // 检查白名单
+        // Check whitelist
         for (const pattern of config.allowedSites) {
             if (this._matchRule(currentTabUrl.hostname, pattern) || 
                 this._matchRule(url.hostname, pattern)) {
@@ -166,7 +166,7 @@ export class CaptureManager {
             }
         }
 
-        // 检查黑名单
+        // Check blacklist
         for (const pattern of config.blockedSites) {
             if (this._matchRule(currentTabUrl.hostname, pattern) || 
                 this._matchRule(url.hostname, pattern)) {
@@ -174,26 +174,26 @@ export class CaptureManager {
             }
         }
 
-        // 检查文件扩展名白名单
+        // Check file extension whitelist
         for (const ext of config.allowedExts) {
             if (downloadItem.filename.endsWith(ext) || ext === "*") {
                 return true;
             }
         }
 
-        // 检查文件扩展名黑名单
+        // Check file extension blacklist
         for (const ext of config.blockedExts) {
             if (downloadItem.filename.endsWith(ext) || ext === "*") {
                 return false;
             }
         }
 
-        // 检查文件大小
+        // Check file size
         return downloadItem.fileSize >= config.fileSize * 1024 * 1024;
     }
 
     /**
-     * 匹配规则
+     * Match rule pattern
      */
     _matchRule(str, rule) {
         return new RegExp("^" + rule.replaceAll('*', '.*') + "$").test(str);
