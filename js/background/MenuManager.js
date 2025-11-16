@@ -22,11 +22,14 @@ export class MenuManager {
     /**
      * Create all menus
      */
-    createAllMenus() {
-        this.contextMenus.removeAll(() => {
-            this._createOptionMenu();
-            this._createContextMenu();
-            this.updateOptionMenu({ url: this.currentTabUrl, active: true });
+    async createAllMenus() {
+        return new Promise((resolve) => {
+            this.contextMenus.removeAll(() => {
+                this._createOptionMenu();
+                this._createContextMenu();
+                this.updateOptionMenu({ url: this.currentTabUrl, active: true });
+                resolve();
+            });
         });
     }
 
