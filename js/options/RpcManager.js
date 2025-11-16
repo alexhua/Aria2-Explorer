@@ -1,5 +1,5 @@
 /**
- * RpcManager - RPC列表管理器
+ * RpcManager - RPC list manager
  */
 import Utils from "../utils.js";
 import { DefaultConfigs } from "../config.js";
@@ -17,32 +17,32 @@ export class RpcManager {
     }
 
     /**
-     * 渲染RPC列表
+     * Render RPC list
      */
     render() {
         const config = this.configManager.getConfig();
         const rpcList = config.rpcList?.length ? config.rpcList : DefaultConfigs.rpcList;
 
-        // 清除现有列表
+        // Clear existing list
         $(".rpcGroup").remove();
 
-        // 渲染每个RPC项
+        // Render each RPC item
         for (const i in rpcList) {
             this._renderRpcItem(i, rpcList[i], i == 0);
         }
 
-        // 绑定事件
+        // Bind events
         this._bindEvents();
     }
 
     /**
-     * 渲染单个RPC项
+     * Render single RPC item
      */
     _renderRpcItem(index, rpcItem, isFirst) {
         const html = this._buildRpcItemHtml(index, isFirst);
         $("#rpcList").append(html);
 
-        // 填充数据
+        // Fill data
         $(`#name-${index}`).val(rpcItem.name);
         
         const rpc = Utils.parseUrl(rpcItem.url);
@@ -54,12 +54,12 @@ export class RpcManager {
             $(`#pattern-${index}`).val(rpcItem.pattern || '');
         }
 
-        // 处理安全标记
+        // Handle security mark
         this._handleSecurityMark(index, rpcItem);
     }
 
     /**
-     * 构建RPC项HTML
+     * Build RPC item HTML
      */
     _buildRpcItemHtml(index, isFirst) {
         const required = isFirst ? 'required' : '';
@@ -91,7 +91,7 @@ export class RpcManager {
     }
 
     /**
-     * 处理安全标记
+     * Handle security mark
      */
     _handleSecurityMark(index, rpcItem) {
         const config = this.configManager.getConfig();
@@ -120,12 +120,12 @@ export class RpcManager {
     }
 
     /**
-     * 绑定事件
+     * Bind events
      */
     _bindEvents() {
         const config = this.configManager.getConfig();
 
-        // 添加RPC按钮
+        // Add RPC button
         $("#add-rpc").off().on("click", () => {
             const i = $(".rpcGroup").length;
             const newInput = this._buildRpcItemHtml(i, false).replace("password", "text");
@@ -135,16 +135,16 @@ export class RpcManager {
             $(`#markRpc-${i}`).off().on('click', (e) => this._markRpc(e));
         });
 
-        // 验证输入
+        // Validate input
         $(".rpcGroup .rpcUrl").off().on("input", this._validateInput);
         $(".rpcGroup .location").off().on("input", this._validateInput);
 
-        // 标记RPC
+        // Mark RPC
         $(".rpcGroup [id^='markRpc-']").off().on('click', (e) => this._markRpc(e));
     }
 
     /**
-     * 验证输入
+     * Validate input
      */
     _validateInput(event) {
         const validator = { 
@@ -172,7 +172,7 @@ export class RpcManager {
     }
 
     /**
-     * 标记RPC
+     * Mark RPC
      */
     _markRpc(event) {
         const config = this.configManager.getConfig();
@@ -185,7 +185,7 @@ export class RpcManager {
     }
 
     /**
-     * 收集RPC列表数据
+     * Collect RPC list data
      */
     collectData() {
         const rpcList = [];

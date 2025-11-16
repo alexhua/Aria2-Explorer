@@ -17,35 +17,35 @@ class OptionsApp {
     }
 
     /**
-     * 初始化应用
+     * Initialize the application
      */
     async init() {
-        // 检查是否需要升级存储
+        // Check if storage upgrade is needed
         if (location.search.endsWith("upgrade-storage")) {
             await this._upgradeStorage();
         }
 
-        // 初始化配置
+        // Initialize configuration
         await this.configManager.init();
 
-        // 初始化UI
+        // Initialize UI
         await this.uiController.init();
 
-        // 绑定按钮事件
+        // Bind button events
         this._bindButtonEvents();
     }
 
     /**
-     * 绑定按钮事件
+     * Bind button events
      */
     _bindButtonEvents() {
-        // 保存按钮
+        // Save button
         $("#save").off().on("click", async () => {
             const formData = this.uiController.collectFormData();
             await this.configManager.save(formData);
         });
 
-        // 重置按钮
+        // Reset button
         $("#reset").off().on("click", async () => {
             const success = await this.configManager.reset();
             if (success) {
@@ -53,7 +53,7 @@ class OptionsApp {
             }
         });
 
-        // 上传按钮
+        // Upload button
         $("#upload").off().on("click", async () => {
             const result = await this.configManager.upload();
             this.uiController.showResult(
@@ -64,7 +64,7 @@ class OptionsApp {
             );
         });
 
-        // 下载按钮
+        // Download button
         $("#download").off().on("click", async () => {
             const result = await this.configManager.download();
             this.uiController.showResult(
@@ -78,7 +78,7 @@ class OptionsApp {
             }
         });
 
-        // 导出按钮
+        // Export button
         $("#exportConfig").off().on("click", () => {
             const result = this.configManager.export();
             this.uiController.showResult(
@@ -88,12 +88,12 @@ class OptionsApp {
             );
         });
 
-        // 导入按钮
+        // Import button
         $("#importConfig").off().on("click", () => {
             $("#configFileInput").click();
         });
 
-        // 文件输入
+        // File input
         $("#configFileInput").off().on("change", async (event) => {
             const file = event.target.files[0];
             if (!file) return;
@@ -118,7 +118,7 @@ class OptionsApp {
     }
 
     /**
-     * 升级存储（从localStorage迁移到chrome.storage）
+     * Upgrade storage (migrate from localStorage to chrome.storage)
      */
     async _upgradeStorage() {
         const configs = await chrome.storage.local.get("rpcList");
@@ -157,7 +157,7 @@ class OptionsApp {
     }
 }
 
-// 创建并初始化应用
+// Create and initialize the application
 const app = new OptionsApp();
 
 window.onload = () => {

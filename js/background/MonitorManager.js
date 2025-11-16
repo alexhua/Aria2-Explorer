@@ -3,7 +3,6 @@
  */
 import Utils from "../utils.js";
 import Aria2 from "../aria2.js";
-import { AnimationController } from '../IconUtils/AnimationController.js';
 
 const INTERVAL_SHORT = 1000;
 const INTERVAL_LONG = 3000;
@@ -16,7 +15,8 @@ export class MonitorManager {
         this.monitorId = null;
         this.monitorInterval = INTERVAL_LONG;
         this.remoteAria2List = [];
-        this.iconAnimController = new AnimationController();
+        // Share the same AnimationController instance with NotificationManager
+        this.iconAnimController = notificationManager.getAnimationController();
     }
 
     /**
@@ -141,9 +141,12 @@ export class MonitorManager {
                 stats.downloadSpeed += Number(response.result.downloadSpeed);
 
                 // Handle progress animation (default Aria2 only)
+                // Only show progress when there are active tasks
                 if (i == 0 && response.result.percentActive) {
+                    const numActive = Number(response.result.numActive);
                     const percent = response.result.percentActive;
-                    if (!isNaN(percent)) {
+                    
+                    if (numActive > 0 && !isNaN(percent)) {
                         this.iconAnimController.start('Progress', percent / 100);
                     }
                 }
