@@ -1,83 +1,195 @@
-# Aria2 Explorer <span style="float:right">[[中文]](README.cn.md)</span>
+# Aria2 Explorer
 
-**Aria2 Explorer** is an extension that could export URLs to Aria2 to complete downloads and imports [AriaNG](https://www.github.com/mayswind/AriaNg/) as a built-in management frontend.
+<div align="center">
 
-## 📑How to use
+![Logo](images/logo128.png)
 
-Procedures:
+**A powerful Chrome extension for seamless Aria2 integration**
 
-1. For Windows, please download <span style="vertical-align:middle;">[![Download Aria2 Manager](https://img.shields.io/github/downloads/alexhua/aria2-manager/total?color=blue&label=Aria2%20Manager)](https://github.com/alexhua/aria2-manager/)</span>. Other platform, please download Aria2 utility: <span style="vertical-align:middle;">[![Download Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases)</span>
-2. For Windows, please run **Aria2Manager.exe**. Other platform, please run Aria2 in the **Terminal** with typing `aria2c --enable-rpc`.
-3. Install extension from [web store](#-installation).
-4. Enable `auto-capture` on the extension options page and configure others as you need.
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-blue?logo=google-chrome)](https://chrome.google.com/webstore)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-2.7.6-orange.svg)](manifest.json)
 
-After completing these steps, the extension will take over the download process, leading you to a high-speed download experience.
+[English](#english) | [中文](./README.cn.md)
 
-## ⭐ Features
+</div>
 
-1. Auto capture browser download tasks
-    - Capture notification
-    - Support magnet links
-    - Toggle auto-capture by shortcut (Default: <kbd>Alt</kbd>+<kbd>A</kbd>)
-    - Configure each Aria2 option manually before download
-    - Filter intercepted task by the domain, file extensions or file sizes
-    > Filter priority: domain > file-ext > file-size, white-list > black-list
-2. Auto-select Aria2 RPC server and download location by matching downloading URL with preset URL pattern
+---
 
-3. Built-in Aria2 frontend: AriaNG **Enhanced Version**. Multiple present styles: popup, new tab, new window, side panel
+## 📖 Overview
 
-4. Synchronize and store all the settings (extension and AriaNG) on the cloud
+Aria2 Explorer is a feature-rich Chrome extension that seamlessly integrates Aria2 download manager into your browser. It automatically captures downloads, monitors Aria2 status, and provides a beautiful web UI for managing your downloads.
 
-5. Support for zh-CN/zh-TW/en/fr/ja/ko/it/ru/uk/cs/es languages
+## ✨ Key Features
 
-6. Monitor Aria2 download status via extension badge icon
+### 🎯 Smart Download Capture
+- **Automatic Interception**: Captures browser downloads based on file size and type
+- **Flexible Filtering**: Whitelist/blacklist by domain and file extension
+- **Alt-Key Override**: Hold Alt while clicking to bypass capture
+- **Multi-URL Support**: Handle multiple download URLs simultaneously
 
-7. Batch export webpage resources (Image·Audio·Video·Magnet) links from context menu
+### 📊 Real-time Monitoring
+- **Live Status**: Monitor active, waiting, and completed tasks
+- **Speed Display**: Real-time upload/download speed in badge
+- **Multi-Server**: Support monitoring multiple Aria2 servers
+- **Smart Intervals**: Adaptive polling based on activity
 
-8. Receive Aria2 download requests from other extensions
+### 🎨 Beautiful Interface
+- **Integrated WebUI**: Built-in AriaNg interface
+- **Multiple Modes**: Open as popup, tab, window, or side panel
+- **Dark Mode**: System-aware theme switching
+- **Animated Icons**: Visual feedback for download states
 
-9. Support shortcuts in the options page (Save:<kbd>Alt</kbd>+<kbd>S</kbd> Reset:<kbd>Alt</kbd>+<kbd>R</kbd> Download:<kbd>Alt</kbd>+<kbd>J</kbd> Upload:<kbd>Alt</kbd>+<kbd>U</kbd>)
+### 🔧 Advanced Configuration
+- **Multiple RPC Servers**: Configure and switch between servers
+- **Pattern Matching**: Auto-select server based on URL patterns
+- **Cookie Support**: Automatic cookie forwarding for authenticated downloads
+- **Custom Headers**: Add custom headers to download requests
 
-10. Support downloading URLs via browser automatically if aria2 is disconnected
+### 🌐 Context Menu Integration
+- **Quick Export**: Right-click links to send to Aria2
+- **Batch Export**: Export all links from current page
+- **Site Filtering**: Quick add/remove sites from whitelist/blacklist
+- **Server Selection**: Choose target server from context menu
 
-## 🧩 Integration
+### 🔔 Smart Notifications
+- **Task Status**: Get notified on download complete/error
+- **Silent Mode**: Optional silent notifications
+- **Custom Messages**: Detailed context in notifications
+- **Click Actions**: Click notification to open WebUI
 
-Allow other extensions to use this extension as middleware to download files with Aria2.
+## 🚀 Installation
 
-```js
+### From Chrome Web Store
+1. Visit [Chrome Web Store](https://chrome.google.com/webstore)
+2. Search for "Aria2 Explorer"
+3. Click "Add to Chrome"
 
-const downloadItem = {
-    url: "https://sample.com/image.jpg",
-    filename: "image_from_sample.jpg",
-    referrer: "https://sample.com",
-    options: { 
-        split: "10", // aria2 RPC options here
-        xxxxx: "oooo"
-    }
-}
+### From Source
+1. Clone this repository
+   ```bash
+   git clone https://github.com/alexhua/Aria2-Explorer.git
+   ```
+2. Open Chrome and navigate to `chrome://extensions/`
+3. Enable "Developer mode"
+4. Click "Load unpacked" and select the cloned directory
 
-chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
+## ⚙️ Configuration
+
+### Basic Setup
+1. Click the extension icon and select "Options"
+2. Configure your Aria2 RPC server:
+   - **Name**: A friendly name for your server
+   - **RPC URL**: Your Aria2 RPC endpoint (e.g., `http://localhost:6800/jsonrpc`)
+   - **Secret Key**: Your Aria2 RPC secret (if configured)
+   - **Download Location**: Default download directory
+
+### Download Capture
+- **Enable/Disable**: Toggle automatic download capture
+- **File Size**: Minimum file size to capture (MB)
+- **Check Alt-Click**: Detect Alt key to bypass capture
+- **Ask Before Download**: Show UI before sending to Aria2
+
+### Monitoring
+- **Enable Monitoring**: Toggle Aria2 status monitoring
+- **Monitor All**: Monitor all configured servers
+- **Keep Awake**: Prevent system sleep during downloads
+- **Badge Text**: Show active downloads in badge
+
+### Filtering
+- **Allowed Sites**: Whitelist domains (one per line)
+- **Blocked Sites**: Blacklist domains (one per line)
+- **Allowed Extensions**: Whitelist file types (e.g., `zip`, `mp4`)
+- **Blocked Extensions**: Blacklist file types
+
+## 🎯 Usage
+
+### Automatic Capture
+1. Enable "Download Capture" in options
+2. Click any download link
+3. Extension automatically sends to Aria2
+
+### Manual Export
+1. Right-click any link
+2. Select "Export to Aria2"
+3. Choose target server (if multiple configured)
+
+### Batch Export
+1. Right-click on page
+2. Select "Export All Links"
+3. Extension scans and exports all valid links
+
+### Monitor Status
+1. Enable "Monitor Aria2" in options
+2. Badge shows active download count
+3. Hover icon to see detailed status
+4. Click icon to open WebUI
+
+## 🔑 Keyboard Shortcuts
+
+- **Alt + A**: Toggle download capture
+- **Alt + X**: Launch Aria2 (Windows only)
+
+*Customize shortcuts at `chrome://extensions/shortcuts`*
+
+## 🏗️ Architecture
+
+The extension follows a modular architecture for better maintainability:
 
 ```
-## 🔀 Flow Chart
+├── background.js              # Service worker entry point
+├── js/
+│   ├── background/           # Background modules
+│   │   ├── ConfigProvider.js    # Configuration management
+│   │   ├── DownloadManager.js   # Download handling
+│   │   ├── CaptureManager.js    # Capture logic
+│   │   ├── MonitorManager.js    # Aria2 monitoring
+│   │   ├── NotificationManager.js # Notifications
+│   │   ├── MenuManager.js       # Context menus
+│   │   ├── UIManager.js         # UI management
+│   │   └── EventHandler.js      # Event handling
+│   ├── options/              # Options page modules
+│   │   ├── ConfigManager.js     # Config CRUD
+│   │   ├── UIController.js      # UI control
+│   │   └── RpcManager.js        # RPC list management
+│   └── ...                   # Utility modules
+└── ui/ariang/               # Integrated AriaNg WebUI
+```
 
-![Flow Chart](FlowChart-EN.SVG)
+## 🤝 Contributing
 
-## 📥 Installation
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
 
-[![Chrome Web Store](https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 Explorer")
-[<img src="https://get.microsoft.com/images/en-us%20light.svg" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 Explorer")
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 💡 Tips & FAQs
+## 📝 License
 
-[https://github.com/alexhua/aria2-explorer/issues?q=label:faq](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🔒 Privacy policy
+## 🙏 Acknowledgments
 
-This extension just captures download tasks and related website cookies from the user's browser for the purpose of connecting to the user's Aria2 server to download the network resources. Any connection and configuration information for Aria2 will be stored locally or can be optionally uploaded to the user's logged-in cloud. This extension does not collect any personal data or network activity from the user, nor will it share any such data with 3rd parties.
+- [Aria2](https://aria2.github.io/) - The amazing download utility
+- [AriaNg](https://github.com/mayswind/AriaNg) - Modern web frontend for Aria2
+- All contributors and users
 
-## 📜 License
+## 📮 Support
 
-![BSD](https://i0.wp.com/opensource.org/wp-content/uploads/2006/07/OSI_Approved_License.png?w=90&ssl=1)
+- **Issues**: [GitHub Issues](https://github.com/alexhua/Aria2-Explorer/issues)
+- **Website**: [https://aria2e.com](https://aria2e.com)
+- **Email**: Contact through GitHub
 
-Aria2-Explorer is licensed under [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/).
+---
+
+<div align="center">
+
+**Made with ❤️ by Alex Hua**
+
+⭐ Star us on GitHub — it helps!
+
+[🇨🇳 中文文档](./README.cn.md)
+
+</div>

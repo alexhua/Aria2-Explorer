@@ -1,5 +1,5 @@
 /**
- * MonitorManager - 负责Aria2监控相关的逻辑
+ * MonitorManager - Handles Aria2 monitoring logic
  */
 import Utils from "../utils.js";
 import Aria2 from "../aria2.js";
@@ -20,7 +20,7 @@ export class MonitorManager {
     }
 
     /**
-     * 初始化远程Aria2列表
+     * Initialize remote Aria2 list
      */
     initRemoteAria2List() {
         const config = this.configProvider.getConfig();
@@ -55,7 +55,7 @@ export class MonitorManager {
     }
 
     /**
-     * 启用监控
+     * Enable monitoring
      */
     enable() {
         if (this.monitorId) {
@@ -70,7 +70,7 @@ export class MonitorManager {
     }
 
     /**
-     * 禁用监控
+     * Disable monitoring
      */
     disable() {
         if (this.monitorId) {
@@ -87,14 +87,14 @@ export class MonitorManager {
     }
 
     /**
-     * 获取远程Aria2列表
+     * Get remote Aria2 list
      */
     getRemoteAria2List() {
         return this.remoteAria2List;
     }
 
     /**
-     * 监控Aria2
+     * Monitor Aria2 servers
      */
     async _monitor() {
         const config = this.configProvider.getConfig();
@@ -130,7 +130,7 @@ export class MonitorManager {
                 stats.uploadSpeed += Number(response.result.uploadSpeed);
                 stats.downloadSpeed += Number(response.result.downloadSpeed);
 
-                // 处理进度动画（仅默认Aria2）
+                // Handle progress animation (default Aria2 only)
                 if (i == 0 && response.result.percentActive) {
                     const percent = response.result.percentActive;
                     if (!isNaN(percent)) {
@@ -157,7 +157,7 @@ export class MonitorManager {
     }
 
     /**
-     * 解析监控错误
+     * Parse monitor error
      */
     _parseMonitorError(error) {
         const msg = error.message?.toLowerCase() || '';
@@ -170,7 +170,7 @@ export class MonitorManager {
     }
 
     /**
-     * 更新监控间隔
+     * Update monitor interval
      */
     _updateMonitorInterval(active) {
         const newInterval = active > 0 ? INTERVAL_SHORT : INTERVAL_LONG;
@@ -183,7 +183,7 @@ export class MonitorManager {
     }
 
     /**
-     * 更新电源状态
+     * Update power state
      */
     _updatePowerState(active, waiting, localConnected) {
         const config = this.configProvider.getConfig();
@@ -196,7 +196,7 @@ export class MonitorManager {
     }
 
     /**
-     * 更新图标动画
+     * Update icon animation
      */
     _updateIconAnimation(active, waiting) {
         if (active === 0 && waiting > 0) {
@@ -205,7 +205,7 @@ export class MonitorManager {
     }
 
     /**
-     * 更新徽章和标题
+     * Update badge and title
      */
     _updateBadgeAndTitle(stats) {
         const config = this.configProvider.getConfig();
@@ -257,7 +257,7 @@ export class MonitorManager {
     }
 
     /**
-     * 获取徽章文本
+     * Get badge text
      */
     _getBadgeText(active, waiting, connected) {
         const config = this.configProvider.getConfig();
@@ -269,7 +269,7 @@ export class MonitorManager {
     }
 
     /**
-     * 获取徽章颜色
+     * Get badge color
      */
     _getBadgeColor(active, waiting, connected) {
         const config = this.configProvider.getConfig();

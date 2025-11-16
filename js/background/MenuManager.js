@@ -1,5 +1,5 @@
 /**
- * MenuManager - 负责右键菜单相关的逻辑
+ * MenuManager - Handles context menu logic
  */
 import Utils from "../utils.js";
 
@@ -13,14 +13,14 @@ export class MenuManager {
     }
 
     /**
-     * 设置当前标签页URL
+     * Set current tab URL
      */
     setCurrentTabUrl(url) {
         this.currentTabUrl = url;
     }
 
     /**
-     * 创建所有菜单
+     * Create all menus
      */
     createAllMenus() {
         this.contextMenus.removeAll(() => {
@@ -31,12 +31,12 @@ export class MenuManager {
     }
 
     /**
-     * 创建选项菜单
+     * Create option menu
      */
     _createOptionMenu() {
         const config = this.configProvider.getConfig();
 
-        // 下载捕获
+        // Download capture
         this.contextMenus.create({
             type: "checkbox",
             checked: config.integration,
@@ -45,7 +45,7 @@ export class MenuManager {
             contexts: ["action"]
         });
 
-        // 监控Aria2
+        // Monitor Aria2
         this.contextMenus.create({
             type: "checkbox",
             checked: config.monitorAria2,
@@ -54,14 +54,14 @@ export class MenuManager {
             contexts: ["action"]
         });
 
-        // 分隔符
+        // Separator
         this.contextMenus.create({
             type: "separator",
             id: "MENU_SEPARATOR",
             contexts: ["action"]
         });
 
-        // 启动Aria2或打开WebUI
+        // Start Aria2 or open WebUI
         const remoteAria2List = this.configProvider.getRemoteAria2List?.() || [];
         if (Utils.getPlatform() === "Windows" && remoteAria2List[0]?.isLocalhost) {
             this.contextMenus.create({
@@ -79,15 +79,15 @@ export class MenuManager {
             });
         }
 
-        // 网站过滤
+        // Website filter
         this._createWebsiteFilterMenu();
 
-        // RPC选项
+        // RPC options
         this._createRpcOptionsMenu();
     }
 
     /**
-     * 创建网站过滤菜单
+     * Create website filter menu
      */
     _createWebsiteFilterMenu() {
         this.contextMenus.create({
@@ -115,7 +115,7 @@ export class MenuManager {
     }
 
     /**
-     * 创建RPC选项菜单
+     * Create RPC options menu
      */
     _createRpcOptionsMenu() {
         const config = this.configProvider.getConfig();
@@ -150,7 +150,7 @@ export class MenuManager {
     }
 
     /**
-     * 创建上下文菜单
+     * Create context menu
      */
     _createContextMenu() {
         const config = this.configProvider.getConfig();
@@ -192,7 +192,7 @@ export class MenuManager {
     }
 
     /**
-     * 更新选项菜单
+     * Update option menu
      */
     updateOptionMenu(tab) {
         if (!tab?.active) {
@@ -207,14 +207,14 @@ export class MenuManager {
         const blockedSitesSet = new Set(config.blockedSites);
         const allowedSitesSet = new Set(config.allowedSites);
 
-        // 更新白名单菜单
+        // Update whitelist menu
         let title = '✅ ';
         title += allowedSitesSet.has(url.hostname)
             ? chrome.i18n.getMessage("removeFromWhiteListStr")
             : chrome.i18n.getMessage("addToWhiteListStr");
         this.contextMenus.update("MENU_UPDATE_ALLOW_SITE", { title });
 
-        // 更新黑名单菜单
+        // Update blacklist menu
         title = '🚫 ';
         title += blockedSitesSet.has(url.hostname)
             ? chrome.i18n.getMessage("removeFromBlackListStr")
@@ -223,11 +223,9 @@ export class MenuManager {
     }
 
     /**
-     * 处理菜单点击
+     * Handle menu click
      */
     async handleMenuClick(info, tab) {
-        const config = this.configProvider.getConfig();
-
         switch (true) {
             case info.menuItemId === "MENU_OPEN_WEB_UI":
                 await this.uiManager.launchUI(tab);
@@ -270,7 +268,7 @@ export class MenuManager {
     }
 
     /**
-     * 更新允许的网站
+     * Update allowed sites
      */
     _updateAllowedSites(tab) {
         if (!tab?.active || !tab.url || tab.url.startsWith("chrome")) return;
@@ -289,7 +287,7 @@ export class MenuManager {
     }
 
     /**
-     * 更新阻止的网站
+     * Update blocked sites
      */
     _updateBlockedSites(tab) {
         if (!tab?.active || !tab.url || tab.url.startsWith("chrome")) return;
@@ -308,25 +306,25 @@ export class MenuManager {
     }
 
     /**
-     * 处理RPC列表点击
+     * Handle RPC list click
      */
     _handleRpcListClick(menuItemId) {
         const config = this.configProvider.getConfig();
         const id = menuItemId.split('-')[1];
         
-        // 清除当前默认
+        // Clear current default
         const currentDefault = config.rpcList.find(rpc => rpc.pattern === '*');
         if (currentDefault) {
             currentDefault.pattern = '';
         }
 
-        // 设置新默认
+        // Set new default
         config.rpcList[id].pattern = '*';
         chrome.storage.local.set({ rpcList: config.rpcList });
     }
 
     /**
-     * 处理导出点击
+     * Handle export click
      */
     async _handleExportClick(info, tab) {
         const config = this.configProvider.getConfig();
@@ -353,7 +351,7 @@ export class MenuManager {
     }
 
     /**
-     * 处理导出全部
+     * Handle export all
      */
     async _handleExportAll(info, tab) {
         if (tab.url.startsWith("chrome")) return;
@@ -371,7 +369,7 @@ export class MenuManager {
     }
 
     /**
-     * 导出所有链接的脚本
+     * Export all links script
      */
     _exportAllLinksScript(allowedExts, blockedExts) {
         if (!Array.isArray(allowedExts)) allowedExts = [];

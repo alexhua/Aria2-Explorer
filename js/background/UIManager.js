@@ -1,5 +1,5 @@
 /**
- * UIManager - 负责UI启动和管理相关的逻辑
+ * UIManager - Handles UI launch and management logic
  */
 
 const NID_TASK_STOPPED = "NID_TASK_STOPPED";
@@ -12,49 +12,49 @@ export class UIManager {
     }
 
     /**
-     * 设置当前窗口ID
+     * Set current window ID
      */
     setCurrentWindowId(windowId) {
         this.currentWindowId = windowId;
     }
 
     /**
-     * 获取当前窗口ID
+     * Get current window ID
      */
     getCurrentWindowId() {
         return this.currentWindowId;
     }
 
     /**
-     * 启动UI
-     * @param {Object|string} info - 标签页信息或通知ID
+     * Launch UI
+     * @param {Object|string} info - Tab info or notification ID
      */
     async launchUI(info) {
         const config = this.configProvider.getConfig();
         const index = chrome.runtime.getURL('ui/ariang/index.html');
         let webUiUrl = index + '#!';
 
-        // 尝试打开侧边栏
+        // Try to open side panel
         let sidePanelOpened = false;
         if (config.webUIOpenStyle === "sidePanel") {
             sidePanelOpened = await this._openSidePanel(info);
         }
 
-        // 组装最终的WebUI URL
+        // Build final WebUI URL
         webUiUrl = await this._buildWebUiUrl(webUiUrl, info);
 
-        // 如果侧边栏已打开，更新路径
+        // If side panel opened, update path
         if (sidePanelOpened) {
             await this._updateSidePanelPath(info, webUiUrl);
             return;
         }
 
-        // 否则在标签页或窗口中打开
+        // Otherwise open in tab or window
         await this._openInTabOrWindow(index, webUiUrl);
     }
 
     /**
-     * 打开侧边栏
+     * Open side panel
      */
     async _openSidePanel(info) {
         try {
@@ -70,49 +70,49 @@ export class UIManager {
     }
 
     /**
-     * 构建WebUI URL
+     * Build WebUI URL
      */
     async _buildWebUiUrl(baseUrl, info) {
-        // 从通知启动
+        // Launch from notification
         if (typeof info === "string" && info.startsWith(NID_TASK_STOPPED)) {
             const gid = info.slice(NID_TASK_STOPPED.length) || '';
             return baseUrl + (gid ? "/task/detail/" + gid : "/stopped");
         }
 
-        // 新任务启动
+        // Launch for new task
         if (info?.hasOwnProperty("filename") && info.url) {
             return await this._buildNewTaskUrl(baseUrl, info);
         }
 
-        // 默认URL
+        // Default URL
         return chrome.runtime.getURL('ui/ariang/index.html');
     }
 
     /**
-     * 构建新任务URL
+     * Build new task URL
      */
     async _buildNewTaskUrl(baseUrl, downloadItem) {
         let url = baseUrl + "/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
 
-        // 添加referrer
+        // Add referrer
         if (downloadItem.referrer && 
             downloadItem.referrer !== "" && 
             downloadItem.referrer !== "about:blank") {
             url += "&referer=" + encodeURIComponent(downloadItem.referrer);
         }
 
-        // 添加header
+        // Add header
         const header = await this._buildHeader(downloadItem);
         if (header) {
             url += "&header=" + encodeURIComponent(header);
         }
 
-        // 添加filename
+        // Add filename
         if (downloadItem.filename) {
             url += "&filename=" + encodeURIComponent(downloadItem.filename);
         }
 
-        // 添加dir
+        // Add dir
         if (downloadItem.dir) {
             url += "&dir=" + encodeURIComponent(downloadItem.dir);
         }
@@ -121,7 +121,7 @@ export class UIManager {
     }
 
     /**
-     * 构建请求头
+     * Build request header
      */
     async _buildHeader(downloadItem) {
         let header = "User-Agent: " + navigator.userAgent;
@@ -135,7 +135,7 @@ export class UIManager {
     }
 
     /**
-     * 获取Cookies
+     * Get cookies
      */
     async _getCookies(downloadItem) {
         try {
@@ -149,7 +149,7 @@ export class UIManager {
     }
 
     /**
-     * 更新侧边栏路径
+     * Update side panel path
      */
     async _updateSidePanelPath(info, webUiUrl) {
         if (info && 'id' in info) {
@@ -160,7 +160,7 @@ export class UIManager {
     }
 
     /**
-     * 在标签页或窗口中打开
+     * Open in tab or window
      */
     async _openInTabOrWindow(index, webUiUrl) {
         const config = this.configProvider.getConfig();
@@ -182,7 +182,7 @@ export class UIManager {
     }
 
     /**
-     * 在窗口中打开
+     * Open in window
      */
     async _openInWindow(url) {
         const screen = await chrome.system.display.getInfo();
@@ -205,7 +205,7 @@ export class UIManager {
     }
 
     /**
-     * 重置侧边栏
+     * Reset side panel
      */
     async resetSidePanel(tabId) {
         const config = this.configProvider.getConfig();

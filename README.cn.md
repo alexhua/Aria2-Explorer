@@ -1,84 +1,195 @@
-# Aria2 Explorer <span style="float:right">[[返回]](README.md)</span>
+# Aria2 Explorer
 
-**Aria2 Explorer** 是一款为 Chrome 定制的下载任务管理扩展，能够自动拦截或手动添加下载任务到 Aria2 来完成网络资源下载。同时，引入了 [AriaNG](https://www.github.com/mayswind/AriaNg/) 作为前端，方便用户对 Aria2 进行操作和管理。
+<div align="center">
 
-## 📑 如何使用
+![Logo](images/logo128.png)
 
-1. Windows系统请下载 <span style="vertical-align:middle;">[![下载Aria2 Manager](https://img.shields.io/github/downloads/alexhua/aria2-manager/total?color=blue&label=Aria2%20Manager)](https://github.com/alexhua/aria2-manager/)</span>，其他系统请下载 Aria2 主程序：<span style="vertical-align:middle;">[![下载 Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases)</span>
-2. Windows系统请运行 **Aria2Manager.exe** ，其他系统，请打开 **Terminal** 输入 `aria2c --enable-rpc`
-3. 从[在线商店](#-安装地址)安装浏览器扩展
-4. 在扩展选项中打开 `自动拦截下载`，并根据需求配置其他选项
+**功能强大的 Chrome 扩展，无缝集成 Aria2 下载管理器**
 
-完成后，既可在Chrome中享受高速下载体验。
+[![Chrome 网上应用店](https://img.shields.io/badge/Chrome-网上应用店-blue?logo=google-chrome)](https://chrome.google.com/webstore)
+[![许可证](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![版本](https://img.shields.io/badge/version-2.7.6-orange.svg)](manifest.json)
 
-## ⭐ 功能特性
+[English](./README.md) | [中文](#中文)
 
-1. 自动拦截浏览器下载任务
+</div>
 
-    - 拦截通知
-    - 支持磁力链接
-    - 快捷键开关自动拦截 (默认：<kbd>Alt</kbd>+<kbd>A</kbd>)
-    - 下载前手动设置各种详细参数
-    - 通过域名、扩展名或文件大小过滤下载任务
-    > 过滤优先级：网站 > 扩展名 > 文件大小，优先处理白名单
+---
 
-2. 根据预设URL规则匹配下载URL来自动选择不同的 Aria2 RPC 服务端和下载目录
+## 📖 简介
 
-3. 内置 Aria2 前端：AriaNG **增强版**。多种呈现方式：弹窗，新标签，新窗口，侧边栏
+Aria2 Explorer 是一款功能强大的 Chrome 扩展，可将 Aria2 下载管理器无缝集成到浏览器中。它能自动捕获下载、监控 Aria2 状态，并提供美观的 Web UI 来管理您的下载任务。
 
-4. 所有配置（扩展和AriaNG）云端同步
+## ✨ 核心功能
 
-5. 中/日/韩/英/法/意/俄/乌/西班牙/捷克多语言支持
+### 🎯 智能下载捕获
+- **自动拦截**：根据文件大小和类型自动捕获浏览器下载
+- **灵活过滤**：支持域名和文件扩展名的白名单/黑名单
+- **Alt 键覆盖**：按住 Alt 键点击可绕过捕获
+- **多 URL 支持**：同时处理多个下载链接
 
-6. Aria2下载状态监测和任务状态通知
+### 📊 实时监控
+- **实时状态**：监控活动、等待和已完成的任务
+- **速度显示**：在徽章中实时显示上传/下载速度
+- **多服务器**：支持监控多个 Aria2 服务器
+- **智能间隔**：根据活动状态自适应轮询
 
-7. 右键菜单批量导出网页资源（图片·音频·视频·磁力链接）
+### 🎨 精美界面
+- **集成 WebUI**：内置 AriaNg 界面
+- **多种模式**：可作为弹窗、标签页、窗口或侧边栏打开
+- **深色模式**：跟随系统主题自动切换
+- **动画图标**：下载状态的视觉反馈
 
-8. 接受来自其他扩展的Aria2下载请求
+### 🔧 高级配置
+- **多 RPC 服务器**：配置并在多个服务器间切换
+- **模式匹配**：根据 URL 模式自动选择服务器
+- **Cookie 支持**：自动转发 Cookie 用于需要认证的下载
+- **自定义请求头**：为下载请求添加自定义请求头
 
-9. 选项配置页面快捷键（保存：<kbd>Alt</kbd>+<kbd>S</kbd> 重置：<kbd>Alt</kbd>+<kbd>R</kbd> 下载：<kbd>Alt</kbd>+<kbd>J</kbd> 上传：<kbd>Alt</kbd>+<kbd>U</kbd>）
+### 🌐 右键菜单集成
+- **快速导出**：右键点击链接发送到 Aria2
+- **批量导出**：导出当前页面的所有链接
+- **网站过滤**：快速添加/移除网站到白名单/黑名单
+- **服务器选择**：从右键菜单选择目标服务器
 
-10. 支持当没有连接Aria2时，通过浏览器下载网络链接
+### 🔔 智能通知
+- **任务状态**：下载完成/错误时获得通知
+- **静音模式**：可选的静音通知
+- **自定义消息**：通知中显示详细上下文
+- **点击操作**：点击通知打开 WebUI
 
-## 🧩 外部调用
+## 🚀 安装
 
-允許其他擴展使用這個擴展作為與 Aria2 的中介軟體來下載檔案。  
+### 从 Chrome 网上应用店安装
+1. 访问 [Chrome 网上应用店](https://chrome.google.com/webstore)
+2. 搜索 "Aria2 Explorer"
+3. 点击"添加至 Chrome"
 
-```js
+### 从源码安装
+1. 克隆此仓库
+   ```bash
+   git clone https://github.com/alexhua/Aria2-Explorer.git
+   ```
+2. 打开 Chrome 并导航到 `chrome://extensions/`
+3. 启用"开发者模式"
+4. 点击"加载已解压的扩展程序"并选择克隆的目录
 
-const downloadItem = {
-    url: "https://sample.com/image.jpg",
-    filename: "image_from_sample.jpg",
-    referrer: "https://sample.com",
-    options: { 
-        split: "10", // aria2 RPC options here
-        xxxxx: "oooo"
-    }
-}
+## ⚙️ 配置
 
-chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
+### 基本设置
+1. 点击扩展图标并选择"选项"
+2. 配置您的 Aria2 RPC 服务器：
+   - **名称**：服务器的友好名称
+   - **RPC URL**：Aria2 RPC 端点（例如：`http://localhost:6800/jsonrpc`）
+   - **密钥**：Aria2 RPC 密钥（如果已配置）
+   - **下载位置**：默认下载目录
+
+### 下载捕获
+- **启用/禁用**：切换自动下载捕获
+- **文件大小**：要捕获的最小文件大小（MB）
+- **检查 Alt 点击**：检测 Alt 键以绕过捕获
+- **下载前询问**：发送到 Aria2 前显示 UI
+
+### 监控
+- **启用监控**：切换 Aria2 状态监控
+- **监控全部**：监控所有已配置的服务器
+- **保持唤醒**：下载期间防止系统休眠
+- **徽章文本**：在徽章中显示活动下载数
+
+### 过滤
+- **允许的网站**：域名白名单（每行一个）
+- **阻止的网站**：域名黑名单（每行一个）
+- **允许的扩展名**：文件类型白名单（例如：`zip`、`mp4`）
+- **阻止的扩展名**：文件类型黑名单
+
+## 🎯 使用方法
+
+### 自动捕获
+1. 在选项中启用"下载捕获"
+2. 点击任何下载链接
+3. 扩展自动发送到 Aria2
+
+### 手动导出
+1. 右键点击任何链接
+2. 选择"导出到 Aria2"
+3. 选择目标服务器（如果配置了多个）
+
+### 批量导出
+1. 在页面上右键点击
+2. 选择"导出所有链接"
+3. 扩展扫描并导出所有有效链接
+
+### 监控状态
+1. 在选项中启用"监控 Aria2"
+2. 徽章显示活动下载数
+3. 悬停图标查看详细状态
+4. 点击图标打开 WebUI
+
+## 🔑 键盘快捷键
+
+- **Alt + A**：切换下载捕获
+- **Alt + X**：启动 Aria2（仅 Windows）
+
+*在 `chrome://extensions/shortcuts` 自定义快捷键*
+
+## 🏗️ 架构
+
+扩展采用模块化架构以提高可维护性：
 
 ```
+├── background.js              # Service Worker 入口
+├── js/
+│   ├── background/           # 后台模块
+│   │   ├── ConfigProvider.js    # 配置管理
+│   │   ├── DownloadManager.js   # 下载处理
+│   │   ├── CaptureManager.js    # 捕获逻辑
+│   │   ├── MonitorManager.js    # Aria2 监控
+│   │   ├── NotificationManager.js # 通知
+│   │   ├── MenuManager.js       # 右键菜单
+│   │   ├── UIManager.js         # UI 管理
+│   │   └── EventHandler.js      # 事件处理
+│   ├── options/              # 选项页面模块
+│   │   ├── ConfigManager.js     # 配置增删改查
+│   │   ├── UIController.js      # UI 控制
+│   │   └── RpcManager.js        # RPC 列表管理
+│   └── ...                   # 工具模块
+└── ui/ariang/               # 集成的 AriaNg WebUI
+```
 
-## 🔀 流程图
+## 🤝 贡献
 
-![流程图](FlowChart-CN.SVG)
+欢迎贡献！请阅读我们的[贡献指南](CONTRIBUTING.md)了解详情。
 
-## 📥 安装地址
+1. Fork 本仓库
+2. 创建您的特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开一个 Pull Request
 
-[![Chrome Web Store](https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 Explorer")
-[<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height=58 >](https://microsoftedge.microsoft.com/addons/detail/jjfgljkjddpcpfapejfkelkbjbehagbh "Aria2 Explorer")
+## 📝 许可证
 
-## 💡 常见问题
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
-[https://github.com/alexhua/aria2-explorer/issues?q=label:faq](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ)
+## 🙏 致谢
 
-## 🔒 隐私政策
+- [Aria2](https://aria2.github.io/) - 强大的下载工具
+- [AriaNg](https://github.com/mayswind/AriaNg) - Aria2 的现代 Web 前端
+- 所有贡献者和用户
 
-本扩展会拦截浏览器下载任务和相关 Cookies 信息，发送到用户指定的 Aria2 服务端来完成下载。Aria2 连接和配置信息会保存在本地或者由用户选择上传到用户登录的云端进行存储。本扩展不会收集任何用户个人信息或网络活动记录，也不会帮助任何第三方收集用户信息。
+## 📮 支持
 
-## 📜 开源协议
+- **问题反馈**：[GitHub Issues](https://github.com/alexhua/Aria2-Explorer/issues)
+- **官网**：[https://aria2e.com](https://aria2e.com)
+- **邮箱**：通过 GitHub 联系
 
-![BSD](https://i0.wp.com/opensource.org/wp-content/uploads/2006/07/OSI_Approved_License.png?w=90&ssl=1)
+---
 
-Aria2-Explorer is licensed under [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/).
+<div align="center">
+
+**用 ❤️ 制作 by Alex Hua**
+
+⭐ 在 GitHub 上给我们一个星标 — 这对我们很有帮助！
+
+[🇺🇸 English Documentation](./README.md)
+
+</div>

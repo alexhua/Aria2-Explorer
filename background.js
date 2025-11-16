@@ -1,6 +1,6 @@
 /**
- * Background Service Worker - 主入口
- * 重构后的模块化架构
+ * Background Service Worker - Main entry point
+ * Refactored modular architecture
  */
 import ContextMenu from "./js/contextMenu.js";
 import { ConfigProvider } from "./js/background/ConfigProvider.js";
@@ -13,7 +13,7 @@ import { UIManager } from "./js/background/UIManager.js";
 import { EventHandler } from "./js/background/EventHandler.js";
 
 /**
- * 应用程序类 - 统一管理所有模块
+ * Application class - Manages all modules
  */
 class Application {
     constructor() {
@@ -22,19 +22,19 @@ class Application {
     }
 
     /**
-     * 初始化应用程序
+     * Initialize application
      */
     async init() {
         if (this.initialized) return;
 
-        // 创建上下文菜单实例
+        // Create context menu instance
         const contextMenus = new ContextMenu();
 
-        // 创建配置提供者
+        // Create config provider
         const configProvider = new ConfigProvider();
         await configProvider.init();
 
-        // 创建各个管理器
+        // Create managers
         const notificationManager = new NotificationManager(configProvider);
         const monitorManager = new MonitorManager(configProvider, notificationManager, contextMenus);
         const uiManager = new UIManager(configProvider);
@@ -42,7 +42,7 @@ class Application {
         const captureManager = new CaptureManager(configProvider, downloadManager, contextMenus);
         const menuManager = new MenuManager(configProvider, contextMenus, downloadManager, uiManager);
 
-        // 保存管理器引用
+        // Save manager references
         this.managers = {
             configProvider,
             contextMenus,
@@ -54,14 +54,14 @@ class Application {
             uiManager
         };
 
-        // 初始化远程Aria2列表
+        // Initialize remote Aria2 list
         monitorManager.initRemoteAria2List();
         configProvider.setRemoteAria2List(monitorManager.getRemoteAria2List());
 
-        // 设置初始状态
+        // Setup initial state
         await this._setupInitialState();
 
-        // 创建并注册事件处理器
+        // Create and register event handler
         const eventHandler = new EventHandler(this.managers);
         eventHandler.registerAll();
 
@@ -70,48 +70,48 @@ class Application {
     }
 
     /**
-     * 设置初始状态
+     * Setup initial state
      */
     async _setupInitialState() {
         const config = this.managers.configProvider.getConfig();
 
-        // 设置popup
+        // Setup popup
         const popupUrl = config.webUIOpenStyle === "popup" 
             ? chrome.runtime.getURL('ui/ariang/popup.html') 
             : '';
         await chrome.action.setPopup({ popup: popupUrl });
 
-        // 创建菜单
+        // Create menus
         this.managers.menuManager.createAllMenus();
 
-        // 启用/禁用捕获
+        // Enable/disable capture
         if (config.integration) {
             this.managers.captureManager.enable();
         } else {
             this.managers.captureManager.disable();
         }
 
-        // 启用/禁用监控
+        // Enable/disable monitoring
         if (config.monitorAria2) {
             this.managers.monitorManager.enable();
         } else {
             this.managers.monitorManager.disable();
         }
 
-        // 设置卸载URL
+        // Set uninstall URL
         const uninstallUrl = config.captureMagnet 
             ? "https://github.com/alexhua/Aria2-Explore/issues/98" 
             : '';
         await chrome.runtime.setUninstallURL(uninstallUrl);
 
-        // 设置侧边栏行为
+        // Set side panel behavior
         await chrome.sidePanel.setPanelBehavior({ 
             openPanelOnActionClick: config.webUIOpenStyle === "sidePanel" 
         });
     }
 }
 
-// 创建并初始化应用程序
+// Create and initialize application
 const app = new Application();
 app.init().catch(error => {
     console.error("Failed to initialize Aria2 Explorer:", error);
