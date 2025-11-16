@@ -1,5 +1,5 @@
 /**
- * EventHandler - 事件处理器，统一管理所有Chrome事件监听
+ * EventHandler - Event handler, manages all Chrome event listeners
  */
 import { NID_TASK_NEW, NID_TASK_STOPPED, NID_CAPTURED_OTHERS } from "./NotificationManager.js";
 import { IconManager } from "../IconUtils/IconManager.js";
@@ -10,7 +10,7 @@ export class EventHandler {
     }
 
     /**
-     * 注册所有事件监听器
+     * Register all event listeners
      */
     registerAll() {
         this._registerActionListeners();
@@ -23,7 +23,7 @@ export class EventHandler {
     }
 
     /**
-     * 注册Action监听器
+     * Register action listeners
      */
     _registerActionListeners() {
         chrome.action.onClicked.addListener((tab) => {
@@ -32,7 +32,7 @@ export class EventHandler {
     }
 
     /**
-     * 注册标签页监听器
+     * Register tab listeners
      */
     _registerTabListeners() {
         chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -57,7 +57,7 @@ export class EventHandler {
     }
 
     /**
-     * 注册窗口监听器
+     * Register window listeners
      */
     _registerWindowListeners() {
         chrome.windows.onFocusChanged.addListener((windowId) => {
@@ -74,7 +74,7 @@ export class EventHandler {
     }
 
     /**
-     * 注册通知监听器
+     * Register notification listeners
      */
     _registerNotificationListeners() {
         chrome.notifications.onClicked.addListener((id) => {
@@ -95,7 +95,7 @@ export class EventHandler {
     }
 
     /**
-     * 注册命令监听器
+     * Register command listeners
      */
     _registerCommandListeners() {
         chrome.commands.onCommand.addListener((command) => {
@@ -112,15 +112,15 @@ export class EventHandler {
     }
 
     /**
-     * 注册运行时监听器
+     * Register runtime listeners
      */
     _registerRuntimeListeners() {
-        // 安装/更新监听
+        // Install/update listener
         chrome.runtime.onInstalled.addListener((details) => {
             this._handleInstalled(details);
         });
 
-        // 外部消息监听
+        // External message listener
         chrome.runtime.onMessageExternal.addListener((downloadItem) => {
             const config = this.managers.configProvider.getConfig();
             if (config.allowExternalRequest) {
@@ -128,20 +128,20 @@ export class EventHandler {
             }
         });
 
-        // 内部消息监听
+        // Internal message listener
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             this._handleMessage(message, sender, sendResponse);
-            return true; // 保持消息通道开放
+            return true; // Keep message channel open
         });
 
-        // 右键菜单点击监听
+        // Context menu click listener
         this.managers.contextMenus.onClicked.addListener((info, tab) => {
             this.managers.menuManager.handleMenuClick(info, tab);
         });
     }
 
     /**
-     * 注册存储监听器
+     * Register storage listeners
      */
     _registerStorageListeners() {
         chrome.storage.onChanged.addListener((changes, area) => {
@@ -161,7 +161,7 @@ export class EventHandler {
                 }
             }
 
-            // 特殊处理
+            // Special handling
             if (changes.checkClick) {
                 this._initClickChecker();
             }
@@ -173,7 +173,7 @@ export class EventHandler {
     }
 
     /**
-     * 处理安装事件
+     * Handle installed event
      */
     _handleInstalled(details) {
         const config = this.managers.configProvider.getConfig();
@@ -184,12 +184,12 @@ export class EventHandler {
                 chrome.tabs.create({ url });
             });
         } else if (details.reason === "update") {
-            // 可以在这里添加更新通知
+            // Can add update notification here
         }
     }
 
     /**
-     * 处理消息
+     * Handle message
      */
     _handleMessage(message, sender, sendResponse) {
         switch (message.type) {
@@ -217,58 +217,58 @@ export class EventHandler {
     }
 
     /**
-     * 重新初始化
+     * Reinitialize
      */
     async _reinitialize() {
         await this.managers.configProvider.init();
         const config = this.managers.configProvider.getConfig();
 
-        // 设置popup
+        // Setup popup
         const url = config.webUIOpenStyle === "popup" 
             ? chrome.runtime.getURL('ui/ariang/popup.html') 
             : '';
         await chrome.action.setPopup({ popup: url });
 
-        // 初始化远程Aria2
+        // Initialize remote Aria2
         this.managers.monitorManager.initRemoteAria2List();
         this.managers.configProvider.setRemoteAria2List(
             this.managers.monitorManager.getRemoteAria2List()
         );
 
-        // 初始化点击检查器
+        // Initialize click checker
         await this._initClickChecker();
 
-        // 重建菜单
-        this.managers.menuManager.createAllMenus();
+        // Rebuild menus and wait for completion
+        await this.managers.menuManager.createAllMenus();
 
-        // 启用/禁用捕获
+        // Enable/disable capture
         if (config.integration) {
             this.managers.captureManager.enable();
         } else {
             this.managers.captureManager.disable();
         }
 
-        // 启用/禁用监控
+        // Enable/disable monitoring
         if (config.monitorAria2) {
             this.managers.monitorManager.enable();
         } else {
             this.managers.monitorManager.disable();
         }
 
-        // 设置卸载URL
+        // Set uninstall URL
         const uninstallUrl = config.captureMagnet 
             ? "https://github.com/alexhua/Aria2-Explore/issues/98" 
             : '';
         await chrome.runtime.setUninstallURL(uninstallUrl);
 
-        // 设置侧边栏行为
+        // Set side panel behavior
         await chrome.sidePanel.setPanelBehavior({ 
             openPanelOnActionClick: config.webUIOpenStyle === "sidePanel" 
         });
     }
 
     /**
-     * 初始化点击检查器
+     * Initialize click checker
      */
     async _initClickChecker() {
         const config = this.managers.configProvider.getConfig();
