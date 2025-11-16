@@ -1,6 +1,13 @@
 ACKNOWLEDGEMENT
 
-This extension makes use of the following third party aria2 frontend solutions:
+This extension makes use of the following third party open source project:
 
-https://github.com/mayswind/AriaNg
-MIT License: https://github.com/mayswind/AriaNg/blob/master/LICENSE
+AriaNG (https://github.com/mayswind/AriaNg)
+Licensed under MIT License: https://github.com/mayswind/AriaNg/blob/master/LICENSE
+
+Bootstrap (https://getbootstrap.com/)
+Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+Licensed under MIT
+
+jQuery (https://jquery.com/)
+Licensed under MIT license: https://jquery.com/license/
