@@ -1,5 +1,5 @@
 /**
- * NotificationManager - 负责通知相关的逻辑
+ * NotificationManager - Handles notification logic
  */
 import Utils from "../utils.js";
 import { AnimationController } from '../IconUtils/AnimationController.js';
@@ -16,8 +16,8 @@ export class NotificationManager {
     }
 
     /**
-     * 通知任务状态
-     * @param {Object} data - 事件数据
+     * Notify task status
+     * @param {Object} data - Event data
      */
     async notifyTaskStatus(data) {
         const events = [
@@ -30,21 +30,21 @@ export class NotificationManager {
 
         if (!data || !events.includes(data.method)) return;
 
-        // 更新图标动画
+        // Update icon animation
         this._updateIconAnimation(data.method);
 
         const config = this.configProvider.getConfig();
         if (!config.allowNotification) return;
 
-        // 获取上下文消息
+        // Get context message
         const contextMessage = await this._getContextMessage(data);
         
-        // 显示通知
+        // Show notification
         this._showTaskNotification(data.method, data.source, data.gid, contextMessage);
     }
 
     /**
-     * 更新图标动画
+     * Update icon animation
      */
     _updateIconAnimation(event) {
         if (event.endsWith("ExportSuccess")) {
@@ -57,7 +57,7 @@ export class NotificationManager {
     }
 
     /**
-     * 获取上下文消息
+     * Get context message
      */
     async _getContextMessage(data) {
         if (data.contextMessage) {
@@ -85,7 +85,7 @@ export class NotificationManager {
                 contextMessage = dir + Utils.getFileNameFromUrl(files[0].uris[0].uri);
             }
 
-            // 检查是否是种子完成
+            // Check if torrent is complete
             if (data.method === "aria2.onDownloadComplete" && 
                 bittorrent && 
                 !(contextMessage.startsWith("[METADATA]") || contextMessage.endsWith(".torrent"))) {
@@ -100,7 +100,7 @@ export class NotificationManager {
     }
 
     /**
-     * 显示任务通知
+     * Show task notification
      */
     _showTaskNotification(event, source, gid, contextMessage) {
         const config = this.configProvider.getConfig();
@@ -122,7 +122,7 @@ export class NotificationManager {
     }
 
     /**
-     * 获取通知数据
+     * Get notification data
      */
     _getNotificationData(event, source, gid) {
         const data = {
