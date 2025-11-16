@@ -32,33 +32,33 @@ export class UIController {
         
         const config = this.configManager.getConfig();
 
-        // 设置颜色模式
+        // Set color mode
         this._setColorMode();
 
-        // 重置表单
+        // Reset form
         this._resetForm();
 
-        // 填充表单数据
+        // Fill form data
         this._fillFormData(config);
 
-        // 设置依赖关系
+        // Setup dependencies
         this._setupDependencies(config);
 
-        // 设置特殊提示
+        // Setup special tooltips
         this._setupSpecialTooltips();
 
-        // 渲染RPC列表
+        // Render RPC list
         this.rpcManager.render();
 
-        // 绑定事件
+        // Bind events
         this._bindEvents();
 
-        // 设置版本信息
+        // Setup version info
         this._setupVersionInfo();
     }
 
     /**
-     * 重置表单
+     * Reset form
      */
     _resetForm() {
         $("input[type=checkbox]").prop("checked", false);
@@ -67,40 +67,40 @@ export class UIController {
     }
 
     /**
-     * 填充表单数据
+     * Fill form data
      */
     _fillFormData(config) {
-        // 单选按钮
+        // Radio buttons
         $(`#${config.webUIOpenStyle}`).prop('checked', true);
         $(`#${config.iconOffStyle}`).prop('checked', true);
 
-        // 复选框
+        // Checkboxes
         $("input[type=checkbox]").each(function() {
             if (config[this.id]) {
                 this.checked = config[this.id];
             }
         });
 
-        // 输入框
+        // Input fields
         $("input[type=text],input[type=number]").each(function() {
             if (config[this.id]) {
                 this.value = config[this.id];
             }
         });
 
-        // 文本域
+        // Textareas
         $("textarea").each(function() {
             if (config[this.id]) {
                 this.value = config[this.id].join("\n");
             }
         });
 
-        // 显示/隐藏监控所有选项
+        // Show/hide monitor all option
         config.rpcList.length > 1 ? $("#monitor-all").show() : $("#monitor-all").hide();
     }
 
     /**
-     * 设置依赖关系
+     * Setup dependencies
      */
     _setupDependencies(config) {
         for (const [dependent, dependency] of Object.entries(OptionDeps)) {
@@ -112,7 +112,7 @@ export class UIController {
     }
 
     /**
-     * 设置特殊提示
+     * Setup special tooltips
      */
     _setupSpecialTooltips() {
         if (Utils.getPlatform() === "Windows") {
@@ -122,36 +122,36 @@ export class UIController {
     }
 
     /**
-     * 绑定事件
+     * Bind events
      */
     _bindEvents() {
-        // 快捷键设置
+        // Shortcuts setting
         $("#shortcuts-setting").off().on("click", this._openShortcutsPage);
 
-        // 颜色模式切换
+        // Color mode toggle
         $("#colorMode").off().on("click", () => this._toggleColorMode());
 
-        // 表单提交和重置
+        // Form submit and reset
         $("form").off().on("submit", (e) => e.preventDefault())
                       .on("reset", (e) => e.preventDefault());
 
-        // 键盘快捷键
+        // Keyboard shortcuts
         $(window).off('keyup').on('keyup', (e) => this._handleKeyboardShortcuts(e));
 
-        // 存储变化监听
+        // Storage change listener
         chrome.storage.onChanged.addListener((changes, areaName) => {
             this._handleStorageChange(changes, areaName);
         });
 
-        // 颜色模式变化监听
+        // Color mode change listener
         window.matchMedia('(prefers-color-scheme: dark)').onchange = () => this._setColorMode();
 
-        // WebStore链接
+        // WebStore link
         $("#webStoreUrl").prop("href", Utils.getWebStoreUrl());
     }
 
     /**
-     * 设置版本信息
+     * Setup version info
      */
     _setupVersionInfo() {
         const manifest = chrome.runtime.getManifest();
@@ -159,7 +159,7 @@ export class UIController {
     }
 
     /**
-     * 打开快捷键设置页面
+     * Open shortcuts settings page
      */
     _openShortcutsPage() {
         chrome.tabs.query({ "url": SHORTCUTS_PAGE_URL }).then((tabs) => {
@@ -179,7 +179,7 @@ export class UIController {
     }
 
     /**
-     * 切换颜色模式
+     * Toggle color mode
      */
     _toggleColorMode() {
         const config = this.configManager.getConfig();
@@ -188,7 +188,7 @@ export class UIController {
     }
 
     /**
-     * 设置颜色模式
+     * Set color mode
      */
     _setColorMode() {
         const config = this.configManager.getConfig();
@@ -216,7 +216,7 @@ export class UIController {
     }
 
     /**
-     * 处理键盘快捷键
+     * Handle keyboard shortcuts
      */
     _handleKeyboardShortcuts(e) {
         if (!e.altKey) return;
@@ -239,21 +239,21 @@ export class UIController {
     }
 
     /**
-     * 处理存储变化
+     * Handle storage changes
      */
     _handleStorageChange(changes, areaName) {
         if (areaName !== "local") return;
 
-        // 只更新颜色模式
+        // Only update color mode
         if (Object.keys(changes).length === 1 && changes.hasOwnProperty('colorModeId')) {
             this._setColorMode();
             return;
         }
 
-        // 重新初始化
+        // Reinitialize
         this.init();
 
-        // 处理RPC列表变化
+        // Handle RPC list changes
         if (changes.rpcList && !changes.hasOwnProperty("ariaNgOptions")) {
             const oldList = changes.rpcList.oldValue;
             const newList = changes.rpcList.newValue;
@@ -263,14 +263,14 @@ export class UIController {
             }
         }
 
-        // 处理磁力链接捕获
+        // Handle magnet capture
         if (changes.captureMagnet) {
             this._toggleMagnetHandler(changes.captureMagnet.newValue);
         }
     }
 
     /**
-     * 切换磁力链接处理器
+     * Toggle magnet link handler
      */
     _toggleMagnetHandler(flag) {
         const magnetPage = chrome.runtime.getURL("magnet.html") + "?action=magnet&url=%s";
@@ -283,7 +283,7 @@ export class UIController {
     }
 
     /**
-     * 收集表单数据
+     * Collect form data
      */
     collectFormData() {
         const formData = {
@@ -295,17 +295,17 @@ export class UIController {
             iconOffStyle: $("[name=iconOffStyle]:checked").val()
         };
 
-        // 收集复选框
+        // Collect checkboxes
         $("input[type=checkbox]").each(function() {
             formData.checkboxes[this.id] = this.checked;
         });
 
-        // 收集输入框
+        // Collect input fields
         $("input[type=text],input[type=number]").each(function() {
             formData.inputs[this.id] = this.value;
         });
 
-        // 收集文本域
+        // Collect textareas
         $("textarea").each(function() {
             formData.textareas[this.id] = this.value;
         });
@@ -314,7 +314,7 @@ export class UIController {
     }
 
     /**
-     * 显示结果消息
+     * Show result message
      */
     showResult(elementId, message, isSuccess, timeout = 2000) {
         const style = isSuccess ? "alert-success" : "alert-danger";
