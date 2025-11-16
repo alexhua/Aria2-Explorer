@@ -16,6 +16,14 @@ export class NotificationManager {
     }
 
     /**
+     * Get the shared AnimationController instance
+     * @returns {AnimationController}
+     */
+    getAnimationController() {
+        return this.iconAnimController;
+    }
+
+    /**
      * Notify task status
      * @param {Object} data - Event data
      */

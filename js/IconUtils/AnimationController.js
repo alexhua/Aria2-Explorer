@@ -10,18 +10,19 @@ export class AnimationController {
     this.timeoutId = null;
     this.fadeIntervalId = null;
     this.progressAnimation = null;
-    // 添加状态管理
+    // Add state management
     this.isBlocked = false;
     this.blockEndTime = 0;
+    // Priority animations that cannot be interrupted
     this.priorityAnimations = new Set(['Complete', 'Error']);
   }
 
   start(type, progress) {
-    // 检查是否被阻塞，以及是否是优先级动画
+    // Check if blocked and if this is a priority animation
     const currentTime = performance.now();
     const isPriorityAnimation = this.priorityAnimations.has(type);
     
-    // 如果当前被阻塞且不是优先级动画，则忽略
+    // If currently blocked and not a priority animation, ignore
     if (this.isBlocked && currentTime < this.blockEndTime && !isPriorityAnimation) {
       return;
     }
@@ -36,10 +37,12 @@ export class AnimationController {
         break;
       case 'Complete':
         newAnimation = new CompleteAnimation();
+        // Block for the full duration to prevent interruption
         this.#setBlocked(newAnimation.duration * 0.5);
         break;
       case 'Error':
         newAnimation = new ErrorAnimation();
+        // Block for the full duration to prevent interruption
         this.#setBlocked(newAnimation.duration * 0.5);
         break;
       case 'Progress':
@@ -81,6 +84,7 @@ export class AnimationController {
     // Clear any existing timeout auto-stop
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
+      this.timeoutId = null;
     }
 
     // Set new timeout for auto-stop
@@ -99,12 +103,12 @@ export class AnimationController {
     }, FRAME_INTERVAL);
   }
 
-  // 设置阻塞状态
+  // Set blocked state
   #setBlocked(duration) {
     this.isBlocked = true;
     this.blockEndTime = performance.now() + duration;
     
-    // 设置定时器清除阻塞状态
+    // Set timer to clear blocked state
     setTimeout(() => {
       this.isBlocked = false;
     }, duration);
