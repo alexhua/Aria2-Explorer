@@ -30,7 +30,7 @@ class Application {
         // Create context menu instance
         const contextMenus = new ContextMenu();
 
-        // Create config provider
+        // Create config provider (singleton)
         const configProvider = new ConfigProvider();
         await configProvider.init();
 

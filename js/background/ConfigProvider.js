@@ -1,12 +1,32 @@
 /**
  * ConfigProvider - Configuration provider, manages unified config access
+ * Singleton pattern to ensure consistent config across the extension
  */
 import { DefaultConfigs } from "../config.js";
 
 export class ConfigProvider {
+    static #instance = null;
+
     constructor() {
+        // Enforce singleton pattern
+        if (ConfigProvider.#instance) {
+            return ConfigProvider.#instance;
+        }
+
         this.config = { ...DefaultConfigs };
         this.remoteAria2List = null;
+        
+        ConfigProvider.#instance = this;
+    }
+
+    /**
+     * Get singleton instance
+     */
+    static getInstance() {
+        if (!ConfigProvider.#instance) {
+            ConfigProvider.#instance = new ConfigProvider();
+        }
+        return ConfigProvider.#instance;
     }
 
     /**
@@ -15,6 +35,8 @@ export class ConfigProvider {
     async init() {
         try {
             const configs = await chrome.storage.local.get();
+            // Clear existing config and reassign to ensure fresh data
+            this.config = { ...DefaultConfigs };
             Object.assign(this.config, configs);
         } catch (error) {
             console.error("ConfigProvider init error:", error);

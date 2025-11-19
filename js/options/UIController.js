@@ -241,7 +241,7 @@ export class UIController {
     /**
      * Handle storage changes
      */
-    #handleStorageChange(changes, areaName) {
+    async #handleStorageChange(changes, areaName) {
         if (areaName !== "local") return;
 
         // Only update color mode
@@ -250,8 +250,9 @@ export class UIController {
             return;
         }
 
-        // Reinitialize
-        this.init();
+        // Reinitialize config and UI
+        await this.configManager.init();
+        await this.init();
 
         // Handle RPC list changes
         if (changes.rpcList && !changes.hasOwnProperty("ariaNgOptions")) {

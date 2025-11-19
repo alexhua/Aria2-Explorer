@@ -12,11 +12,12 @@ const NID_CAPTURED_OTHERS = "NID_CAPTURED_OTHERS";
 export class NotificationManager {
     constructor(configProvider) {
         this.configProvider = configProvider;
+        // AnimationController is a singleton, this will return the same instance
         this.iconAnimController = new AnimationController();
     }
 
     /**
-     * Get the shared AnimationController instance
+     * Get the shared AnimationController instance (singleton)
      * @returns {AnimationController}
      */
     getAnimationController() {
