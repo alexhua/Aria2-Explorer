@@ -63,8 +63,8 @@ export class MonitorManager {
             return;
         }
 
-        this._monitor();
-        this.monitorId = setInterval(() => this._monitor(), this.monitorInterval);
+        this.#monitor();
+        this.monitorId = setInterval(() => this.#monitor(), this.monitorInterval);
         this.configProvider.updateConfig({ monitorAria2: true });
         // Only update menu if it exists
         try {
@@ -106,7 +106,7 @@ export class MonitorManager {
     /**
      * Monitor Aria2 servers
      */
-    async _monitor() {
+    async #monitor() {
         const config = this.configProvider.getConfig();
         const stats = {
             connected: 0,
@@ -153,7 +153,7 @@ export class MonitorManager {
             } catch (error) {
                 stats.disconnected++;
                 if (i == 0) {
-                    stats.errorMessage = this._parseMonitorError(error);
+                    stats.errorMessage = this.#parseMonitorError(error);
                 }
             } finally {
                 if (!config.monitorAria2) {
@@ -163,16 +163,16 @@ export class MonitorManager {
             }
         }
 
-        this._updateMonitorInterval(stats.active);
-        this._updatePowerState(stats.active, stats.waiting, stats.localConnected);
-        this._updateIconAnimation(stats.active, stats.waiting);
-        this._updateBadgeAndTitle(stats);
+        this.#updateMonitorInterval(stats.active);
+        this.#updatePowerState(stats.active, stats.waiting, stats.localConnected);
+        this.#updateIconAnimation(stats.active, stats.waiting);
+        this.#updateBadgeAndTitle(stats);
     }
 
     /**
      * Parse monitor error
      */
-    _parseMonitorError(error) {
+    #parseMonitorError(error) {
         const msg = error.message?.toLowerCase() || '';
         if (msg.includes('unauthorized')) {
             return "Secret key is incorrect";
@@ -185,20 +185,20 @@ export class MonitorManager {
     /**
      * Update monitor interval
      */
-    _updateMonitorInterval(active) {
+    #updateMonitorInterval(active) {
         const newInterval = active > 0 ? INTERVAL_SHORT : INTERVAL_LONG;
         
         if (this.monitorInterval !== newInterval) {
             this.monitorInterval = newInterval;
             clearInterval(this.monitorId);
-            this.monitorId = setInterval(() => this._monitor(), this.monitorInterval);
+            this.monitorId = setInterval(() => this.#monitor(), this.monitorInterval);
         }
     }
 
     /**
      * Update power state
      */
-    _updatePowerState(active, waiting, localConnected) {
+    #updatePowerState(active, waiting, localConnected) {
         const config = this.configProvider.getConfig();
         
         if (active > 0 && config.keepAwake && localConnected > 0) {
@@ -211,7 +211,7 @@ export class MonitorManager {
     /**
      * Update icon animation
      */
-    _updateIconAnimation(active, waiting) {
+    #updateIconAnimation(active, waiting) {
         if (active === 0 && waiting > 0) {
             this.iconAnimController.start('Pause');
         }
@@ -220,7 +220,7 @@ export class MonitorManager {
     /**
      * Update badge and title
      */
-    _updateBadgeAndTitle(stats) {
+    #updateBadgeAndTitle(stats) {
         const config = this.configProvider.getConfig();
         
         if (!config.monitorAria2) return;
@@ -240,8 +240,8 @@ export class MonitorManager {
         }
 
         if (connected > 0) {
-            text = this._getBadgeText(active, waiting, connected);
-            bgColor = this._getBadgeColor(active, waiting, connected);
+            text = this.#getBadgeText(active, waiting, connected);
+            bgColor = this.#getBadgeColor(active, waiting, connected);
             textColor = (active === 0 && waiting === 0) ? '#666' : 'white';
 
             const uploadStr = chrome.i18n.getMessage("upload");
@@ -272,7 +272,7 @@ export class MonitorManager {
     /**
      * Get badge text
      */
-    _getBadgeText(active, waiting, connected) {
+    #getBadgeText(active, waiting, connected) {
         const config = this.configProvider.getConfig();
         
         if (!config.badgeText) return '';
@@ -284,7 +284,7 @@ export class MonitorManager {
     /**
      * Get badge color
      */
-    _getBadgeColor(active, waiting, connected) {
+    #getBadgeColor(active, waiting, connected) {
         const config = this.configProvider.getConfig();
         
         if (active > 0) {

@@ -25,8 +25,8 @@ export class MenuManager {
     async createAllMenus() {
         return new Promise((resolve) => {
             this.contextMenus.removeAll(() => {
-                this._createOptionMenu();
-                this._createContextMenu();
+                this.#createOptionMenu();
+                this.#createContextMenu();
                 this.updateOptionMenu({ url: this.currentTabUrl, active: true });
                 resolve();
             });
@@ -36,7 +36,7 @@ export class MenuManager {
     /**
      * Create option menu
      */
-    _createOptionMenu() {
+    #createOptionMenu() {
         const config = this.configProvider.getConfig();
 
         // Download capture
@@ -83,16 +83,16 @@ export class MenuManager {
         }
 
         // Website filter
-        this._createWebsiteFilterMenu();
+        this.#createWebsiteFilterMenu();
 
         // RPC options
-        this._createRpcOptionsMenu();
+        this.#createRpcOptionsMenu();
     }
 
     /**
      * Create website filter menu
      */
-    _createWebsiteFilterMenu() {
+    #createWebsiteFilterMenu() {
         this.contextMenus.create({
             type: "normal",
             id: "MENU_WEBSITE_FILTER",
@@ -120,7 +120,7 @@ export class MenuManager {
     /**
      * Create RPC options menu
      */
-    _createRpcOptionsMenu() {
+    #createRpcOptionsMenu() {
         const config = this.configProvider.getConfig();
         const rpcOptionsList = [];
 
@@ -155,7 +155,7 @@ export class MenuManager {
     /**
      * Create context menu
      */
-    _createContextMenu() {
+    #createContextMenu() {
         const config = this.configProvider.getConfig();
         const strExport = chrome.i18n.getMessage("contextmenuTitle");
         const strExportAllDes = chrome.i18n.getMessage("exportAllDes");
@@ -247,25 +247,25 @@ export class MenuManager {
                 break;
 
             case info.menuItemId === "MENU_UPDATE_BLOCK_SITE":
-                this._updateBlockedSites(tab);
+                this.#updateBlockedSites(tab);
                 this.updateOptionMenu(tab);
                 break;
 
             case info.menuItemId === "MENU_UPDATE_ALLOW_SITE":
-                this._updateAllowedSites(tab);
+                this.#updateAllowedSites(tab);
                 this.updateOptionMenu(tab);
                 break;
 
             case info.menuItemId.startsWith("MENU_RPC_LIST-"):
-                this._handleRpcListClick(info.menuItemId);
+                this.#handleRpcListClick(info.menuItemId);
                 break;
 
             case info.menuItemId.startsWith("MENU_EXPORT_TO"):
-                await this._handleExportClick(info, tab);
+                await this.#handleExportClick(info, tab);
                 break;
 
             case info.menuItemId === "MENU_EXPORT_ALL":
-                await this._handleExportAll(info, tab);
+                await this.#handleExportAll(info, tab);
                 break;
         }
     }
@@ -273,7 +273,7 @@ export class MenuManager {
     /**
      * Update allowed sites
      */
-    _updateAllowedSites(tab) {
+    #updateAllowedSites(tab) {
         if (!tab?.active || !tab.url || tab.url.startsWith("chrome")) return;
 
         const config = this.configProvider.getConfig();
@@ -292,7 +292,7 @@ export class MenuManager {
     /**
      * Update blocked sites
      */
-    _updateBlockedSites(tab) {
+    #updateBlockedSites(tab) {
         if (!tab?.active || !tab.url || tab.url.startsWith("chrome")) return;
 
         const config = this.configProvider.getConfig();
@@ -311,7 +311,7 @@ export class MenuManager {
     /**
      * Handle RPC list click
      */
-    _handleRpcListClick(menuItemId) {
+    #handleRpcListClick(menuItemId) {
         const config = this.configProvider.getConfig();
         const id = menuItemId.split('-')[1];
         
@@ -329,7 +329,7 @@ export class MenuManager {
     /**
      * Handle export click
      */
-    async _handleExportClick(info, tab) {
+    async #handleExportClick(info, tab) {
         const config = this.configProvider.getConfig();
         const url = info.linkUrl || info.selectionText;
         const referrer = info.frameUrl || info.pageUrl;
@@ -356,7 +356,7 @@ export class MenuManager {
     /**
      * Handle export all
      */
-    async _handleExportAll(info, tab) {
+    async #handleExportAll(info, tab) {
         if (tab.url.startsWith("chrome")) return;
 
         const config = this.configProvider.getConfig();
@@ -366,15 +366,15 @@ export class MenuManager {
                 allFrames: !info.frameId, 
                 frameIds: info.frameId ? [info.frameId] : undefined 
             },
-            func: this._exportAllLinksScript,
+            func: MenuManager.exportAllLinksScript,
             args: [config.allowedExts, config.blockedExts]
         });
     }
 
     /**
-     * Export all links script
+     * Export all links script (static method for injection)
      */
-    _exportAllLinksScript(allowedExts, blockedExts) {
+    static exportAllLinksScript(allowedExts, blockedExts) {
         if (!Array.isArray(allowedExts)) allowedExts = [];
         if (!Array.isArray(blockedExts)) blockedExts = [];
 

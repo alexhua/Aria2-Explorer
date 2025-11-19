@@ -37,26 +37,26 @@ export class UIManager {
         // Try to open side panel
         let sidePanelOpened = false;
         if (config.webUIOpenStyle === "sidePanel") {
-            sidePanelOpened = await this._openSidePanel(info);
+            sidePanelOpened = await this.#openSidePanel(info);
         }
 
         // Build final WebUI URL
-        webUiUrl = await this._buildWebUiUrl(webUiUrl, info);
+        webUiUrl = await this.#buildWebUiUrl(webUiUrl, info);
 
         // If side panel opened, update path
         if (sidePanelOpened) {
-            await this._updateSidePanelPath(info, webUiUrl);
+            await this.#updateSidePanelPath(info, webUiUrl);
             return;
         }
 
         // Otherwise open in tab or window
-        await this._openInTabOrWindow(index, webUiUrl);
+        await this.#openInTabOrWindow(index, webUiUrl);
     }
 
     /**
      * Open side panel
      */
-    async _openSidePanel(info) {
+    async #openSidePanel(info) {
         try {
             if (info && 'id' in info) {
                 await chrome.sidePanel.open({ tabId: info.id });
@@ -72,7 +72,7 @@ export class UIManager {
     /**
      * Build WebUI URL
      */
-    async _buildWebUiUrl(baseUrl, info) {
+    async #buildWebUiUrl(baseUrl, info) {
         // Launch from notification
         if (typeof info === "string" && info.startsWith(NID_TASK_STOPPED)) {
             const gid = info.slice(NID_TASK_STOPPED.length) || '';
@@ -81,7 +81,7 @@ export class UIManager {
 
         // Launch for new task
         if (info?.hasOwnProperty("filename") && info.url) {
-            return await this._buildNewTaskUrl(baseUrl, info);
+            return await this.#buildNewTaskUrl(baseUrl, info);
         }
 
         // Default URL
@@ -91,7 +91,7 @@ export class UIManager {
     /**
      * Build new task URL
      */
-    async _buildNewTaskUrl(baseUrl, downloadItem) {
+    async #buildNewTaskUrl(baseUrl, downloadItem) {
         let url = baseUrl + "/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
 
         // Add referrer
@@ -102,7 +102,7 @@ export class UIManager {
         }
 
         // Add header
-        const header = await this._buildHeader(downloadItem);
+        const header = await this.#buildHeader(downloadItem);
         if (header) {
             url += "&header=" + encodeURIComponent(header);
         }
@@ -123,10 +123,10 @@ export class UIManager {
     /**
      * Build request header
      */
-    async _buildHeader(downloadItem) {
+    async #buildHeader(downloadItem) {
         let header = "User-Agent: " + navigator.userAgent;
 
-        const cookies = await this._getCookies(downloadItem);
+        const cookies = await this.#getCookies(downloadItem);
         if (cookies.length > 0) {
             header += "\nCookie: " + cookies.join(";");
         }
@@ -137,7 +137,7 @@ export class UIManager {
     /**
      * Get cookies
      */
-    async _getCookies(downloadItem) {
+    async #getCookies(downloadItem) {
         try {
             const storeId = chrome.extension.inIncognitoContext ? "1" : "0";
             const url = downloadItem.multiTask ? downloadItem.referrer : downloadItem.url;
@@ -151,7 +151,7 @@ export class UIManager {
     /**
      * Update side panel path
      */
-    async _updateSidePanelPath(info, webUiUrl) {
+    async #updateSidePanelPath(info, webUiUrl) {
         if (info && 'id' in info) {
             await chrome.sidePanel.setOptions({ tabId: info.id, path: webUiUrl });
         } else {
@@ -162,7 +162,7 @@ export class UIManager {
     /**
      * Open in tab or window
      */
-    async _openInTabOrWindow(index, webUiUrl) {
+    async #openInTabOrWindow(index, webUiUrl) {
         const config = this.configProvider.getConfig();
         const tabs = await chrome.tabs.query({ "url": index });
 
@@ -175,7 +175,7 @@ export class UIManager {
         }
 
         if (config.webUIOpenStyle === "window") {
-            await this._openInWindow(webUiUrl);
+            await this.#openInWindow(webUiUrl);
         } else {
             await chrome.tabs.create({ url: webUiUrl });
         }
@@ -184,7 +184,7 @@ export class UIManager {
     /**
      * Open in window
      */
-    async _openInWindow(url) {
+    async #openInWindow(url) {
         const screen = await chrome.system.display.getInfo();
         const w = Math.floor(screen[0].workArea.width * 0.75);
         const h = Math.floor(screen[0].workArea.height * 0.75);

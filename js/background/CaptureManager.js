@@ -11,8 +11,6 @@ export class CaptureManager {
         this.contextMenus = contextMenus;
         this.altKeyPressed = false;
         this.currentTabUrl = "about:blank";
-        // Bind the capture function once to maintain the same reference
-        this._boundCaptureDownload = this._captureDownload.bind(this);
     }
 
     /**
@@ -20,7 +18,7 @@ export class CaptureManager {
      */
     enable() {
         if (!this.isListening()) {
-            chrome.downloads.onDeterminingFilename.addListener(this._boundCaptureDownload);
+            chrome.downloads.onDeterminingFilename.addListener(this.captureDownload);
         }
         IconManager.turnOn();
         this.configProvider.updateConfig({ integration: true });
@@ -37,7 +35,7 @@ export class CaptureManager {
      */
     disable() {
         if (this.isListening()) {
-            chrome.downloads.onDeterminingFilename.removeListener(this._boundCaptureDownload);
+            chrome.downloads.onDeterminingFilename.removeListener(this.captureDownload);
         }
         const config = this.configProvider.getConfig();
         IconManager.turnOff(config.iconOffStyle);
@@ -54,7 +52,7 @@ export class CaptureManager {
      * Check if currently listening
      */
     isListening() {
-        return chrome.downloads.onDeterminingFilename.hasListener(this._boundCaptureDownload);
+        return chrome.downloads.onDeterminingFilename.hasListener(this.captureDownload);
     }
 
     /**
@@ -74,13 +72,13 @@ export class CaptureManager {
     /**
      * Capture download
      */
-    async _captureDownload(downloadItem, suggest) {
+    async captureDownload(downloadItem, suggest) {
         const config = this.configProvider.getConfig();
 
         // Handle extension download reminder
         if (downloadItem.byExtensionId) {
             suggest();
-            this._showCaptureReminder(downloadItem);
+            this.#showCaptureReminder(downloadItem);
         }
 
         // Use finalUrl if available
@@ -88,7 +86,7 @@ export class CaptureManager {
             downloadItem.url = downloadItem.finalUrl;
         }
 
-        if (!config.integration || !this._shouldCapture(downloadItem)) {
+        if (!config.integration || !this.#shouldCapture(downloadItem)) {
             return;
         }
 
@@ -116,7 +114,7 @@ export class CaptureManager {
     /**
      * Show capture reminder
      */
-    _showCaptureReminder(downloadItem) {
+    #showCaptureReminder(downloadItem) {
         const config = this.configProvider.getConfig();
         
         if (!config.remindCaptureTip || downloadItem.byExtensionId === chrome.runtime.id) {
@@ -138,7 +136,7 @@ export class CaptureManager {
     /**
      * Determine if download should be captured
      */
-    _shouldCapture(downloadItem) {
+    #shouldCapture(downloadItem) {
         const config = this.configProvider.getConfig();
         
         // Check Alt key
@@ -172,16 +170,16 @@ export class CaptureManager {
 
         // Check whitelist
         for (const pattern of config.allowedSites) {
-            if (this._matchRule(currentTabUrl.hostname, pattern) || 
-                this._matchRule(url.hostname, pattern)) {
+            if (this.#matchRule(currentTabUrl.hostname, pattern) || 
+                this.#matchRule(url.hostname, pattern)) {
                 return true;
             }
         }
 
         // Check blacklist
         for (const pattern of config.blockedSites) {
-            if (this._matchRule(currentTabUrl.hostname, pattern) || 
-                this._matchRule(url.hostname, pattern)) {
+            if (this.#matchRule(currentTabUrl.hostname, pattern) || 
+                this.#matchRule(url.hostname, pattern)) {
                 return false;
             }
         }
@@ -207,7 +205,7 @@ export class CaptureManager {
     /**
      * Match rule pattern
      */
-    _matchRule(str, rule) {
+    #matchRule(str, rule) {
         return new RegExp("^" + rule.replaceAll('*', '.*') + "$").test(str);
     }
 }
