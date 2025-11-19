@@ -3,8 +3,19 @@ import { FRAME_INTERVAL, FADE_INTERVAL } from './Constants.js';
 import { IconManager } from './IconManager.js';
 import { TransitionManager } from './TransitionManager.js';
 
+/**
+ * AnimationController - Controls browser icon animations
+ * Singleton pattern to ensure only one animation controller exists globally
+ */
 export class AnimationController {
+  static #instance = null;
+
   constructor() {
+    // Enforce singleton pattern
+    if (AnimationController.#instance) {
+      return AnimationController.#instance;
+    }
+
     this.transitionManager = new TransitionManager();
     this.intervalId = null;
     this.timeoutId = null;
@@ -15,6 +26,18 @@ export class AnimationController {
     this.blockEndTime = 0;
     // Priority animations that cannot be interrupted
     this.priorityAnimations = new Set(['Complete', 'Error']);
+    
+    AnimationController.#instance = this;
+  }
+
+  /**
+   * Get singleton instance
+   */
+  static getInstance() {
+    if (!AnimationController.#instance) {
+      AnimationController.#instance = new AnimationController();
+    }
+    return AnimationController.#instance;
   }
 
   start(type, progress) {

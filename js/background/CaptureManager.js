@@ -11,6 +11,9 @@ export class CaptureManager {
         this.contextMenus = contextMenus;
         this.altKeyPressed = false;
         this.currentTabUrl = "about:blank";
+        
+        // Bind captureDownload to preserve 'this' context
+        this.captureDownload = this.captureDownload.bind(this);
     }
 
     /**
