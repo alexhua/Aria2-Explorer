@@ -1,5 +1,6 @@
 /**
  * ConfigManager - 配置管理器
+ * Singleton pattern to ensure consistent config in options page
  */
 import Utils from "../utils.js";
 import { DefaultConfigs, DefaultAriaNgOptions } from "../config.js";
@@ -7,8 +8,27 @@ import { DefaultConfigs, DefaultAriaNgOptions } from "../config.js";
 const AriaNgOptionsKey = "AriaNg.Options";
 
 export class ConfigManager {
+    static #instance = null;
+
     constructor() {
+        // Enforce singleton pattern
+        if (ConfigManager.#instance) {
+            return ConfigManager.#instance;
+        }
+
         this.config = { ...DefaultConfigs };
+        
+        ConfigManager.#instance = this;
+    }
+
+    /**
+     * Get singleton instance
+     */
+    static getInstance() {
+        if (!ConfigManager.#instance) {
+            ConfigManager.#instance = new ConfigManager();
+        }
+        return ConfigManager.#instance;
     }
 
     /**
@@ -17,7 +37,9 @@ export class ConfigManager {
     async init() {
         try {
             const configs = await chrome.storage.local.get();
-            Object.assign(this.config, DefaultConfigs, configs);
+            // Clear existing config and reassign to ensure fresh data
+            this.config = { ...DefaultConfigs };
+            Object.assign(this.config, configs);
         } catch (error) {
             console.error("ConfigManager init error:", error);
         }

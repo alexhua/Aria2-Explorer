@@ -11,6 +11,7 @@ import { RpcManager } from "./options/RpcManager.js";
  */
 class OptionsApp {
     constructor() {
+        // ConfigManager is a singleton
         this.configManager = new ConfigManager();
         this.rpcManager = new RpcManager(this.configManager);
         this.uiController = new UIController(this.configManager, this.rpcManager);
