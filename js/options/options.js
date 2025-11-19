@@ -1,13 +1,9 @@
-/**
- * Options Page - 主入口
- * 重构后的模块化架构
- */
-import { ConfigManager } from "./options/ConfigManager.js";
-import { UIController } from "./options/UIController.js";
-import { RpcManager } from "./options/RpcManager.js";
+import { ConfigManager } from "./ConfigManager.js";
+import { UIController } from "./UIController.js";
+import { RpcManager } from "./RpcManager.js";
 
 /**
- * 选项页面应用类
+ * Options page app class
  */
 class OptionsApp {
     constructor() {
