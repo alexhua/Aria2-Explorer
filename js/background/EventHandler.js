@@ -13,19 +13,19 @@ export class EventHandler {
      * Register all event listeners
      */
     registerAll() {
-        this._registerActionListeners();
-        this._registerTabListeners();
-        this._registerWindowListeners();
-        this._registerNotificationListeners();
-        this._registerCommandListeners();
-        this._registerRuntimeListeners();
-        this._registerStorageListeners();
+        this.#registerActionListeners();
+        this.#registerTabListeners();
+        this.#registerWindowListeners();
+        this.#registerNotificationListeners();
+        this.#registerCommandListeners();
+        this.#registerRuntimeListeners();
+        this.#registerStorageListeners();
     }
 
     /**
      * Register action listeners
      */
-    _registerActionListeners() {
+    #registerActionListeners() {
         chrome.action.onClicked.addListener((tab) => {
             this.managers.uiManager.launchUI(tab);
         });
@@ -34,7 +34,7 @@ export class EventHandler {
     /**
      * Register tab listeners
      */
-    _registerTabListeners() {
+    #registerTabListeners() {
         chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             if (changeInfo.status === "loading" && tab?.active) {
                 const url = tab?.url || "about:blank";
@@ -59,7 +59,7 @@ export class EventHandler {
     /**
      * Register window listeners
      */
-    _registerWindowListeners() {
+    #registerWindowListeners() {
         chrome.windows.onFocusChanged.addListener((windowId) => {
             this.managers.uiManager.setCurrentWindowId(windowId);
             chrome.tabs.query({ windowId: windowId, active: true }).then((tabs) => {
@@ -76,7 +76,7 @@ export class EventHandler {
     /**
      * Register notification listeners
      */
-    _registerNotificationListeners() {
+    #registerNotificationListeners() {
         chrome.notifications.onClicked.addListener((id) => {
             if (id.startsWith(NID_TASK_NEW) || id.startsWith(NID_TASK_STOPPED)) {
                 this.managers.uiManager.launchUI(id);
@@ -97,7 +97,7 @@ export class EventHandler {
     /**
      * Register command listeners
      */
-    _registerCommandListeners() {
+    #registerCommandListeners() {
         chrome.commands.onCommand.addListener((command) => {
             const config = this.managers.configProvider.getConfig();
 
@@ -114,10 +114,10 @@ export class EventHandler {
     /**
      * Register runtime listeners
      */
-    _registerRuntimeListeners() {
+    #registerRuntimeListeners() {
         // Install/update listener
         chrome.runtime.onInstalled.addListener((details) => {
-            this._handleInstalled(details);
+            this.#handleInstalled(details);
         });
 
         // External message listener
@@ -130,7 +130,7 @@ export class EventHandler {
 
         // Internal message listener
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-            this._handleMessage(message, sender, sendResponse);
+            this.#handleMessage(message, sender, sendResponse);
             return true; // Keep message channel open
         });
 
@@ -143,7 +143,7 @@ export class EventHandler {
     /**
      * Register storage listeners
      */
-    _registerStorageListeners() {
+    #registerStorageListeners() {
         chrome.storage.onChanged.addListener((changes, area) => {
             if (area !== "local") return;
 
@@ -154,7 +154,7 @@ export class EventHandler {
                 changes.captureMagnet || changes.webUIOpenStyle;
 
             if (needReInit) {
-                this._reinitialize();
+                this.#reinitialize();
             } else {
                 for (const [key, { newValue }] of Object.entries(changes)) {
                     this.managers.configProvider.updateConfig({ [key]: newValue });
@@ -163,7 +163,7 @@ export class EventHandler {
 
             // Special handling
             if (changes.checkClick) {
-                this._initClickChecker();
+                this.#initClickChecker();
             }
 
             if (changes.iconOffStyle && !this.managers.configProvider.getConfig().integration) {
@@ -175,7 +175,7 @@ export class EventHandler {
     /**
      * Handle installed event
      */
-    _handleInstalled(details) {
+    #handleInstalled(details) {
         const config = this.managers.configProvider.getConfig();
 
         if (details.reason === "install") {
@@ -191,7 +191,7 @@ export class EventHandler {
     /**
      * Handle message
      */
-    _handleMessage(message, sender, sendResponse) {
+    #handleMessage(message, sender, sendResponse) {
         switch (message.type) {
             case "DOWNLOAD":
             case "EXPORT_ALL":
@@ -219,7 +219,7 @@ export class EventHandler {
     /**
      * Reinitialize
      */
-    async _reinitialize() {
+    async #reinitialize() {
         await this.managers.configProvider.init();
         const config = this.managers.configProvider.getConfig();
 
@@ -236,7 +236,7 @@ export class EventHandler {
         );
 
         // Initialize click checker
-        await this._initClickChecker();
+        await this.#initClickChecker();
 
         // Rebuild menus and wait for completion
         await this.managers.menuManager.createAllMenus();
@@ -270,7 +270,7 @@ export class EventHandler {
     /**
      * Initialize click checker
      */
-    async _initClickChecker() {
+    async #initClickChecker() {
         const config = this.managers.configProvider.getConfig();
         const CS_ID = 'ALT_CLICK_CHECKER';
         const scripts = await chrome.scripting.getRegisteredContentScripts({ ids: [CS_ID] });

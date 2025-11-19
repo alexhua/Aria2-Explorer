@@ -28,18 +28,18 @@ export class RpcManager {
 
         // Render each RPC item
         for (const i in rpcList) {
-            this._renderRpcItem(i, rpcList[i], i == 0);
+            this.#renderRpcItem(i, rpcList[i], i == 0);
         }
 
         // Bind events
-        this._bindEvents();
+        this.#bindEvents();
     }
 
     /**
      * Render single RPC item
      */
-    _renderRpcItem(index, rpcItem, isFirst) {
-        const html = this._buildRpcItemHtml(index, isFirst);
+    #renderRpcItem(index, rpcItem, isFirst) {
+        const html = this.#buildRpcItemHtml(index, isFirst);
         $("#rpcList").append(html);
 
         // Fill data
@@ -55,13 +55,13 @@ export class RpcManager {
         }
 
         // Handle security mark
-        this._handleSecurityMark(index, rpcItem);
+        this.#handleSecurityMark(index, rpcItem);
     }
 
     /**
      * Build RPC item HTML
      */
-    _buildRpcItemHtml(index, isFirst) {
+    #buildRpcItemHtml(index, isFirst) {
         const required = isFirst ? 'required' : '';
         const addBtnOrPattern = isFirst 
             ? `<button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-circle-plus"></i> RPC Server</button>`
@@ -93,7 +93,7 @@ export class RpcManager {
     /**
      * Handle security mark
      */
-    _handleSecurityMark(index, rpcItem) {
+    #handleSecurityMark(index, rpcItem) {
         const config = this.configManager.getConfig();
         
         if (Utils.validateRpcUrl(rpcItem.url) !== "WARNING") {
@@ -122,31 +122,31 @@ export class RpcManager {
     /**
      * Bind events
      */
-    _bindEvents() {
+    #bindEvents() {
         const config = this.configManager.getConfig();
 
         // Add RPC button
         $("#add-rpc").off().on("click", () => {
             const i = $(".rpcGroup").length;
-            const newInput = this._buildRpcItemHtml(i, false).replace("password", "text");
+            const newInput = this.#buildRpcItemHtml(i, false).replace("password", "text");
             $("#rpcList").append(newInput);
-            $(`#rpcUrl-${i}`).on("input", this._validateInput);
-            $(`#location-${i}`).on("input", this._validateInput);
-            $(`#markRpc-${i}`).off().on('click', (e) => this._markRpc(e));
+            $(`#rpcUrl-${i}`).on("input", this.validateInput);
+            $(`#location-${i}`).on("input", this.validateInput);
+            $(`#markRpc-${i}`).off().on('click', (e) => this.#markRpc(e));
         });
 
         // Validate input
-        $(".rpcGroup .rpcUrl").off().on("input", this._validateInput);
-        $(".rpcGroup .location").off().on("input", this._validateInput);
+        $(".rpcGroup .rpcUrl").off().on("input", this.validateInput);
+        $(".rpcGroup .location").off().on("input", this.validateInput);
 
         // Mark RPC
-        $(".rpcGroup [id^='markRpc-']").off().on('click', (e) => this._markRpc(e));
+        $(".rpcGroup [id^='markRpc-']").off().on('click', (e) => this.#markRpc(e));
     }
 
     /**
-     * Validate input
+     * Validate input (public method used as event handler)
      */
-    _validateInput(event) {
+    validateInput(event) {
         const validator = { 
             "url": Utils.validateRpcUrl, 
             "text": Utils.validateFilePath 
@@ -174,7 +174,7 @@ export class RpcManager {
     /**
      * Mark RPC
      */
-    _markRpc(event) {
+    #markRpc(event) {
         const config = this.configManager.getConfig();
         const rpcIndex = event.delegateTarget.id.split('-')[1];
         
