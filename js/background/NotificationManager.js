@@ -39,22 +39,22 @@ export class NotificationManager {
         if (!data || !events.includes(data.method)) return;
 
         // Update icon animation
-        this._updateIconAnimation(data.method);
+        this.#updateIconAnimation(data.method);
 
         const config = this.configProvider.getConfig();
         if (!config.allowNotification) return;
 
         // Get context message
-        const contextMessage = await this._getContextMessage(data);
+        const contextMessage = await this.#getContextMessage(data);
         
         // Show notification
-        this._showTaskNotification(data.method, data.source, data.gid, contextMessage);
+        this.#showTaskNotification(data.method, data.source, data.gid, contextMessage);
     }
 
     /**
      * Update icon animation
      */
-    _updateIconAnimation(event) {
+    #updateIconAnimation(event) {
         if (event.endsWith("ExportSuccess")) {
             this.iconAnimController.start("Download");
         } else if (event.endsWith("Complete")) {
@@ -67,7 +67,7 @@ export class NotificationManager {
     /**
      * Get context message
      */
-    async _getContextMessage(data) {
+    async #getContextMessage(data) {
         if (data.contextMessage) {
             return data.contextMessage;
         }
@@ -110,9 +110,9 @@ export class NotificationManager {
     /**
      * Show task notification
      */
-    _showTaskNotification(event, source, gid, contextMessage) {
+    #showTaskNotification(event, source, gid, contextMessage) {
         const config = this.configProvider.getConfig();
-        const notificationData = this._getNotificationData(event, source, gid);
+        const notificationData = this.#getNotificationData(event, source, gid);
 
         if (!notificationData.message) return;
 
@@ -132,7 +132,7 @@ export class NotificationManager {
     /**
      * Get notification data
      */
-    _getNotificationData(event, source, gid) {
+    #getNotificationData(event, source, gid) {
         const data = {
             title: "taskNotification",
             message: '',

@@ -22,7 +22,7 @@ class OptionsApp {
     async init() {
         // Check if storage upgrade is needed
         if (location.search.endsWith("upgrade-storage")) {
-            await this._upgradeStorage();
+            await this.#upgradeStorage();
         }
 
         // Initialize configuration
@@ -32,13 +32,13 @@ class OptionsApp {
         await this.uiController.init();
 
         // Bind button events
-        this._bindButtonEvents();
+        this.#bindButtonEvents();
     }
 
     /**
      * Bind button events
      */
-    _bindButtonEvents() {
+    #bindButtonEvents() {
         // Save button
         $("#save").off().on("click", async () => {
             const formData = this.uiController.collectFormData();
@@ -120,7 +120,7 @@ class OptionsApp {
     /**
      * Upgrade storage (migrate from localStorage to chrome.storage)
      */
-    async _upgradeStorage() {
+    async #upgradeStorage() {
         const configs = await chrome.storage.local.get("rpcList");
         if (configs.rpcList) return;
 

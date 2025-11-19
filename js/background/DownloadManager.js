@@ -27,7 +27,7 @@ export class DownloadManager {
         downloadItem.multiTask = downloadItem.multiTask ?? downloadItem.url.includes('\n');
 
         if (downloadItem.type === "DOWNLOAD_VIA_BROWSER") {
-            return await this._downloadViaBrowser(downloadItem);
+            return await this.#downloadViaBrowser(downloadItem);
         }
 
         rpcItem = rpcItem || this.getRpcServer(downloadItem.url + downloadItem.filename);
@@ -51,7 +51,7 @@ export class DownloadManager {
     /**
      * Download via browser
      */
-    async _downloadViaBrowser(downloadItem) {
+    async #downloadViaBrowser(downloadItem) {
         try {
             if (downloadItem.multiTask) {
                 const urls = downloadItem.url.split('\n');
@@ -74,9 +74,9 @@ export class DownloadManager {
      * Send to Aria2
      */
     async send2Aria(downloadItem, rpcItem) {
-        const cookieItems = await this._getCookies(downloadItem, rpcItem);
-        const headers = this._buildHeaders(cookieItems);
-        const options = await this._buildAria2Options(downloadItem, rpcItem, headers);
+        const cookieItems = await this.#getCookies(downloadItem, rpcItem);
+        const headers = this.#buildHeaders(cookieItems);
+        const options = await this.#buildAria2Options(downloadItem, rpcItem, headers);
 
         const remote = Utils.parseUrl(rpcItem.url);
         remote.name = rpcItem.name;
@@ -89,9 +89,9 @@ export class DownloadManager {
                 throw response.error;
             }
 
-            await this._setGlobalOptions(aria2, rpcItem.url);
+            await this.#setGlobalOptions(aria2, rpcItem.url);
             
-            const contextMessage = this._buildContextMessage(downloadItem, options);
+            const contextMessage = this.#buildContextMessage(downloadItem, options);
             this.notificationManager.notifyTaskStatus({
                 method: "aria2.onExportSuccess",
                 source: aria2,
@@ -101,7 +101,7 @@ export class DownloadManager {
 
             return true;
         } catch (error) {
-            const contextMessage = this._parseErrorMessage(error);
+            const contextMessage = this.#parseErrorMessage(error);
             this.notificationManager.notifyTaskStatus({
                 method: "aria2.onExportError",
                 source: aria2,
@@ -114,7 +114,7 @@ export class DownloadManager {
     /**
      * Get cookies
      */
-    async _getCookies(downloadItem, rpcItem) {
+    async #getCookies(downloadItem, rpcItem) {
         try {
             const config = this.configProvider.getConfig();
             if (!rpcItem.ignoreInsecure && !Utils.isLocalhost(rpcItem.url) && !/^(https|wss)/i.test(rpcItem.url)) {
@@ -135,7 +135,7 @@ export class DownloadManager {
     /**
      * Build request headers
      */
-    _buildHeaders(cookieItems) {
+    #buildHeaders(cookieItems) {
         const headers = [];
         if (cookieItems.length > 0) {
             headers.push("Cookie: " + cookieItems.join("; "));
@@ -147,7 +147,7 @@ export class DownloadManager {
     /**
      * Build Aria2 options
      */
-    async _buildAria2Options(downloadItem, rpcItem, headers) {
+    async #buildAria2Options(downloadItem, rpcItem, headers) {
         let options = await Aria2Options.getUriTaskOptions(rpcItem.url);
         
         if (options.header) {
@@ -171,7 +171,7 @@ export class DownloadManager {
     /**
      * Set global options
      */
-    async _setGlobalOptions(aria2, rpcUrl) {
+    async #setGlobalOptions(aria2, rpcUrl) {
         const globalOptions = await Aria2Options.getGlobalOptions(rpcUrl);
         if (Object.keys(globalOptions).length > 0) {
             aria2.setGlobalOptions(globalOptions);
@@ -181,7 +181,7 @@ export class DownloadManager {
     /**
      * Build context message
      */
-    _buildContextMessage(downloadItem, options) {
+    #buildContextMessage(downloadItem, options) {
         const filename = downloadItem.filename || Utils.getFileNameFromUrl(downloadItem.url);
         return Utils.formatFilepath(options.dir) + filename;
     }
@@ -189,7 +189,7 @@ export class DownloadManager {
     /**
      * Parse error message
      */
-    _parseErrorMessage(error) {
+    #parseErrorMessage(error) {
         if (!error?.message) return '';
         
         const msg = error.message.toLowerCase();
@@ -219,7 +219,7 @@ export class DownloadManager {
             const patterns = patternStr.split(',');
             for (let pattern of patterns) {
                 pattern = pattern.trim();
-                if (this._matchRule(url, pattern)) {
+                if (this.#matchRule(url, pattern)) {
                     return rpcList[i];
                 }
             }
@@ -231,7 +231,7 @@ export class DownloadManager {
     /**
      * Match rule
      */
-    _matchRule(str, rule) {
+    #matchRule(str, rule) {
         return new RegExp("^" + rule.replaceAll('*', '.*') + "$").test(str);
     }
 }

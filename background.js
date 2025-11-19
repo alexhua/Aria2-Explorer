@@ -59,7 +59,7 @@ class Application {
         configProvider.setRemoteAria2List(monitorManager.getRemoteAria2List());
 
         // Setup initial state
-        await this._setupInitialState();
+        await this.#setupInitialState();
 
         // Create and register event handler
         const eventHandler = new EventHandler(this.managers);
@@ -72,7 +72,7 @@ class Application {
     /**
      * Setup initial state
      */
-    async _setupInitialState() {
+    async #setupInitialState() {
         const config = this.managers.configProvider.getConfig();
 
         // Setup popup

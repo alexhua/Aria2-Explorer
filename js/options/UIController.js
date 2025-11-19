@@ -33,34 +33,34 @@ export class UIController {
         const config = this.configManager.getConfig();
 
         // Set color mode
-        this._setColorMode();
+        this.#setColorMode();
 
         // Reset form
-        this._resetForm();
+        this.#resetForm();
 
         // Fill form data
-        this._fillFormData(config);
+        this.#fillFormData(config);
 
         // Setup dependencies
-        this._setupDependencies(config);
+        this.#setupDependencies(config);
 
         // Setup special tooltips
-        this._setupSpecialTooltips();
+        this.#setupSpecialTooltips();
 
         // Render RPC list
         this.rpcManager.render();
 
         // Bind events
-        this._bindEvents();
+        this.#bindEvents();
 
         // Setup version info
-        this._setupVersionInfo();
+        this.#setupVersionInfo();
     }
 
     /**
      * Reset form
      */
-    _resetForm() {
+    #resetForm() {
         $("input[type=checkbox]").prop("checked", false);
         $("input[type=text],input[type=number]").val("");
         $("textarea").val("");
@@ -69,7 +69,7 @@ export class UIController {
     /**
      * Fill form data
      */
-    _fillFormData(config) {
+    #fillFormData(config) {
         // Radio buttons
         $(`#${config.webUIOpenStyle}`).prop('checked', true);
         $(`#${config.iconOffStyle}`).prop('checked', true);
@@ -102,7 +102,7 @@ export class UIController {
     /**
      * Setup dependencies
      */
-    _setupDependencies(config) {
+    #setupDependencies(config) {
         for (const [dependent, dependency] of Object.entries(OptionDeps)) {
             $(`#${dependent}`).prop("disabled", !config[dependency]);
             $(`#${dependency}`).change(() => {
@@ -114,7 +114,7 @@ export class UIController {
     /**
      * Setup special tooltips
      */
-    _setupSpecialTooltips() {
+    #setupSpecialTooltips() {
         if (Utils.getPlatform() === "Windows") {
             const tooltip = chrome.i18n.getMessage("captureMagnetTip");
             $("#captureMagnet").parent().addClass("tool-tip tool-tip-icon");
@@ -124,27 +124,27 @@ export class UIController {
     /**
      * Bind events
      */
-    _bindEvents() {
+    #bindEvents() {
         // Shortcuts setting
-        $("#shortcuts-setting").off().on("click", this._openShortcutsPage);
+        $("#shortcuts-setting").off().on("click", this.openShortcutsPage);
 
         // Color mode toggle
-        $("#colorMode").off().on("click", () => this._toggleColorMode());
+        $("#colorMode").off().on("click", () => this.#toggleColorMode());
 
         // Form submit and reset
         $("form").off().on("submit", (e) => e.preventDefault())
                       .on("reset", (e) => e.preventDefault());
 
         // Keyboard shortcuts
-        $(window).off('keyup').on('keyup', (e) => this._handleKeyboardShortcuts(e));
+        $(window).off('keyup').on('keyup', (e) => this.#handleKeyboardShortcuts(e));
 
         // Storage change listener
         chrome.storage.onChanged.addListener((changes, areaName) => {
-            this._handleStorageChange(changes, areaName);
+            this.#handleStorageChange(changes, areaName);
         });
 
         // Color mode change listener
-        window.matchMedia('(prefers-color-scheme: dark)').onchange = () => this._setColorMode();
+        window.matchMedia('(prefers-color-scheme: dark)').onchange = () => this.#setColorMode();
 
         // WebStore link
         $("#webStoreUrl").prop("href", Utils.getWebStoreUrl());
@@ -153,15 +153,15 @@ export class UIController {
     /**
      * Setup version info
      */
-    _setupVersionInfo() {
+    #setupVersionInfo() {
         const manifest = chrome.runtime.getManifest();
         $("#version").text('v' + manifest.version);
     }
 
     /**
-     * Open shortcuts settings page
+     * Open shortcuts settings page (public method used as event handler)
      */
-    _openShortcutsPage() {
+    openShortcutsPage() {
         chrome.tabs.query({ "url": SHORTCUTS_PAGE_URL }).then((tabs) => {
             if (tabs?.length > 0) {
                 chrome.windows.update(tabs[0].windowId, { focused: true });
@@ -181,7 +181,7 @@ export class UIController {
     /**
      * Toggle color mode
      */
-    _toggleColorMode() {
+    #toggleColorMode() {
         const config = this.configManager.getConfig();
         config.colorModeId = (config.colorModeId + 1) % ColorModeList.length;
         chrome.storage.local.set({ colorModeId: config.colorModeId });
@@ -190,7 +190,7 @@ export class UIController {
     /**
      * Set color mode
      */
-    _setColorMode() {
+    #setColorMode() {
         const config = this.configManager.getConfig();
         
         switch (config.colorModeId) {
@@ -218,7 +218,7 @@ export class UIController {
     /**
      * Handle keyboard shortcuts
      */
-    _handleKeyboardShortcuts(e) {
+    #handleKeyboardShortcuts(e) {
         if (!e.altKey) return;
 
         const actions = {
@@ -241,12 +241,12 @@ export class UIController {
     /**
      * Handle storage changes
      */
-    _handleStorageChange(changes, areaName) {
+    #handleStorageChange(changes, areaName) {
         if (areaName !== "local") return;
 
         // Only update color mode
         if (Object.keys(changes).length === 1 && changes.hasOwnProperty('colorModeId')) {
-            this._setColorMode();
+            this.#setColorMode();
             return;
         }
 
@@ -265,14 +265,14 @@ export class UIController {
 
         // Handle magnet capture
         if (changes.captureMagnet) {
-            this._toggleMagnetHandler(changes.captureMagnet.newValue);
+            this.#toggleMagnetHandler(changes.captureMagnet.newValue);
         }
     }
 
     /**
      * Toggle magnet link handler
      */
-    _toggleMagnetHandler(flag) {
+    #toggleMagnetHandler(flag) {
         const magnetPage = chrome.runtime.getURL("magnet.html") + "?action=magnet&url=%s";
         
         if (flag) {
