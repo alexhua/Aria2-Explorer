@@ -6,9 +6,9 @@
 
 **功能强大的 Chrome 扩展，无缝集成 Aria2 下载管理器**
 
-[![Chrome 应用商店](https://img.shields.io/badge/Chrome-应用商店-blue?logo=google-chrome)](https://chrome.google.com/webstore)
+[![Chrome 应用商店](https://img.shields.io/badge/Chrome-应用商店-red?logo=google-chrome)](https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn)
 [![许可证](https://img.shields.io/badge/license-BSD--3--Clause-green.svg)](LICENSE)
-[![版本](https://img.shields.io/badge/version-2.7.6-orange.svg)](manifest.json)
+[![版本](https://img.shields.io/badge/version-2.7.6-gold.svg)](manifest.json)
 
 [English](./README.md) | [中文](#中文)
 
@@ -60,19 +60,15 @@ Aria2 Explorer 是一款功能强大的 Chrome 扩展，可将 Aria2 下载管�
 
 ## 🚀 安装
 
-### 从 Chrome 网上应用店安装
-1. 访问 [Chrome 网上应用店](https://chrome.google.com/webstore)
-2. 搜索 "Aria2 Explorer"
-3. 点击"添加至 Chrome"
+### 从 Chrome 网上应用店安装（推荐）
 
-### 从源码安装
-1. 克隆此仓库
-   ```bash
-   git clone https://github.com/alexhua/Aria2-Explorer.git
-   ```
+[![Chrome Web Store](https://aria2e.com/assets/badges/chrome-web-store.png)](https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn)
+
+### 从 GitHub 安装
+1. 访问 [Releases 页面](https://github.com/alexhua/Aria2-Explorer/releases) 下载最新的 `.crx` 文件
 2. 打开 Chrome 并导航到 `chrome://extensions/`
-3. 启用"开发者模式"
-4. 点击"加载已解压的扩展程序"并选择克隆的目录
+3. 启用"开发者模式"（右上角开关）
+4. 将下载的 `.crx` 文件拖拽到扩展页面完成安装
 
 ## ⚙️ 配置
 
@@ -136,25 +132,61 @@ Aria2 Explorer 是一款功能强大的 Chrome 扩展，可将 Aria2 下载管�
 
 扩展采用模块化架构以提高可维护性：
 
+<details> <summary>目录内容</summary>
+
 ```
 ├── background.js              # Service Worker 入口
+├── manifest.json              # 扩展清单文件
+├── options.html               # 选项页面
+├── aria2.html                 # Aria2 WebUI 页面
+├── magnet.html                # 磁力链接处理页面
+├── css/                       # 样式文件
+│   ├── options.css            # 选项页面样式
+│   ├── options.dark.css       # 深色模式样式
+│   └── ...
+├── images/                    # 图标资源
 ├── js/
-│   ├── background/           # 后台模块
-│   │   ├── ConfigProvider.js    # 配置管理
-│   │   ├── DownloadManager.js   # 下载处理
-│   │   ├── CaptureManager.js    # 捕获逻辑
-│   │   ├── MonitorManager.js    # Aria2 监控
-│   │   ├── NotificationManager.js # 通知
-│   │   ├── MenuManager.js       # 右键菜单
-│   │   ├── UIManager.js         # UI 管理
-│   │   └── EventHandler.js      # 事件处理
-│   ├── options/              # 选项页面模块
-│   │   ├── ConfigManager.js     # 配置增删改查
-│   │   ├── UIController.js      # UI 控制
-│   │   └── RpcManager.js        # RPC 列表管理
-│   └── ...                   # 工具模块
-└── ui/ariang/               # 集成的 AriaNg WebUI
+│   ├── background/            # 后台模块
+│   │   ├── ConfigProvider.js     # 配置管理
+│   │   ├── DownloadManager.js    # 下载处理
+│   │   ├── CaptureManager.js     # 捕获逻辑
+│   │   ├── MonitorManager.js     # Aria2 监控
+│   │   ├── NotificationManager.js # 通知管理
+│   │   ├── MenuManager.js        # 右键菜单
+│   │   ├── UIManager.js          # UI 管理
+│   │   └── EventHandler.js       # 事件处理
+│   ├── content/               # 内容脚本
+│   │   ├── clickChecker.js       # 点击检测
+│   │   └── exportAll.js          # 批量导出
+│   ├── options/               # 选项页面模块
+│   │   ├── ConfigManager.js      # 配置增删改查
+│   │   ├── UIController.js       # UI 控制
+│   │   ├── RpcManager.js         # RPC 列表管理
+│   │   ├── options.js            # 选项页面主逻辑
+│   │   └── initTheme.js          # 主题初始化
+│   ├── IconUtils/             # 图标动画工具
+│   │   ├── IconManager.js        # 图标管理器
+│   │   ├── AnimationController.js # 动画控制
+│   │   ├── Animation.js          # 动画实现
+│   │   ├── TransitionManager.js  # 过渡管理
+│   │   ├── Canvas.js             # Canvas 绘制
+│   │   ├── Easing.js             # 缓动函数
+│   │   └── Constants.js          # 常量定义
+│   ├── aria2.js               # Aria2 RPC 客户端
+│   ├── aria2Options.js        # Aria2 选项处理
+│   ├── config.js              # 配置定义
+│   ├── contextMenu.js         # 右键菜单配置
+│   ├── magnet.js              # 磁力链接处理
+│   ├── startAria2.js          # Aria2 启动器
+│   └── utils.js               # 工具函数
+├── ui/ariang/                 # 集成的 AriaNg WebUI
+└── _locales/                  # 国际化语言文件
+    ├── zh_CN/                 # 简体中文
+    ├── en/                    # 英语
+    └── ...                    # 其他语言
 ```
+
+</details>
 
 ## 🤝 贡献
 

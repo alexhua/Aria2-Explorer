@@ -6,9 +6,9 @@
 
 **A powerful Chrome extension for seamless Aria2 integration**
 
-[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-blue?logo=google-chrome)](https://chrome.google.com/webstore)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-red?logo=google-chrome)](https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.7.6-orange.svg)](manifest.json)
+[![Version](https://img.shields.io/badge/version-2.7.6-gold.svg)](manifest.json)
 
 [English](#english) | [中文](./README.cn.md)
 
@@ -60,19 +60,15 @@ Aria2 Explorer is a feature-rich Chrome extension that seamlessly integrates Ari
 
 ## 🚀 Installation
 
-### From Chrome Web Store
-1. Visit [Chrome Web Store](https://chrome.google.com/webstore)
-2. Search for "Aria2 Explorer"
-3. Click "Add to Chrome"
+### From Chrome Web Store (Recommended)
 
-### From Source
-1. Clone this repository
-   ```bash
-   git clone https://github.com/alexhua/Aria2-Explorer.git
-   ```
+[![Chrome Web Store](https://aria2e.com/assets/badges/chrome-web-store.png)](https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn)
+
+### From GitHub
+1. Visit the [Releases page](https://github.com/alexhua/Aria2-Explorer/releases) and download the latest `.crx` file
 2. Open Chrome and navigate to `chrome://extensions/`
-3. Enable "Developer mode"
-4. Click "Load unpacked" and select the cloned directory
+3. Enable "Developer mode" (toggle in the top right corner)
+4. Drag and drop the downloaded `.crx` file onto the extensions page to install
 
 ## ⚙️ Configuration
 
@@ -136,25 +132,61 @@ Aria2 Explorer is a feature-rich Chrome extension that seamlessly integrates Ari
 
 The extension follows a modular architecture for better maintainability:
 
+<details> <summary>Directory Content</summary>
+
 ```
 ├── background.js              # Service worker entry point
+├── manifest.json              # Extension manifest
+├── options.html               # Options page
+├── aria2.html                 # Aria2 WebUI page
+├── magnet.html                # Magnet link handler page
+├── css/                       # Stylesheets
+│   ├── options.css            # Options page styles
+│   ├── options.dark.css       # Dark mode styles
+│   └── ...
+├── images/                    # Icon assets
 ├── js/
-│   ├── background/           # Background modules
-│   │   ├── ConfigProvider.js    # Configuration management
-│   │   ├── DownloadManager.js   # Download handling
-│   │   ├── CaptureManager.js    # Capture logic
-│   │   ├── MonitorManager.js    # Aria2 monitoring
-│   │   ├── NotificationManager.js # Notifications
-│   │   ├── MenuManager.js       # Context menus
-│   │   ├── UIManager.js         # UI management
-│   │   └── EventHandler.js      # Event handling
-│   ├── options/              # Options page modules
-│   │   ├── ConfigManager.js     # Config CRUD
-│   │   ├── UIController.js      # UI control
-│   │   └── RpcManager.js        # RPC list management
-│   └── ...                   # Utility modules
-└── ui/ariang/               # Integrated AriaNg WebUI
+│   ├── background/            # Background modules
+│   │   ├── ConfigProvider.js     # Configuration management
+│   │   ├── DownloadManager.js    # Download handling
+│   │   ├── CaptureManager.js     # Capture logic
+│   │   ├── MonitorManager.js     # Aria2 monitoring
+│   │   ├── NotificationManager.js # Notification management
+│   │   ├── MenuManager.js        # Context menus
+│   │   ├── UIManager.js          # UI management
+│   │   └── EventHandler.js       # Event handling
+│   ├── content/               # Content scripts
+│   │   ├── clickChecker.js       # Click detection
+│   │   └── exportAll.js          # Batch export
+│   ├── options/               # Options page modules
+│   │   ├── ConfigManager.js      # Config CRUD
+│   │   ├── UIController.js       # UI control
+│   │   ├── RpcManager.js         # RPC list management
+│   │   ├── options.js            # Options page main logic
+│   │   └── initTheme.js          # Theme initialization
+│   ├── IconUtils/             # Icon animation utilities
+│   │   ├── IconManager.js        # Icon manager
+│   │   ├── AnimationController.js # Animation controller
+│   │   ├── Animation.js          # Animation implementation
+│   │   ├── TransitionManager.js  # Transition management
+│   │   ├── Canvas.js             # Canvas rendering
+│   │   ├── Easing.js             # Easing functions
+│   │   └── Constants.js          # Constants definition
+│   ├── aria2.js               # Aria2 RPC client
+│   ├── aria2Options.js        # Aria2 options handler
+│   ├── config.js              # Configuration definitions
+│   ├── contextMenu.js         # Context menu configuration
+│   ├── magnet.js              # Magnet link handler
+│   ├── startAria2.js          # Aria2 launcher
+│   └── utils.js               # Utility functions
+├── ui/ariang/                 # Integrated AriaNg WebUI
+└── _locales/                  # Internationalization files
+    ├── zh_CN/                 # Simplified Chinese
+    ├── en/                    # English
+    └── ...                    # Other languages
 ```
+
+</details>
 
 ## 🤝 Contributing
 
