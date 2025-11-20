@@ -147,7 +147,6 @@ Aria2 Explorer 是一款功能强大的 Chrome 扩展，可将 Aria2 下载管�
 ├── images/                    # 图标资源
 ├── js/
 │   ├── background/            # 后台模块
-│   │   ├── ConfigProvider.js     # 配置管理
 │   │   ├── DownloadManager.js    # 下载处理
 │   │   ├── CaptureManager.js     # 捕获逻辑
 │   │   ├── MonitorManager.js     # Aria2 监控

@@ -49,7 +49,6 @@ Aria2-Explorer/
 ├── background.js              # Service worker entry point
 ├── js/
 │   ├── background/           # Background service modules
-│   │   ├── ConfigProvider.js    # Configuration management
 │   │   ├── DownloadManager.js   # Download handling
 │   │   ├── CaptureManager.js    # Download capture logic
 │   │   ├── MonitorManager.js    # Aria2 monitoring
@@ -98,9 +97,11 @@ Aria2-Explorer/
 /**
  * ExampleManager - Handles example functionality
  */
+import { ConfigService } from "../services/ConfigService.js";
+
 export class ExampleManager {
-    constructor(configProvider, otherDependency) {
-        this.configProvider = configProvider;
+    constructor(otherDependency) {
+        this.configService = ConfigService.getInstance();
         this.otherDependency = otherDependency;
     }
 
@@ -110,7 +111,7 @@ export class ExampleManager {
      * @returns {Promise<boolean>} - Return value description
      */
     async publicMethod(param) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         return await this._privateMethod(param, config);
     }
 
