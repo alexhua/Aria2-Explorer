@@ -2,6 +2,7 @@
  * NotificationManager - Handles notification logic
  */
 import Utils from "../utils.js";
+import Logger from "../logger.js";
 import { AnimationController } from '../IconUtils/AnimationController.js';
 import { ConfigService } from "../services/ConfigService.js";
 
@@ -104,7 +105,7 @@ export class NotificationManager {
 
             return contextMessage;
         } catch {
-            console.warn("NotifyStatus: Can not get context message");
+            Logger.warn("NotifyStatus: Can not get context message");
             return '';
         }
     }

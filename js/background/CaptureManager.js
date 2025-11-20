@@ -2,6 +2,7 @@
  * CaptureManager - Handles download capture logic
  */
 import Utils from "../utils.js";
+import Logger from "../logger.js";
 import { IconManager } from "../IconUtils/IconManager.js";
 import { ConfigService } from "../services/ConfigService.js";
 
@@ -29,7 +30,7 @@ export class CaptureManager {
         try {
             this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
         } catch (error) {
-            console.warn("Menu item MENU_CAPTURE_DOWNLOAD not found:", error);
+            Logger.warn("Menu item MENU_CAPTURE_DOWNLOAD not found:", error);
         }
     }
 
@@ -46,7 +47,7 @@ export class CaptureManager {
         try {
             this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: false });
         } catch (error) {
-            console.warn("Menu item MENU_CAPTURE_DOWNLOAD not found:", error);
+            Logger.warn("Menu item MENU_CAPTURE_DOWNLOAD not found:", error);
         }
     }
 

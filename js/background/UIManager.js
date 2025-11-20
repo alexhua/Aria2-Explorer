@@ -2,6 +2,7 @@
  * UIManager - Handles UI launch and management logic
  */
 import { ConfigService } from "../services/ConfigService.js";
+import Logger from "../logger.js";
 
 const NID_TASK_STOPPED = "NID_TASK_STOPPED";
 
@@ -221,7 +222,7 @@ export class UIManager {
                 await chrome.sidePanel.setOptions(options);
             }
         } catch (error) {
-            console.warn("Reset side panel failed:", error);
+            Logger.warn("Reset side panel failed:", error);
         }
     }
 }

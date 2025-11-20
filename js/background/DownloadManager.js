@@ -2,6 +2,7 @@
  * DownloadManager - Handles all download-related logic
  */
 import Utils from "../utils.js";
+import Logger from "../logger.js";
 import Aria2 from "../aria2.js";
 import Aria2Options from "../aria2Options.js";
 import { ConfigService } from "../services/ConfigService.js";
@@ -21,7 +22,7 @@ export class DownloadManager {
      */
     async download(downloadItem, rpcItem) {
         if (!downloadItem?.url) {
-            console.warn("Download: Invalid download item, download request is dismissed!");
+            Logger.warn("Download: Invalid download item, download request is dismissed!");
             return false;
         }
 
@@ -41,7 +42,7 @@ export class DownloadManager {
                 await this.uiManager.launchUI(downloadItem);
                 return true;
             } catch (error) {
-                console.warn("Download: Launch UI failed.");
+                Logger.warn("Download: Launch UI failed.");
                 return false;
             }
         }
@@ -128,7 +129,7 @@ export class DownloadManager {
             
             return cookies.map(cookie => `${cookie.name}=${cookie.value}`);
         } catch (error) {
-            console.warn(error.message);
+            Logger.warn(error.message);
             return [];
         }
     }

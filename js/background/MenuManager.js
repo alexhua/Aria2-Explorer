@@ -2,6 +2,7 @@
  * MenuManager - Handles context menu logic
  */
 import exportAllLinks from "../content/exportAll.js";
+import Logger from "../logger.js";
 import Utils from "../utils.js";
 import { ConfigService } from "../services/ConfigService.js";
 
@@ -203,7 +204,7 @@ export class MenuManager {
     updateOptionMenu(tab) {
         if (!tab?.active) {
             if (!tab) {
-                console.warn("Could not get active tab, update option menu failed.");
+                Logger.warn("Could not get active tab, update option menu failed.");
             }
             return;
         }
