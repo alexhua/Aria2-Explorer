@@ -18,9 +18,11 @@ const OptionDeps = {
     keepSilent: 'allowNotification'
 };
 
+import { ConfigService } from "../services/ConfigService.js";
+
 export class UIController {
-    constructor(configManager, rpcManager) {
-        this.configManager = configManager;
+    constructor(rpcManager) {
+        this.configService = ConfigService.getInstance();
         this.rpcManager = rpcManager;
     }
 
@@ -29,8 +31,8 @@ export class UIController {
      */
     async init() {
         Utils.localizeHtmlPage();
-        
-        const config = this.configManager.getConfig();
+
+        const config = this.configService.get();
 
         // Set color mode
         this.#setColorMode();
@@ -75,21 +77,21 @@ export class UIController {
         $(`#${config.iconOffStyle}`).prop('checked', true);
 
         // Checkboxes
-        $("input[type=checkbox]").each(function() {
-            if (config[this.id]) {
+        $("input[type=checkbox]").each(function () {
+            if (config[this.id] !== undefined) {
                 this.checked = config[this.id];
             }
         });
 
         // Input fields
-        $("input[type=text],input[type=number]").each(function() {
-            if (config[this.id]) {
+        $("input[type=text],input[type=number]").not("#rpcList input").each(function () {
+            if (config[this.id] !== undefined) {
                 this.value = config[this.id];
             }
         });
 
         // Textareas
-        $("textarea").each(function() {
+        $("textarea").each(function () {
             if (config[this.id]) {
                 this.value = config[this.id].join("\n");
             }
@@ -97,17 +99,34 @@ export class UIController {
 
         // Show/hide monitor all option
         config.rpcList.length > 1 ? $("#monitor-all").show() : $("#monitor-all").hide();
+
+        // Update dependencies state
+        this.#updateDependencyState(config);
     }
 
     /**
-     * Setup dependencies
+     * Setup dependencies listeners
      */
     #setupDependencies(config) {
+        // Initial state update
+        this.#updateDependencyState(config);
+
+        // Bind listeners
         for (const [dependent, dependency] of Object.entries(OptionDeps)) {
-            $(`#${dependent}`).prop("disabled", !config[dependency]);
             $(`#${dependency}`).change(() => {
                 $(`#${dependent}`).prop("disabled", !$(`#${dependency}`).prop("checked"));
             });
+        }
+    }
+
+    /**
+     * Update dependency state (enable/disable inputs)
+     */
+    #updateDependencyState(config) {
+        for (const [dependent, dependency] of Object.entries(OptionDeps)) {
+            // Use config value if available, otherwise check DOM
+            const isEnabled = config[dependency] !== undefined ? config[dependency] : $(`#${dependency}`).prop("checked");
+            $(`#${dependent}`).prop("disabled", !isEnabled);
         }
     }
 
@@ -133,15 +152,10 @@ export class UIController {
 
         // Form submit and reset
         $("form").off().on("submit", (e) => e.preventDefault())
-                      .on("reset", (e) => e.preventDefault());
+            .on("reset", (e) => e.preventDefault());
 
         // Keyboard shortcuts
         $(window).off('keyup').on('keyup', (e) => this.#handleKeyboardShortcuts(e));
-
-        // Storage change listener
-        chrome.storage.onChanged.addListener((changes, areaName) => {
-            this.#handleStorageChange(changes, areaName);
-        });
 
         // Color mode change listener
         window.matchMedia('(prefers-color-scheme: dark)').onchange = () => this.#setColorMode();
@@ -181,18 +195,18 @@ export class UIController {
     /**
      * Toggle color mode
      */
-    #toggleColorMode() {
-        const config = this.configManager.getConfig();
-        config.colorModeId = (config.colorModeId + 1) % ColorModeList.length;
-        chrome.storage.local.set({ colorModeId: config.colorModeId });
+    async #toggleColorMode() {
+        const current = this.configService.get('colorModeId');
+        const next = (current + 1) % ColorModeList.length;
+        await this.configService.set({ colorModeId: next });
     }
 
     /**
      * Set color mode
      */
     #setColorMode() {
-        const config = this.configManager.getConfig();
-        
+        const config = this.configService.get();
+
         switch (config.colorModeId) {
             case 0:
                 $('html').removeClass("dark-mode");
@@ -239,48 +253,18 @@ export class UIController {
     }
 
     /**
-     * Handle storage changes
+     * Update UI with new config
+     * Called by OptionsApp when config changes
      */
-    async #handleStorageChange(changes, areaName) {
-        if (areaName !== "local") return;
+    updateUI(config) {
+        // Update color mode if changed
+        this.#setColorMode();
 
-        // Only update color mode
-        if (Object.keys(changes).length === 1 && changes.hasOwnProperty('colorModeId')) {
-            this.#setColorMode();
-            return;
-        }
+        // Update form data
+        this.#fillFormData(config);
 
-        // Reinitialize config and UI
-        await this.configManager.init();
-        await this.init();
-
-        // Handle RPC list changes
-        if (changes.rpcList && !changes.hasOwnProperty("ariaNgOptions")) {
-            const oldList = changes.rpcList.oldValue;
-            const newList = changes.rpcList.newValue;
-            
-            if (this.configManager.isRpcListChanged(oldList, newList)) {
-                this.configManager.updateAriaNgRpc(newList);
-            }
-        }
-
-        // Handle magnet capture
-        if (changes.captureMagnet) {
-            this.#toggleMagnetHandler(changes.captureMagnet.newValue);
-        }
-    }
-
-    /**
-     * Toggle magnet link handler
-     */
-    #toggleMagnetHandler(flag) {
-        const magnetPage = chrome.runtime.getURL("magnet.html") + "?action=magnet&url=%s";
-        
-        if (flag) {
-            navigator.registerProtocolHandler("magnet", magnetPage, "Capture Magnet");
-        } else {
-            navigator.unregisterProtocolHandler("magnet", magnetPage);
-        }
+        // Re-render RPC list
+        this.rpcManager.render();
     }
 
     /**
@@ -289,26 +273,31 @@ export class UIController {
     collectFormData() {
         const formData = {
             rpcList: this.rpcManager.collectData(),
-            checkboxes: {},
-            inputs: {},
-            textareas: {},
             webUIOpenStyle: $("[name=webUIOpenStyle]:checked").val(),
             iconOffStyle: $("[name=iconOffStyle]:checked").val()
         };
 
         // Collect checkboxes
-        $("input[type=checkbox]").each(function() {
-            formData.checkboxes[this.id] = this.checked;
+        $("input[type=checkbox]").each(function () {
+            formData[this.id] = this.checked;
         });
 
         // Collect input fields
-        $("input[type=text],input[type=number]").each(function() {
-            formData.inputs[this.id] = this.value;
+        $("input[type=text],input[type=number]").not("#rpcList input").each(function () {
+            if (this.type === 'number') {
+                formData[this.id] = Number(this.value);
+            } else {
+                formData[this.id] = this.value;
+            }
         });
 
         // Collect textareas
-        $("textarea").each(function() {
-            formData.textareas[this.id] = this.value;
+        $("textarea").each(function () {
+            if (this.value) {
+                formData[this.id] = this.value.split("\n").filter(line => line.trim() !== "");
+            } else {
+                formData[this.id] = [];
+            }
         });
 
         return formData;
@@ -320,7 +309,7 @@ export class UIController {
     showResult(elementId, message, isSuccess, timeout = 2000) {
         const style = isSuccess ? "alert-success" : "alert-danger";
         $(`#${elementId}`).addClass(style).text(message);
-        
+
         setTimeout(() => {
             $(`#${elementId}`).text("").removeClass(style);
         }, timeout);

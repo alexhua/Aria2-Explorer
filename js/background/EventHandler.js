@@ -3,10 +3,12 @@
  */
 import { NID_TASK_NEW, NID_TASK_STOPPED, NID_CAPTURED_OTHERS } from "./NotificationManager.js";
 import { IconManager } from "../IconUtils/IconManager.js";
+import { ConfigService } from "../services/ConfigService.js";
 
 export class EventHandler {
     constructor(managers) {
         this.managers = managers;
+        this.configService = ConfigService.getInstance();
     }
 
     /**
@@ -19,7 +21,7 @@ export class EventHandler {
         this.#registerNotificationListeners();
         this.#registerCommandListeners();
         this.#registerRuntimeListeners();
-        this.#registerStorageListeners();
+        // Note: Storage listeners removed - ConfigService handles config changes
     }
 
     /**
@@ -84,10 +86,10 @@ export class EventHandler {
             chrome.notifications.clear(id);
         });
 
-        chrome.notifications.onButtonClicked.addListener((nid, buttonIndex) => {
+        chrome.notifications.onButtonClicked.addListener(async (nid, buttonIndex) => {
             if (nid === NID_CAPTURED_OTHERS) {
                 if (buttonIndex === 1) {
-                    chrome.storage.local.set({ remindCaptureTip: false });
+                    await this.configService.set({ remindCaptureTip: false });
                 }
             }
             chrome.notifications.clear(nid);
@@ -98,12 +100,10 @@ export class EventHandler {
      * Register command listeners
      */
     #registerCommandListeners() {
-        chrome.commands.onCommand.addListener((command) => {
-            const config = this.managers.configProvider.getConfig();
-
+        chrome.commands.onCommand.addListener(async (command) => {
             if (command === "toggle-capture") {
-                const newValue = !config.integration;
-                chrome.storage.local.set({ integration: newValue });
+                const current = this.configService.get('integration');
+                await this.configService.set({ integration: !current });
             } else if (command === "launch-aria2") {
                 const url = chrome.runtime.getURL('aria2.html');
                 chrome.tabs.create({ url });
@@ -140,49 +140,17 @@ export class EventHandler {
         });
     }
 
-    /**
-     * Register storage listeners
-     */
-    #registerStorageListeners() {
-        chrome.storage.onChanged.addListener((changes, area) => {
-            if (area !== "local") return;
 
-            const needReInit = changes.rpcList || changes.contextMenus || 
-                changes.askBeforeExport || changes.exportAll || 
-                changes.allowNotification || changes.integration ||
-                changes.monitorAria2 || changes.monitorAll || 
-                changes.captureMagnet || changes.webUIOpenStyle;
-
-            if (needReInit) {
-                this.#reinitialize();
-            } else {
-                for (const [key, { newValue }] of Object.entries(changes)) {
-                    this.managers.configProvider.updateConfig({ [key]: newValue });
-                }
-            }
-
-            // Special handling
-            if (changes.checkClick) {
-                this.#initClickChecker();
-            }
-
-            if (changes.iconOffStyle && !this.managers.configProvider.getConfig().integration) {
-                IconManager.turnOff(changes.iconOffStyle.newValue);
-            }
-        });
-    }
 
     /**
      * Handle installed event
      */
-    #handleInstalled(details) {
-        const config = this.managers.configProvider.getConfig();
-
+    async #handleInstalled(details) {
         if (details.reason === "install") {
+            const config = this.configService.get();
             const url = chrome.runtime.getURL("options.html");
-            chrome.storage.local.set(config).then(() => {
-                chrome.tabs.create({ url });
-            });
+            await this.configService.set(config);
+            chrome.tabs.create({ url });
         } else if (details.reason === "update") {
             // Can add update notification here
         }
@@ -216,62 +184,13 @@ export class EventHandler {
         }
     }
 
-    /**
-     * Reinitialize
-     */
-    async #reinitialize() {
-        await this.managers.configProvider.init();
-        const config = this.managers.configProvider.getConfig();
 
-        // Setup popup
-        const url = config.webUIOpenStyle === "popup" 
-            ? chrome.runtime.getURL('ui/ariang/popup.html') 
-            : '';
-        await chrome.action.setPopup({ popup: url });
-
-        // Initialize remote Aria2
-        this.managers.monitorManager.initRemoteAria2List();
-        this.managers.configProvider.setRemoteAria2List(
-            this.managers.monitorManager.getRemoteAria2List()
-        );
-
-        // Initialize click checker
-        await this.#initClickChecker();
-
-        // Rebuild menus and wait for completion
-        await this.managers.menuManager.createAllMenus();
-
-        // Enable/disable capture
-        if (config.integration) {
-            this.managers.captureManager.enable();
-        } else {
-            this.managers.captureManager.disable();
-        }
-
-        // Enable/disable monitoring
-        if (config.monitorAria2) {
-            this.managers.monitorManager.enable();
-        } else {
-            this.managers.monitorManager.disable();
-        }
-
-        // Set uninstall URL
-        const uninstallUrl = config.captureMagnet 
-            ? "https://github.com/alexhua/Aria2-Explore/issues/98" 
-            : '';
-        await chrome.runtime.setUninstallURL(uninstallUrl);
-
-        // Set side panel behavior
-        await chrome.sidePanel.setPanelBehavior({ 
-            openPanelOnActionClick: config.webUIOpenStyle === "sidePanel" 
-        });
-    }
 
     /**
      * Initialize click checker
      */
-    async #initClickChecker() {
-        const config = this.managers.configProvider.getConfig();
+    async initClickChecker() {
+        const config = this.configService.get();
         const CS_ID = 'ALT_CLICK_CHECKER';
         const scripts = await chrome.scripting.getRegisteredContentScripts({ ids: [CS_ID] });
 

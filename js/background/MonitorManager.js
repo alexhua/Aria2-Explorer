@@ -3,13 +3,14 @@
  */
 import Utils from "../utils.js";
 import Aria2 from "../aria2.js";
+import { ConfigService } from "../services/ConfigService.js";
 
 const INTERVAL_SHORT = 1000;
 const INTERVAL_LONG = 3000;
 
 export class MonitorManager {
-    constructor(configProvider, notificationManager, contextMenus) {
-        this.configProvider = configProvider;
+    constructor(notificationManager, contextMenus) {
+        this.configService = ConfigService.getInstance();
         this.notificationManager = notificationManager;
         this.contextMenus = contextMenus;
         this.monitorId = null;
@@ -23,7 +24,7 @@ export class MonitorManager {
      * Initialize remote Aria2 list
      */
     initRemoteAria2List() {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const uniqueRpcList = Utils.compactRpcList(config.rpcList);
 
         for (const i in uniqueRpcList) {
@@ -65,7 +66,6 @@ export class MonitorManager {
 
         this.#monitor();
         this.monitorId = setInterval(() => this.#monitor(), this.monitorInterval);
-        this.configProvider.updateConfig({ monitorAria2: true });
         // Only update menu if it exists
         try {
             this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: true });
@@ -86,7 +86,6 @@ export class MonitorManager {
         this.remoteAria2List.forEach(aria2 => aria2.closeSocket());
         chrome.action.setBadgeText({ text: "" });
         chrome.action.setTitle({ title: "" });
-        this.configProvider.updateConfig({ monitorAria2: false });
         // Only update menu if it exists
         try {
             this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: false });
@@ -107,7 +106,7 @@ export class MonitorManager {
      * Monitor Aria2 servers
      */
     async #monitor() {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const stats = {
             connected: 0,
             disconnected: 0,
@@ -199,7 +198,7 @@ export class MonitorManager {
      * Update power state
      */
     #updatePowerState(active, waiting, localConnected) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         
         if (active > 0 && config.keepAwake && localConnected > 0) {
             chrome.power.requestKeepAwake("system");
@@ -221,7 +220,7 @@ export class MonitorManager {
      * Update badge and title
      */
     #updateBadgeAndTitle(stats) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         
         if (!config.monitorAria2) return;
 
@@ -273,7 +272,7 @@ export class MonitorManager {
      * Get badge text
      */
     #getBadgeText(active, waiting, connected) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         
         if (!config.badgeText) return '';
         if (active > 0) return active.toString();
@@ -285,7 +284,7 @@ export class MonitorManager {
      * Get badge color
      */
     #getBadgeColor(active, waiting, connected) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         
         if (active > 0) {
             return (config.monitorAll && connected < this.remoteAria2List.length) 

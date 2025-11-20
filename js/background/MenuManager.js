@@ -3,13 +3,15 @@
  */
 import exportAllLinks from "../content/exportAll.js";
 import Utils from "../utils.js";
+import { ConfigService } from "../services/ConfigService.js";
 
 export class MenuManager {
-    constructor(configProvider, contextMenus, downloadManager, uiManager) {
-        this.configProvider = configProvider;
+    constructor(contextMenus, downloadManager, uiManager, monitorManager) {
+        this.configService = ConfigService.getInstance();
         this.contextMenus = contextMenus;
         this.downloadManager = downloadManager;
         this.uiManager = uiManager;
+        this.monitorManager = monitorManager;
         this.currentTabUrl = "about:blank";
     }
 
@@ -38,7 +40,7 @@ export class MenuManager {
      * Create option menu
      */
     #createOptionMenu() {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
 
         // Download capture
         this.contextMenus.create({
@@ -66,7 +68,7 @@ export class MenuManager {
         });
 
         // Start Aria2 or open WebUI
-        const remoteAria2List = this.configProvider.getRemoteAria2List?.() || [];
+        const remoteAria2List = this.monitorManager.getRemoteAria2List();
         if (Utils.getPlatform() === "Windows" && remoteAria2List[0]?.isLocalhost) {
             this.contextMenus.create({
                 type: "normal",
@@ -122,7 +124,7 @@ export class MenuManager {
      * Create RPC options menu
      */
     #createRpcOptionsMenu() {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const rpcOptionsList = [];
 
         for (const i in config.rpcList) {
@@ -157,7 +159,7 @@ export class MenuManager {
      * Create context menu
      */
     #createContextMenu() {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const strExport = chrome.i18n.getMessage("contextmenuTitle");
         const strExportAllDes = chrome.i18n.getMessage("exportAllDes");
 
@@ -206,7 +208,7 @@ export class MenuManager {
             return;
         }
 
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const url = new URL(tab.url || "about:blank");
         const blockedSitesSet = new Set(config.blockedSites);
         const allowedSitesSet = new Set(config.allowedSites);
@@ -240,11 +242,11 @@ export class MenuManager {
                 break;
 
             case info.menuItemId === "MENU_CAPTURE_DOWNLOAD":
-                await chrome.storage.local.set({ integration: info.checked });
+                await this.configService.set({ integration: info.checked });
                 break;
 
             case info.menuItemId === "MENU_MONITOR_ARIA2":
-                await chrome.storage.local.set({ monitorAria2: info.checked });
+                await this.configService.set({ monitorAria2: info.checked });
                 break;
 
             case info.menuItemId === "MENU_UPDATE_BLOCK_SITE":
@@ -274,10 +276,10 @@ export class MenuManager {
     /**
      * Update allowed sites
      */
-    #updateAllowedSites(tab) {
+    async #updateAllowedSites(tab) {
         if (!tab?.active || !tab.url || tab.url.startsWith("chrome")) return;
 
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const allowedSitesSet = new Set(config.allowedSites);
         const url = new URL(tab.url);
 
@@ -287,16 +289,16 @@ export class MenuManager {
             allowedSitesSet.add(url.hostname);
         }
 
-        chrome.storage.local.set({ allowedSites: Array.from(allowedSitesSet) });
+        await this.configService.set({ allowedSites: Array.from(allowedSitesSet) });
     }
 
     /**
      * Update blocked sites
      */
-    #updateBlockedSites(tab) {
+    async #updateBlockedSites(tab) {
         if (!tab?.active || !tab.url || tab.url.startsWith("chrome")) return;
 
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const blockedSitesSet = new Set(config.blockedSites);
         const url = new URL(tab.url);
 
@@ -306,14 +308,14 @@ export class MenuManager {
             blockedSitesSet.add(url.hostname);
         }
 
-        chrome.storage.local.set({ blockedSites: Array.from(blockedSitesSet) });
+        await this.configService.set({ blockedSites: Array.from(blockedSitesSet) });
     }
 
     /**
      * Handle RPC list click
      */
-    #handleRpcListClick(menuItemId) {
-        const config = this.configProvider.getConfig();
+    async #handleRpcListClick(menuItemId) {
+        const config = this.configService.get();
         const id = menuItemId.split('-')[1];
 
         // Clear current default
@@ -324,14 +326,14 @@ export class MenuManager {
 
         // Set new default
         config.rpcList[id].pattern = '*';
-        chrome.storage.local.set({ rpcList: config.rpcList });
+        await this.configService.set({ rpcList: config.rpcList });
     }
 
     /**
      * Handle export click
      */
     async #handleExportClick(info, tab) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const url = info.linkUrl || info.selectionText;
         const referrer = info.frameUrl || info.pageUrl;
         const downloadItem = {
@@ -360,7 +362,7 @@ export class MenuManager {
     async #handleExportAll(info, tab) {
         if (tab.url.startsWith("chrome")) return;
 
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         await chrome.scripting.executeScript({
             target: {
                 tabId: tab.id,
