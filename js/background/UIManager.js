@@ -1,13 +1,13 @@
 /**
  * UIManager - Handles UI launch and management logic
  */
+import { ConfigService } from "../services/ConfigService.js";
 
 const NID_TASK_STOPPED = "NID_TASK_STOPPED";
 
 export class UIManager {
-    constructor(configProvider, downloadManager) {
-        this.configProvider = configProvider;
-        this.downloadManager = downloadManager;
+    constructor() {
+        this.configService = ConfigService.getInstance();
         this.currentWindowId = 0;
     }
 
@@ -30,7 +30,7 @@ export class UIManager {
      * @param {Object|string} info - Tab info or notification ID
      */
     async launchUI(info) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const index = chrome.runtime.getURL('ui/ariang/index.html');
         let webUiUrl = index + '#!';
 
@@ -163,7 +163,7 @@ export class UIManager {
      * Open in tab or window
      */
     async #openInTabOrWindow(index, webUiUrl) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const tabs = await chrome.tabs.query({ "url": index });
 
         if (tabs?.length > 0) {
@@ -208,7 +208,7 @@ export class UIManager {
      * Reset side panel
      */
     async resetSidePanel(tabId) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         
         if (config.webUIOpenStyle !== "sidePanel") return;
 

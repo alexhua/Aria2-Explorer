@@ -1,9 +1,8 @@
 /**
  * Background Service Worker - Main entry point
- * Refactored modular architecture
  */
 import ContextMenu from "./js/contextMenu.js";
-import { ConfigProvider } from "./js/background/ConfigProvider.js";
+import { ConfigService } from "./js/services/ConfigService.js";
 import { DownloadManager } from "./js/background/DownloadManager.js";
 import { CaptureManager } from "./js/background/CaptureManager.js";
 import { MonitorManager } from "./js/background/MonitorManager.js";
@@ -11,6 +10,7 @@ import { NotificationManager } from "./js/background/NotificationManager.js";
 import { MenuManager } from "./js/background/MenuManager.js";
 import { UIManager } from "./js/background/UIManager.js";
 import { EventHandler } from "./js/background/EventHandler.js";
+import { IconManager } from "./js/IconUtils/IconManager.js";
 
 /**
  * Application class - Manages all modules
@@ -19,6 +19,7 @@ class Application {
     constructor() {
         this.managers = {};
         this.initialized = false;
+        this.configUnsubscribers = [];
     }
 
     /**
@@ -30,21 +31,21 @@ class Application {
         // Create context menu instance
         const contextMenus = new ContextMenu();
 
-        // Create config provider (singleton)
-        const configProvider = new ConfigProvider();
-        await configProvider.init();
+        // Create config service (singleton)
+        const configService = ConfigService.getInstance();
+        await configService.init();
 
-        // Create managers
-        const notificationManager = new NotificationManager(configProvider);
-        const monitorManager = new MonitorManager(configProvider, notificationManager, contextMenus);
-        const uiManager = new UIManager(configProvider);
-        const downloadManager = new DownloadManager(configProvider, uiManager, notificationManager);
-        const captureManager = new CaptureManager(configProvider, downloadManager, contextMenus);
-        const menuManager = new MenuManager(configProvider, contextMenus, downloadManager, uiManager);
+        // Create managers (no longer need configProvider parameter)
+        const notificationManager = new NotificationManager();
+        const monitorManager = new MonitorManager(notificationManager, contextMenus);
+        const uiManager = new UIManager();
+        const downloadManager = new DownloadManager(uiManager, notificationManager);
+        const captureManager = new CaptureManager(downloadManager, contextMenus);
+        const menuManager = new MenuManager(contextMenus, downloadManager, uiManager, monitorManager);
 
-        // Save manager references
-        this.managers = {
-            configProvider,
+        // Create and register event handler
+        const eventHandler = new EventHandler({
+            configService,
             contextMenus,
             downloadManager,
             captureManager,
@@ -52,17 +53,31 @@ class Application {
             notificationManager,
             menuManager,
             uiManager
+        });
+
+        // Save manager references
+        this.managers = {
+            configService,
+            contextMenus,
+            downloadManager,
+            captureManager,
+            monitorManager,
+            notificationManager,
+            menuManager,
+            uiManager,
+            eventHandler
         };
 
         // Initialize remote Aria2 list
         monitorManager.initRemoteAria2List();
-        configProvider.setRemoteAria2List(monitorManager.getRemoteAria2List());
+
+        // Setup config change listeners (BEFORE initial state)
+        this.#setupConfigListeners();
 
         // Setup initial state
         await this.#setupInitialState();
 
-        // Create and register event handler
-        const eventHandler = new EventHandler(this.managers);
+        // Register event listeners
         eventHandler.registerAll();
 
         this.initialized = true;
@@ -70,14 +85,94 @@ class Application {
     }
 
     /**
+     * Setup configuration change listeners
+     * This is the central place for handling config-driven side effects
+     */
+    #setupConfigListeners() {
+        const configService = this.managers.configService;
+
+        // Listen for integration (download capture) changes
+        const unsub1 = configService.subscribe('integration', (value) => {
+            console.log('[App] Integration changed to:', value);
+            if (value) {
+                this.managers.captureManager.enable();
+            } else {
+                this.managers.captureManager.disable();
+            }
+        });
+
+        // Listen for monitorAria2 changes
+        const unsub2 = configService.subscribe('monitorAria2', (value) => {
+            console.log('[App] MonitorAria2 changed to:', value);
+            if (value) {
+                this.managers.monitorManager.enable();
+            } else {
+                this.managers.monitorManager.disable();
+            }
+        });
+
+        // Listen for webUIOpenStyle changes
+        const unsub3 = configService.subscribe('webUIOpenStyle', async (value) => {
+            console.log('[App] WebUIOpenStyle changed to:', value);
+            const popupUrl = value === "popup"
+                ? chrome.runtime.getURL('ui/ariang/popup.html')
+                : '';
+            await chrome.action.setPopup({ popup: popupUrl });
+
+            await chrome.sidePanel.setPanelBehavior({
+                openPanelOnActionClick: value === "sidePanel"
+            });
+        });
+
+        // Listen for iconOffStyle changes
+        const unsub4 = configService.subscribe('iconOffStyle', (value) => {
+            console.log('[App] IconOffStyle changed to:', value);
+            if (!configService.get('integration')) {
+                IconManager.turnOff(value);
+            }
+        });
+
+        // Listen for captureMagnet changes
+        const unsub5 = configService.subscribe('captureMagnet', async (value) => {
+            console.log('[App] CaptureMagnet changed to:', value);
+            const uninstallUrl = value
+                ? "https://github.com/alexhua/Aria2-Explore/issues/98"
+                : '';
+            await chrome.runtime.setUninstallURL(uninstallUrl);
+        });
+
+        // Listen for checkClick changes
+        const unsub6 = configService.subscribe('checkClick', async (value) => {
+            console.log('[App] CheckClick changed to:', value);
+            await this.managers.eventHandler.initClickChecker();
+        });
+
+        // Listen for changes that require menu rebuild
+        const unsub7 = configService.subscribe((changes) => {
+            const needRebuildMenu = changes.rpcList ||
+                changes.contextMenus ||
+                changes.askBeforeExport ||
+                changes.exportAll;
+
+            if (needRebuildMenu) {
+                console.log('[App] Rebuilding menus due to config changes');
+                this.managers.menuManager.createAllMenus();
+            }
+        });
+
+        // Save unsubscribers for cleanup
+        this.configUnsubscribers.push(unsub1, unsub2, unsub3, unsub4, unsub5, unsub6, unsub7);
+    }
+
+    /**
      * Setup initial state
      */
     async #setupInitialState() {
-        const config = this.managers.configProvider.getConfig();
+        const config = this.managers.configService.get();
 
         // Setup popup
-        const popupUrl = config.webUIOpenStyle === "popup" 
-            ? chrome.runtime.getURL('ui/ariang/popup.html') 
+        const popupUrl = config.webUIOpenStyle === "popup"
+            ? chrome.runtime.getURL('ui/ariang/popup.html')
             : '';
         await chrome.action.setPopup({ popup: popupUrl });
 
@@ -99,15 +194,27 @@ class Application {
         }
 
         // Set uninstall URL
-        const uninstallUrl = config.captureMagnet 
-            ? "https://github.com/alexhua/Aria2-Explore/issues/98" 
+        const uninstallUrl = config.captureMagnet
+            ? "https://github.com/alexhua/Aria2-Explore/issues/98"
             : '';
         await chrome.runtime.setUninstallURL(uninstallUrl);
 
         // Set side panel behavior
-        await chrome.sidePanel.setPanelBehavior({ 
-            openPanelOnActionClick: config.webUIOpenStyle === "sidePanel" 
+        await chrome.sidePanel.setPanelBehavior({
+            openPanelOnActionClick: config.webUIOpenStyle === "sidePanel"
         });
+    }
+
+    /**
+     * Cleanup (for testing/reload)
+     */
+    cleanup() {
+        // Unsubscribe all config listeners
+        for (const unsubscribe of this.configUnsubscribers) {
+            unsubscribe();
+        }
+        this.configUnsubscribers = [];
+        this.initialized = false;
     }
 }
 
