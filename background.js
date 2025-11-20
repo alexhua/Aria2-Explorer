@@ -36,7 +36,6 @@ class Application {
         const configService = ConfigService.getInstance();
         await configService.init();
 
-        // Create managers (no longer need configProvider parameter)
         const notificationManager = new NotificationManager();
         const monitorManager = new MonitorManager(notificationManager, contextMenus);
         const uiManager = new UIManager();

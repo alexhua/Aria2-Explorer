@@ -147,7 +147,6 @@ The extension follows a modular architecture for better maintainability:
 ├── images/                    # Icon assets
 ├── js/
 │   ├── background/            # Background modules
-│   │   ├── ConfigProvider.js     # Configuration management
 │   │   ├── DownloadManager.js    # Download handling
 │   │   ├── CaptureManager.js     # Capture logic
 │   │   ├── MonitorManager.js     # Aria2 monitoring
