@@ -3,6 +3,7 @@
  */
 import Utils from "../utils.js";
 import { AnimationController } from '../IconUtils/AnimationController.js';
+import { ConfigService } from "../services/ConfigService.js";
 
 const NID_DEFAULT = "NID_DEFAULT";
 const NID_TASK_NEW = "NID_TASK_NEW";
@@ -10,8 +11,8 @@ const NID_TASK_STOPPED = "NID_TASK_STOPPED";
 const NID_CAPTURED_OTHERS = "NID_CAPTURED_OTHERS";
 
 export class NotificationManager {
-    constructor(configProvider) {
-        this.configProvider = configProvider;
+    constructor() {
+        this.configService = ConfigService.getInstance();
         // AnimationController is a singleton, this will return the same instance
         this.iconAnimController = new AnimationController();
     }
@@ -42,12 +43,12 @@ export class NotificationManager {
         // Update icon animation
         this.#updateIconAnimation(data.method);
 
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         if (!config.allowNotification) return;
 
         // Get context message
         const contextMessage = await this.#getContextMessage(data);
-        
+
         // Show notification
         this.#showTaskNotification(data.method, data.source, data.gid, contextMessage);
     }
@@ -95,8 +96,8 @@ export class NotificationManager {
             }
 
             // Check if torrent is complete
-            if (data.method === "aria2.onDownloadComplete" && 
-                bittorrent && 
+            if (data.method === "aria2.onDownloadComplete" &&
+                bittorrent &&
                 !(contextMessage.startsWith("[METADATA]") || contextMessage.endsWith(".torrent"))) {
                 data.method = "aria2.onSeedingComplete";
             }
@@ -112,7 +113,7 @@ export class NotificationManager {
      * Show task notification
      */
     #showTaskNotification(event, source, gid, contextMessage) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const notificationData = this.#getNotificationData(event, source, gid);
 
         if (!notificationData.message) return;

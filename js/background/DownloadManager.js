@@ -4,10 +4,11 @@
 import Utils from "../utils.js";
 import Aria2 from "../aria2.js";
 import Aria2Options from "../aria2Options.js";
+import { ConfigService } from "../services/ConfigService.js";
 
 export class DownloadManager {
-    constructor(configProvider, uiManager, notificationManager) {
-        this.configProvider = configProvider;
+    constructor(uiManager, notificationManager) {
+        this.configService = ConfigService.getInstance();
         this.uiManager = uiManager;
         this.notificationManager = notificationManager;
     }
@@ -34,7 +35,7 @@ export class DownloadManager {
         downloadItem.dir = rpcItem.location;
         downloadItem.filename = downloadItem.filename || '';
 
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         if (config.askBeforeDownload || downloadItem.multiTask) {
             try {
                 await this.uiManager.launchUI(downloadItem);
@@ -116,7 +117,7 @@ export class DownloadManager {
      */
     async #getCookies(downloadItem, rpcItem) {
         try {
-            const config = this.configProvider.getConfig();
+            const config = this.configService.get();
             if (!rpcItem.ignoreInsecure && !Utils.isLocalhost(rpcItem.url) && !/^(https|wss)/i.test(rpcItem.url)) {
                 return [];
             }
@@ -205,7 +206,7 @@ export class DownloadManager {
      * Get matching RPC server
      */
     getRpcServer(url) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         const rpcList = config.rpcList;
         
         let defaultIndex = 0;

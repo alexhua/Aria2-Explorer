@@ -3,10 +3,11 @@
  */
 import Utils from "../utils.js";
 import { IconManager } from "../IconUtils/IconManager.js";
+import { ConfigService } from "../services/ConfigService.js";
 
 export class CaptureManager {
-    constructor(configProvider, downloadManager, contextMenus) {
-        this.configProvider = configProvider;
+    constructor(downloadManager, contextMenus) {
+        this.configService = ConfigService.getInstance();
         this.downloadManager = downloadManager;
         this.contextMenus = contextMenus;
         this.altKeyPressed = false;
@@ -24,7 +25,6 @@ export class CaptureManager {
             chrome.downloads.onDeterminingFilename.addListener(this.captureDownload);
         }
         IconManager.turnOn();
-        this.configProvider.updateConfig({ integration: true });
         // Only update menu if it exists
         try {
             this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
@@ -40,9 +40,8 @@ export class CaptureManager {
         if (this.isListening()) {
             chrome.downloads.onDeterminingFilename.removeListener(this.captureDownload);
         }
-        const config = this.configProvider.getConfig();
-        IconManager.turnOff(config.iconOffStyle);
-        this.configProvider.updateConfig({ integration: false });
+        const iconOffStyle = this.configService.get('iconOffStyle');
+        IconManager.turnOff(iconOffStyle);
         // Only update menu if it exists
         try {
             this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: false });
@@ -76,7 +75,7 @@ export class CaptureManager {
      * Capture download
      */
     async captureDownload(downloadItem, suggest) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
 
         // Handle extension download reminder
         if (downloadItem.byExtensionId) {
@@ -118,7 +117,7 @@ export class CaptureManager {
      * Show capture reminder
      */
     #showCaptureReminder(downloadItem) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         
         if (!config.remindCaptureTip || downloadItem.byExtensionId === chrome.runtime.id) {
             return;
@@ -140,7 +139,7 @@ export class CaptureManager {
      * Determine if download should be captured
      */
     #shouldCapture(downloadItem) {
-        const config = this.configProvider.getConfig();
+        const config = this.configService.get();
         
         // Check Alt key
         if (this.altKeyPressed) {

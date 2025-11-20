@@ -40,7 +40,7 @@ export const DefaultConfigs = {
     askBeforeExport: false,
     exportAll: true,
     integration: true,
-    fileSize: "100",
+    fileSize: 100,
     checkClick: false,
     askBeforeDownload: false,
     allowExternalRequest: false,
