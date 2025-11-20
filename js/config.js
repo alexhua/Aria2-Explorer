@@ -1,3 +1,6 @@
+// Debug mode flag - set to true to enable console logging
+export const DEBUG = false;
+
 export const DefaultAriaNgOptions = {
     language: 'TBD',
     theme: 'system',

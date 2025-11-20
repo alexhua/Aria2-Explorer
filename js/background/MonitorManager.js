@@ -2,6 +2,7 @@
  * MonitorManager - Handles Aria2 monitoring logic
  */
 import Utils from "../utils.js";
+import Logger from "../logger.js";
 import Aria2 from "../aria2.js";
 import { ConfigService } from "../services/ConfigService.js";
 
@@ -50,7 +51,7 @@ export class MonitorManager {
                     );
                 }
             } catch (error) {
-                console.error('Failed to initialize Aria2 RPC server', error.message);
+                Logger.error('Failed to initialize Aria2 RPC server', error.message);
             }
         }
     }
@@ -60,7 +61,7 @@ export class MonitorManager {
      */
     enable() {
         if (this.monitorId) {
-            console.warn("Warn: Monitor has already started.");
+            Logger.warn("Warn: Monitor has already started.");
             return;
         }
 
@@ -70,7 +71,7 @@ export class MonitorManager {
         try {
             this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: true });
         } catch (error) {
-            console.warn("Menu item MENU_MONITOR_ARIA2 not found:", error);
+            Logger.warn("Menu item MENU_MONITOR_ARIA2 not found:", error);
         }
     }
 
@@ -90,7 +91,7 @@ export class MonitorManager {
         try {
             this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: false });
         } catch (error) {
-            console.warn("Menu item MENU_MONITOR_ARIA2 not found:", error);
+            Logger.warn("Menu item MENU_MONITOR_ARIA2 not found:", error);
         }
         chrome.power.releaseKeepAwake();
     }

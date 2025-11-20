@@ -1,4 +1,5 @@
 import { DefaultAriaNgOptions } from "./config.js";
+import Logger from "./logger.js";
 
 class Utils {
     /**
@@ -37,7 +38,7 @@ class Utils {
                     ariaNgOptions.extendRpcServers.push(target);
             }
         } catch (error) {
-            console.warn(`exportRpcToAriaNg: error = ${error}`);
+            Logger.warn(`exportRpcToAriaNg: error = ${error}`);
         }
 
         return ariaNgOptions;
@@ -119,7 +120,7 @@ class Utils {
             rpcUrl = urlObject.origin + urlObject.pathname;
             secretKey = decodeURIComponent(urlObject.password);
         } catch (error) {
-            console.warn('Stored Rpc Url is invalid! URL ="' + url + '"');
+            Logger.warn('Stored Rpc Url is invalid! URL ="' + url + '"');
         }
         return { rpcUrl, secretKey };
     }
@@ -140,7 +141,7 @@ class Utils {
                 url.password = encodeURIComponent(secretKey);
             }
         } catch (error) {
-            console.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');
+            Logger.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');
             return '';
         }
         return url.toString();

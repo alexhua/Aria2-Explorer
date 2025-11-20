@@ -1,4 +1,5 @@
 import Utils from "./utils.js";
+import Logger from "./logger.js";
 
 const SOCKET_TIMEOUT = 8 * 1000;
 const DEFAULT_ARIA2 = { name: "Aria2", rpcUrl: "http://localhost:6800/jsonrpc", secretKey: '' };
@@ -98,7 +99,7 @@ class Aria2 {
                 this.#socket = null;
             });
         } catch (error) {
-            console.error(error.message);
+            Logger.error(error.message);
         }
         return this.#socket;
     }
@@ -125,7 +126,7 @@ class Aria2 {
             message = JSON.parse(event.data);
             message.source = this;
         } catch (error) {
-            console.error(`${this.name} received invalid message: ${event.data}`, error);
+            Logger.error(`${this.name} received invalid message: ${event.data}`, error);
             return;
         }
 
@@ -141,7 +142,7 @@ class Aria2 {
             try {
                 handler(message);
             } catch (error) {
-                console.error(`${this.name} message handler error:`, error);
+                Logger.error(`${this.name} message handler error:`, error);
                 // Continue processing other handlers despite the error
             }
         }
@@ -218,7 +219,7 @@ class Aria2 {
             } catch (error) {
                 clearTimeout(timeoutId);
                 if (error.name === 'AbortError') {
-                    console.error(`Abort Request to ${this.name}: net::ERR_CONNECTION_TIMED_OUT`);
+                    Logger.error(`Abort Request to ${this.name}: net::ERR_CONNECTION_TIMED_OUT`);
                 }
                 // Fetching error usually means aria2 is offline.
                 this.#online = false;

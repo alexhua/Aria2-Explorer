@@ -10,7 +10,8 @@
  * - Type safety
  */
 
-import { DefaultConfigs } from "../config.js";
+import Logger from "../logger.js";
+import DefaultConfigs from "../config.js";
 
 export class ConfigService {
     static #instance = null;
@@ -55,10 +56,10 @@ export class ConfigService {
             const data = await chrome.storage.local.get();
             this.config = { ...DefaultConfigs, ...data };
             this.initialized = true;
-            console.log('[ConfigService] Initialized with config:', this.config);
+            Logger.log('[ConfigService] Initialized with config:', this.config);
             return this.config;
         } catch (error) {
-            console.error('[ConfigService] Init error:', error);
+            Logger.error('[ConfigService] Init error:', error);
             throw error;
         }
     }
@@ -86,7 +87,7 @@ export class ConfigService {
      */
     async set(updates, options = {}) {
         if (!updates || typeof updates !== 'object') {
-            console.error('[ConfigService] Invalid updates:', updates);
+            Logger.error('[ConfigService] Invalid updates:', updates);
             return false;
         }
 
@@ -95,7 +96,7 @@ export class ConfigService {
             const validated = this.#validate(updates);
 
             if (Object.keys(validated).length === 0) {
-                console.warn('[ConfigService] No valid updates to apply');
+                Logger.warn('[ConfigService] No valid updates to apply');
                 return false;
             }
 
@@ -112,10 +113,10 @@ export class ConfigService {
             // Notify listeners immediately
             this.#notifyListeners(validated);
 
-            console.log('[ConfigService] Config updated:', validated);
+            Logger.log('[ConfigService] Config updated:', validated);
             return true;
         } catch (error) {
-            console.error('[ConfigService] Set error:', error);
+            Logger.error('[ConfigService] Set error:', error);
             return false;
         }
     }
@@ -154,7 +155,7 @@ export class ConfigService {
             };
         }
 
-        console.error('[ConfigService] Invalid subscribe arguments');
+        Logger.error('[ConfigService] Invalid subscribe arguments');
         return () => { };
     }
 
@@ -167,10 +168,10 @@ export class ConfigService {
             await chrome.storage.local.set(DefaultConfigs);
             this.config = { ...DefaultConfigs };
             this.#notifyListeners(this.config);
-            console.log('[ConfigService] Config reset to defaults');
+            Logger.log('[ConfigService] Config reset to defaults');
             return true;
         } catch (error) {
-            console.error('[ConfigService] Reset error:', error);
+            Logger.error('[ConfigService] Reset error:', error);
             return false;
         }
     }
@@ -203,10 +204,10 @@ export class ConfigService {
             }
 
             await this.set(parsed);
-            console.log('[ConfigService] Config imported successfully');
+            Logger.log('[ConfigService] Config imported successfully');
             return true;
         } catch (error) {
-            console.error('[ConfigService] Import error:', error);
+            Logger.error('[ConfigService] Import error:', error);
             return false;
         }
     }
@@ -239,7 +240,7 @@ export class ConfigService {
             // Note: This will be called for changes from other contexts
             this.#notifyListeners(updates);
 
-            console.log('[ConfigService] Storage changed from external source:', updates);
+            Logger.log('[ConfigService] Storage changed from external source:', updates);
         });
     }
 
@@ -275,7 +276,7 @@ export class ConfigService {
             try {
                 listener(changes, this.config);
             } catch (error) {
-                console.error('[ConfigService] Global listener error:', error);
+                Logger.error('[ConfigService] Global listener error:', error);
             }
         }
 
@@ -287,7 +288,7 @@ export class ConfigService {
                     try {
                         listener(value, key, this.config);
                     } catch (error) {
-                        console.error(`[ConfigService] Listener error for key "${key}":`, error);
+                        Logger.error(`[ConfigService] Listener error for key "${key}":`, error);
                     }
                 }
             }
@@ -303,19 +304,19 @@ export class ConfigService {
         for (const [key, value] of Object.entries(updates)) {
             // Skip if not in default config (unknown key)
             if (!(key in DefaultConfigs)) {
-                console.warn(`[ConfigService] Unknown config key: ${key}`);
+                Logger.warn(`[ConfigService] Unknown config key: ${key}`);
                 continue;
             }
 
             // Type validation
             if (!this.#isValidType(key, value)) {
-                console.warn(`[ConfigService] Invalid type for ${key}:`, value);
+                Logger.warn(`[ConfigService] Invalid type for ${key}:`, value);
                 continue;
             }
 
             // Custom validation
             if (!this.#isValidValue(key, value)) {
-                console.warn(`[ConfigService] Invalid value for ${key}:`, value);
+                Logger.warn(`[ConfigService] Invalid value for ${key}:`, value);
                 continue;
             }
 

@@ -3,6 +3,7 @@
  * Singleton pattern to ensure consistent config in options page
  */
 import Utils from "../utils.js";
+import Logger from "../logger.js";
 import { DefaultConfigs, DefaultAriaNgOptions } from "../config.js";
 
 const AriaNgOptionsKey = "AriaNg.Options";
@@ -112,7 +113,7 @@ export class ConfigManager {
             }
         } catch {
             this.config.ariaNgOptions = DefaultAriaNgOptions;
-            console.warn("Upload: Local AriaNG options is invalid, default is loaded.");
+            Logger.warn("Upload: Local AriaNG options is invalid, default is loaded.");
         }
 
         // 检查RPC列表有效性
@@ -167,7 +168,7 @@ export class ConfigManager {
                     }
                 } catch {
                     delete configs.ariaNgOptions;
-                    console.warn("Download: AriaNG options is invalid.");
+                    Logger.warn("Download: AriaNG options is invalid.");
                 }
             }
 
@@ -253,7 +254,7 @@ export class ConfigManager {
                         try {
                             localStorage.setItem(AriaNgOptionsKey, JSON.stringify(configData.ariaNgOptions));
                         } catch (error) {
-                            console.warn("Failed to import AriaNG options:", error);
+                            Logger.warn("Failed to import AriaNG options:", error);
                         }
                         delete configData.ariaNgOptions;
                     }
@@ -314,7 +315,7 @@ export class ConfigManager {
         try {
             ariaNgOptions = JSON.parse(oldAriaNgOptions);
         } catch (error) {
-            console.warn("The stored AriaNG options is null or invalid.");
+            Logger.warn("The stored AriaNG options is null or invalid.");
         }
 
         const newAriaNgOptions = JSON.stringify(Utils.exportRpcToAriaNg(rpcList, ariaNgOptions));
