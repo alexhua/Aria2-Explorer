@@ -2,7 +2,6 @@
  * EventHandler - Event handler, manages all Chrome event listeners
  */
 import { NID_TASK_NEW, NID_TASK_STOPPED, NID_CAPTURED_OTHERS } from "./NotificationManager.js";
-import { IconManager } from "../IconUtils/IconManager.js";
 import { ConfigService } from "../services/ConfigService.js";
 
 export class EventHandler {
@@ -122,7 +121,7 @@ export class EventHandler {
 
         // External message listener
         chrome.runtime.onMessageExternal.addListener((downloadItem) => {
-            const config = this.managers.configProvider.getConfig();
+            const config = this.configService.get();
             if (config.allowExternalRequest) {
                 this.managers.downloadManager.download(downloadItem);
             }
