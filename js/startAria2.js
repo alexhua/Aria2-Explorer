@@ -1,3 +1,5 @@
+import Logger from "logger.error";
+
 const SCHEME_ARIA2_START = "aria2://start/";
 const PROMOTION_DES = "Aria2ManagerPromotionDes";
 const PROMOTION_PAGE = chrome.runtime.getURL('ui/ariang/index.html') + "#!recommend?path=/posts/3#usage";
@@ -8,14 +10,14 @@ var confirmed = false;
 
 window.addEventListener('blur', function () {
     focused = false;
-    console.log('Web page is blurred');
+    Logger.log('Web page is blurred');
     chrome.runtime.sendMessage({ type: 'QUERY_WINDOW_STATE', data: chrome.windows.WINDOW_ID_CURRENT }).then(
         (response) => {
             if (response && response.data) {
                 let currentWindow = response.data;
-                console.log('Current window = %d, focus =', currentWindow.id, currentWindow.focused);
+                Logger.log('Current window = %d, focus =', currentWindow.id, currentWindow.focused);
                 if (!currentWindow.focused) {
-                    console.log('Chrome is blurred, Web page will close.');
+                    Logger.log('Chrome is blurred, Web page will close.');
                     window.close();
                 }
             }
@@ -25,7 +27,7 @@ window.addEventListener('blur', function () {
 
 window.addEventListener('focus', function () {
     focused = true;
-    console.log('Web page is focused, if not confirmed, it will close. confirmed = ', confirmed);
+    Logger.log('Web page is focused, if not confirmed, it will close. confirmed = ', confirmed);
     !confirmed && window.close();
 });
 
@@ -38,7 +40,7 @@ setTimeout(() => {
             confirmed = true;
             window.location.href = PROMOTION_PAGE;
         } else {
-            console.log('Promotion is canceled, web page will close.')
+            Logger.log('Promotion is canceled, web page will close.')
             window.close();
         }
     }

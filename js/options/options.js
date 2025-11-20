@@ -2,6 +2,7 @@ import { ConfigService } from "../services/ConfigService.js";
 import { UIController } from "./UIController.js";
 import { RpcManager } from "./RpcManager.js";
 import Utils from "../utils.js";
+import Logger from "../logger.js";
 
 /**
  * Options page app class
@@ -48,14 +49,14 @@ class OptionsApp {
 
         // Subscribe to all config changes
         this.configUnsubscriber = this.configService.subscribe((changes, config) => {
-            console.log('[OptionsApp] Config changed:', changes);
+            Logger.log('[OptionsApp] Config changed:', changes);
 
             // Update UI with new config
             this.uiController.updateUI(config);
 
             // Handle RPC list changes
             if (changes.rpcList) {
-                console.log('[OptionsApp] RPC list changed, calling updateAriaNgRpc');
+                Logger.log('[OptionsApp] RPC list changed, calling updateAriaNgRpc');
                 this.#updateAriaNgRpc(changes.rpcList);
             }
 
@@ -162,7 +163,7 @@ class OptionsApp {
                     await this.init();
                 }
             } catch (error) {
-                console.error("Import error:", error);
+                Logger.error("Import error:", error);
                 this.uiController.showResult(
                     "import-export-result",
                     chrome.i18n.getMessage("importConfigFailed") + `: ${error.message}`,
@@ -188,7 +189,7 @@ class OptionsApp {
                 config.ariaNgOptions = JSON.parse(ariaNgOptionsValue);
             }
         } catch {
-            console.warn("Upload: Local AriaNG options is invalid");
+            Logger.warn("Upload: Local AriaNG options is invalid");
         }
 
         // Check RPC list validity
@@ -236,7 +237,7 @@ class OptionsApp {
                     }
                     localStorage.setItem("AriaNg.Options", JSON.stringify(configs.ariaNgOptions));
                 } catch {
-                    console.warn("Download: AriaNG options is invalid");
+                    Logger.warn("Download: AriaNG options is invalid");
                 }
                 delete configs.ariaNgOptions;
             }
@@ -299,7 +300,7 @@ class OptionsApp {
         try {
             ariaNgOptions = JSON.parse(oldAriaNgOptions);
         } catch (error) {
-            console.warn("The stored AriaNG options is null or invalid.");
+            Logger.warn("The stored AriaNG options is null or invalid.");
         }
 
         if (Utils.exportRpcToAriaNg) {
@@ -322,13 +323,13 @@ class OptionsApp {
             try {
                 navigator.registerProtocolHandler("magnet", magnetPage, "Capture Magnet");
             } catch (error) {
-                console.warn("Failed to register magnet handler:", error);
+                Logger.warn("Failed to register magnet handler:", error);
             }
         } else {
             try {
                 navigator.unregisterProtocolHandler("magnet", magnetPage);
             } catch (error) {
-                console.warn("Failed to unregister magnet handler:", error);
+                Logger.warn("Failed to unregister magnet handler:", error);
             }
         }
     }
@@ -369,7 +370,7 @@ class OptionsApp {
         }
 
         await this.configService.set(newConfigs);
-        console.log("Storage upgrade completed.");
+        Logger.log("Storage upgrade completed.");
     }
 
     /**
@@ -388,6 +389,6 @@ const app = new OptionsApp();
 
 window.onload = () => {
     app.init().catch(error => {
-        console.error("Failed to initialize options page:", error);
+        Logger.error("Failed to initialize options page:", error);
     });
 };

@@ -2,7 +2,8 @@
  * RpcManager - RPC list manager
  */
 import Utils from "../utils.js";
-import { DefaultConfigs } from "../config.js";
+import Logger from "../logger.js";
+import DefaultConfigs from "../config.js";
 
 const Mark = chrome.i18n.getMessage("Mark");
 const NameStr = chrome.i18n.getMessage("Name");
@@ -183,9 +184,9 @@ export class RpcManager {
 
         if (rpcIndex >= 0 && rpcIndex < config.rpcList.length) {
             config.rpcList[rpcIndex].ignoreInsecure = !config.rpcList[rpcIndex].ignoreInsecure;
-            console.log('[RpcManager] Marking RPC:', rpcIndex, 'ignoreInsecure:', config.rpcList[rpcIndex].ignoreInsecure);
+            Logger.log('[RpcManager] Marking RPC:', rpcIndex, 'ignoreInsecure:', config.rpcList[rpcIndex].ignoreInsecure);
             await this.configService.set({ rpcList: config.rpcList });
-            
+
             // Re-render to update UI
             this.render();
         }

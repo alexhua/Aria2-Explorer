@@ -1,6 +1,7 @@
 /**
  * Background Service Worker - Main entry point
  */
+import Logger from "./js/logger.js";
 import ContextMenu from "./js/contextMenu.js";
 import { ConfigService } from "./js/services/ConfigService.js";
 import { DownloadManager } from "./js/background/DownloadManager.js";
@@ -81,7 +82,7 @@ class Application {
         eventHandler.registerAll();
 
         this.initialized = true;
-        console.log("Aria2 Explorer initialized successfully");
+        Logger.log("Aria2 Explorer initialized successfully");
     }
 
     /**
@@ -93,7 +94,7 @@ class Application {
 
         // Listen for integration (download capture) changes
         const unsub1 = configService.subscribe('integration', (value) => {
-            console.log('[App] Integration changed to:', value);
+            Logger.log('[App] Integration changed to:', value);
             if (value) {
                 this.managers.captureManager.enable();
             } else {
@@ -103,7 +104,7 @@ class Application {
 
         // Listen for monitorAria2 changes
         const unsub2 = configService.subscribe('monitorAria2', (value) => {
-            console.log('[App] MonitorAria2 changed to:', value);
+            Logger.log('[App] MonitorAria2 changed to:', value);
             if (value) {
                 this.managers.monitorManager.enable();
             } else {
@@ -113,7 +114,7 @@ class Application {
 
         // Listen for webUIOpenStyle changes
         const unsub3 = configService.subscribe('webUIOpenStyle', async (value) => {
-            console.log('[App] WebUIOpenStyle changed to:', value);
+            Logger.log('[App] WebUIOpenStyle changed to:', value);
             const popupUrl = value === "popup"
                 ? chrome.runtime.getURL('ui/ariang/popup.html')
                 : '';
@@ -126,7 +127,7 @@ class Application {
 
         // Listen for iconOffStyle changes
         const unsub4 = configService.subscribe('iconOffStyle', (value) => {
-            console.log('[App] IconOffStyle changed to:', value);
+            Logger.log('[App] IconOffStyle changed to:', value);
             if (!configService.get('integration')) {
                 IconManager.turnOff(value);
             }
@@ -134,7 +135,7 @@ class Application {
 
         // Listen for captureMagnet changes
         const unsub5 = configService.subscribe('captureMagnet', async (value) => {
-            console.log('[App] CaptureMagnet changed to:', value);
+            Logger.log('[App] CaptureMagnet changed to:', value);
             const uninstallUrl = value
                 ? "https://github.com/alexhua/Aria2-Explore/issues/98"
                 : '';
@@ -143,7 +144,7 @@ class Application {
 
         // Listen for checkClick changes
         const unsub6 = configService.subscribe('checkClick', async (value) => {
-            console.log('[App] CheckClick changed to:', value);
+            Logger.log('[App] CheckClick changed to:', value);
             await this.managers.eventHandler.initClickChecker();
         });
 
@@ -155,7 +156,7 @@ class Application {
                 changes.exportAll;
 
             if (needRebuildMenu) {
-                console.log('[App] Rebuilding menus due to config changes');
+                Logger.log('[App] Rebuilding menus due to config changes');
                 this.managers.menuManager.createAllMenus();
             }
         });
@@ -221,5 +222,5 @@ class Application {
 // Create and initialize application
 const app = new Application();
 app.init().catch(error => {
-    console.error("Failed to initialize Aria2 Explorer:", error);
+    Logger.error("Failed to initialize Aria2 Explorer:", error);
 });
