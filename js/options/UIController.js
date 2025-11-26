@@ -24,6 +24,7 @@ export class UIController {
     constructor(rpcManager) {
         this.configService = ConfigService.getInstance();
         this.rpcManager = rpcManager;
+        this.mediaQueryList = null;
     }
 
     /**
@@ -158,7 +159,8 @@ export class UIController {
         $(window).off('keyup').on('keyup', (e) => this.#handleKeyboardShortcuts(e));
 
         // Color mode change listener
-        window.matchMedia('(prefers-color-scheme: dark)').onchange = () => this.#setColorMode();
+        this.mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+        this.mediaQueryList.onchange = () => this.#setColorMode();
 
         // WebStore link
         $("#webStoreUrl").prop("href", Utils.getWebStoreUrl());
@@ -313,5 +315,16 @@ export class UIController {
         setTimeout(() => {
             $(`#${elementId}`).text("").removeClass(style);
         }, timeout);
+    }
+
+    /**
+     * Cleanup resources
+     */
+    cleanup() {
+        // Clean up media query listener
+        if (this.mediaQueryList) {
+            this.mediaQueryList.onchange = null;
+            this.mediaQueryList = null;
+        }
     }
 }

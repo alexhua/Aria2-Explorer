@@ -20,7 +20,6 @@ class Application {
     constructor() {
         this.managers = {};
         this.initialized = false;
-        this.configUnsubscribers = [];
     }
 
     /**
@@ -92,7 +91,7 @@ class Application {
         const configService = this.managers.configService;
 
         // Listen for integration (download capture) changes
-        const unsub1 = configService.subscribe('integration', (value) => {
+        configService.subscribe('integration', (value) => {
             Logger.log('[App] Integration changed to:', value);
             if (value) {
                 this.managers.captureManager.enable();
@@ -102,7 +101,7 @@ class Application {
         });
 
         // Listen for monitorAria2 changes
-        const unsub2 = configService.subscribe('monitorAria2', (value) => {
+        configService.subscribe('monitorAria2', (value) => {
             Logger.log('[App] MonitorAria2 changed to:', value);
             if (value) {
                 this.managers.monitorManager.enable();
@@ -112,7 +111,7 @@ class Application {
         });
 
         // Listen for webUIOpenStyle changes
-        const unsub3 = configService.subscribe('webUIOpenStyle', async (value) => {
+        configService.subscribe('webUIOpenStyle', async (value) => {
             Logger.log('[App] WebUIOpenStyle changed to:', value);
             const popupUrl = value === "popup"
                 ? chrome.runtime.getURL('ui/ariang/popup.html')
@@ -125,7 +124,7 @@ class Application {
         });
 
         // Listen for iconOffStyle changes
-        const unsub4 = configService.subscribe('iconOffStyle', (value) => {
+        configService.subscribe('iconOffStyle', (value) => {
             Logger.log('[App] IconOffStyle changed to:', value);
             if (!configService.get('integration')) {
                 IconManager.turnOff(value);
@@ -133,7 +132,7 @@ class Application {
         });
 
         // Listen for captureMagnet changes
-        const unsub5 = configService.subscribe('captureMagnet', async (value) => {
+        configService.subscribe('captureMagnet', async (value) => {
             Logger.log('[App] CaptureMagnet changed to:', value);
             const uninstallUrl = value
                 ? "https://github.com/alexhua/Aria2-Explore/issues/98"
@@ -142,13 +141,13 @@ class Application {
         });
 
         // Listen for checkClick changes
-        const unsub6 = configService.subscribe('checkClick', async (value) => {
+        configService.subscribe('checkClick', async (value) => {
             Logger.log('[App] CheckClick changed to:', value);
             await this.managers.eventHandler.initClickChecker();
         });
 
         // Listen for changes that require menu rebuild
-        const unsub7 = configService.subscribe((changes) => {
+        configService.subscribe((changes) => {
             const needRebuildMenu = changes.rpcList ||
                 changes.contextMenus ||
                 changes.askBeforeExport ||
@@ -158,10 +157,12 @@ class Application {
                 Logger.log('[App] Rebuilding menus due to config changes');
                 this.managers.menuManager.createAllMenus();
             }
-        });
 
-        // Save unsubscribers for cleanup
-        this.configUnsubscribers.push(unsub1, unsub2, unsub3, unsub4, unsub5, unsub6, unsub7);
+            if (changes.rpcList) {
+                Logger.log('[App] Rebuilding remote Aria2 list due to config changes');
+                this.managers.monitorManager.initRemoteAria2List();
+            }
+        });
     }
 
     /**
@@ -205,17 +206,6 @@ class Application {
         });
     }
 
-    /**
-     * Cleanup (for testing/reload)
-     */
-    cleanup() {
-        // Unsubscribe all config listeners
-        for (const unsubscribe of this.configUnsubscribers) {
-            unsubscribe();
-        }
-        this.configUnsubscribers = [];
-        this.initialized = false;
-    }
 }
 
 // Create and initialize application
