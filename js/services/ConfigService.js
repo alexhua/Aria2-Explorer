@@ -26,7 +26,6 @@ export class ConfigService {
         this.listeners = new Map(); // key -> Set<listener>
         this.globalListeners = new Set();
         this.initialized = false;
-        this.pendingUpdates = new Set(); // Track updates to prevent duplicate notifications
 
         // Setup storage listener
         this.#setupStorageListener();
@@ -100,18 +99,11 @@ export class ConfigService {
                 return false;
             }
 
-            // Update memory
+            // Update memory immediately for synchronous access
             Object.assign(this.config, validated);
 
-            // Set flag to prevent duplicate notification from storage.onChanged
-            // Must be set BEFORE storage call to handle immediate events
-            this.#setUpdateFlag(validated);
-
-            // Save to storage
+            // Save to storage (this will trigger storage.onChanged listener which handles notifications)
             await chrome.storage.local.set(validated);
-
-            // Notify listeners immediately
-            this.#notifyListeners(validated);
 
             Logger.log('[ConfigService] Config updated:', validated);
             return true;
@@ -164,10 +156,13 @@ export class ConfigService {
      */
     async reset() {
         try {
+            // Update memory immediately
+            this.config = { ...DefaultConfigs };
+
+            // Save to storage (this will trigger storage.onChanged listener which handles notifications)
             await chrome.storage.local.clear();
             await chrome.storage.local.set(DefaultConfigs);
-            this.config = { ...DefaultConfigs };
-            this.#notifyListeners(this.config);
+
             Logger.log('[ConfigService] Config reset to defaults');
             return true;
         } catch (error) {
@@ -222,49 +217,22 @@ export class ConfigService {
 
             const updates = {};
             for (const [key, { newValue }] of Object.entries(changes)) {
-                // Skip if this change was initiated by us
-                if (this.#hasUpdateFlag(key)) {
-                    continue;
-                }
-
-                // Update memory
+                // Update memory (for external changes, this is the only update)
+                // For local changes, this is redundant but harmless
                 this.config[key] = newValue;
                 updates[key] = newValue;
             }
 
             if (Object.keys(updates).length === 0) {
-                return; // All changes were from us, skip notification
+                return;
             }
 
-            // Notify listeners
-            // Note: This will be called for changes from other contexts
+            // Notify all listeners (both local and external changes)
+            // This is the ONLY place where notifications happen
             this.#notifyListeners(updates);
 
-            Logger.log('[ConfigService] Storage changed from external source:', updates);
+            Logger.log('[ConfigService] Storage changed, notifying listeners:', updates);
         });
-    }
-
-    /**
-     * Set update flag to prevent duplicate notifications
-     */
-    #setUpdateFlag(changes) {
-        for (const key of Object.keys(changes)) {
-            this.pendingUpdates.add(key);
-        }
-
-        // Clear flags after a short delay
-        setTimeout(() => {
-            for (const key of Object.keys(changes)) {
-                this.pendingUpdates.delete(key);
-            }
-        }, 100);
-    }
-
-    /**
-     * Check if key has pending update flag
-     */
-    #hasUpdateFlag(key) {
-        return this.pendingUpdates.has(key);
     }
 
     /**

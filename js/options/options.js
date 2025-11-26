@@ -374,13 +374,21 @@ class OptionsApp {
     }
 
     /**
-     * Cleanup
+     * Cleanup resources
      */
     cleanup() {
+        // Cleanup config listener
         if (this.configUnsubscriber) {
             this.configUnsubscriber();
             this.configUnsubscriber = null;
         }
+
+        // Cleanup UI controller
+        if (this.uiController) {
+            this.uiController.cleanup();
+        }
+
+        Logger.log('[OptionsApp] Cleanup completed');
     }
 }
 
@@ -391,4 +399,8 @@ window.onload = () => {
     app.init().catch(error => {
         Logger.error("Failed to initialize options page:", error);
     });
+};
+
+window.onbeforeunload = () => {
+    app.cleanup();
 };
