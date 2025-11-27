@@ -48,7 +48,7 @@ class OptionsApp {
         }
 
         // Subscribe to all config changes
-        this.configUnsubscriber = this.configService.subscribe((changes, config) => {
+        this.configUnsubscriber = this.configService.subscribe((changes, config, oldValues) => {
             Logger.log('[OptionsApp] Config changed:', changes);
 
             // Update UI with new config
@@ -56,8 +56,11 @@ class OptionsApp {
 
             // Handle RPC list changes
             if (changes.rpcList) {
-                Logger.log('[OptionsApp] RPC list changed, calling updateAriaNgRpc');
-                this.#updateAriaNgRpc(changes.rpcList);
+                const oldList = oldValues ? oldValues.rpcList : undefined;
+                if (this.#isRpcListChanged(oldList, changes.rpcList)) {
+                    Logger.log('[OptionsApp] RPC list changed, calling updateAriaNgRpc');
+                    this.#updateAriaNgRpc(changes.rpcList);
+                }
             }
 
             // Handle magnet capture changes
@@ -76,11 +79,6 @@ class OptionsApp {
             const formData = this.uiController.collectFormData();
             const success = await this.configService.set(formData);
 
-            if (success) {
-                this.uiController.showResult("save-result", "保存成功", true, 2000);
-            } else {
-                this.uiController.showResult("save-result", "保存失败：配置验证未通过", false, 5000);
-            }
         });
 
         // Reset button
@@ -90,12 +88,6 @@ class OptionsApp {
             }
 
             const success = await this.configService.reset();
-            if (success) {
-                this.uiController.showResult("reset-result", "重置成功", true, 2000);
-                await this.init();
-            } else {
-                this.uiController.showResult("reset-result", "重置失败", false, 5000);
-            }
         });
 
         // Upload button
@@ -275,7 +267,8 @@ class OptionsApp {
      * Check if RPC list changed
      */
     #isRpcListChanged(oldList, newList) {
-        if (!oldList || !newList) return false;
+        if (!oldList && !newList) return false;
+        if (!oldList || !newList) return true;
         if (oldList.length !== newList.length) return true;
 
         for (let i in newList) {
