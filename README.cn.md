@@ -8,7 +8,7 @@
 
 [![Chrome 应用商店](https://img.shields.io/badge/Chrome-应用商店-red?logo=google-chrome)](https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn)
 [![许可证](https://img.shields.io/badge/license-BSD--3--Clause-green.svg)](LICENSE)
-[![版本](https://img.shields.io/badge/version-2.7.6-gold.svg)](manifest.json)
+[![版本](https://img.shields.io/github/v/release/alexhua/Aria2-Explorer.svg?color=gold)](manifest.json)
 
 [English](./README.md) | [中文](#中文)
 
@@ -127,6 +127,26 @@ Aria2 Explorer 是一款功能强大的 Chrome 扩展，可将 Aria2 下载管�
 - **Alt + X**：启动 Aria2（仅 Windows）
 
 *在 `chrome://extensions/shortcuts` 自定义快捷键*
+
+## 🧩 外部调用
+
+允許其他擴展使用這個擴展作為與 Aria2 的中介軟體來下載檔案。  
+
+```js
+
+const downloadItem = {
+    url: "https://sample.com/image.jpg",
+    filename: "image_from_sample.jpg",
+    referrer: "https://sample.com",
+    options: { 
+        split: "10", // aria2 RPC options here
+        xxxxx: "oooo"
+    }
+}
+
+chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
+
+```
 
 ## 🏗️ 架构
 
