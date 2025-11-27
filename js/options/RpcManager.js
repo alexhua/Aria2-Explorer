@@ -31,7 +31,7 @@ export class RpcManager {
 
         // Render each RPC item
         for (const i in rpcList) {
-            this.#renderRpcItem(i, rpcList[i], i == 0);
+            this.#renderRpcItem(i, rpcList[i], false);
         }
 
         // Bind events
@@ -41,8 +41,8 @@ export class RpcManager {
     /**
      * Render single RPC item
      */
-    #renderRpcItem(index, rpcItem, isFirst) {
-        const html = this.#buildRpcItemHtml(index, isFirst);
+    #renderRpcItem(index, rpcItem, enableRequired) {
+        const html = this.#buildRpcItemHtml(index, enableRequired);
         $("#rpcList").append(html);
 
         // Fill data
@@ -64,15 +64,15 @@ export class RpcManager {
     /**
      * Build RPC item HTML
      */
-    #buildRpcItemHtml(index, isFirst) {
-        const required = isFirst ? 'required' : '';
-        const addBtnOrPattern = isFirst
+    #buildRpcItemHtml(index, enableRequired) {
+        const required = (enableRequired || index == 0) ? 'required' : '';
+        const addBtnOrPattern = index == 0
             ? `<button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-circle-plus"></i> RPC Server</button>`
             : `<input id="pattern-${index}" type="text" class="form-control col-sm-3 pattern" placeholder="URL Pattern(s) splitted by ,">`;
 
         return `<div class="form-group row rpcGroup">
             <label class="col-form-label col-sm-2 text-info">
-                ${isFirst ? '<i class="fa-solid fa-server"></i> Aria2-RPC-Server' : ''}
+                ${index == 0 ? '<i class="fa-solid fa-server"></i> Aria2-RPC-Server' : ''}
             </label>
             <div id="rpcItem-${index}" class="input-group col-sm-10">
                 <input id="name-${index}" type="text" class="form-control col-sm-1 name" 
@@ -131,7 +131,7 @@ export class RpcManager {
         // Add RPC button
         $("#add-rpc").off().on("click", () => {
             const i = $(".rpcGroup").length;
-            const newInput = this.#buildRpcItemHtml(i, false).replace("password", "text");
+            const newInput = this.#buildRpcItemHtml(i, true).replace("password", "text");
             $("#rpcList").append(newInput);
             $(`#rpcUrl-${i}`).on("input", this.validateInput);
             $(`#location-${i}`).on("input", this.validateInput);

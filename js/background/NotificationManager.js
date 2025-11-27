@@ -51,7 +51,8 @@ export class NotificationManager {
         const contextMessage = await this.#getContextMessage(data);
 
         // Show notification
-        this.#showTaskNotification(data.method, data.source, data.gid, contextMessage);
+        const gid = data.params?.length ? data.params[0]["gid"] : data.gid ?? '';
+        this.#showTaskNotification(data.method, data.source, gid, contextMessage);
     }
 
     /**
