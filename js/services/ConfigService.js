@@ -216,11 +216,14 @@ export class ConfigService {
             if (area !== 'local') return;
 
             const updates = {};
-            for (const [key, { newValue }] of Object.entries(changes)) {
+            const oldValues = {};
+
+            for (const [key, { newValue, oldValue }] of Object.entries(changes)) {
                 // Update memory (for external changes, this is the only update)
                 // For local changes, this is redundant but harmless
                 this.config[key] = newValue;
                 updates[key] = newValue;
+                oldValues[key] = oldValue;
             }
 
             if (Object.keys(updates).length === 0) {
@@ -229,7 +232,7 @@ export class ConfigService {
 
             // Notify all listeners (both local and external changes)
             // This is the ONLY place where notifications happen
-            this.#notifyListeners(updates);
+            this.#notifyListeners(updates, oldValues);
 
             Logger.log('[ConfigService] Storage changed, notifying listeners:', updates);
         });
@@ -238,11 +241,11 @@ export class ConfigService {
     /**
      * Notify all relevant listeners
      */
-    #notifyListeners(changes) {
+    #notifyListeners(changes, oldValues = {}) {
         // Notify global listeners
         for (const listener of this.globalListeners) {
             try {
-                listener(changes, this.config);
+                listener(changes, this.config, oldValues);
             } catch (error) {
                 Logger.error('[ConfigService] Global listener error:', error);
             }
@@ -254,7 +257,7 @@ export class ConfigService {
             if (keyListeners) {
                 for (const listener of keyListeners) {
                     try {
-                        listener(value, key, this.config);
+                        listener(value, key, this.config, oldValues[key]);
                     } catch (error) {
                         Logger.error(`[ConfigService] Listener error for key "${key}":`, error);
                     }
@@ -309,27 +312,30 @@ export class ConfigService {
      * Custom validation rules for specific keys
      */
     #isValidValue(key, value) {
-        switch (key) {
-            case 'fileSize':
-                return typeof value === 'number' && value >= 0 && value <= 10000;
+        const schema = ConfigService.getSchema();
+        const rule = schema[key];
 
-            case 'rpcList':
-                return Array.isArray(value) && value.every(rpc =>
-                    rpc && typeof rpc === 'object' && rpc.url && rpc.name
-                );
+        if (!rule) return true;
 
-            case 'colorModeId':
-                return typeof value === 'number' && value >= 0 && value <= 2;
-
-            case 'webUIOpenStyle':
-                return ['tab', 'window', 'popup', 'sidePanel'].includes(value);
-
-            case 'iconOffStyle':
-                return ['Grey', 'Dark', 'Dusk'].includes(value);
-
-            default:
-                return true;
+        // Validate Number (min/max)
+        if (rule.type === 'number') {
+            if (rule.min !== undefined && value < rule.min) return false;
+            if (rule.max !== undefined && value > rule.max) return false;
         }
+
+        // Validate Enum
+        if (rule.enum && !rule.enum.includes(value)) {
+            return false;
+        }
+
+        // Special validation for rpcList structure
+        if (key === 'rpcList') {
+            return Array.isArray(value) && value.every(rpc =>
+                rpc && typeof rpc === 'object' && rpc.url && rpc.name
+            );
+        }
+
+        return true;
     }
 
     /**
