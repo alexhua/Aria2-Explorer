@@ -8,7 +8,7 @@
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-red?logo=google-chrome)](https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.7.6-gold.svg)](manifest.json)
+[![Version](https://img.shields.io/github/v/release/alexhua/Aria2-Explorer.svg?color=gold)](manifest.json)
 
 [English](#english) | [中文](./README.cn.md)
 
@@ -127,6 +127,26 @@ Aria2 Explorer is a feature-rich Chrome extension that seamlessly integrates Ari
 - **Alt + X**: Launch Aria2 (Windows only)
 
 *Customize shortcuts at `chrome://extensions/shortcuts`*
+
+## 🧩 Integration
+
+Allow other extensions to use this extension as middleware to download files with Aria2.
+
+```js
+
+const downloadItem = {
+    url: "https://sample.com/image.jpg",
+    filename: "image_from_sample.jpg",
+    referrer: "https://sample.com",
+    options: { 
+        split: "10", // aria2 RPC options here
+        xxxxx: "oooo"
+    }
+}
+
+chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
+
+```
 
 ## 🏗️ Architecture
 
