@@ -293,8 +293,20 @@ class Utils {
      * @return {string} OS platform name
      */
     static getPlatform() {
-        return navigator.userAgentData.platform;
+        // Firefox doesn't support navigator.userAgentData.platform
+        if (navigator.userAgentData) {
+            return navigator.userAgentData.platform;
+        }
+        // Firefox platform check
+        if (/Win/.test(navigator.userAgent))
+            return "Windows";
+        else if (/Mac/.test(navigator.userAgent))
+            return "Mac";
+        else if (/Linux/.test(navigator.userAgent))
+            return "Linux"
     }
+
+    static isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 }
 
 export default Utils;

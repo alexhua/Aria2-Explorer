@@ -25,6 +25,9 @@
    ],
    "background": {
       "service_worker": "background.js",
+      "scripts": [
+         "background.js"
+      ],
       "type": "module"
    },
    "incognito": "split",
@@ -34,7 +37,8 @@
          "32": "images/logo32.png",
          "48": "images/logo48.png"
       },
-      "default_title": "__MSG_appName__"
+      "default_title": "__MSG_appName__",
+      "default_popup": "ui/ariang/index.html"
    },
    "side_panel": {
       "default_path": "ui/ariang/index.html"
@@ -78,5 +82,18 @@
             "<all_urls>"
          ]
       }
-   ]
+   ],
+   "browser_specific_settings": {
+      "gecko": {
+         "id": "aria2e@alexhua",
+         "strict_min_version": "102.0.0",
+         "data_collection_permissions": {
+            "required": [
+               "browsingActivity",
+               "websiteContent",
+               "websiteActivity"
+            ]
+         }
+      }
+   }
 }

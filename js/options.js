@@ -3,7 +3,7 @@ import { DefaultConfigs, DefaultAriaNgOptions } from "./config.js";
 
 const AriaNgOptionsKey = "AriaNg.Options"; // AriaNG options local storage key
 
-const SHORTCUTS_PAGE_URL = "chrome://extensions/shortcuts";
+const SHORTCUTS_PAGE_URL = Utils.isFirefox ? "about:addons" : "chrome://extensions/shortcuts";
 
 const ColorModeList = [
     { name: 'light', icon: 'fa-sun', title: 'LightMode' },
@@ -217,14 +217,15 @@ var Configs =
         }
     },
     save: function () {
+        let currentConfigs = { ...DefaultConfigs };
         let rpcGroup = $(".rpcGroup");
-        Configs.rpcList = [];
+        currentConfigs.rpcList = [];
         for (let i = 0; i < rpcGroup.length; i++) {
             if ($("#name-" + i).val() && $("#rpcUrl-" + i).val()) {
                 let rpcUrl = Utils.combineUrl($("#secretKey-" + i).val(), $("#rpcUrl-" + i).val().trim());
                 if (!rpcUrl) continue;
                 let location = Utils.formatFilepath($("#location-" + i).val().trim());
-                Configs.rpcList.push({
+                currentConfigs.rpcList.push({
                     "name": $("#name-" + i).val().trim(),
                     "url": rpcUrl,
                     "location": location || '',
@@ -233,30 +234,31 @@ var Configs =
             }
         }
 
-        if (!Configs.rpcList || !Configs.rpcList.length) {
-            Configs.rpcList = DefaultConfigs.rpcList;
+        if (!currentConfigs.rpcList.length) {
+            currentConfigs.rpcList = DefaultConfigs.rpcList;
         }
 
         for (const checkbox of $("input[type=checkbox]")) {
-            if (Configs.hasOwnProperty(checkbox.id))
-                Configs[checkbox.id] = checkbox.checked;
+            if (checkbox.id in DefaultConfigs)
+                currentConfigs[checkbox.id] = checkbox.checked;
         }
         for (const input of $("input[type=text],input[type=number]")) {
-            if (Configs.hasOwnProperty(input.id))
-                Configs[input.id] = input.value;
+            if (input.id in DefaultConfigs)
+                currentConfigs[input.id] = input.value;
         }
 
-        Configs.webUIOpenStyle = $("[name=webUIOpenStyle]:checked").val();
-        Configs.iconOffStyle = $("[name=iconOffStyle]:checked").val();
+        currentConfigs.webUIOpenStyle = $("[name=webUIOpenStyle]:checked").val();
+        currentConfigs.iconOffStyle = $("[name=iconOffStyle]:checked").val();
 
         for (const textarea of $("textarea")) {
-            Configs[textarea.id] = textarea.value.trim().split("\n");
+            currentConfigs[textarea.id] = textarea.value.trim().split("\n");
             // clear the repeat record using Set object
-            let tempSet = new Set(Configs[textarea.id]);
+            let tempSet = new Set(currentConfigs[textarea.id]);
             tempSet.delete("");
-            Configs[textarea.id] = Array.from(tempSet);
+            currentConfigs[textarea.id] = Array.from(tempSet);
         }
-        chrome.storage.local.set(Configs);
+        chrome.storage.local.set(currentConfigs);
+        Object.assign(Configs, currentConfigs);
     },
     upload: function () {
         try {
@@ -501,7 +503,14 @@ function toggleMagnetHandler(flag) {
     if (flag) {
         navigator.registerProtocolHandler("magnet", magnetPage, "Capture Magnet");
     } else {
-        navigator.unregisterProtocolHandler("magnet", magnetPage);
+        if (typeof navigator.unregisterProtocolHandler === 'function') {
+            try {
+                navigator.unregisterProtocolHandler("magnet", magnetPage);
+            } catch (e) {
+                // Firefox does not support unregisterProtocolHandler
+                // console.warn("Failed to unregister magnet handler:", e);
+            }
+        }
     }
 }
 
