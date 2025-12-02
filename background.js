@@ -24,7 +24,16 @@ var RemoteAria2List = [];
 const IconAnimController = new AnimationController();
 const ContextMenus = new ContextMenu();
 
+if (!chrome.downloads?.onDeterminingFilename) {
+    // Firefox does not support this API
+    // return chrome.downloads.onCreated.hasListener(captureDownload);
+    chrome.downloads.onDeterminingFilename = chrome.downloads.onCreated;
+}
+
 const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListener(captureDownload);
+
+// Firefox does not support this API
+const isSupportedPowerKeepAwake = !!chrome.power?.requestKeepAwake && !!chrome.power?.releaseKeepAwake;
 
 /**
  * @typedef RpcItem
@@ -250,13 +259,23 @@ function shouldCapture(downloadItem) {
         }
     }
 
+    if (Utils.isFirefox && downloadItem.fileSize == -1) {
+        // The onCreated event may not be able to get the file size
+        return true
+    }
     return downloadItem.fileSize >= Configs.fileSize * 1024 * 1024
 }
 
 function enableCapture() {
-    if (!isDownloadListened()) {
-        chrome.downloads.onDeterminingFilename.addListener(captureDownload);
+    if (chrome.downloads?.onDeterminingFilename) {
+        if (!isDownloadListened()) {
+            chrome.downloads.onDeterminingFilename.addListener(captureDownload);
+        }
+    } else {
+        // Firefox does not support downloads.onDeterminingFilename
+        console.warn("Download filename interception is not supported in this browser.");
     }
+
     IconManager.turnOn();
     Configs.integration = true;
     ContextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
@@ -297,6 +316,15 @@ async function captureDownload(downloadItem, suggest) {
             if (chrome.runtime.lastError)
                 chrome.runtime.lastError = null;
         });
+        if (Utils.isFirefox == true) {
+            // filename = "C:\Users\{username}\Downloads\filename.ext"
+            if (Utils.getPlatform() == "Windows") {
+                downloadItem.filename = downloadItem.filename.split("\\").pop();
+            } else {
+                downloadItem.filename = downloadItem.filename.split("/").pop();
+            }
+        }
+
         if (downloadItem.referrer == "about:blank") {
             downloadItem.referrer = "";
         }
@@ -308,6 +336,12 @@ async function captureDownload(downloadItem, suggest) {
             disableCapture();
             chrome.downloads.download({ url: downloadItem.url }).then(enableCapture);
         }
+
+        // Firefox downaloads.cancel() does not delete the download item
+        chrome.downloads.erase({ limit: 1, id: downloadItem.id }).then(() => {
+            if (chrome.runtime.lastError)
+                chrome.runtime.lastError = null;
+        })
     }
 }
 
@@ -671,7 +705,9 @@ function disableMonitor() {
     if (Configs.integration && !isDownloadListened()) {
         chrome.downloads.onDeterminingFilename.addListener(captureDownload);
     }
-    chrome.power.releaseKeepAwake();
+    if (isSupportedPowerKeepAwake) {
+        chrome.power.releaseKeepAwake();
+    }
 }
 
 async function monitorAria2() {
@@ -721,7 +757,8 @@ async function monitorAria2() {
         }
     }
 
-    if (active > 0) {
+    if (!isSupportedPowerKeepAwake) { }
+    else if (active > 0) {
         if (MonitorInterval == INTERVAL_LONG) {
             MonitorInterval = INTERVAL_SHORT;
             clearInterval(MonitorId);
@@ -949,7 +986,10 @@ function init() {
         });
         url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-Explore/issues/98" : '';
         chrome.runtime.setUninstallURL(url);
-        chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: Configs.webUIOpenStyle == "sidePanel" });
+        // Firefox does not support this API
+        if (chrome.sidePanel) {
+            chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: Configs.webUIOpenStyle == "sidePanel" });
+        }
     });
 }
 
