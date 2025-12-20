@@ -96,8 +96,8 @@ export class UIManager {
         let url = baseUrl + "/new?url=" + encodeURIComponent(btoa(encodeURI(downloadItem.url)));
 
         // Add referrer
-        if (downloadItem.referrer && 
-            downloadItem.referrer !== "" && 
+        if (downloadItem.referrer &&
+            downloadItem.referrer !== "" &&
             downloadItem.referrer !== "about:blank") {
             url += "&referer=" + encodeURIComponent(downloadItem.referrer);
         }
@@ -210,13 +210,13 @@ export class UIManager {
      */
     async resetSidePanel(tabId) {
         const config = this.configService.get();
-        
+
         if (config.webUIOpenStyle !== "sidePanel") return;
 
         try {
             const { path } = await chrome.sidePanel.getOptions(tabId ? { tabId } : undefined);
             const defaultPath = 'ui/ariang/index.html';
-            
+
             if (!path.endsWith(defaultPath)) {
                 const options = tabId ? { tabId, path: defaultPath } : { path: defaultPath };
                 await chrome.sidePanel.setOptions(options);

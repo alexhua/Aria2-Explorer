@@ -26,7 +26,7 @@ export class AnimationController {
     this.blockEndTime = 0;
     // Priority animations that cannot be interrupted
     this.priorityAnimations = new Set(['Complete', 'Error']);
-    
+
     AnimationController.#instance = this;
   }
 
@@ -44,7 +44,7 @@ export class AnimationController {
     // Check if blocked and if this is a priority animation
     const currentTime = performance.now();
     const isPriorityAnimation = this.priorityAnimations.has(type);
-    
+
     // If currently blocked and not a priority animation, ignore
     if (this.isBlocked && currentTime < this.blockEndTime && !isPriorityAnimation) {
       return;
@@ -130,7 +130,7 @@ export class AnimationController {
   #setBlocked(duration) {
     this.isBlocked = true;
     this.blockEndTime = performance.now() + duration;
-    
+
     // Set timer to clear blocked state
     setTimeout(() => {
       this.isBlocked = false;
