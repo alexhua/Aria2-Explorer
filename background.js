@@ -146,7 +146,7 @@ class Application {
             await this.managers.eventHandler.initClickChecker();
         });
 
-        // Listen for changes that require menu rebuild
+        // Listen for changes that require menu rebuild and changes of rpc list
         configService.subscribe((changes) => {
             const needRebuildMenu = changes.rpcList ||
                 changes.contextMenus ||
