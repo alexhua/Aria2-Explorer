@@ -41,7 +41,7 @@ export class MonitorManager {
                     this.remoteAria2List[i] = new Aria2(remote);
                 }
 
-                if (config.monitorAria2 && (i == 0 || config.monitorAll)) {
+                if (config.monitorAria2) {
                     this.remoteAria2List[i].regMessageHandler(
                         this.notificationManager.notifyTaskStatus.bind(this.notificationManager)
                     );

@@ -1,4 +1,4 @@
-import Logger from "logger.error";
+import Logger from "./logger.js";
 
 const SCHEME_ARIA2_START = "aria2://start/";
 const PROMOTION_DES = "Aria2ManagerPromotionDes";
