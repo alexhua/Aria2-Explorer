@@ -61,9 +61,9 @@ export class DownloadManager {
                     await chrome.downloads.download({ url });
                 }
             } else {
-                await chrome.downloads.download({ 
-                    url: downloadItem.url, 
-                    filename: downloadItem.filename 
+                await chrome.downloads.download({
+                    url: downloadItem.url,
+                    filename: downloadItem.filename
                 });
             }
             return true;
@@ -86,13 +86,13 @@ export class DownloadManager {
 
         try {
             const response = await aria2.addUri(downloadItem.url, options);
-            
+
             if (response?.error) {
                 throw response.error;
             }
 
             await this.#setGlobalOptions(aria2, rpcItem.url);
-            
+
             const contextMessage = this.#buildContextMessage(downloadItem, options);
             this.notificationManager.notifyTaskStatus({
                 method: "aria2.onExportSuccess",
@@ -126,7 +126,7 @@ export class DownloadManager {
             const storeId = chrome.extension.inIncognitoContext ? "1" : "0";
             const url = downloadItem.multiTask ? downloadItem.referrer : downloadItem.url;
             const cookies = await chrome.cookies.getAll({ url, storeId });
-            
+
             return cookies.map(cookie => `${cookie.name}=${cookie.value}`);
         } catch (error) {
             Logger.warn(error.message);
@@ -151,7 +151,7 @@ export class DownloadManager {
      */
     async #buildAria2Options(downloadItem, rpcItem, headers) {
         let options = await Aria2Options.getUriTaskOptions(rpcItem.url);
-        
+
         if (options.header) {
             const existingHeaders = options.header.split('\n')
                 .filter(item => !/^(cookie|user-agent|connection)/i.test(item));
@@ -193,7 +193,7 @@ export class DownloadManager {
      */
     #parseErrorMessage(error) {
         if (!error?.message) return '';
-        
+
         const msg = error.message.toLowerCase();
         if (msg.includes('unauthorized')) {
             return "Secret key is incorrect.";
@@ -209,7 +209,7 @@ export class DownloadManager {
     getRpcServer(url) {
         const config = this.configService.get();
         const rpcList = config.rpcList;
-        
+
         let defaultIndex = 0;
         for (let i = 1; i < rpcList.length; i++) {
             const patternStr = rpcList[i].pattern;
@@ -217,7 +217,7 @@ export class DownloadManager {
                 defaultIndex = i;
                 continue;
             }
-            
+
             const patterns = patternStr.split(',');
             for (let pattern of patterns) {
                 pattern = pattern.trim();
@@ -226,7 +226,7 @@ export class DownloadManager {
                 }
             }
         }
-        
+
         return rpcList[defaultIndex];
     }
 
