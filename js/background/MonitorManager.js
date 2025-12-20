@@ -122,7 +122,7 @@ export class MonitorManager {
 
         for (const i in this.remoteAria2List) {
             const remoteAria2 = this.remoteAria2List[i];
-            
+
             try {
                 remoteAria2.openSocket();
                 const response = await remoteAria2.getGlobalStat();
@@ -145,7 +145,7 @@ export class MonitorManager {
                 if (i == 0 && response.result.percentActive) {
                     const numActive = Number(response.result.numActive);
                     const percent = response.result.percentActive;
-                    
+
                     if (numActive > 0 && !isNaN(percent)) {
                         this.iconAnimController.start('Progress', percent / 100);
                     }
@@ -187,7 +187,7 @@ export class MonitorManager {
      */
     #updateMonitorInterval(active) {
         const newInterval = active > 0 ? INTERVAL_SHORT : INTERVAL_LONG;
-        
+
         if (this.monitorInterval !== newInterval) {
             this.monitorInterval = newInterval;
             clearInterval(this.monitorId);
@@ -200,7 +200,7 @@ export class MonitorManager {
      */
     #updatePowerState(active, waiting, localConnected) {
         const config = this.configService.get();
-        
+
         if (active > 0 && config.keepAwake && localConnected > 0) {
             chrome.power.requestKeepAwake("system");
         } else {
@@ -222,7 +222,7 @@ export class MonitorManager {
      */
     #updateBadgeAndTitle(stats) {
         const config = this.configService.get();
-        
+
         if (!config.monitorAria2) return;
 
         const { connected, disconnected, active, waiting, stopped, uploadSpeed, downloadSpeed, errorMessage, localConnected } = stats;
@@ -258,7 +258,7 @@ export class MonitorManager {
             if (localConnected === 0) chrome.power.releaseKeepAwake();
             bgColor = "#A83030";
             text = 'E';
-            title += config.monitorAll 
+            title += config.monitorAll
                 ? 'No Aria2 server is reachable.'
                 : `Failed to connect with ${this.remoteAria2List[0].name}. ${errorMessage}.`;
         }
@@ -274,7 +274,7 @@ export class MonitorManager {
      */
     #getBadgeText(active, waiting, connected) {
         const config = this.configService.get();
-        
+
         if (!config.badgeText) return '';
         if (active > 0) return active.toString();
         if (waiting > 0) return waiting.toString();
@@ -286,10 +286,10 @@ export class MonitorManager {
      */
     #getBadgeColor(active, waiting, connected) {
         const config = this.configService.get();
-        
+
         if (active > 0) {
-            return (config.monitorAll && connected < this.remoteAria2List.length) 
-                ? '#0077cc' 
+            return (config.monitorAll && connected < this.remoteAria2List.length)
+                ? '#0077cc'
                 : 'green';
         }
         if (waiting > 0) return '#AAA';

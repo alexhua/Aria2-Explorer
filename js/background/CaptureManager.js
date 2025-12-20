@@ -13,7 +13,7 @@ export class CaptureManager {
         this.contextMenus = contextMenus;
         this.altKeyPressed = false;
         this.currentTabUrl = "about:blank";
-        
+
         // Bind captureDownload to preserve 'this' context
         this.captureDownload = this.captureDownload.bind(this);
     }
@@ -119,7 +119,7 @@ export class CaptureManager {
      */
     #showCaptureReminder(downloadItem) {
         const config = this.configService.get();
-        
+
         if (!config.remindCaptureTip || downloadItem.byExtensionId === chrome.runtime.id) {
             return;
         }
@@ -129,7 +129,7 @@ export class CaptureManager {
         const btnTitle1 = chrome.i18n.getMessage("Dismiss");
         const btnTitle2 = chrome.i18n.getMessage("NeverRemind");
         const buttons = [{ title: btnTitle1 }, { title: btnTitle2 }];
-        
+
         Utils.showNotification(
             { title, message, buttons, requireInteraction: true },
             "NID_CAPTURED_OTHERS"
@@ -141,7 +141,7 @@ export class CaptureManager {
      */
     #shouldCapture(downloadItem) {
         const config = this.configService.get();
-        
+
         // Check Alt key
         if (this.altKeyPressed) {
             this.altKeyPressed = false;
@@ -149,8 +149,8 @@ export class CaptureManager {
         }
 
         // Check download state
-        if (downloadItem.error || 
-            downloadItem.state !== "in_progress" || 
+        if (downloadItem.error ||
+            downloadItem.state !== "in_progress" ||
             !/^(https?|s?ftp):/i.test(downloadItem.url)) {
             return false;
         }
@@ -161,10 +161,10 @@ export class CaptureManager {
         }
 
         // Check extension blacklist
-        if (downloadItem.byExtensionId && 
+        if (downloadItem.byExtensionId &&
             !config.allowedSites.includes(downloadItem.byExtensionId) &&
-            (config.blockedSites.includes("*") || 
-             config.blockedSites.includes(downloadItem.byExtensionId))) {
+            (config.blockedSites.includes("*") ||
+                config.blockedSites.includes(downloadItem.byExtensionId))) {
             return false;
         }
 
@@ -173,7 +173,7 @@ export class CaptureManager {
 
         // Check whitelist
         for (const pattern of config.allowedSites) {
-            if (this.#matchRule(currentTabUrl.hostname, pattern) || 
+            if (this.#matchRule(currentTabUrl.hostname, pattern) ||
                 this.#matchRule(url.hostname, pattern)) {
                 return true;
             }
@@ -181,7 +181,7 @@ export class CaptureManager {
 
         // Check blacklist
         for (const pattern of config.blockedSites) {
-            if (this.#matchRule(currentTabUrl.hostname, pattern) || 
+            if (this.#matchRule(currentTabUrl.hostname, pattern) ||
                 this.#matchRule(url.hostname, pattern)) {
                 return false;
             }
