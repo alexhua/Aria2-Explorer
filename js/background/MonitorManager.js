@@ -19,6 +19,8 @@ export class MonitorManager {
         this.remoteAria2List = [];
         // Share the same AnimationController instance with NotificationManager
         this.iconAnimController = notificationManager.getAnimationController();
+        // Store bound handler to ensure same reference for reg/unreg
+        this.boundNotifyHandler = this.notificationManager.notifyTaskStatus.bind(this.notificationManager);
     }
 
     /**
@@ -42,13 +44,11 @@ export class MonitorManager {
                 }
 
                 if (config.monitorAria2) {
-                    this.remoteAria2List[i].regMessageHandler(
-                        this.notificationManager.notifyTaskStatus.bind(this.notificationManager)
-                    );
+                    Logger.log('[MonitorManager] Registering message handler for', remote.name);
+                    this.remoteAria2List[i].regMessageHandler(this.boundNotifyHandler);
                 } else {
-                    this.remoteAria2List[i].unRegMessageHandler(
-                        this.notificationManager.notifyTaskStatus.bind(this.notificationManager)
-                    );
+                    Logger.log('[MonitorManager] Unregistering message handler for', remote.name);
+                    this.remoteAria2List[i].unRegMessageHandler(this.boundNotifyHandler);
                 }
             } catch (error) {
                 Logger.error('Failed to initialize Aria2 RPC server', error.message);
