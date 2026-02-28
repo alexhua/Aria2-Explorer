@@ -261,7 +261,7 @@ Recently Used=
 RPC Alias=
 Default Tasks Page=Pagina attività predefinita=
 Save Aria2 Settings to Local=Salva impostazioni Aria2 localmente
-Save Aria2 settings to local and sync these settings every time when connecting to Aria2.=Salva le impostazioni Aria2 localmente e applica queste impostazioni ogni volta che ti connetti ad Aria2.
+Save Aria2 settings to local and sync these settings every time when connecting to Aria2.=Salva le impostazioni Aria2 localmente e applica queste impostazioni ogni volta che ti connetti ad Aria2. (L'edizione avanzata supporta già il salvataggio diretto delle modifiche alla configurazione, quindi non è consigliato abilitare questa opzione)
 Import / Export AriaNg Settings=
 Import Settings=
 Export Settings=
