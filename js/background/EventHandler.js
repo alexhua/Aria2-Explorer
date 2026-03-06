@@ -115,11 +115,6 @@ export class EventHandler {
      * Register runtime listeners
      */
     #registerRuntimeListeners() {
-        // Install/update listener
-        chrome.runtime.onInstalled.addListener((details) => {
-            this.#handleInstalled(details);
-        });
-
         // External message listener
         chrome.runtime.onMessageExternal.addListener((downloadItem) => {
             const config = this.configService.get();
@@ -138,22 +133,6 @@ export class EventHandler {
         this.managers.contextMenus.onClicked.addListener((info, tab) => {
             this.managers.menuManager.handleMenuClick(info, tab);
         });
-    }
-
-
-
-    /**
-     * Handle installed event
-     */
-    async #handleInstalled(details) {
-        if (details.reason === "install") {
-            const config = this.configService.get();
-            const url = chrome.runtime.getURL("options.html");
-            await this.configService.set(config);
-            chrome.tabs.create({ url });
-        } else if (details.reason === "update") {
-            // Can add update notification here
-        }
     }
 
     /**

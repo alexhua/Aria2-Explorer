@@ -31,6 +31,9 @@ class Application {
         // Create context menu instance
         const contextMenus = new ContextMenu();
 
+        // Need to register as early as possible before any await
+        this.#setupInstallListener();
+
         // Create config service (singleton)
         const configService = ConfigService.getInstance();
         await configService.init();
@@ -81,6 +84,22 @@ class Application {
 
         this.initialized = true;
         Logger.log("Aria2 Explorer initialized successfully");
+    }
+
+
+
+    /**
+     * Handle installed event
+     */
+    async #setupInstallListener() {
+        chrome.runtime.onInstalled.addListener((details) => {
+            if (details.reason === "install") {
+                const url = chrome.runtime.getURL("options.html");
+                chrome.tabs.create({ url });
+            } else if (details.reason === "update") {
+                // Can add update notification here
+            }
+        });
     }
 
     /**
