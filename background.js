@@ -129,6 +129,12 @@ class Application {
             }
         });
 
+        // Listen for allowNotification changes
+        configService.subscribe('allowNotification', (value) => {
+            Logger.log('[App] AllowNotification changed to:', value);
+            this.managers.monitorManager.processMessageHandlers(value);
+        });
+
         // Listen for webUIOpenStyle changes
         configService.subscribe('webUIOpenStyle', async (value) => {
             Logger.log('[App] WebUIOpenStyle changed to:', value);
