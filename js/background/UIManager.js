@@ -5,6 +5,8 @@ import { ConfigService } from "../services/ConfigService.js";
 import Logger from "../logger.js";
 
 const NID_TASK_STOPPED = "NID_TASK_STOPPED";
+const POPUP_UI_INDEX = "ui/ariang/popup.html";
+const DEFAULT_UI_INDEX = "ui/ariang/index.html";
 
 export class UIManager {
     constructor() {
@@ -32,8 +34,10 @@ export class UIManager {
      */
     async launchUI(info) {
         const config = this.configService.get();
-        const index = chrome.runtime.getURL('ui/ariang/index.html');
-        let webUiUrl = index + '#!';
+        const index = config.webUIOpenStyle === "popup" ? POPUP_UI_INDEX : DEFAULT_UI_INDEX;
+        const indexUrl = chrome.runtime.getURL(index);
+
+        let webUiUrl = indexUrl + '#!';
 
         // Try to open side panel
         let sidePanelOpened = false;
@@ -44,14 +48,18 @@ export class UIManager {
         // Build final WebUI URL
         webUiUrl = await this.#buildWebUiUrl(webUiUrl, info);
 
-        // If side panel opened, update path
+        // If side panel opened successfully, update path
         if (sidePanelOpened) {
             await this.#updateSidePanelPath(info, webUiUrl);
-            return;
+        } else if (config.webUIOpenStyle === "popup") {
+            const popupUrl = chrome.runtime.getURL(index);
+            await chrome.action.setPopup({ popup: webUiUrl });
+            await chrome.action.openPopup();
+            await chrome.action.setPopup({ popup: popupUrl });
+        } else {
+            // Otherwise open in tab or window
+            await this.#openInTabOrWindow(indexUrl, webUiUrl);
         }
-
-        // Otherwise open in tab or window
-        await this.#openInTabOrWindow(index, webUiUrl);
     }
 
     /**
@@ -65,7 +73,8 @@ export class UIManager {
                 await chrome.sidePanel.open({ windowId: this.currentWindowId });
             }
             return true;
-        } catch {
+        } catch (error) {
+            Logger.warn("Open side panel failed:", error);
             return false;
         }
     }
@@ -86,7 +95,7 @@ export class UIManager {
         }
 
         // Default URL
-        return chrome.runtime.getURL('ui/ariang/index.html');
+        return chrome.runtime.getURL(DEFAULT_UI_INDEX);
     }
 
     /**
@@ -215,7 +224,7 @@ export class UIManager {
 
         try {
             const { path } = await chrome.sidePanel.getOptions(tabId ? { tabId } : undefined);
-            const defaultPath = 'ui/ariang/index.html';
+            const defaultPath = DEFAULT_UI_INDEX;
 
             if (!path.endsWith(defaultPath)) {
                 const options = tabId ? { tabId, path: defaultPath } : { path: defaultPath };
