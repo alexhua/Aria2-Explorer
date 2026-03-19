@@ -16,6 +16,8 @@ const INTERVAL_LONG = 3000;
 
 var AltKeyPressed = false;  // record wether alt key is pressed when mouse click
 var CurrentWindowId = 0;
+var UIWindowId = null;       // track the popup window opened by openInWindow
+var UIWindowBounds = null;   // cache last known bounds before window close
 var CurrentTabUrl = "about:blank";
 var MonitorId = null;
 var MonitorInterval = INTERVAL_LONG; // Aria2 monitor interval 3000ms
@@ -390,15 +392,13 @@ async function launchUI(info) {
 }
 
 async function openInWindow(url) {
-    chrome.windows.create({
-        url: url,
-        type: 'popup',
-        focused: false
-    }).then(function (window) {
-        chrome.windows.update(window.id, {
-            focused: true
-        });
-    });
+
+    const STORAGE_KEY = 'uiWindowBounds';
+    const { [STORAGE_KEY]: savedBounds } = await chrome.storage.local.get(STORAGE_KEY);
+    const windowProps = { url, type: 'popup', focused: false, ...savedBounds };
+    const win = await chrome.windows.create(windowProps);
+    UIWindowId = win.id;
+    chrome.windows.update(win.id, { focused: true });
 }
 
 function createRpcOptionsMenu() {
@@ -818,6 +818,21 @@ function registerAllListeners() {
                 updateOptionMenu(tabs[0]);
             }
         });
+    });
+
+    /* Cache popup window bounds to memory on move/resize (no storage IO) */
+    chrome.windows.onBoundsChanged.addListener(function (win) {
+        if (win.id === UIWindowId) {
+            UIWindowBounds = { left: win.left, top: win.top, width: win.width, height: win.height };
+        }
+    });
+
+    /* Persist cached bounds to storage only when popup window closes */
+    chrome.windows.onRemoved.addListener(function (windowId) {
+        if (windowId !== UIWindowId) return;
+        if (UIWindowBounds) chrome.storage.local.set({ uiWindowBounds: UIWindowBounds });
+        UIWindowId = null;
+        UIWindowBounds = null;
     });
 
     chrome.notifications.onClicked.addListener(function (id) {
