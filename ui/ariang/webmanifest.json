@@ -9,7 +9,7 @@
   "background_color": "#3c4751",
   "icons": [
     {
-      "sizes": "64x64",
+      "sizes": "48x48",
       "type": "image/png",
       "src": "./favicon.png"
     },
@@ -28,14 +28,6 @@
       "type": "image/png",
       "purpose": "maskable",
       "src": "./logo512m.png"
-    }
-  ],
-  "prefer_related_applications": false,
-  "related_applications": [
-    {
-      "platform": "chrome_web_store",
-      "url": "https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn",
-      "id": "mpkodccbngfoacfalldjimigbofkhgjn"
     }
   ]
 }

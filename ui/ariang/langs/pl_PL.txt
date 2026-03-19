@@ -177,6 +177,8 @@ Theme=Motyw
 Light=Jasny
 Dark=Ciemny
 Follow system settings=Dostosuj do ustawień systemowych
+Animation Effects=Efekty Animacji
+Blur Effects=Efekty Rozmycia
 Debug Mode=Tryb debugowania
 Page Title=Tytuł strony
 Preview=Podgląd
@@ -320,6 +322,8 @@ Cannot initialize WebSocket!=Nie można zainicjować WebSocket!
 Cannot connect to aria2!=Nie można połączyć się z aria2!
 Access Denied!=Odmowa dostępu!
 You cannot use AriaNg because this browser does not meet the minimum requirements for data storage.=Nie możesz używać AriaNg, ponieważ ta przeglądarka nie spełnia minimalnych wymagań dotyczących przechowywania danych.
+Dismiss=Odrzuć
+Read more=Czytaj więcej
 
 [error]
 unknown=Wystąpił nieznany błąd.
@@ -386,6 +390,7 @@ Start Retrying Task Manually=Ręcznie rozpocznij ponawianie zadania
 Navigate to Default Tasks Page=Przejdź do domyślnej strony zadań
 Remove downloaded file(s) simultaneously=Usuń pobrane pliki jednocześnie
 Default Tasks Page=Domyślna strona zadań
+Notify in page when connected=Powiadom na stronie po połączeniu
 Enhanced Edition=Wersja rozszerzona
 Install Aria2 Manager=Zainstaluj Aria2 Manager
 Aria2 Manager is not installed, go to Alex Recommends channel for more information?=Aria2 Manager nie jest zainstalowany, przejdź do kanału "Polecane przez Alexa", aby uzyskać więcej informacji?

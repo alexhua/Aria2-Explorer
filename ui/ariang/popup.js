@@ -8,4 +8,6 @@ chrome && chrome.tabs.getZoomSettings(zoomSettings => {
         element.style.width = adjustedWidth + 'px';
         element.style.height = adjustedHeight + 'px';
     }
+    // Pass hash info to iframe
+    element.src += window.location.hash;
 })

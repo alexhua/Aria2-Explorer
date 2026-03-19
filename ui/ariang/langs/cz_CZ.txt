@@ -177,6 +177,8 @@ Theme=Motiv
 Light=Světlý
 Dark=Tmavý
 Follow system settings=Řídit se nastavením systému
+Animation Effects=Animační Efekty
+Blur Effects=Efekty Rozostření
 Debug Mode=Režim ladění
 Page Title=Titul stránky
 Preview=Náhled
@@ -354,12 +356,15 @@ Start Retrying Task Manually=Ruční spuštění opakování úlohy
 Navigate to Default Tasks Page=Přejít na výchozí stránku úloh
 Remove downloaded file(s) simultaneously=Současně odstranit stažené soubory
 Default Tasks Page=Výchozí stránka úloh
+Notify in page when connected=Upozornit na stránce po připojení
 Enhanced Edition=Vylepšená edice
 Install Aria2 Manager=Instalovat Aria2 Manager
 Aria2 Manager is not installed, go to Alex Recommends channel for more information?=Aria2 Manager není nainstalován, přejděte na kanál „Doporučuje Alex“ pro více informací?
 Download via Browser=Stáhnout přes prohlížeč
 Confirm to download multiple URLs from Browser simultaneously?=Potvrdit současné stahování více URL z prohlížeče?
 Aria2 is disconnected, All tasks will be downloaded via Browser. Invalid URL will be ignored.=Aria2 je odpojena, všechny úlohy budou staženy přes prohlížeč. Neplatné URL budou ignorovány.
+Dismiss=Zavřít
+Read more=Číst dál
 
 [error]
 unknown=Došlo k neznámé chybě.

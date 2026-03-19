@@ -177,6 +177,8 @@ Theme=Тема
 Light=Светлый
 Dark=Темный
 Follow system settings=Следовать настройкам системы
+Animation Effects=Эффекты Анимации
+Blur Effects=Эффекты Размытия
 Debug Mode=Режим отладки
 Page Title=Заголовок страницы
 Preview=Предпросмотр
@@ -354,12 +356,15 @@ Start Retrying Task Manually=Начать повторную попытку за
 Navigate to Default Tasks Page=Перейти на страницу задач по умолчанию
 Remove downloaded file(s) simultaneously=Одновременно удалить загруженные файлы
 Default Tasks Page=Страница задач по умолчанию
+Notify in page when connected=Уведомлять на странице при подключении
 Enhanced Edition=Расширенное издание
 Install Aria2 Manager=Установить Aria2 Manager
 Aria2 Manager is not installed, go to Alex Recommends channel for more information?=Aria2 Manager не установлен, перейдите на канал «Рекомендации Alex» для получения дополнительной информации?
 Download via Browser=Скачать через браузер
 Confirm to download multiple URLs from Browser simultaneously?=Подтвердить одновременную загрузку нескольких URL из браузера?
 Aria2 is disconnected, All tasks will be downloaded via Browser. Invalid URL will be ignored.=Aria2 отключен, все задачи будут загружены через браузер. Недействительные URL будут проигнорированы.
+Dismiss=Закрыть
+Read more=Читать далее
 
 [error]
 unknown=Неизвестная ошибка.

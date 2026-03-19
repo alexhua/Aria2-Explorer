@@ -192,6 +192,8 @@ Theme=Tema
 Light=Chiaro
 Dark=Scuro
 Follow system settings=Segui le impostazioni di sistema
+Animation Effects=Effetti di Animazione
+Blur Effects=Effetti di Sfocatura
 Debug Mode=Modalità debug
 Compact Mode=Modalità compatta
 Page Title=Titolo pagina
@@ -260,6 +262,7 @@ Each Task List Page Uses Independent Display Order=
 Recently Used=
 RPC Alias=
 Default Tasks Page=Pagina attività predefinita=
+Notify in page when connected=Notifica nella pagina quando connesso
 Save Aria2 Settings to Local=Salva impostazioni Aria2 localmente
 Save Aria2 settings to local and sync these settings every time when connecting to Aria2.=Salva le impostazioni Aria2 localmente e applica queste impostazioni ogni volta che ti connetti ad Aria2. (L'edizione avanzata supporta già il salvataggio diretto delle modifiche alla configurazione, quindi non è consigliato abilitare questa opzione)
 Import / Export AriaNg Settings=
@@ -356,6 +359,8 @@ Aria2 Manager is not installed, go to Alex Recommends channel for more informati
 Download via Browser=Scarica tramite browser
 Confirm to download multiple URLs from Browser simultaneously?=Confermi di scaricare più URL dal browser contemporaneamente?
 Aria2 is disconnected, All tasks will be downloaded via Browser. Invalid URL will be ignored.=Aria2 è disconnesso, tutte le attività verranno scaricate tramite browser. L'URL non valido verrà ignorato.
+Dismiss=Ignora
+Read more=Leggi di più
 
 [error]
 unknown=Errore sconosciuto.

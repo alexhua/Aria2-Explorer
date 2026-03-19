@@ -65,6 +65,7 @@ Start Retrying Task Manually=Aufgabe manuell erneut starten
 Navigate to Default Tasks Page=Zur Standard-Aufgabenseite navigieren
 Remove downloaded file(s) simultaneously=Heruntergeladene Datei(en) gleichzeitig entfernen
 Default Tasks Page=Standard-Aufgabenseite
+Notify in page when connected=Auf der Seite benachrichtigen, wenn verbunden
 Enhanced Edition=Erweiterte Edition
 Install Aria2 Manager=Aria2 Manager installieren
 Aria2 Manager is not installed, go to Alex Recommends channel for more information?=Aria2 Manager ist nicht installiert, gehen Sie zum "Alex empfiehlt"-Kanal für weitere Informationen?
@@ -218,6 +219,8 @@ Theme=Design
 Light=Hell
 Dark=Dunkel
 Follow system settings=Systemeinstellungen folgen
+Animation Effects=Animationseffekte
+Blur Effects=Unschärfeeffekte
 Debug Mode=Debug-Modus
 Page Title=Seitentitel
 Preview=Vorschau
@@ -359,6 +362,8 @@ Cannot initialize WebSocket!=WebSocket kann nicht initialisiert werden!
 Cannot connect to aria2!=Verbindung zu aria2 kann nicht hergestellt werden!
 Access Denied!=Zugriff verweigert!
 You cannot use AriaNg because this browser does not meet the minimum requirements for data storage.=Sie können AriaNg nicht verwenden, da Ihr Browser die Mindestanforderungen für die Datenspeicherung nicht erfüllt.
+Dismiss=Verwerfen
+Read more=Mehr lesen
 
 [error]
 unknown=Unbekannter Fehler ist aufgetreten.
