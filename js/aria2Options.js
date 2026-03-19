@@ -14,7 +14,7 @@ class Aria2Options {
      * 
      * @param {string} rpcUrl the whole Aria2 RPC url
      * 
-     * @return {Object} Aria2 global options
+     * @return {Promise<Object>} Aria2 global options promise
      */
     static async getGlobalOptions(rpcUrl) {
         const localStorage = await chrome.storage.local.get('ariaNgOptions');
@@ -46,7 +46,7 @@ class Aria2Options {
      *  
      * @param {string} rpcUrl the whole Aria2 RPC url
      * 
-     * @return {Object} Aria2 global only options
+     * @return {Promise<Object>} Aria2 global only options
      */
     static async getGlobalOnlyOptions(rpcUrl) {
         let globalOnlyOptions = await Aria2Options.getGlobalOptions(rpcUrl);
@@ -64,7 +64,7 @@ class Aria2Options {
      *  
      * @param {string} rpcUrl the whole Aria2 RPC url
      * 
-     * @return {Object} Aria2 task options
+     * @return {Promise<Object>} Aria2 task options
      */
     static async getTaskOptions(rpcUrl) {
         let taskOptions = await Aria2Options.getGlobalOptions(rpcUrl);
@@ -82,7 +82,7 @@ class Aria2Options {
      *  
      * @param {string} rpcUrl the whole Aria2 RPC url
      * 
-     * @return {Object} Aria2 task options
+     * @return {Promise<Object>} Aria2 task options
      */
     static async getUriTaskOptions(rpcUrl) {
         let taskOptions = await Aria2Options.getGlobalOptions(rpcUrl);

@@ -58,7 +58,7 @@ const isDownloadListened = () => chrome.downloads.onDeterminingFilename.hasListe
  * 
  * @param {DownloadItem} downloadItem 
  * @param {RpcItem} rpcItem
- * @returns {boolean} the result of creating download task
+ * @returns {Promise<boolean>} the result of creating download task
  */
 async function download(downloadItem, rpcItem) {
     if (!downloadItem || !downloadItem.url) {
@@ -361,42 +361,37 @@ async function launchUI(info) {
         } else {
             await chrome.sidePanel.setOptions({ path: webUiUrl });
         }
-        return;
+    } else if (Configs.webUIOpenStyle === "popup") {
+        const popupUrl = chrome.runtime.getURL('ui/ariang/popup.html');
+        await chrome.action.setPopup({ popup: webUiUrl.replace('index', 'popup') });
+        await chrome.action.openPopup();
+        await chrome.action.setPopup({ popup: popupUrl });
+    } else {
+        chrome.tabs.query({ "url": index }).then(function (tabs) {
+            if (tabs?.length > 0) {
+                chrome.windows.update(tabs[0].windowId, {
+                    focused: true
+                });
+                let prop = { active: true };
+                if (webUiUrl != index) prop.url = webUiUrl;
+                chrome.tabs.update(tabs[0].id, prop);
+                return;
+            }
+            if (Configs.webUIOpenStyle == "window") {
+                openInWindow(webUiUrl);
+            } else {
+                chrome.tabs.create({
+                    url: webUiUrl
+                });
+            }
+        });
     }
 
-    chrome.tabs.query({ "url": index }).then(function (tabs) {
-        if (tabs?.length > 0) {
-            chrome.windows.update(tabs[0].windowId, {
-                focused: true
-            });
-            let prop = { active: true };
-            if (webUiUrl != index) prop.url = webUiUrl;
-            chrome.tabs.update(tabs[0].id, prop);
-            return;
-        }
-        if (Configs.webUIOpenStyle == "window") {
-            openInWindow(webUiUrl);
-        } else {
-            chrome.tabs.create({
-                url: webUiUrl
-            });
-        }
-    });
 }
 
 async function openInWindow(url) {
-    let screen = await chrome.system.display.getInfo()
-    const w = Math.floor(screen[0].workArea.width * 0.75);
-    const h = Math.floor(screen[0].workArea.height * 0.75)
-    const l = Math.floor(screen[0].workArea.width * 0.12);
-    const t = Math.floor(screen[0].workArea.height * 0.12);
-
     chrome.windows.create({
         url: url,
-        width: w,
-        height: h,
-        left: l,
-        top: t,
         type: 'popup',
         focused: false
     }).then(function (window) {
