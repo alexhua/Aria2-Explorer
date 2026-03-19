@@ -255,7 +255,7 @@ class Utils {
         if (/Edg/.test(navigator.userAgent))
             return "https://microsoftedge.microsoft.com/addons/detail/" + id;
         else
-            return "https://chrome.google.com/webstore/detail/" + id;
+            return "https://chromewebstore.google.com/detail/" + id;
     }
 
     /**
