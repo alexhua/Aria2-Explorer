@@ -301,6 +301,9 @@ export class ConfigService {
      * Check if value type matches expected type
      */
     #isValidType(key, value) {
+        // Allow null to pass for any key (null is a valid "clear" value)
+        if (value === null) return true;
+
         const expected = DefaultConfigs[key];
         const expectedType = Array.isArray(expected) ? 'array' : typeof expected;
         const actualType = Array.isArray(value) ? 'array' : typeof value;
@@ -360,6 +363,7 @@ export class ConfigService {
             fileSize: { type: 'number', min: 0, max: 10000, description: 'Minimum file size (MB)' },
             colorModeId: { type: 'number', min: 0, max: 2, description: 'Color mode (0=light, 1=dark, 2=system)' },
             webUIOpenStyle: { type: 'string', enum: ['tab', 'window', 'popup', 'sidePanel'], description: 'WebUI open style' },
+            uiWindowBounds: { type: 'object', description: 'Persisted popup window geometry (left/top/width/height), null if unset' },
             iconOffStyle: { type: 'string', enum: ['Grey', 'Dark', 'Dusk'], description: 'Icon off style' },
             rpcList: { type: 'array', description: 'RPC server list' },
             allowedSites: { type: 'array', description: 'Allowed sites whitelist' },

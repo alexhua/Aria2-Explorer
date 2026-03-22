@@ -9,23 +9,31 @@ const POPUP_UI_INDEX = "ui/ariang/popup.html";
 const DEFAULT_UI_INDEX = "ui/ariang/index.html";
 
 export class UIManager {
+    #currentWindowId = 0;
+    #uiWindowId = 0;    // track the popup window opened by openInWindow
+    #uiWindowBounds = null; // cache last known bounds before window close
+
+    // Hold listener references so they can be removed later
+    #boundsChangedListener = null;
+    #windowRemovedListener = null;
+
     constructor() {
         this.configService = ConfigService.getInstance();
-        this.currentWindowId = 0;
+        this.#initWindowListeners();
     }
 
     /**
      * Set current window ID
      */
     setCurrentWindowId(windowId) {
-        this.currentWindowId = windowId;
+        this.#currentWindowId = windowId;
     }
 
     /**
      * Get current window ID
      */
     getCurrentWindowId() {
-        return this.currentWindowId;
+        return this.#currentWindowId;
     }
 
     /**
@@ -70,7 +78,7 @@ export class UIManager {
             if (info && 'id' in info) {
                 await chrome.sidePanel.open({ tabId: info.id });
             } else {
-                await chrome.sidePanel.open({ windowId: this.currentWindowId });
+                await chrome.sidePanel.open({ windowId: this.#currentWindowId });
             }
             return true;
         } catch (error) {
@@ -195,23 +203,11 @@ export class UIManager {
      * Open in window
      */
     async #openInWindow(url) {
-        const screen = await chrome.system.display.getInfo();
-        const w = Math.floor(screen[0].workArea.width * 0.75);
-        const h = Math.floor(screen[0].workArea.height * 0.75);
-        const l = Math.floor(screen[0].workArea.width * 0.12);
-        const t = Math.floor(screen[0].workArea.height * 0.12);
-
-        const window = await chrome.windows.create({
-            url: url,
-            width: w,
-            height: h,
-            left: l,
-            top: t,
-            type: 'popup',
-            focused: false
-        });
-
-        await chrome.windows.update(window.id, { focused: true });
+        const savedBounds = this.configService.get('uiWindowBounds');
+        const windowProps = { url, type: 'popup', focused: false, ...savedBounds };
+        const win = await chrome.windows.create(windowProps);
+        this.#uiWindowId = win.id;
+        await chrome.windows.update(win.id, { focused: true });
     }
 
     /**
@@ -232,6 +228,66 @@ export class UIManager {
             }
         } catch (error) {
             Logger.warn("Reset side panel failed:", error);
+        }
+    }
+
+    /**
+     * Initialize window listeners based on current config,
+     * then subscribe to webUIOpenStyle changes.
+     */
+    #initWindowListeners() {
+        if (this.configService.get('webUIOpenStyle') === 'window') {
+            this.#registerWindowListener();
+        }
+
+        // Dynamically register/unregister on style change
+        this.configService.subscribe('webUIOpenStyle', (value) => {
+            if (value === 'window') {
+                this.#registerWindowListener();
+            } else {
+                this.#unregisterWindowListener();
+            }
+        });
+    }
+
+    /**
+     * Register bounds tracking listeners for the popup window.
+     * Safe to call multiple times - skips if already registered.
+     */
+    #registerWindowListener() {
+        if (this.#boundsChangedListener) return; // Already registered
+
+        /* Cache popup window bounds to memory on move/resize (no storage IO) */
+        this.#boundsChangedListener = (win) => {
+            if (win.id === this.#uiWindowId) {
+                this.#uiWindowBounds = { left: win.left, top: win.top, width: win.width, height: win.height };
+            }
+        };
+        chrome.windows.onBoundsChanged.addListener(this.#boundsChangedListener);
+
+        /* Persist bounds via ConfigService when popup window closes */
+        this.#windowRemovedListener = (windowId) => {
+            if (windowId !== this.#uiWindowId) return;
+            if (this.#uiWindowBounds) {
+                this.configService.set({ uiWindowBounds: this.#uiWindowBounds });
+            }
+            this.#uiWindowId = null;
+            this.#uiWindowBounds = null;
+        };
+        chrome.windows.onRemoved.addListener(this.#windowRemovedListener);
+    }
+
+    /**
+     * Unregister bounds tracking listeners.
+     */
+    #unregisterWindowListener() {
+        if (this.#boundsChangedListener) {
+            chrome.windows.onBoundsChanged.removeListener(this.#boundsChangedListener);
+            this.#boundsChangedListener = null;
+        }
+        if (this.#windowRemovedListener) {
+            chrome.windows.onRemoved.removeListener(this.#windowRemovedListener);
+            this.#windowRemovedListener = null;
         }
     }
 }
