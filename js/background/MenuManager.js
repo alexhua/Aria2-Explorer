@@ -27,14 +27,10 @@ export class MenuManager {
      * Create all menus
      */
     async createAllMenus() {
-        return new Promise((resolve) => {
-            this.contextMenus.removeAll(() => {
-                this.#createOptionMenu();
-                this.#createContextMenu();
-                this.updateOptionMenu({ url: this.currentTabUrl, active: true });
-                resolve();
-            });
-        });
+        await this.contextMenus.removeAll();
+        this.#createOptionMenu();
+        this.#createContextMenu();
+        this.updateOptionMenu({ url: this.currentTabUrl, active: true });
     }
 
     /**

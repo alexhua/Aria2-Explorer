@@ -173,17 +173,17 @@ class Application {
 
         // Listen for changes that require menu rebuild and changes of rpc list
         configService.subscribe((changes) => {
-            const needRebuildMenu = changes.rpcList ||
-                changes.contextMenus ||
-                changes.askBeforeExport ||
-                changes.exportAll;
+            const needRebuildMenu = 'rpcList' in changes ||
+                'contextMenus' in changes ||
+                'askBeforeExport' in changes ||
+                'exportAll' in changes;
 
             if (needRebuildMenu) {
                 Logger.log('[App] Rebuilding menus due to config changes');
                 this.managers.menuManager.createAllMenus();
             }
 
-            if (changes.rpcList) {
+            if ('rpcList' in changes) {
                 Logger.log('[App] Rebuilding remote Aria2 list due to config changes');
                 this.managers.monitorManager.initRemoteAria2List();
             }
