@@ -1,6 +1,7 @@
 import { ConfigService } from "../services/ConfigService.js";
 import { UIController } from "./UIController.js";
 import { RpcManager } from "./RpcManager.js";
+import { WelcomeTour } from "./WelcomeTour.js";
 import Utils from "../utils.js";
 import Logger from "../logger.js";
 
@@ -20,11 +21,6 @@ class OptionsApp {
      * Initialize the application
      */
     async init() {
-        // Check if storage upgrade is needed
-        if (location.search.endsWith("upgrade-storage")) {
-            await this.#upgradeStorage();
-        }
-
         // Initialize configuration
         await this.configService.init();
 
@@ -328,45 +324,6 @@ class OptionsApp {
     }
 
     /**
-     * Upgrade storage (migrate from localStorage to chrome.storage)
-     */
-    async #upgradeStorage() {
-        const configs = await chrome.storage.local.get("rpcList");
-        if (configs.rpcList) return;
-
-        const convertMap = {
-            white_site: "allowedSites",
-            black_site: "blockedSites",
-            white_ext: "allowedExts",
-            black_ext: "blockedExts",
-            rpc_list: "rpcList",
-            newwindow: "window",
-            newtab: "tab"
-        };
-
-        const newConfigs = {};
-
-        for (let [k, v] of Object.entries(localStorage)) {
-            if (convertMap[k]) k = convertMap[k];
-            if (convertMap[v]) v = convertMap[v];
-            if (k.startsWith("AriaNg")) continue;
-
-            if (v === "true") {
-                newConfigs[k] = true;
-            } else if (v === "false") {
-                newConfigs[k] = false;
-            } else if (/\[.*\]|\{.*\}/.test(v)) {
-                newConfigs[k] = JSON.parse(v);
-            } else {
-                newConfigs[k] = v;
-            }
-        }
-
-        await this.configService.set(newConfigs);
-        Logger.log("Storage upgrade completed.");
-    }
-
-    /**
      * Cleanup resources
      */
     cleanup() {
@@ -389,7 +346,9 @@ class OptionsApp {
 const app = new OptionsApp();
 
 window.onload = () => {
-    app.init().catch(error => {
+    app.init().then(() => {
+        WelcomeTour.check();
+    }).catch(error => {
         Logger.error("Failed to initialize options page:", error);
     });
 };

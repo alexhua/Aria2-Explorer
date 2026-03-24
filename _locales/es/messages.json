@@ -346,5 +346,32 @@
    },
    "configImportExportDes": {
       "message": "Respaldar y restaurar configuraciones de extensión"
+   },
+   "tourSkip": {
+      "message": "Omitir"
+   },
+   "tourNext": {
+      "message": "Siguiente →"
+   },
+   "tourDone": {
+      "message": "¡Empezar!"
+   },
+   "tourStep1Title": {
+      "message": "Conectar a Aria2"
+   },
+   "tourStep1Body": {
+      "message": "Ingrese su dirección RPC de Aria2. La extensión envía y exporta las tareas de descarga interceptadas a través de esta conexión."
+   },
+   "tourStep2Title": {
+      "message": "Directorio de descarga"
+   },
+   "tourStep2Body": {
+      "message": "Establezca dónde se guardan los archivos interceptados. Si se deja vacío, la extensión resuelve la ruta en orden: <b>Ajustes de AriaNG</b> (<code>dir</code>) → <b>Configuración de Aria2</b> (<code>dir</code>) → <b>Carpeta del ejecutable de Aria2</b>."
+   },
+   "tourStep3Title": {
+      "message": "Enrutamiento inteligente"
+   },
+   "tourStep3Body": {
+      "message": "Añada más servidores RPC y configure un <b>Patrón de URL</b> para cada uno (ej. <code>*youtube*</code>, <code>*.iso*</code>). Cuando una URL de descarga coincide con el patrón, la extensión la enruta automáticamente a ese servidor y la guarda en su directorio — clasificación automática de archivos sin esfuerzo."
    }
 }

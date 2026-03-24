@@ -346,5 +346,32 @@
    },
    "importConfigConfirm": {
       "message": "Potvrdit import konfigurace? Tím se přepíší všechna aktuální nastavení."
+   },
+   "tourSkip": {
+      "message": "Přeskočit"
+   },
+   "tourNext": {
+      "message": "Další →"
+   },
+   "tourDone": {
+      "message": "Začít!"
+   },
+   "tourStep1Title": {
+      "message": "Připojení k Aria2"
+   },
+   "tourStep1Body": {
+      "message": "Zadejte svou RPC adresu Aria2. Rozšíření odesílá a exportuje zachycené stahování prostřednictvím tohoto připojení."
+   },
+   "tourStep2Title": {
+      "message": "Složka pro stahování"
+   },
+   "tourStep2Body": {
+      "message": "Nastavte, kam se mají zachycené soubory ukládat. Pokud zůstane prázdné, rozšíření určí cestu v tomto pořadí: <b>Nastavení AriaNG</b> (<code>dir</code>) → <b>Konfigurace Aria2</b> (<code>dir</code>) → <b>Složka se spustitelným souborem Aria2</b>."
+   },
+   "tourStep3Title": {
+      "message": "Chytré směrování"
+   },
+   "tourStep3Body": {
+      "message": "Přidejte další RPC servery a pro každý nastavte <b>Vzor URL</b> (např. <code>*youtube*</code>, <code>*.iso*</code>). Pokud URL stahování odpovídá vzoru, rozšíření jej automaticky přesměruje na daný server — snadné třídění souborů podle zdroje nebo typu."
    }
 }

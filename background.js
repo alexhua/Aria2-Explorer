@@ -94,7 +94,7 @@ class Application {
     async #setupInstallListener() {
         chrome.runtime.onInstalled.addListener((details) => {
             if (details.reason === "install") {
-                const url = chrome.runtime.getURL("options.html");
+                const url = chrome.runtime.getURL("options.html?welcome");
                 chrome.tabs.create({ url });
             } else if (details.reason === "update") {
                 // Can add update notification here

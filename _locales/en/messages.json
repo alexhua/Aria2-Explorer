@@ -346,5 +346,32 @@
    },
    "configImportExportDes": {
       "message": "Backup and restore extension settings"
+   },
+   "tourSkip": {
+      "message": "Skip"
+   },
+   "tourNext": {
+      "message": "Next →"
+   },
+   "tourDone": {
+      "message": "Get Started!"
+   },
+   "tourStep1Title": {
+      "message": "Connect to Aria2"
+   },
+   "tourStep1Body": {
+      "message": "Enter your Aria2 RPC address. The extension sends and exports intercepted download tasks through this connection."
+   },
+   "tourStep2Title": {
+      "message": "Download Directory"
+   },
+   "tourStep2Body": {
+      "message": "Set where intercepted files are saved. If left empty, the extension resolves the path in order: <b>AriaNG settings</b> (<code>dir</code>) → <b>Aria2 config</b> (<code>dir</code>) → <b>Aria2 executable folder</b>."
+   },
+   "tourStep3Title": {
+      "message": "Smart Download Routing"
+   },
+   "tourStep3Body": {
+      "message": "Add more RPC servers and set a <b>URL Pattern</b> for each (e.g. <code>*youtube*</code>, <code>*.iso*</code>). When a download URL matches the pattern, the extension automatically routes it to that server and saves to its directory — effortless file auto-sorting by source or type."
    }
 }

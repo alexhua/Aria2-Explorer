@@ -346,5 +346,32 @@
    },
    "configImportExportDes": {
       "message": "备份和恢复扩展设置"
+   },
+   "tourSkip": {
+      "message": "跳过"
+   },
+   "tourNext": {
+      "message": "下一步 →"
+   },
+   "tourDone": {
+      "message": "开始使用！"
+   },
+   "tourStep1Title": {
+      "message": "连接 Aria2"
+   },
+   "tourStep1Body": {
+      "message": "填写 Aria2 的 RPC 地址，扩展通过它发送或导出拦截到的下载任务。"
+   },
+   "tourStep2Title": {
+      "message": "下载目录"
+   },
+   "tourStep2Body": {
+      "message": "设置拦截下载的默认保存位置。留空时，扩展将按顺序读取：<b>AriaNG 设置</b>（<code>dir</code>）→ <b>Aria2 配置文件</b>（<code>dir</code>）→ <b>Aria2 所在目录</b>。"
+   },
+   "tourStep3Title": {
+      "message": "智能下载路由"
+   },
+   "tourStep3Body": {
+      "message": "点击 <b>＋ RPC Server</b> 添加更多服务器，并为每个设置 <b>URL Pattern</b>（如 <code>*youtube*</code>、<code>*.iso*</code>）。当下载链接匹配到对应 Pattern 时，扩展会自动选择该服务器并保存到对应目录——轻松实现按来源或文件类型自动分类保存。"
    }
 }

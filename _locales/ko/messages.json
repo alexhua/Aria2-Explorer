@@ -346,5 +346,32 @@
    },
    "configImportExportDes": {
       "message": "확장 프로그램 설정 백업 및 복원"
+   },
+   "tourSkip": {
+      "message": "건너뛰기"
+   },
+   "tourNext": {
+      "message": "다음 →"
+   },
+   "tourDone": {
+      "message": "시작하기!"
+   },
+   "tourStep1Title": {
+      "message": "Aria2 연결"
+   },
+   "tourStep1Body": {
+      "message": "Aria2 RPC 주소를 입력하세요. 확장 프로그램은 이 연결을 통해 가로챈 다운로드 작업을 전송하거나 내보냅니다."
+   },
+   "tourStep2Title": {
+      "message": "다운로드 위치"
+   },
+   "tourStep2Body": {
+      "message": "가로챈 파일이 저장될 위치를 설정합니다. 비워 두면 확장 프로그램은 <b>AriaNG 설정</b>（<code>dir</code>）→ <b>Aria2 설정</b>（<code>dir</code>）→ <b>Aria2 실행 파일 폴더</b> 순으로 경로를 확인합니다."
+   },
+   "tourStep3Title": {
+      "message": "스마트 다운로드 라우팅"
+   },
+   "tourStep3Body": {
+      "message": "RPC 서버를 더 추가하고 각각에 대해 <b>URL Pattern</b>（예: <code>*youtube*</code>, <code>*.iso*</code>)을 설정할 수 있습니다. 다운로드 URL이 패턴과 일치하면 확장 프로그램이 자동으로 해당 서버로 라우팅하고 저장합니다. 출처나 파일 유형별로 파일을 쉽게 자동 분류할 수 있습니다."
    }
 }

@@ -346,5 +346,32 @@
    },
    "configImportExportDes": {
       "message": "Sauvegarder et restaurer les paramètres d'extension"
+   },
+   "tourSkip": {
+      "message": "Passer"
+   },
+   "tourNext": {
+      "message": "Suivant →"
+   },
+   "tourDone": {
+      "message": "C'est parti !"
+   },
+   "tourStep1Title": {
+      "message": "Connexion à Aria2"
+   },
+   "tourStep1Body": {
+      "message": "Entrez votre adresse RPC Aria2. L'extension envoie et exporte les tâches de téléchargement interceptées via cette connexion."
+   },
+   "tourStep2Title": {
+      "message": "Répertoire de téléchargement"
+   },
+   "tourStep2Body": {
+      "message": "Définissez l'emplacement de sauvegarde des fichiers interceptés. Si laissé vide, l'extension résout le chemin dans l'ordre suivant : <b>Paramètres AriaNG</b> (<code>dir</code>) → <b>Configuration Aria2</b> (<code>dir</code>) → <b>Dossier de l'exécutable Aria2</b>."
+   },
+   "tourStep3Title": {
+      "message": "Routage intelligent"
+   },
+   "tourStep3Body": {
+      "message": "Ajoutez d'autres serveurs RPC et définissez un <b>Modèle d'URL</b> pour chacun (ex: <code>*youtube*</code>, <code>*.iso*</code>). Lorsqu'une URL de téléchargement correspond au modèle, l'extension la dirige automatiquement vers ce serveur — tri automatique des fichiers par source ou par type sans effort."
    }
 }

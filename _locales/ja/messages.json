@@ -346,5 +346,32 @@
    },
    "configImportExportDes": {
       "message": "拡張機能の設定をバックアップ・復元"
+   },
+   "tourSkip": {
+      "message": "スキップ"
+   },
+   "tourNext": {
+      "message": "次へ →"
+   },
+   "tourDone": {
+      "message": "使ってみる！"
+   },
+   "tourStep1Title": {
+      "message": "Aria2 に接続"
+   },
+   "tourStep1Body": {
+      "message": "Aria2 の RPC アドレスを入力してください。拡張機能はこの接続を介して、インターセプトしたダウンロードタスクを送信またはエクスポートします。"
+   },
+   "tourStep2Title": {
+      "message": "ダウンロードディレクトリ"
+   },
+   "tourStep2Body": {
+      "message": "インターセプトしたファイルの保存先を設定します。空のままにすると、拡張機能は次の順序でパスを解決します：<b>AriaNG 設定</b>（<code>dir</code>）→ <b>Aria2 設定</b>（<code>dir</code>）→ <b>Aria2 実行ファイルのあるフォルダ</b>。"
+   },
+   "tourStep3Title": {
+      "message": "スマート・ダウンロード・ルーティング"
+   },
+   "tourStep3Body": {
+      "message": "RPC サーバーをさらに追加し、それぞれに <b>URL Pattern</b>（例：<code>*youtube*</code>、<code>*.iso*</code>）を設定できます。ダウンロード URL がパターンに一致すると、拡張機能は自動的にそのサーバーを選択して保存します。ソースやファイルタイプ別に簡単に自動分類できます。"
    }
 }
