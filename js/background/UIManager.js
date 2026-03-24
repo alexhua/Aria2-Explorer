@@ -9,6 +9,7 @@ const POPUP_UI_INDEX = "ui/ariang/popup.html";
 const DEFAULT_UI_INDEX = "ui/ariang/index.html";
 
 export class UIManager {
+    #currentTabId = 0;
     #currentWindowId = 0;
     #uiWindowId = 0;    // track the popup window opened by openInWindow
     #uiWindowBounds = null; // cache last known bounds before window close
@@ -20,6 +21,13 @@ export class UIManager {
     constructor() {
         this.configService = ConfigService.getInstance();
         this.#initWindowListeners();
+    }
+
+    /**
+     * Set current tab ID
+     */
+    setCurrentTabId(tabId) {
+        this.#currentTabId = tabId;
     }
 
     /**
@@ -38,27 +46,38 @@ export class UIManager {
 
     /**
      * Launch UI
-     * @param {Object|string} info - Tab info or notification ID
+     * @param {Object|string} info - Tab info, download item or notification ID
      */
     async launchUI(info) {
         const config = this.configService.get();
         const index = config.webUIOpenStyle === "popup" ? POPUP_UI_INDEX : DEFAULT_UI_INDEX;
         const indexUrl = chrome.runtime.getURL(index);
+        const tabId = (info && typeof info === "object" && "id" in info && !('fileSize' in info)) ?
+            info.id : this.#currentTabId;
 
         let webUiUrl = indexUrl + '#!';
 
         // Try to open side panel
-        let sidePanelOpened = false;
+        let sidePanelActive = false;
         if (config.webUIOpenStyle === "sidePanel") {
-            sidePanelOpened = await this.#openSidePanel(info);
+            this.#updateSidePanelPath(tabId, webUiUrl);
+            // Try open() first to preserve user gesture token
+            sidePanelActive = await this.#openSidePanel(tabId);
+            // If open() failed (no user gesture), check if already open
+            if (!sidePanelActive) {
+                sidePanelActive = await this.#isSidePanelOpen();
+            }
         }
 
         // Build final WebUI URL
         webUiUrl = await this.#buildWebUiUrl(webUiUrl, info);
 
-        // If side panel opened successfully, update path
-        if (sidePanelOpened) {
-            await this.#updateSidePanelPath(info, webUiUrl);
+        // If side panel is active, update its path
+        if (sidePanelActive) {
+            this.#updateSidePanelPath(tabId, webUiUrl);
+            if ('onClosed' in chrome.sidePanel) { // Chrome 142+
+                chrome.sidePanel.onClosed.addListener(() => this.resetSidePanel(tabId));
+            }
         } else if (config.webUIOpenStyle === "popup") {
             const popupUrl = chrome.runtime.getURL(index);
             await chrome.action.setPopup({ popup: webUiUrl });
@@ -73,16 +92,32 @@ export class UIManager {
     /**
      * Open side panel
      */
-    async #openSidePanel(info) {
+    async #openSidePanel(tabId) {
         try {
-            if (info && 'id' in info) {
-                await chrome.sidePanel.open({ tabId: info.id });
+            if (tabId) {
+                await chrome.sidePanel.open({ tabId });
             } else {
                 await chrome.sidePanel.open({ windowId: this.#currentWindowId });
             }
             return true;
         } catch (error) {
             Logger.warn("Open side panel failed:", error);
+            return false;
+        }
+    }
+
+    /**
+     * Check if side panel is currently open
+     */
+    async #isSidePanelOpen() {
+        if (!chrome.runtime.getContexts) return false;
+        try {
+            const contexts = await chrome.runtime.getContexts({
+                contextTypes: ['SIDE_PANEL'],
+                windowIds: [this.#currentWindowId]
+            });
+            return contexts.length > 0;
+        } catch {
             return false;
         }
     }
@@ -169,9 +204,9 @@ export class UIManager {
     /**
      * Update side panel path
      */
-    async #updateSidePanelPath(info, webUiUrl) {
-        if (info && 'id' in info) {
-            await chrome.sidePanel.setOptions({ tabId: info.id, path: webUiUrl });
+    async #updateSidePanelPath(tabId, webUiUrl) {
+        if (tabId) {
+            await chrome.sidePanel.setOptions({ tabId, path: webUiUrl });
         } else {
             await chrome.sidePanel.setOptions({ path: webUiUrl });
         }
@@ -219,11 +254,10 @@ export class UIManager {
         if (config.webUIOpenStyle !== "sidePanel") return;
 
         try {
-            const { path } = await chrome.sidePanel.getOptions(tabId ? { tabId } : undefined);
-            const defaultPath = DEFAULT_UI_INDEX;
+            const { path } = await chrome.sidePanel.getOptions(tabId ? { tabId } : {});
 
-            if (!path.endsWith(defaultPath)) {
-                const options = tabId ? { tabId, path: defaultPath } : { path: defaultPath };
+            if (!path.endsWith(DEFAULT_UI_INDEX)) {
+                const options = tabId ? { tabId, path: DEFAULT_UI_INDEX } : { path: DEFAULT_UI_INDEX };
                 await chrome.sidePanel.setOptions(options);
             }
         } catch (error) {

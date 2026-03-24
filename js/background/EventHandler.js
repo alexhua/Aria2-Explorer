@@ -40,21 +40,21 @@ export class EventHandler {
         chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             if (changeInfo.status === "loading" && tab?.active) {
                 const url = tab?.url || "about:blank";
+                this.managers.uiManager.setCurrentTabId(tabId);
                 this.managers.captureManager.setCurrentTabUrl(url);
                 this.managers.menuManager.setCurrentTabUrl(url);
                 this.managers.menuManager.updateOptionMenu(tab);
             }
-            this.managers.uiManager.resetSidePanel(tabId);
         });
 
         chrome.tabs.onActivated.addListener((activeInfo) => {
             chrome.tabs.get(activeInfo.tabId).then((tab) => {
                 const url = tab?.url || "about:blank";
+                tab && this.managers.uiManager.setCurrentTabId(tab.id);
                 this.managers.captureManager.setCurrentTabUrl(url);
                 this.managers.menuManager.setCurrentTabUrl(url);
                 this.managers.menuManager.updateOptionMenu(tab);
             });
-            this.managers.uiManager.resetSidePanel(activeInfo.tabId);
         });
     }
 
@@ -67,6 +67,7 @@ export class EventHandler {
             chrome.tabs.query({ windowId: windowId, active: true }).then((tabs) => {
                 if (tabs?.length > 0) {
                     const url = tabs[0].url || "about:blank";
+                    this.managers.uiManager.setCurrentTabId(tabs[0].id);
                     this.managers.captureManager.setCurrentTabUrl(url);
                     this.managers.menuManager.setCurrentTabUrl(url);
                     this.managers.menuManager.updateOptionMenu(tabs[0]);
