@@ -1,5 +1,5 @@
 /**
- * UIController - UI控制器
+ * UIController - UI controller
  */
 import Utils from "../utils.js";
 
@@ -20,43 +20,34 @@ const OptionDeps = {
 
 import { ConfigService } from "../services/ConfigService.js";
 
+// Shorthand helpers
+const QS = (sel, ctx = document) => ctx.querySelector(sel);
+const QSA = (sel, ctx = document) => ctx.querySelectorAll(sel);
+
 export class UIController {
     constructor(rpcManager) {
         this.configService = ConfigService.getInstance();
         this.rpcManager = rpcManager;
         this.mediaQueryList = null;
+        // Store bound listener refs for clean removal
+        this._keyupHandler = (e) => this.#handleKeyboardShortcuts(e);
     }
 
     /**
-     * 初始化UI
+     * Initialize UI
      */
     async init() {
         Utils.localizeHtmlPage();
 
         const config = this.configService.get();
 
-        // Set color mode
         this.#setColorMode();
-
-        // Reset form
         this.#resetForm();
-
-        // Fill form data
         this.#fillFormData(config);
-
-        // Setup dependencies
         this.#setupDependencies(config);
-
-        // Setup special tooltips
         this.#setupSpecialTooltips();
-
-        // Render RPC list
         this.rpcManager.render();
-
-        // Bind events
         this.#bindEvents();
-
-        // Setup version info
         this.#setupVersionInfo();
     }
 
@@ -64,9 +55,9 @@ export class UIController {
      * Reset form
      */
     #resetForm() {
-        $("input[type=checkbox]").prop("checked", false);
-        $("input[type=text],input[type=number]").val("");
-        $("textarea").val("");
+        QSA("input[type=checkbox]").forEach(el => el.checked = false);
+        QSA("input[type=text],input[type=number]").forEach(el => el.value = "");
+        QSA("textarea").forEach(el => el.value = "");
     }
 
     /**
@@ -74,48 +65,49 @@ export class UIController {
      */
     #fillFormData(config) {
         // Radio buttons
-        $(`#${config.webUIOpenStyle}`).prop('checked', true);
-        $(`#${config.iconOffStyle}`).prop('checked', true);
+        const webUI = QS(`#${config.webUIOpenStyle}`);
+        const icon = QS(`#${config.iconOffStyle}`);
+        if (webUI) webUI.checked = true;
+        if (icon) icon.checked = true;
 
         // Checkboxes
-        $("input[type=checkbox]").each(function () {
-            if (config[this.id] !== undefined) {
-                this.checked = config[this.id];
-            }
+        QSA("input[type=checkbox]").forEach(el => {
+            if (config[el.id] !== undefined) el.checked = config[el.id];
         });
 
-        // Input fields
-        $("input[type=text],input[type=number]").not("#rpcList input").each(function () {
-            if (config[this.id] !== undefined) {
-                this.value = config[this.id];
+        // Input fields (excluding RPC inputs)
+        QSA("input[type=text],input[type=number]").forEach(el => {
+            if (!el.closest("#rpcList") && config[el.id] !== undefined) {
+                el.value = config[el.id];
             }
         });
 
         // Textareas
-        $("textarea").each(function () {
-            if (config[this.id]) {
-                this.value = config[this.id].join("\n");
-            }
+        QSA("textarea").forEach(el => {
+            if (config[el.id]) el.value = config[el.id].join("\n");
         });
 
-        // Show/hide monitor all option
-        config.rpcList.length > 1 ? $("#monitor-all").show() : $("#monitor-all").hide();
+        // Show/hide monitor-all option
+        QS("#monitor-all").style.display = config.rpcList.length > 1 ? "" : "none";
 
-        // Update dependencies state
         this.#updateDependencyState(config);
     }
 
     /**
-     * Setup dependencies listeners
+     * Setup dependency listeners
      */
     #setupDependencies(config) {
-        // Initial state update
         this.#updateDependencyState(config);
 
-        // Bind listeners
         for (const [dependent, dependency] of Object.entries(OptionDeps)) {
-            $(`#${dependency}`).change(() => {
-                $(`#${dependent}`).prop("disabled", !$(`#${dependency}`).prop("checked"));
+            const depEl = QS(`#${dependency}`);
+            if (!depEl) continue;
+            // Replace with clone to clear previous listeners safely
+            const fresh = depEl.cloneNode(true);
+            depEl.replaceWith(fresh);
+            fresh.addEventListener("change", () => {
+                const target = QS(`#${dependent}`);
+                if (target) target.disabled = !fresh.checked;
             });
         }
     }
@@ -125,19 +117,23 @@ export class UIController {
      */
     #updateDependencyState(config) {
         for (const [dependent, dependency] of Object.entries(OptionDeps)) {
-            // Use config value if available, otherwise check DOM
-            const isEnabled = config[dependency] !== undefined ? config[dependency] : $(`#${dependency}`).prop("checked");
-            $(`#${dependent}`).prop("disabled", !isEnabled);
+            const depEl = QS(`#${dependency}`);
+            const target = QS(`#${dependent}`);
+            if (!target) continue;
+            const isEnabled = config[dependency] !== undefined
+                ? config[dependency]
+                : depEl?.checked ?? false;
+            target.disabled = !isEnabled;
         }
     }
 
     /**
-     * Setup special tooltips
+     * Setup special tooltips (Windows-only captureMagnet tip)
      */
     #setupSpecialTooltips() {
         if (Utils.getPlatform() === "Windows") {
-            const tooltip = chrome.i18n.getMessage("captureMagnetTip");
-            $("#captureMagnet").parent().addClass("tool-tip tool-tip-icon");
+            QS("#captureMagnet")?.parentElement
+                .classList.add("tool-tip", "tool-tip-icon");
         }
     }
 
@@ -146,24 +142,39 @@ export class UIController {
      */
     #bindEvents() {
         // Shortcuts setting
-        $("#shortcuts-setting").off().on("click", this.openShortcutsPage);
+        const shortcutsBtn = QS("#shortcuts-setting");
+        if (shortcutsBtn) {
+            const fresh = shortcutsBtn.cloneNode(true);
+            shortcutsBtn.replaceWith(fresh);
+            fresh.addEventListener("click", () => this.openShortcutsPage());
+        }
 
         // Color mode toggle
-        $("#colorMode").off().on("click", () => this.#toggleColorMode());
+        const colorModeBtn = QS("#colorMode");
+        if (colorModeBtn) {
+            const fresh = colorModeBtn.cloneNode(true);
+            colorModeBtn.replaceWith(fresh);
+            fresh.addEventListener("click", () => this.#toggleColorMode());
+        }
 
-        // Form submit and reset
-        $("form").off().on("submit", (e) => e.preventDefault())
-            .on("reset", (e) => e.preventDefault());
+        // Form submit / reset prevention
+        const form = QS("form");
+        if (form) {
+            form.addEventListener("submit", e => e.preventDefault());
+            form.addEventListener("reset", e => e.preventDefault());
+        }
 
         // Keyboard shortcuts
-        $(window).off('keyup').on('keyup', (e) => this.#handleKeyboardShortcuts(e));
+        window.removeEventListener("keyup", this._keyupHandler);
+        window.addEventListener("keyup", this._keyupHandler);
 
-        // Color mode change listener
-        this.mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+        // System color scheme listener
+        this.mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
         this.mediaQueryList.onchange = () => this.#setColorMode();
 
         // WebStore link
-        $("#webStoreUrl").prop("href", Utils.getWebStoreUrl());
+        const storeLink = QS("#webStoreUrl");
+        if (storeLink) storeLink.href = Utils.getWebStoreUrl();
     }
 
     /**
@@ -171,14 +182,15 @@ export class UIController {
      */
     #setupVersionInfo() {
         const manifest = chrome.runtime.getManifest();
-        $("#version").text('v' + manifest.version);
+        const versionEl = QS("#version");
+        if (versionEl) versionEl.textContent = "v" + manifest.version;
     }
 
     /**
-     * Open shortcuts settings page (public method used as event handler)
+     * Open shortcuts settings page
      */
     openShortcutsPage() {
-        chrome.tabs.query({ "url": SHORTCUTS_PAGE_URL }).then((tabs) => {
+        chrome.tabs.query({ "url": SHORTCUTS_PAGE_URL }).then(tabs => {
             if (tabs?.length > 0) {
                 chrome.windows.update(tabs[0].windowId, { focused: true });
                 chrome.tabs.update(tabs[0].id, { active: true });
@@ -198,7 +210,7 @@ export class UIController {
      * Toggle color mode
      */
     async #toggleColorMode() {
-        const current = this.configService.get('colorModeId');
+        const current = this.configService.get("colorModeId");
         const next = (current + 1) % ColorModeList.length;
         await this.configService.set({ colorModeId: next });
     }
@@ -208,27 +220,22 @@ export class UIController {
      */
     #setColorMode() {
         const config = this.configService.get();
+        const html = document.documentElement;
+        const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-        switch (config.colorModeId) {
-            case 0:
-                $('html').removeClass("dark-mode");
-                break;
-            case 1:
-                $('html').addClass("dark-mode");
-                break;
-            case 2:
-                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    $('html').addClass("dark-mode");
-                } else {
-                    $('html').removeClass("dark-mode");
-                }
-                break;
+        const isDark =
+            config.colorModeId === 1 ||
+            (config.colorModeId === 2 && dark);
+
+        html.classList.toggle("dark-mode", isDark);
+
+        const mode = ColorModeList[config.colorModeId];
+        const iconEl = QS("#colorMode .fa");
+        if (iconEl) {
+            iconEl.classList.remove("fa-moon", "fa-sun", "fa-circle-half-stroke");
+            iconEl.classList.add(mode.icon);
+            iconEl.title = chrome.i18n.getMessage(mode.title);
         }
-
-        const title = chrome.i18n.getMessage(ColorModeList[config.colorModeId].title);
-        $("#colorMode .fa").removeClass('fa-moon fa-sun fa-circle-half-stroke')
-            .addClass(ColorModeList[config.colorModeId].icon)
-            .attr("title", title);
     }
 
     /**
@@ -238,34 +245,28 @@ export class UIController {
         if (!e.altKey) return;
 
         const actions = {
-            's': { method: 'save', button: 'save' },
-            'r': { method: 'reset', button: 'reset' },
-            'u': { method: 'upload', button: 'upload' },
-            'j': { method: 'download', button: 'download' },
-            'e': { method: 'export', button: 'exportConfig' },
-            'i': { method: 'import', button: 'importConfig' }
+            s: "save",
+            r: "reset",
+            u: "upload",
+            j: "download",
+            e: "exportConfig",
+            i: "importConfig"
         };
 
-        const action = actions[e.key];
-        if (action) {
-            const button = document.getElementById(action.button);
-            button?.click();
-            button?.focus({ focusVisible: true });
+        const id = actions[e.key];
+        if (id) {
+            const btn = document.getElementById(id);
+            btn?.click();
+            btn?.focus({ focusVisible: true });
         }
     }
 
     /**
-     * Update UI with new config
-     * Called by OptionsApp when config changes
+     * Update UI with new config (called when config changes)
      */
     updateUI(config) {
-        // Update color mode if changed
         this.#setColorMode();
-
-        // Update form data
         this.#fillFormData(config);
-
-        // Re-render RPC list
         this.rpcManager.render();
     }
 
@@ -275,31 +276,26 @@ export class UIController {
     collectFormData() {
         const formData = {
             rpcList: this.rpcManager.collectData(),
-            webUIOpenStyle: $("[name=webUIOpenStyle]:checked").val(),
-            iconOffStyle: $("[name=iconOffStyle]:checked").val()
+            webUIOpenStyle: QS("[name=webUIOpenStyle]:checked")?.value,
+            iconOffStyle: QS("[name=iconOffStyle]:checked")?.value
         };
 
-        // Collect checkboxes
-        $("input[type=checkbox]").each(function () {
-            formData[this.id] = this.checked;
+        // Checkboxes
+        QSA("input[type=checkbox]").forEach(el => {
+            formData[el.id] = el.checked;
         });
 
-        // Collect input fields
-        $("input[type=text],input[type=number]").not("#rpcList input").each(function () {
-            if (this.type === 'number') {
-                formData[this.id] = Number(this.value);
-            } else {
-                formData[this.id] = this.value;
-            }
+        // Input fields (excluding RPC inputs)
+        QSA("input[type=text],input[type=number]").forEach(el => {
+            if (el.closest("#rpcList")) return;
+            formData[el.id] = el.type === "number" ? Number(el.value) : el.value;
         });
 
-        // Collect textareas
-        $("textarea").each(function () {
-            if (this.value) {
-                formData[this.id] = this.value.split("\n").filter(line => line.trim() !== "");
-            } else {
-                formData[this.id] = [];
-            }
+        // Textareas
+        QSA("textarea").forEach(el => {
+            formData[el.id] = el.value
+                ? el.value.split("\n").filter(line => line.trim() !== "")
+                : [];
         });
 
         return formData;
@@ -309,11 +305,16 @@ export class UIController {
      * Show result message
      */
     showResult(elementId, message, isSuccess, timeout = 2000) {
+        const el = QS(`#${elementId}`);
         const style = isSuccess ? "alert-success" : "alert-danger";
-        $(`#${elementId}`).addClass(style).text(message);
+        if (!el) return;
+
+        el.classList.add(style);
+        el.textContent = message;
 
         setTimeout(() => {
-            $(`#${elementId}`).text("").removeClass(style);
+            el.textContent = "";
+            el.classList.remove(style);
         }, timeout);
     }
 
@@ -321,7 +322,7 @@ export class UIController {
      * Cleanup resources
      */
     cleanup() {
-        // Clean up media query listener
+        window.removeEventListener("keyup", this._keyupHandler);
         if (this.mediaQueryList) {
             this.mediaQueryList.onchange = null;
             this.mediaQueryList = null;

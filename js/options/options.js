@@ -70,24 +70,29 @@ class OptionsApp {
      * Bind button events
      */
     #bindButtonEvents() {
-        // Save button
-        $("#save").off().on("click", async () => {
-            const formData = this.uiController.collectFormData();
-            const success = await this.configService.set(formData);
+        // Helper: bind event, using cloneNode to clear any previous listeners
+        const bind = (sel, type, fn) => {
+            const el = document.querySelector(sel);
+            if (!el) return;
+            const fresh = el.cloneNode(true);
+            el.replaceWith(fresh);
+            fresh.addEventListener(type, fn);
+        };
 
+        // Save button
+        bind("#save", "click", async () => {
+            const formData = this.uiController.collectFormData();
+            await this.configService.set(formData);
         });
 
         // Reset button
-        $("#reset").off().on("click", async () => {
-            if (!confirm(chrome.i18n.getMessage("ClearSettingsDes"))) {
-                return;
-            }
-
-            const success = await this.configService.reset();
+        bind("#reset", "click", async () => {
+            if (!confirm(chrome.i18n.getMessage("ClearSettingsDes"))) return;
+            await this.configService.reset();
         });
 
         // Upload button
-        $("#upload").off().on("click", async () => {
+        bind("#upload", "click", async () => {
             const result = await this.#uploadConfig();
             this.uiController.showResult(
                 "sync-result",
@@ -98,7 +103,7 @@ class OptionsApp {
         });
 
         // Download button
-        $("#download").off().on("click", async () => {
+        bind("#download", "click", async () => {
             const result = await this.#downloadConfig();
             this.uiController.showResult(
                 "sync-result",
@@ -109,7 +114,7 @@ class OptionsApp {
         });
 
         // Export button
-        $("#exportConfig").off().on("click", () => {
+        bind("#exportConfig", "click", () => {
             const json = this.configService.export();
             this.#downloadFile(json, `aria2-explorer-config-${new Date().toISOString().slice(0, 10)}.json`);
             this.uiController.showResult(
@@ -120,13 +125,13 @@ class OptionsApp {
             );
         });
 
-        // Import button
-        $("#importConfig").off().on("click", () => {
-            $("#configFileInput").click();
+        // Import button -- trigger hidden file input
+        bind("#importConfig", "click", () => {
+            document.querySelector("#configFileInput").click();
         });
 
-        // File input
-        $("#configFileInput").off().on("change", async (event) => {
+        // File input change
+        bind("#configFileInput", "change", async (event) => {
             const file = event.target.files[0];
             if (!file) return;
 
@@ -134,7 +139,7 @@ class OptionsApp {
                 const text = await file.text();
 
                 if (!confirm(chrome.i18n.getMessage("importConfigConfirm"))) {
-                    event.target.value = '';
+                    event.target.value = "";
                     return;
                 }
 
@@ -147,9 +152,8 @@ class OptionsApp {
                     success ? 2000 : 5000
                 );
 
-                if (success) {
-                    await this.init();
-                }
+                if (success) await this.init();
+
             } catch (error) {
                 Logger.error("Import error:", error);
                 this.uiController.showResult(
@@ -160,7 +164,7 @@ class OptionsApp {
                 );
             }
 
-            event.target.value = '';
+            event.target.value = "";
         });
     }
 

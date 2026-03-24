@@ -14,6 +14,10 @@ const MarkAsInsecureTip = chrome.i18n.getMessage("MarkAsInsecureTip");
 
 import { ConfigService } from "../services/ConfigService.js";
 
+// Shorthand helpers
+const QS = (sel, ctx = document) => ctx.querySelector(sel);
+const QSA = (sel, ctx = document) => ctx.querySelectorAll(sel);
+
 export class RpcManager {
     constructor() {
         this.configService = ConfigService.getInstance();
@@ -27,14 +31,13 @@ export class RpcManager {
         const rpcList = config.rpcList?.length ? config.rpcList : DefaultConfigs.rpcList;
 
         // Clear existing list
-        $(".rpcGroup").remove();
+        QSA(".rpcGroup").forEach(el => el.remove());
 
         // Render each RPC item
         for (const i in rpcList) {
             this.#renderRpcItem(i, rpcList[i], false);
         }
 
-        // Bind events
         this.#bindEvents();
     }
 
@@ -43,21 +46,20 @@ export class RpcManager {
      */
     #renderRpcItem(index, rpcItem, enableRequired) {
         const html = this.#buildRpcItemHtml(index, enableRequired);
-        $("#rpcList").append(html);
+        QS("#rpcList").insertAdjacentHTML("beforeend", html);
 
         // Fill data
-        $(`#name-${index}`).val(rpcItem.name);
+        QS(`#name-${index}`).value = rpcItem.name;
+        QS(`#location-${index}`).value = rpcItem.location || "";
 
         const rpc = Utils.parseUrl(rpcItem.url);
-        $(`#secretKey-${index}`).val(rpc.secretKey);
-        $(`#rpcUrl-${index}`).val(rpc.rpcUrl);
-        $(`#location-${index}`).val(rpcItem.location || '');
+        QS(`#secretKey-${index}`).value = rpc.secretKey;
+        QS(`#rpcUrl-${index}`).value = rpc.rpcUrl;
 
         if (index > 0) {
-            $(`#pattern-${index}`).val(rpcItem.pattern || '');
+            QS(`#pattern-${index}`).value = rpcItem.pattern || "";
         }
 
-        // Handle security mark
         this.#handleSecurityMark(index, rpcItem);
     }
 
@@ -65,7 +67,7 @@ export class RpcManager {
      * Build RPC item HTML
      */
     #buildRpcItemHtml(index, enableRequired) {
-        const required = (enableRequired || index == 0) ? 'required' : '';
+        const required = (enableRequired || index == 0) ? "required" : "";
         const addBtnOrPattern = index == 0
             ? `<button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-circle-plus"></i> RPC Server</button>`
             : `<input id="pattern-${index}" type="text" class="form-control col-sm-3 pattern" placeholder="URL Pattern(s) splitted by ,">`;
@@ -75,18 +77,18 @@ export class RpcManager {
                 ${index == 0 ? '<i class="fa-solid fa-server"></i> Aria2-RPC-Server' : ''}
             </label>
             <div id="rpcItem-${index}" class="input-group col-sm-10">
-                <input id="name-${index}" type="text" class="form-control col-sm-1 name" 
+                <input id="name-${index}" type="text" class="form-control col-sm-1 name"
                     placeholder="${NameStr} ∗" ${required}>
-                <input id="secretKey-${index}" type="password" class="form-control col-sm-2 secretKey" 
+                <input id="secretKey-${index}" type="password" class="form-control col-sm-2 secretKey"
                     placeholder="${SecretKeyStr}">
-                <input id="rpcUrl-${index}" type="url" class="form-control col-sm-4 rpcUrl" 
+                <input id="rpcUrl-${index}" type="url" class="form-control col-sm-4 rpcUrl"
                     placeholder="RPC URL ∗" ${required}>
                 <div id="markRpc-${index}" class="input-group-append tool-tip" tooltip-content="">
                     <button id="markButton-${index}" class="btn btn-success" type="button">
                         <i class="fa-solid fa-pencil"></i> ${Mark}
                     </button>
                 </div>
-                <input id="location-${index}" type="text" class="form-control col-sm-2 location" 
+                <input id="location-${index}" type="text" class="form-control col-sm-2 location"
                     placeholder="${DownloadLocationStr}">
                 ${addBtnOrPattern}
             </div>
@@ -99,26 +101,28 @@ export class RpcManager {
     #handleSecurityMark(index, rpcItem) {
         const config = this.configService.get();
 
-        if (Utils.validateRpcUrl(rpcItem.url) !== "WARNING") {
-            return;
-        }
+        if (Utils.validateRpcUrl(rpcItem.url) !== "WARNING") return;
 
-        $(`#markRpc-${index}`).css('display', 'inline-block');
+        const markRpc = QS(`#markRpc-${index}`);
+        const markButton = QS(`#markButton-${index}`);
+        const rpcItem_el = QS(`#rpcItem-${index}`);
+        const rpcUrl_el = QS(`#rpcUrl-${index}`);
+
+        markRpc.style.display = "inline-block";
 
         if (rpcItem.ignoreInsecure) {
-            $(`#markRpc-${index}`).attr('tooltip-content', MarkAsInsecureTip);
-            $(`#markButton-${index}`).removeClass('btn-warning').addClass('btn-success');
+            markRpc.setAttribute("tooltip-content", MarkAsInsecureTip);
+            markButton.classList.replace("btn-warning", "btn-success");
         } else {
-            let tooltipRes = config.askBeforeDownload || config.askBeforeExport
+            const tooltipKey = config.askBeforeDownload || config.askBeforeExport
                 ? "ManualDownloadCookiesTooltipDes"
                 : "AutoDownloadCookiesTooltipDes";
 
-            const tooltip = chrome.i18n.getMessage(tooltipRes);
-            $(`#rpcItem-${index}`).addClass('tool-tip');
-            $(`#rpcItem-${index}`).attr("tooltip-content", tooltip);
-            $(`#rpcUrl-${index}`).addClass('is-warning');
-            $(`#markRpc-${index}`).attr('tooltip-content', MarkAsSecureTip);
-            $(`#markButton-${index}`).removeClass('btn-success').addClass('btn-warning');
+            rpcItem_el.classList.add("tool-tip");
+            rpcItem_el.setAttribute("tooltip-content", chrome.i18n.getMessage(tooltipKey));
+            rpcUrl_el.classList.add("is-warning");
+            markRpc.setAttribute("tooltip-content", MarkAsSecureTip);
+            markButton.classList.replace("btn-success", "btn-warning");
         }
     }
 
@@ -126,24 +130,27 @@ export class RpcManager {
      * Bind events
      */
     #bindEvents() {
-        const config = this.configService.get();
-
         // Add RPC button
-        $("#add-rpc").off().on("click", () => {
-            const i = $(".rpcGroup").length;
-            const newInput = this.#buildRpcItemHtml(i, true).replace("password", "text");
-            $("#rpcList").append(newInput);
-            $(`#rpcUrl-${i}`).on("input", this.validateInput);
-            $(`#location-${i}`).on("input", this.validateInput);
-            $(`#markRpc-${i}`).off().on('click', (e) => this.markRpc(e));
-        });
+        const addBtn = QS("#add-rpc");
+        if (addBtn) {
+            addBtn.addEventListener("click", () => {
+                const i = QSA(".rpcGroup").length;
+                const html = this.#buildRpcItemHtml(i, true).replace("password", "text");
+                QS("#rpcList").insertAdjacentHTML("beforeend", html);
+                QS(`#rpcUrl-${i}`).addEventListener("input", this.validateInput);
+                QS(`#location-${i}`).addEventListener("input", this.validateInput);
+                QS(`#markRpc-${i}`).addEventListener("click", e => this.markRpc(e));
+            });
+        }
 
-        // Validate input
-        $(".rpcGroup .rpcUrl").off().on("input", this.validateInput);
-        $(".rpcGroup .location").off().on("input", this.validateInput);
+        // Validate inputs
+        QSA(".rpcGroup .rpcUrl").forEach(el => el.addEventListener("input", this.validateInput));
+        QSA(".rpcGroup .location").forEach(el => el.addEventListener("input", this.validateInput));
 
-        // Mark RPC
-        $(".rpcGroup [id^='markRpc-']").off().on('click', (e) => this.markRpc(e));
+        // Mark RPC buttons
+        QSA(".rpcGroup [id^='markRpc-']").forEach(el =>
+            el.addEventListener("click", e => this.markRpc(e))
+        );
     }
 
     /**
@@ -156,9 +163,11 @@ export class RpcManager {
         };
 
         const input = event.target;
+        const parent = input.parentElement;
+
         input.classList.remove("is-invalid", "is-valid", "is-warning");
-        input.parentElement.classList.remove('tool-tip');
-        input.parentElement.removeAttribute("tooltip-content");
+        parent.classList.remove("tool-tip");
+        parent.removeAttribute("tooltip-content");
 
         const result = validator[input.type](input.value);
 
@@ -168,9 +177,8 @@ export class RpcManager {
             input.classList.add("is-invalid");
         } else if (result === "WARNING") {
             input.classList.add("is-valid", "is-warning");
-            input.parentElement.classList.add("tool-tip");
-            const tooltip = chrome.i18n.getMessage("RpcUrlTooltipWarnDes");
-            input.parentElement.setAttribute("tooltip-content", tooltip);
+            parent.classList.add("tool-tip");
+            parent.setAttribute("tooltip-content", chrome.i18n.getMessage("RpcUrlTooltipWarnDes"));
         }
     }
 
@@ -180,14 +188,12 @@ export class RpcManager {
     async markRpc(event) {
         const config = this.configService.get();
         const target = event.currentTarget || event.target;
-        const rpcIndex = parseInt(target.id.split('-')[1]);
+        const rpcIndex = parseInt(target.id.split("-")[1]);
 
         if (rpcIndex >= 0 && rpcIndex < config.rpcList.length) {
             config.rpcList[rpcIndex].ignoreInsecure = !config.rpcList[rpcIndex].ignoreInsecure;
-            Logger.log('[RpcManager] Marking RPC:', rpcIndex, 'ignoreInsecure:', config.rpcList[rpcIndex].ignoreInsecure);
+            Logger.log("[RpcManager] Marking RPC:", rpcIndex, "ignoreInsecure:", config.rpcList[rpcIndex].ignoreInsecure);
             await this.configService.set({ rpcList: config.rpcList });
-
-            // Re-render to update UI
             this.render();
         }
     }
@@ -197,28 +203,23 @@ export class RpcManager {
      */
     collectData() {
         const rpcList = [];
-        const rpcGroups = $(".rpcGroup");
+        const rpcGroups = QSA(".rpcGroup");
 
         for (let i = 0; i < rpcGroups.length; i++) {
-            const name = $(`#name-${i}`).val();
-            const rpcUrl = $(`#rpcUrl-${i}`).val()?.trim();
+            const name = QS(`#name-${i}`)?.value;
+            const rpcUrl = QS(`#rpcUrl-${i}`)?.value?.trim();
 
             if (!name || !rpcUrl) continue;
 
-            const secretKey = $(`#secretKey-${i}`).val();
+            const secretKey = QS(`#secretKey-${i}`)?.value;
             const combinedUrl = Utils.combineUrl(secretKey, rpcUrl);
 
             if (!combinedUrl) continue;
 
-            const location = Utils.formatFilepath($(`#location-${i}`).val()?.trim() || '');
-            const pattern = $(`#pattern-${i}`).val()?.trim() || '';
+            const location = Utils.formatFilepath(QS(`#location-${i}`)?.value?.trim() || "");
+            const pattern = QS(`#pattern-${i}`)?.value?.trim() || "";
 
-            rpcList.push({
-                name: name.trim(),
-                url: combinedUrl,
-                location: location,
-                pattern: pattern
-            });
+            rpcList.push({ name: name.trim(), url: combinedUrl, location, pattern });
         }
 
         return rpcList.length ? rpcList : DefaultConfigs.rpcList;

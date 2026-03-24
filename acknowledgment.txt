@@ -8,6 +8,3 @@ Licensed under MIT License: https://github.com/mayswind/AriaNg/blob/master/LICEN
 Bootstrap (https://getbootstrap.com/)
 Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
 Licensed under MIT
-
-jQuery (https://jquery.com/)
-Licensed under MIT license: https://jquery.com/license/
