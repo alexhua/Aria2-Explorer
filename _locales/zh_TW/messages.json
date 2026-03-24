@@ -318,7 +318,7 @@
       "message": "標記"
    },
    "MarkAsSecureTip": {
-      "message": "標記為安全的RPC協議"
+      "message": "標記為安全的RPC協議，總是附帶Cookies資訊。"
    },
    "MarkAsInsecureTip": {
       "message": "標記為不安全的RPC協議"

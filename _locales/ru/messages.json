@@ -318,7 +318,7 @@
       "message": "Отметить"
    },
    "MarkAsSecureTip": {
-      "message": "Отметить как безопасный RPC"
+      "message": "Пометить как безопасный протокол RPC, всегда включать Cookies."
    },
    "MarkAsInsecureTip": {
       "message": "Отметить как небезопасный RPC протокол"

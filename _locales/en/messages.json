@@ -318,7 +318,7 @@
       "message": "Mark"
    },
    "MarkAsSecureTip": {
-      "message": "Mark as secure RPC"
+      "message": "Mark as secure RPC protocol, always include Cookies."
    },
    "MarkAsInsecureTip": {
       "message": "Mark as insecure RPC protocol"

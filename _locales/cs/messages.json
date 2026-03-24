@@ -318,7 +318,7 @@
       "message": "Označit"
    },
    "MarkAsSecureTip": {
-      "message": "Označit jako zabezpečené RPC"
+      "message": "Označit jako bezpečný protokol RPC, vždy zahrnout Cookies."
    },
    "MarkAsInsecureTip": {
       "message": "Označit jako nezabezpečený protokol RPC"

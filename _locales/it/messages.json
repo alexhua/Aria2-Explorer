@@ -318,7 +318,7 @@
       "message": "Segna"
    },
    "MarkAsSecureTip": {
-      "message": "Segna come RPC sicuro"
+      "message": "Contrassegna come protocollo RPC sicuro, includi sempre i Cookie."
    },
    "MarkAsInsecureTip": {
       "message": "Segna come protocollo RPC non sicuro"

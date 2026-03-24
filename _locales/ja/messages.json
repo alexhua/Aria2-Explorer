@@ -318,7 +318,7 @@
       "message": "マークする"
    },
    "MarkAsSecureTip": {
-      "message": "安全なRPCプロトコルとしてマークする"
+      "message": "安全なRPCプロトコルとしてマークし、常にCookieを含めます。"
    },
    "MarkAsInsecureTip": {
       "message": "安全でないRPCプロトコルとしてマークする"

@@ -318,7 +318,7 @@
       "message": "표시하다"
    },
    "MarkAsSecureTip": {
-      "message": "안전한 RPC 프로토콜로 표시하다"
+      "message": "안전한 RPC 프로토콜로 표시, 항상 쿠키 포함."
    },
    "MarkAsInsecureTip": {
       "message": "안전하지 않은 RPC 프로토콜로 표시하다"
