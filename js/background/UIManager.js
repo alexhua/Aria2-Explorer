@@ -235,11 +235,36 @@ export class UIManager {
     }
 
     /**
+     * Validate window bounds
+     */
+    #isValidBounds(bounds) {
+        if (!bounds || typeof bounds !== 'object') {
+            return false;
+        }
+
+        // Check if width and height are valid positive numbers (using type coercion)
+        if (bounds.width != null && bounds.width <= 0) {
+            return false;
+        }
+        if (bounds.height != null && bounds.height <= 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Open in window
      */
     async #openInWindow(url) {
         const savedBounds = this.configService.get('uiWindowBounds');
-        const windowProps = { url, type: 'popup', focused: false, ...savedBounds };
+        const validBounds = this.#isValidBounds(savedBounds) ? savedBounds : null;
+        let windowProps = null;
+        if (validBounds) {
+            windowProps = { url, type: 'popup', focused: false, ...validBounds };
+        } else {
+            windowProps = { url, type: 'popup', focused: false, width: 1024, height: 600 };
+        }
         const win = await chrome.windows.create(windowProps);
         this.#uiWindowId = win.id;
         await chrome.windows.update(win.id, { focused: true });
