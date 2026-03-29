@@ -224,10 +224,10 @@ class OptionsApp {
             // Handle AriaNG options
             if (configs.ariaNgOptions) {
                 try {
-                    if (typeof configs.ariaNgOptions === "string") {
-                        configs.ariaNgOptions = JSON.parse(configs.ariaNgOptions);
-                    }
-                    localStorage.setItem("AriaNg.Options", JSON.stringify(configs.ariaNgOptions));
+                    const ariaNgOptionsValue = typeof configs.ariaNgOptions === 'string'
+                        ? configs.ariaNgOptions
+                        : JSON.stringify(configs.ariaNgOptions);
+                    localStorage.setItem('AriaNg.Options', ariaNgOptionsValue);
                 } catch {
                     Logger.warn("Download: AriaNG options is invalid");
                 }

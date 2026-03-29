@@ -198,6 +198,24 @@ export class ConfigService {
                 throw new Error('Invalid import data');
             }
 
+            // Handle AriaNG options (similar to downloadConfig)
+            // Note: localStorage is only available in HTML pages (options.html), not in service worker
+            if ('ariaNgOptions' in parsed && typeof localStorage !== 'undefined') {
+                try {
+                    const ariaNgOptionsValue = typeof parsed.ariaNgOptions === 'string'
+                        ? parsed.ariaNgOptions
+                        : JSON.stringify(parsed.ariaNgOptions);
+                    localStorage.setItem('AriaNg.Options', ariaNgOptionsValue);
+                    Logger.log('[ConfigService] AriaNG options imported to localStorage');
+                } catch (error) {
+                    Logger.warn('[ConfigService] Failed to import AriaNG options:', error);
+                }
+            } else if ('ariaNgOptions' in parsed) {
+                Logger.warn('[ConfigService] localStorage not available (service worker context), skipping AriaNG options');
+            }
+
+            delete parsed.ariaNgOptions;
+
             await this.set(parsed);
             Logger.log('[ConfigService] Config imported successfully');
             return true;
