@@ -278,8 +278,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "Похоже, Aria2 Manager не установлен, хотите перейти в канал 'Alex Recommends' для получения дополнительной информации?"
    },
-   "ClearSettingsDes": {
-      "message": "Подтвердите, что хотите очистить все настройки?"
+   "ResetSettingsDes": {
+      "message": "Подтвердить сброс конфигурации расширения до значений по умолчанию?"
    },
    "ColorMode": {
       "message": "Режим цвета"

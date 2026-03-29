@@ -159,7 +159,7 @@ export class ConfigService {
             // Update memory immediately
             this.config = { ...DefaultConfigs };
 
-            // Save to storage (this will trigger storage.onChanged listener which handles notifications)
+            // Clear all and set defaults
             await chrome.storage.local.clear();
             await chrome.storage.local.set(DefaultConfigs);
 
@@ -237,6 +237,12 @@ export class ConfigService {
             const oldValues = {};
 
             for (const [key, { newValue, oldValue }] of Object.entries(changes)) {
+                // Skip removed keys (newValue is undefined)
+                if (newValue === undefined) {
+                    delete this.config[key];
+                    continue;
+                }
+
                 // Update memory (for external changes, this is the only update)
                 // For local changes, this is redundant but harmless
                 this.config[key] = newValue;
@@ -326,6 +332,11 @@ export class ConfigService {
         const expectedType = Array.isArray(expected) ? 'array' : typeof expected;
         const actualType = Array.isArray(value) ? 'array' : typeof value;
 
+        // Allow string for number type (will be converted later)
+        if (expectedType === 'number' && actualType === 'string') {
+            return true;
+        }
+
         return expectedType === actualType;
     }
 
@@ -338,10 +349,13 @@ export class ConfigService {
 
         if (!rule) return true;
 
-        // Validate Number (min/max)
+        // Validate Number (min/max) with type coercion
         if (rule.type === 'number') {
-            if (rule.min !== undefined && value < rule.min) return false;
-            if (rule.max !== undefined && value > rule.max) return false;
+            const numValue = Number(value);
+            // Check if conversion is valid (not NaN)
+            if (isNaN(numValue)) return false;
+            if (rule.min !== undefined && numValue < rule.min) return false;
+            if (rule.max !== undefined && numValue > rule.max) return false;
         }
 
         // Validate Enum

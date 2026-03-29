@@ -278,8 +278,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "好像沒有安裝Aria2 Manager，訪問“Alex推薦”頻道瞭解更多資訊？"
    },
-   "ClearSettingsDes": {
-      "message": "確認清除所有設定？"
+   "ResetSettingsDes": {
+      "message": "確定重置擴充功能的配置為預設值？"
    },
    "ColorMode": {
       "message": "顔色模式"

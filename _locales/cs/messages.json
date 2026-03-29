@@ -278,8 +278,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "Zdá se, že Aria2 Manager není nainstalován, přístup k kanálu \"Alex Recommends\" pro více informací?"
    },
-   "ClearSettingsDes": {
-      "message": "Potvrdit vymazání všech nastavení?"
+   "ResetSettingsDes": {
+      "message": "Potvrdit resetování konfigurace rozšíření na výchozí hodnoty?"
    },
    "ColorMode": {
       "message": "Barevný režim"

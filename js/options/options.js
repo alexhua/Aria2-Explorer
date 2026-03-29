@@ -87,7 +87,7 @@ class OptionsApp {
 
         // Reset button
         bind("#reset", "click", async () => {
-            if (!confirm(chrome.i18n.getMessage("ClearSettingsDes"))) return;
+            if (!confirm(chrome.i18n.getMessage("ResetSettingsDes"))) return;
             await this.configService.reset();
         });
 
