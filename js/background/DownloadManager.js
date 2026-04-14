@@ -76,7 +76,11 @@ export class DownloadManager {
      * Send to Aria2
      */
     async send2Aria(downloadItem, rpcItem) {
-        const cookieItems = await this.#getCookies(downloadItem, rpcItem);
+        let cookieItems = [];
+        if (rpcItem.ignoreInsecure || Utils.isLocalhost(rpcItem.url) || /^(https|wss)/i.test(rpcItem.url)) {
+            cookieItems = await Utils.getCookies(downloadItem);
+        }
+
         const headers = this.#buildHeaders(cookieItems);
         const options = await this.#buildAria2Options(downloadItem, rpcItem, headers);
 
@@ -113,26 +117,6 @@ export class DownloadManager {
         }
     }
 
-    /**
-     * Get cookies
-     */
-    async #getCookies(downloadItem, rpcItem) {
-        try {
-            const config = this.configService.get();
-            if (!rpcItem.ignoreInsecure && !Utils.isLocalhost(rpcItem.url) && !/^(https|wss)/i.test(rpcItem.url)) {
-                return [];
-            }
-
-            const storeId = chrome.extension.inIncognitoContext ? "1" : "0";
-            const url = downloadItem.multiTask ? downloadItem.referrer : downloadItem.url;
-            const cookies = await chrome.cookies.getAll({ url, storeId });
-
-            return cookies.map(cookie => `${cookie.name}=${cookie.value}`);
-        } catch (error) {
-            Logger.warn(error.message);
-            return [];
-        }
-    }
 
     /**
      * Build request headers

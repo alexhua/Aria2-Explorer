@@ -3,6 +3,7 @@
  */
 import { ConfigService } from "../services/ConfigService.js";
 import Logger from "../logger.js";
+import Utils from "../utils.js";
 
 const NID_TASK_STOPPED = "NID_TASK_STOPPED";
 const POPUP_UI_INDEX = "ui/ariang/popup.html";
@@ -179,26 +180,12 @@ export class UIManager {
     async #buildHeader(downloadItem) {
         let header = "User-Agent: " + navigator.userAgent;
 
-        const cookies = await this.#getCookies(downloadItem);
+        const cookies = await Utils.getCookies(downloadItem);
         if (cookies.length > 0) {
             header += "\nCookie: " + cookies.join(";");
         }
 
         return header;
-    }
-
-    /**
-     * Get cookies
-     */
-    async #getCookies(downloadItem) {
-        try {
-            const storeId = chrome.extension.inIncognitoContext ? "1" : "0";
-            const url = downloadItem.multiTask ? downloadItem.referrer : downloadItem.url;
-            const cookies = await chrome.cookies.getAll({ url, storeId });
-            return cookies.map(cookie => `${cookie.name}=${cookie.value}`);
-        } catch {
-            return [];
-        }
     }
 
     /**

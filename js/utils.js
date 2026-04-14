@@ -296,6 +296,31 @@ class Utils {
     static getPlatform() {
         return navigator.userAgentData.platform;
     }
+
+    /**
+     * Get combined cookies
+     * @param {Object} downloadItem 
+     * @returns {Promise<Array<string>>}
+     */
+    static async getCookies(downloadItem) {
+        try {
+            const storeId = chrome.extension.inIncognitoContext ? "1" : "0";
+            const url = downloadItem.multiTask ? downloadItem.referrer : downloadItem.url;
+            const cookies = await chrome.cookies.getAll({ url, storeId });
+
+            let pCookies = [];
+            try {
+                pCookies = await chrome.cookies.getAll({ url, storeId, partitionKey: {} });
+            } catch (e) {
+                // 忽略不支持 partitionKey 的旧版本浏览器
+            }
+
+            const cookieMap = new Map([...cookies, ...pCookies].map(c => [c.name, c.value]));
+            return Array.from(cookieMap.entries()).map(([name, value]) => `${name}=${value}`);
+        } catch {
+            return [];
+        }
+    }
 }
 
 export default Utils;
