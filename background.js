@@ -108,14 +108,27 @@ async function download(downloadItem, rpcItem) {
 }
 
 async function getCookies(downloadItem) {
-    let storeId = chrome.extension.inIncognitoContext ? "1" : "0";
-    let url = downloadItem.multiTask ? downloadItem.referrer : downloadItem.url;
-    let cookies = await chrome.cookies.getAll({ url, storeId });
-    let cookieItems = [];
-    for (const cookie of cookies) {
-        cookieItems.push(cookie.name + "=" + cookie.value);
+    try {
+        let storeId = (downloadItem.incognito || chrome.extension.inIncognitoContext) ? "1" : "0";
+        let url = downloadItem.multiTask ? downloadItem.referrer : downloadItem.url;
+        let cookies = await chrome.cookies.getAll({ url, storeId });
+        let partitionedCookies = [];
+
+        try {
+            partitionedCookies = await chrome.cookies.getAll({ url, storeId, partitionKey: {} });
+        } catch {
+            // Ignore browsers that do not support partitionKey.
+        }
+
+        const cookieMap = new Map([...cookies, ...partitionedCookies].map(cookie => [cookie.name, cookie.value]));
+        let cookieItems = [];
+        for (const [name, value] of cookieMap) {
+            cookieItems.push(name + "=" + value);
+        }
+        return cookieItems;
+    } catch {
+        return [];
     }
-    return cookieItems;
 }
 
 async function send2Aria(downloadItem, rpcItem) {
