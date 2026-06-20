@@ -246,13 +246,21 @@ export class UIManager {
     async #openInWindow(url) {
         const savedBounds = this.configService.get('uiWindowBounds');
         const validBounds = this.#isValidBounds(savedBounds) ? savedBounds : null;
-        let windowProps = null;
-        if (validBounds) {
-            windowProps = { url, type: 'popup', focused: false, ...validBounds };
-        } else {
-            windowProps = { url, type: 'popup', focused: false, width: 1024, height: 600 };
+        const defaultProps = { url, type: 'popup', focused: false, width: 1024, height: 600 };
+        const windowProps = validBounds ? { ...defaultProps, ...validBounds } : defaultProps;
+
+        let win;
+        try {
+            win = await chrome.windows.create(windowProps);
+        } catch {
+            // Fallback to default bounds if saved bounds are rejected (e.g. off-screen)
+            try {
+                win = await chrome.windows.create(defaultProps);
+            } catch (error) {
+                Logger.error("Failed to create UI window:", error);
+                throw error;
+            }
         }
-        const win = await chrome.windows.create(windowProps);
         this.#uiWindowId = win.id;
         await chrome.windows.update(win.id, { focused: true });
     }
