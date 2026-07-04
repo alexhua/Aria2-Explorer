@@ -78,9 +78,9 @@ export class CaptureManager {
     async captureDownload(downloadItem, suggest) {
         const config = this.configService.get();
 
+        suggest();
         // Handle extension download reminder
         if (downloadItem.byExtensionId) {
-            suggest();
             this.#showCaptureReminder(downloadItem);
         }
 
