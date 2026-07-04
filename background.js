@@ -408,8 +408,15 @@ async function openInWindow(url) {
 
     const STORAGE_KEY = 'uiWindowBounds';
     const { [STORAGE_KEY]: savedBounds } = await chrome.storage.local.get(STORAGE_KEY);
-    const windowProps = { url, type: 'popup', focused: false, ...savedBounds };
-    const win = await chrome.windows.create(windowProps);
+    const defaultProps = { url, type: 'popup', focused: false, width: 1024, height: 600 };
+    const windowProps = savedBounds ? { ...defaultProps, ...savedBounds } : defaultProps;
+
+    let win;
+    try {
+        win = await chrome.windows.create(windowProps);
+    } catch (error) {
+        win = await chrome.windows.create(defaultProps);
+    }
     UIWindowId = win.id;
     chrome.windows.update(win.id, { focused: true });
 }
