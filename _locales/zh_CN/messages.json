@@ -65,6 +65,12 @@
    "allowNotificationDes": {
       "message": "任务状态通知"
    },
+   "notifyOnStartDes": {
+      "message": "下载开始系统通知"
+   },
+   "notifyOnCompleteDes": {
+      "message": "下载完成系统通知"
+   },
    "keepSilentDes": {
       "message": "保持通知静音"
    },

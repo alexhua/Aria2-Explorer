@@ -65,6 +65,12 @@
    "allowNotificationDes": {
       "message": "Task status notifications"
    },
+   "notifyOnStartDes": {
+      "message": "Download start notifications"
+   },
+   "notifyOnCompleteDes": {
+      "message": "Download complete notifications"
+   },
    "keepSilentDes": {
       "message": "Keep notifications silent"
    },

@@ -15,6 +15,8 @@ const OptionDeps = { // Key named option depends on the value named option
     askBeforeExport: 'contextMenus',
     checkClick: 'integration',
     keepAwake: 'monitorAria2',
+    notifyOnStart: 'allowNotification',
+    notifyOnComplete: 'allowNotification',
     keepSilent: 'allowNotification'
 }
 
@@ -60,6 +62,16 @@ var Configs =
                 $(`#${dependent}`).prop("disabled", !$(`#${dependency}`).prop("checked"));
             })
         }
+
+        const toggleSubNotifications = () => {
+            if ($("#allowNotification").prop("checked")) {
+                $("#notifyOnStartBlock, #notifyOnCompleteBlock").show();
+            } else {
+                $("#notifyOnStartBlock, #notifyOnCompleteBlock").hide();
+            }
+        };
+        toggleSubNotifications();
+        $("#allowNotification").change(toggleSubNotifications);
 
         if (Utils.getPlatform() == "Windows") {
             let tooltip = chrome.i18n.getMessage("captureMagnetTip")

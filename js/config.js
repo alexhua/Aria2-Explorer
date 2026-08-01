@@ -55,6 +55,8 @@ export const DefaultConfigs = {
     keepAwake: false,
     badgeText: true,
     allowNotification: true,
+    notifyOnStart: true,
+    notifyOnComplete: true,
     keepSilent: false,
     captureMagnet: false,
     remindCaptureTip: true,
