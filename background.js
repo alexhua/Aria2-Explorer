@@ -1121,6 +1121,11 @@ async function notifyTaskStatus(data) {
 
     //notify via browser notification
     if (message) {
+        if (event === "aria2.onDownloadStart" && !Configs.notifyOnStart) return;
+
+        const isCompleteEvent = ["aria2.onDownloadComplete", "aria2.onSeedingComplete", "aria2.onBtDownloadComplete"].includes(event);
+        if (isCompleteEvent && !Configs.notifyOnComplete) return;
+
         title = chrome.i18n.getMessage(title);
         message = chrome.i18n.getMessage(message, aria2 ? aria2.name : "Aria2") + sign;
         let silent = Configs.keepSilent;
