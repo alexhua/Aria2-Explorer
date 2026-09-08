@@ -159,7 +159,6 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 ├── manifest.json              # 扩展清单文件
 ├── options.html               # 选项页面
 ├── aria2.html                 # Aria2 WebUI 页面
-├── magnet.html                # 磁力链接处理页面
 ├── css/                       # 样式文件
 │   ├── options.css            # 选项页面样式
 │   ├── options.dark.css       # 深色模式样式
@@ -195,7 +194,6 @@ chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 │   ├── aria2Options.js        # Aria2 选项处理
 │   ├── config.js              # 配置定义
 │   ├── contextMenu.js         # 右键菜单配置
-│   ├── magnet.js              # 磁力链接处理
 │   ├── startAria2.js          # Aria2 启动器
 │   └── utils.js               # 工具函数
 ├── ui/ariang/                 # 集成的 AriaNg WebUI

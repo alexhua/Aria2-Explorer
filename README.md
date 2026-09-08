@@ -159,7 +159,6 @@ The extension follows a modular architecture for better maintainability:
 ├── manifest.json              # Extension manifest
 ├── options.html               # Options page
 ├── aria2.html                 # Aria2 WebUI page
-├── magnet.html                # Magnet link handler page
 ├── css/                       # Stylesheets
 │   ├── options.css            # Options page styles
 │   ├── options.dark.css       # Dark mode styles
@@ -195,7 +194,6 @@ The extension follows a modular architecture for better maintainability:
 │   ├── aria2Options.js        # Aria2 options handler
 │   ├── config.js              # Configuration definitions
 │   ├── contextMenu.js         # Context menu configuration
-│   ├── magnet.js              # Magnet link handler
 │   ├── startAria2.js          # Aria2 launcher
 │   └── utils.js               # Utility functions
 ├── ui/ariang/                 # Integrated AriaNg WebUI

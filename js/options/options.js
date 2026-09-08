@@ -58,11 +58,6 @@ class OptionsApp {
                     this.#updateAriaNgRpc(changes.rpcList);
                 }
             }
-
-            // Handle magnet capture changes
-            if (changes.captureMagnet !== undefined) {
-                this.#toggleMagnetHandler(changes.captureMagnet);
-            }
         });
     }
 
@@ -302,27 +297,6 @@ class OptionsApp {
 
             if (newAriaNgOptions !== oldAriaNgOptions && confirm(str)) {
                 localStorage[AriaNgOptionsKey] = newAriaNgOptions;
-            }
-        }
-    }
-
-    /**
-     * Toggle magnet link handler
-     */
-    #toggleMagnetHandler(flag) {
-        const magnetPage = chrome.runtime.getURL("magnet.html") + "?action=magnet&url=%s";
-
-        if (flag) {
-            try {
-                navigator.registerProtocolHandler("magnet", magnetPage, "Capture Magnet");
-            } catch (error) {
-                Logger.warn("Failed to register magnet handler:", error);
-            }
-        } else {
-            try {
-                navigator.unregisterProtocolHandler("magnet", magnetPage);
-            } catch (error) {
-                Logger.warn("Failed to unregister magnet handler:", error);
             }
         }
     }

@@ -110,13 +110,14 @@ class Application {
         const configService = this.managers.configService;
 
         // Listen for integration (download capture) changes
-        configService.subscribe('integration', (value) => {
+        configService.subscribe('integration', async (value) => {
             Logger.log('[App] Integration changed to:', value);
             if (value) {
                 this.managers.captureManager.enable();
             } else {
                 this.managers.captureManager.disable();
             }
+            await this.managers.eventHandler.initClickChecker();
         });
 
         // Listen for monitorAria2 changes
@@ -159,10 +160,7 @@ class Application {
         // Listen for captureMagnet changes
         configService.subscribe('captureMagnet', async (value) => {
             Logger.log('[App] CaptureMagnet changed to:', value);
-            const uninstallUrl = value
-                ? "https://github.com/alexhua/Aria2-Explore/issues/98"
-                : '';
-            await chrome.runtime.setUninstallURL(uninstallUrl);
+            await this.managers.eventHandler.initClickChecker();
         });
 
         // Listen for checkClick changes
@@ -218,12 +216,6 @@ class Application {
         } else {
             this.managers.monitorManager.disable();
         }
-
-        // Set uninstall URL
-        const uninstallUrl = config.captureMagnet
-            ? "https://github.com/alexhua/Aria2-Explore/issues/98"
-            : '';
-        await chrome.runtime.setUninstallURL(uninstallUrl);
 
         // Set side panel behavior
         await chrome.sidePanel.setPanelBehavior({

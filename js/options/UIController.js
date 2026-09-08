@@ -45,7 +45,6 @@ export class UIController {
         this.#resetForm();
         this.#fillFormData(config);
         this.#setupDependencies(config);
-        this.#setupSpecialTooltips();
         this.rpcManager.render();
         this.#bindEvents();
         this.#setupVersionInfo();
@@ -124,16 +123,6 @@ export class UIController {
                 ? config[dependency]
                 : depEl?.checked ?? false;
             target.disabled = !isEnabled;
-        }
-    }
-
-    /**
-     * Setup special tooltips (Windows-only captureMagnet tip)
-     */
-    #setupSpecialTooltips() {
-        if (Utils.getPlatform() === "Windows") {
-            QS("#captureMagnet")?.parentElement
-                .classList.add("tool-tip", "tool-tip-icon");
         }
     }
 

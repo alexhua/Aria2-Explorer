@@ -167,14 +167,15 @@ export class EventHandler {
 
 
     /**
-     * Initialize click checker
+     * Initialize click checker (supports Alt+Click state reporting and magnet link interception)
      */
     async initClickChecker() {
         const config = this.configService.get();
         const CS_ID = 'ALT_CLICK_CHECKER';
         const scripts = await chrome.scripting.getRegisteredContentScripts({ ids: [CS_ID] });
+        const shouldRegister = Boolean(config.captureMagnet || (config.integration && config.checkClick));
 
-        if (config.integration && config.checkClick && scripts.length === 0) {
+        if (shouldRegister && scripts.length === 0) {
             await chrome.scripting.registerContentScripts([{
                 id: CS_ID,
                 matches: ['<all_urls>'],
@@ -182,7 +183,7 @@ export class EventHandler {
                 runAt: 'document_end',
                 allFrames: true
             }]);
-        } else if (!config.checkClick && scripts.length !== 0) {
+        } else if (!shouldRegister && scripts.length !== 0) {
             await chrome.scripting.unregisterContentScripts({ ids: [CS_ID] });
         }
     }
