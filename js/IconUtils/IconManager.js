@@ -33,20 +33,18 @@ export class IconManager {
 
 const IconSet = {
   'Default': {
-    '16': "images/logo16.png",
     '32': "images/logo32.png",
-    '48': "images/logo48.png"
+    '48': "images/logo48.png",
+    '64': "images/logo64.png",
+    '128': "images/logo128.png"
   },
   'Grey': {
-    '16': "images/logo16-grey.png",
     '32': "images/logo32-grey.png",
   },
   'Dark': {
-    '16': "images/logo16-dark.png",
     '32': "images/logo32-dark.png",
   },
   'Dusk': {
-    '16': "images/logo16-dusk.png",
     '32': "images/logo32-dusk.png"
   }
 }
