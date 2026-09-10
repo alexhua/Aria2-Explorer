@@ -61,10 +61,6 @@ var Configs =
             })
         }
 
-        if (Utils.getPlatform() == "Windows") {
-            let tooltip = chrome.i18n.getMessage("captureMagnetTip")
-            $("#captureMagnet").parent().addClass("tool-tip tool-tip-icon");
-        }
 
         for (const input of $("input[type=text],input[type=number]")) {
             if (Configs[input.id])
@@ -442,8 +438,6 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
                 localStorage[AriaNgOptionsKey] = newAriaNgOptions;
             }
         }
-        if (changes.captureMagnet)
-            toggleMagnetHandler(changes.captureMagnet.newValue);
     }
 });
 
@@ -491,19 +485,6 @@ function isRpcListChanged(changes) {
     }
 }
 
-/**
- * toggle magnet protocol handler before changing the captureMagnet storage value
- *
- * @param {boolean} flag Set true to register, false to unregister
- */
-function toggleMagnetHandler(flag) {
-    let magnetPage = chrome.runtime.getURL("magnet.html") + "?action=magnet&url=%s";
-    if (flag) {
-        navigator.registerProtocolHandler("magnet", magnetPage, "Capture Magnet");
-    } else {
-        navigator.unregisterProtocolHandler("magnet", magnetPage);
-    }
-}
 
 /**
  * Migrate extension settings from web local storage to Chrome local storage

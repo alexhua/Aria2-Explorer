@@ -909,7 +909,7 @@ function registerAllListeners() {
         }
     );
 
-    /* receive download request from magnet page, export all, ariaNG */
+    /* receive download request from content scripts, export all, ariaNG */
     chrome.runtime.onMessage.addListener(
         function (message, sender, sendResponse) {
             switch (message.type) {
@@ -950,7 +950,7 @@ function registerAllListeners() {
             }
         }
 
-        if ("checkClick" in changes) {
+        if ("checkClick" in changes || "captureMagnet" in changes) {
             initClickChecker();
         }
 
@@ -977,8 +977,6 @@ function init() {
             Configs.integration ? enableCapture() : disableCapture();
             Configs.monitorAria2 ? enableMonitor() : disableMonitor();
         });
-        url = Configs.captureMagnet ? "https://github.com/alexhua/Aria2-Explore/issues/98" : '';
-        chrome.runtime.setUninstallURL(url);
         chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: Configs.webUIOpenStyle == "sidePanel" });
     });
 }
@@ -1011,7 +1009,8 @@ function initRemoteAria2() {
 async function initClickChecker() {
     const CS_ID = 'ALT_CLICK_CHECKER';
     const scripts = await chrome.scripting.getRegisteredContentScripts({ ids: [CS_ID] });
-    if (Configs.integration && Configs.checkClick && scripts.length == 0) {
+    const isNeeded = (Configs.integration && Configs.checkClick) || Configs.captureMagnet
+    if (isNeeded && scripts.length == 0) {
         chrome.scripting.registerContentScripts([{
             id: CS_ID,
             matches: ['<all_urls>'],
@@ -1019,7 +1018,7 @@ async function initClickChecker() {
             runAt: 'document_end',
             allFrames: true
         }]);
-    } else if (!Configs.checkClick && scripts.length != 0) {
+    } else if (!isNeeded && scripts.length != 0) {
         chrome.scripting.unregisterContentScripts({ ids: [CS_ID] });
     }
 }
