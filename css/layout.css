@@ -147,15 +147,16 @@
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-4);
   color: var(--color-text);
-  line-height: 1.1;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
 }
 
 .hero-subtitle {
   font-size: var(--font-size-xl);
   color: var(--color-text-light);
   margin-bottom: var(--space-6);
-  line-height: 1.5;
-  max-width: 600px;
+  line-height: 1.6;
+  max-width: 620px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -179,6 +180,7 @@
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-2);
   color: var(--color-text);
+  letter-spacing: -0.025em;
 }
 
 .section-subtitle {
@@ -189,6 +191,7 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  line-height: 1.55;
 }
 
 /* Features Grid */
@@ -242,6 +245,7 @@
   background-color: var(--color-footer-bg);
   color: var(--color-white);
   padding: var(--space-12) 0 var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer-content {
