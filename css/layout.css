@@ -226,14 +226,14 @@
 
 .download-grid {
   display: grid;
-  gap: var(--space-8);
-  margin-bottom: var(--space-12);
+  gap: 1.75rem;
+  margin-bottom: var(--space-8);
 }
 
 .download-buttons {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: 0.75rem;
   align-items: center;
 }
 

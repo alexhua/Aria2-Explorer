@@ -15,7 +15,7 @@ export default {
     },
     "hero": {
         "headline": "完整下载解决方案",
-        "description": "基于 Aria2 的专业下载套件。Aria2 Explorer 浏览器扩展 + Aria2 Manager 桌面应用，为您提供终极 BT/磁力链接下载体验，并支持 HTTP/HTTPS/FTP 协议和增强付费功能。",
+        "description": "全能下载解决方案：集结 Aria2 Explorer、DownCenter 与 Aria2 Manager。涵盖浏览器任务智能拦截、Chrome 下载页面美化与直接删除本地文件，以及专业级 BT/磁力与多协议极速下载体验。",
         "stats": {
             "protocols": "6+",
             "protocols_label": "协议支持",
@@ -112,7 +112,7 @@ export default {
     },
     "products": {
         "title": "我们的产品",
-        "subtitle": "两个强大工具的完美配合",
+        "subtitle": "强大工具协同配合，打造极致下载体验",
         "extension": {
             "badge": "浏览器扩展",
             "name": "Aria2 Explorer",
@@ -150,6 +150,23 @@ export default {
             },
             "screenshot_placeholder": "桌面应用截图",
             "screenshot_note": "即将推出"
+        },
+        "downcenter": {
+            "badge": "Chrome 下载管理器",
+            "name": "DownCenter",
+            "description": "专为 Chrome 设计的现代化下载管理扩展，全新界面美化，增加删除下载文件按钮与下载文件智能分类。",
+            "features": {
+                "ui": "全新界面美化：优雅清爽的设计风格，完美支持明暗主题，彻底替换陈旧的原生下载页面",
+                "delete": "删除下载文件按钮：支持一键物理删除本地下载文件，彻底解决 Chrome 原生只能清除记录的痛点",
+                "category": "下载文件智能分类：按文档、图片、视频、压缩包、安装包等类型一键分类与高级筛选",
+                "popup": "现代风格快捷弹窗：紧凑小巧的弹出面板，随时通过快捷键 (Alt+J) 唤起管理最近下载",
+                "realtime": "实时下载监控：即时掌握下载速度与进度，支持一键打开、定位文件夹及恢复",
+                "privacy": "极简轻量安全：零外部依赖，极速启动且注重用户隐私与数据安全"
+            },
+            "screenshot_placeholder": "DownCenter 截图",
+            "screenshot_note": "即将推出",
+            "image": "image/downcenter-zh.png",
+            "alt": "DownCenter 下载管理器界面"
         }
     },
     "download": {
@@ -160,6 +177,7 @@ export default {
             "description": "从浏览器扩展商店安装",
             "chrome_title": "Chrome 网上应用店下载",
             "edge_title": "Microsoft Edge 加载项下载",
+            "edge_alt": "Microsoft Edge 加载项",
             "manual_install_title": "手动下载安装"
         },
         "desktop": {
@@ -169,6 +187,12 @@ export default {
             "macos": "macOS 版",
             "linux": "Linux 版",
             "unavailable": "待开发"
+        },
+        "downcenter": {
+            "title": "DownCenter",
+            "description": "从浏览器扩展商店安装",
+            "chrome_title": "Chrome 网上应用店下载",
+            "edge_title": "Microsoft Edge 加载项下载"
         }
     },
     "footer": {
@@ -214,6 +238,10 @@ export default {
         "q4": {
             "question": "浏览器扩展和桌面应用如何协同工作？",
             "answer": "Aria2 Explorer 从浏览器捕获下载任务并发送给 Aria2 Manager 处理。这创造了从网页浏览到专业下载管理的无缝工作流程。"
+        },
+        "q5": {
+            "question": "DownCenter 如何增强 Chrome 默认的下载管理？",
+            "answer": "DownCenter 无缝替换了 Chrome 原生呆板的下载页面并进行了全面界面美化。更重要的是，它补全了原生缺失的核心能力：增加了“直接删除下载文件”按钮（不仅能移除记录，还能彻底物理删除磁盘文件）、支持按文件类型进行智能分类筛选（文档、安装包、压缩包、媒体等），并提供了随按随开的现代风格快捷弹出浮窗 (Alt+J)。"
         }
     },
     "privacy": {

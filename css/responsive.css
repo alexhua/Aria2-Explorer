@@ -15,12 +15,6 @@
   .steps-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  .download-buttons {
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
 }
 
 /* Medium screens (768px and up) */
@@ -139,6 +133,10 @@
   .product-features {
     margin-left: 0;
     margin-right: 0;
+  }
+
+  .download-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .footer-content {

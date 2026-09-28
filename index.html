@@ -7,21 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <title>Download Suite — Aria2 Explorer + Aria2 Manager</title>
+    <title>Download Suite — Aria2 Explorer + DownCenter + Aria2 Manager</title>
     <meta name="description"
-        content="Complete Download Solution: Aria2 Explorer browser extension + Aria2 Manager desktop app. Professional torrent downloader supporting HTTP/HTTPS/FTP/BT/Magnet with enhanced features like auto tracker updates, UPnP mapping, file management.">
-    <meta name="keywords" content="bt download, torrent download, magnet links, aria2 explorer, aria2 manager, download manager, browser extension, bittorrent client, p2p download, bt下载工具, 种子下载, 磁力链接, 下载管理器">
+        content="Complete Download Solution: Aria2 Explorer browser extension, DownCenter download manager, and Aria2 Manager desktop app. Replace Chrome's download page with direct downloaded file deletion, category filtering, clean modern UI redesign, and high-speed BT/magnet downloads.">
+    <meta name="keywords" content="bt download, torrent download, magnet links, aria2 explorer, aria2 manager, downcenter, chrome download manager, chrome delete downloaded file, chrome downloads category, chrome downloads redesign, delete downloaded files, chrome下载管理, chrome删除下载文件, chrome下载分类, chrome下载美化, 种子下载, 磁力链接, 下载管理器">
     <meta name="author" content="Download Suite">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Aria2 Complete Download Suite - Professional BT Torrent Manager">
-    <meta property="og:description" content="Complete Download Solution with browser extension + desktop app. Professional torrent downloader with enhanced features">
+    <meta property="og:title" content="Aria2 Complete Download Suite — Aria2 Explorer, DownCenter & Aria2 Manager">
+    <meta property="og:description" content="Complete download solution with browser extensions and desktop app. Features Chrome download page redesign, direct file deletion, category filtering, and professional BT/torrent downloading.">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Aria2 Complete Download Suite - BT Torrent Download Manager">
-    <meta name="twitter:description" content="Professional BT download solution: browser extension + desktop app with enhanced torrent features"
+    <meta name="twitter:title" content="Aria2 Complete Download Suite — Aria2 Explorer, DownCenter & Aria2 Manager">
+    <meta name="twitter:description" content="Complete download solution: Chrome download manager redesign with direct file deletion and category filtering + professional BT/torrent app.">
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -31,7 +31,7 @@
         "name": "Aria2 Complete Download Suite",
         "applicationCategory": "BitTorrentClient",
         "operatingSystem": "Windows, macOS, Linux",
-        "description": "Professional BT torrent download solution combining Aria2 Explorer browser extension and Aria2 Manager desktop application with enhanced features",
+        "description": "Professional download suite combining Aria2 Explorer, DownCenter Chrome download manager, and Aria2 Manager desktop application",
         "hasPart": [
             {
                 "@type": "SoftwareApplication",
@@ -67,9 +67,23 @@
                         "description": "Enhanced features including file management, auto tracker updates, UPnP mapping"
                     }
                 ]
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "DownCenter",
+                "applicationCategory": "BrowserExtension",
+                "description": "Modern Chrome extension that replaces default downloads page with a clean UI redesign, direct file deletion from disk, and smart category filtering",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                }
             }
         ],
         "features": [
+            "Chrome downloads page redesign with clean UI",
+            "Direct downloaded file deletion from disk",
+            "Smart download file category filtering",
             "Professional BT/BitTorrent downloads",
             "Magnet link support",
             "Multi-protocol support (HTTP/HTTPS/FTP/BT)",
@@ -149,7 +163,7 @@
                             Complete Download Solution
                         </h1>
                         <p class="hero-subtitle" data-i18n="hero.description">
-                            Professional torrent download suite powered by Aria2. Aria2 Explorer browser extension + Aria2 Manager desktop app deliver the ultimate BT/torrent downloading experience with HTTP/HTTPS/FTP support and enhanced premium features.
+                            All-in-one download suite featuring Aria2 Explorer, DownCenter, and Aria2 Manager. Seamlessly combine browser auto-capture, modern Chrome downloads management with direct file deletion, and powerful BT/HTTP torrent downloading.
                         </p>
                         <div class="hero-stats">
                             <div class="stat-item">
@@ -386,7 +400,7 @@
             <div class="container">
                 <h2 class="section-title" data-i18n="products.title">Our Products</h2>
                 <p class="section-subtitle" data-i18n="products.subtitle">
-                    Two powerful tools working together
+                    Powerful download tools working together
                 </p>
 
                 <!-- Browser Extension -->
@@ -453,6 +467,30 @@
                         </div>
                     </div>
                 </div>
+                <!-- DownCenter Extension -->
+                <div class="product-showcase">
+                    <div class="product-info">
+                        <div class="product-badge" data-i18n="products.downcenter.badge">Chrome Download Manager</div>
+                        <h3 class="product-name" data-i18n="products.downcenter.name">DownCenter</h3>
+                        <p class="product-description" data-i18n="products.downcenter.description">
+                            Modern Chrome extension that beautifies the default downloads page with a clean UI, adds a direct file deletion button, and provides smart category filtering.
+                        </p>
+                        <ul class="product-features">
+                            <li data-i18n="products.downcenter.features.ui">Modern UI Redesign: Clean, beautiful download interface replacing default chrome://downloads with dark and light mode</li>
+                            <li data-i18n="products.downcenter.features.delete">Delete Downloaded Files: Real "Delete file from disk" button, overcoming Chrome's limitation of only clearing records</li>
+                            <li data-i18n="products.downcenter.features.category">Smart File Classification: Easily filter downloads by documents, media, archives, installers, and custom types</li>
+                            <li data-i18n="products.downcenter.features.popup">Modern-Style Quick Popup: Compact popup panel to view and manage recent downloads via shortcut (Alt+J)</li>
+                            <li data-i18n="products.downcenter.features.realtime">Live Status Tracking: Real-time progress monitoring with one-click open, pause, and reveal in folder</li>
+                            <li data-i18n="products.downcenter.features.privacy">Lightweight & Safe: Fast startup with zero external runtime dependencies and strict privacy protection</li>
+                        </ul>
+                    </div>
+                    <div class="product-visual">
+                        <div class="product-image">
+                            <img src="image/downcenter.png" alt="DownCenter Downloads Manager" class="product-screenshot"
+                                data-i18n-src="products.downcenter.image" data-i18n-alt="products.downcenter.alt">
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -480,6 +518,11 @@
                     <div class="faq-item">
                         <h3 data-i18n="faq.q4.question">Is it free and safe to use?</h3>
                         <p data-i18n="faq.q4.answer">Yes, both Aria2 Explorer and Aria2 Manager are completely free and open-source. They're safe, lightweight, and don't contain ads or malware.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h3 data-i18n="faq.q5.question">How does DownCenter improve Chrome's default downloads page?</h3>
+                        <p data-i18n="faq.q5.answer">DownCenter gives Chrome's download manager a modern UI redesign with light/dark themes and adds crucial missing features: a real 'Delete downloaded file' button to delete actual files from your disk (not just clearing history records), smart category filtering by file types (documents, archives, installers, media), and a compact modern-style popup with Alt+J shortcut.</p>
                     </div>
                 </div>
             </div>
@@ -539,6 +582,28 @@
                                 disabled>
                                 <i class="fab fa-apple"></i> macOS
                             </button>
+                        </div>
+                    </div>
+                    <!-- DownCenter Extension Download -->
+                    <div class="download-section">
+                        <div class="download-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3 class="download-title">DownCenter</h3>
+                        <p class="download-description" data-i18n="download.downcenter.description">
+                            Install from your browser's extension store
+                        </p>
+                        <div class="download-buttons">
+                            <a href="https://chromewebstore.google.com/detail/fdigeipllamghcclefoogimaofjelcln"
+                                data-i18n-title="download.downcenter.chrome_title" class="store-badge" target="_blank"
+                                rel="noopener">
+                                <img src="assets/badges/chrome-web-store.png" alt="Chrome Web Store">
+                            </a>
+                            <a href="https://microsoftedge.microsoft.com/addons/detail/iddkhghdnohpcpnlhhglcchokilnghel"
+                                class="store-badge" target="_blank" rel="noopener">
+                                <img src="assets/badges/microsoft-en-light.svg" alt="Microsoft Edge Add-ons"
+                                    data-i18n-alt="download.extension.edge_alt">
+                            </a>
                         </div>
                     </div>
                 </div>

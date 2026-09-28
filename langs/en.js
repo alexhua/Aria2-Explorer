@@ -15,7 +15,7 @@ export default {
   },
   "hero": {
     "headline": "Complete Download Solution",
-    "description": "Professional download suite powered by Aria2. Aria2 Explorer browser extension + Aria2 Manager desktop app deliver the ultimate BitTorrent/Magnet link downloading experience also with HTTP/HTTPS/FTP support and enhanced premium features.",
+    "description": "All-in-one download suite featuring Aria2 Explorer, DownCenter, and Aria2 Manager. Seamlessly combine browser auto-capture, modern Chrome downloads management with direct file deletion, and powerful BT/HTTP torrent downloading.",
     "stats": {
       "protocols": "6+",
       "protocols_label": "Protocols",
@@ -112,7 +112,7 @@ export default {
   },
   "products": {
     "title": "Our Products",
-    "subtitle": "Two powerful tools working together",
+    "subtitle": "Powerful download tools working together",
     "extension": {
       "badge": "Browser Extension",
       "name": "Aria2 Explorer",
@@ -150,6 +150,23 @@ export default {
       },
       "screenshot_placeholder": "Desktop App Screenshot",
       "screenshot_note": "Coming Soon"
+    },
+    "downcenter": {
+      "badge": "Chrome Download Manager",
+      "name": "DownCenter",
+      "description": "Modern Chrome extension that beautifies the default downloads page with a clean UI, adds a direct file deletion button, and provides smart category filtering.",
+      "features": {
+        "ui": "Modern UI Redesign: Clean, beautiful download interface replacing default chrome://downloads with dark and light mode",
+        "delete": "Delete Downloaded Files: Real 'Delete file from disk' button, overcoming Chrome's limitation of only clearing records",
+        "category": "Smart File Classification: Easily filter downloads by documents, media, archives, installers, and custom types",
+        "popup": "Modern-Style Quick Popup: Compact popup panel to view and manage recent downloads via shortcut (Alt+J)",
+        "realtime": "Live Status Tracking: Real-time progress monitoring with one-click open, pause, and reveal in folder",
+        "privacy": "Lightweight & Safe: Fast startup with zero external runtime dependencies and strict privacy protection"
+      },
+      "screenshot_placeholder": "DownCenter Screenshot",
+      "screenshot_note": "Coming Soon",
+      "image": "image/downcenter.png",
+      "alt": "DownCenter Downloads Manager UI"
     }
   },
   "download": {
@@ -160,6 +177,7 @@ export default {
       "description": "Install from your browser's extension store",
       "chrome_title": "Available on Chrome Web Store",
       "edge_title": "Available on Microsoft Edge Add-ons",
+      "edge_alt": "Microsoft Edge Add-ons",
       "manual_install_title": "Manual Install"
     },
     "desktop": {
@@ -169,6 +187,12 @@ export default {
       "macos": "macOS",
       "linux": "Linux",
       "unavailable": "Under Development"
+    },
+    "downcenter": {
+      "title": "DownCenter",
+      "description": "Install from your browser's extension store",
+      "chrome_title": "Available on Chrome Web Store",
+      "edge_title": "Available on Microsoft Edge Add-ons"
     }
   },
   "footer": {
@@ -214,6 +238,10 @@ export default {
     "q4": {
       "question": "How do the browser extension and desktop app work together?",
       "answer": "Aria2 Explorer captures downloads from your browser and sends them to Aria2 Manager for processing. This creates a seamless workflow from web browsing to professional download management."
+    },
+    "q5": {
+      "question": "How does DownCenter improve Chrome's default downloads page?",
+      "answer": "DownCenter gives Chrome's download manager a modern UI redesign with light/dark themes and adds crucial missing features: a real 'Delete downloaded file' button to delete actual files from your disk (not just clearing history records), smart category filtering by file types (documents, archives, installers, media), and a compact modern-style popup with Alt+J shortcut."
     }
   },
   "privacy": {

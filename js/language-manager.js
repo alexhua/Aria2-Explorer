@@ -121,6 +121,16 @@ class LanguageManager {
             }
         });
 
+        // Handle src attributes
+        const srcElements = document.querySelectorAll('[data-i18n-src]');
+        srcElements.forEach(element => {
+            const key = element.getAttribute('data-i18n-src');
+            const translation = this.getTranslation(key);
+            if (translation) {
+                element.setAttribute('src', translation);
+            }
+        });
+
         // Handle special list structures for terms page
         this.handleSpecialLists();
     }
