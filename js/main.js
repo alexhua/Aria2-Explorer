@@ -128,7 +128,7 @@ class Aria2SuiteApp {
      * Handle application errors
      */
     handleError(error, context = 'Unknown') {
-        console.error(`Aria2 Download Suite Error [${context}]:`, error);
+        console.error(`Download Suite Error [${context}]:`, error);
 
         // Show user-friendly error message
         if (this.uiComponents) {

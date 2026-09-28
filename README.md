@@ -1,6 +1,6 @@
-# Aria2 Download Suite 重构版本
+# Download Suite 重构版本
 
-这是 Aria2 Download Suite 的重构版本，采用模块化架构，将 HTML、CSS、JavaScript 分离，便于维护和扩展。
+这是 Download Suite 的重构版本，采用模块化架构，将 HTML、CSS、JavaScript 分离，便于维护和扩展。
 
 ## 项目结构
 

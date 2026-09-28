@@ -1,6 +1,6 @@
 export default {
   "brand": {
-    "name": "Aria2 Download Suite"
+    "name": "Download Suite"
   },
   "nav": {
     "features": "Features",
