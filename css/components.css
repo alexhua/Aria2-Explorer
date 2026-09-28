@@ -519,6 +519,28 @@
   min-width: 160px;
 }
 
+.tombstone-badge,
+.monument-badge {
+  margin-top: 1rem;
+  padding: 0.5rem 0.75rem;
+  background-color: rgba(239, 68, 68, 0.04);
+  border: 1px dashed rgba(239, 68, 68, 0.35);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+  line-height: 1.45;
+  text-align: center;
+  transition: all var(--transition-fast);
+}
+
+.tombstone-badge:hover,
+.monument-badge:hover {
+  border-color: rgba(239, 68, 68, 0.7);
+  background-color: rgba(239, 68, 68, 0.08);
+  color: var(--color-text);
+  transform: translateY(-1px);
+}
+
 /* Hero Stats */
 .hero-stats {
   display: flex;

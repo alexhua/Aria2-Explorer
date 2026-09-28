@@ -186,7 +186,9 @@ export default {
             "windows": "Windows 版",
             "macos": "macOS 版",
             "linux": "Linux 版",
-            "unavailable": "待开发"
+            "unavailable": "待开发",
+            "delisted_title": "已从微软商店下架",
+            "tombstone": "🪦 R.I.P. 因上游依赖 SweetAlert2 作者供应链投毒，遭微软应用商店无辜下架。"
         },
         "downcenter": {
             "title": "DownCenter",

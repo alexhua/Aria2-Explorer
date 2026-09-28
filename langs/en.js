@@ -182,11 +182,13 @@ export default {
     },
     "desktop": {
       "title": "Desktop Application",
-      "description": "Available for Windows, macOS TBD",
+      "description": "Not Available for Windows, macOS TBD",
       "windows": "Windows",
       "macos": "macOS",
       "linux": "Linux",
-      "unavailable": "Under Development"
+      "unavailable": "Under Development",
+      "delisted_title": "Delisted from Microsoft Store",
+      "tombstone": "🪦 R.I.P. Delisted from Microsoft Store due to upstream SweetAlert2 supply-chain poisoning.",
     },
     "downcenter": {
       "title": "DownCenter",

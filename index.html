@@ -571,17 +571,20 @@
                         </div>
                         <h3 class="download-title">Aria2 Manager</h3>
                         <p class="download-description" data-i18n="download.desktop.description">
-                            Available for Windows, macOS, and Linux
+                            Not Available for Windows, macOS, and Linux
                         </p>
                         <div class="download-buttons">
-                            <a href="https://apps.microsoft.com/detail/Aria2%20Manager/9P5WQ68Q20WV?launch=true&cid=aria2e"
-                                class="btn btn-primary btn-lg" target="_blank" rel="noopener">
+                            <button class="btn btn-disabled btn-lg" data-i18n-title="download.desktop.delisted_title"
+                                disabled>
                                 <i class="fab fa-windows"></i> Windows
-                            </a>
+                            </button>
                             <button class="btn btn-disabled btn-lg" data-i18n-title="download.desktop.unavailable"
                                 disabled>
                                 <i class="fab fa-apple"></i> macOS
                             </button>
+                        </div>
+                        <div class="tombstone-badge" data-i18n="download.desktop.tombstone">
+                            🪦 R.I.P. Delisted from Microsoft Store due to upstream SweetAlert2 supply-chain poisoning.
                         </div>
                     </div>
                     <!-- DownCenter Extension Download -->
