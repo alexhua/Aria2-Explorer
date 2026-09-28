@@ -117,6 +117,7 @@ export default {
       "badge": "Browser Extension",
       "name": "Aria2 Explorer",
       "description": "A powerful browser extension that integrates seamlessly with Aria2 download manager",
+      "features_title": "✨ Core Features - Browser Integration",
       "features": {
         "capture": "Auto capture browser download tasks",
         "integration": "Support magnet links and notifications",
@@ -155,6 +156,7 @@ export default {
       "badge": "Chrome Download Manager",
       "name": "DownCenter",
       "description": "Modern Chrome extension that beautifies the default downloads page with a clean UI, adds a direct file deletion button, and provides smart category filtering.",
+      "features_title": "🚀 Key Features - Enhanced Downloads Experience",
       "features": {
         "ui": "Modern UI Redesign: Clean, beautiful download interface replacing default chrome://downloads with dark and light mode",
         "delete": "Delete Downloaded Files: Real 'Delete file from disk' button, overcoming Chrome's limitation of only clearing records",

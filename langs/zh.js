@@ -1,6 +1,6 @@
 export default {
     "brand": {
-        "name": "Aria2 下载套件"
+        "name": "下载套件"
     },
     "nav": {
         "features": "功能特性",
@@ -117,6 +117,7 @@ export default {
             "badge": "浏览器扩展",
             "name": "Aria2 Explorer",
             "description": "强大的浏览器扩展，与 Aria2 下载管理器无缝集成",
+            "features_title": "✨ 核心特性 - 浏览器无缝集成",
             "features": {
                 "capture": "自动拦截浏览器下载任务",
                 "integration": "支持磁力链接和通知提醒",
@@ -155,6 +156,7 @@ export default {
             "badge": "Chrome 下载管理器",
             "name": "DownCenter",
             "description": "专为 Chrome 设计的现代化下载管理扩展，全新界面美化，增加删除下载文件按钮与下载文件智能分类。",
+            "features_title": "🚀 核心特性 - 全新下载管理体验",
             "features": {
                 "ui": "全新界面美化：优雅清爽的设计风格，完美支持明暗主题，彻底替换陈旧的原生下载页面",
                 "delete": "删除下载文件按钮：支持一键物理删除本地下载文件，彻底解决 Chrome 原生只能清除记录的痛点",

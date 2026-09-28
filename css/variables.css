@@ -6,17 +6,17 @@
   --color-secondary: #7c3aed;
   --color-accent: #059669;
   --color-neutral: #334155;
-  --color-background: #f8fafc;
+  --color-background: #edf5fd;
   --color-text: #0f172a;
-  --color-text-light: #64748b;
-  --color-text-meta: #94a3b8;
+  --color-text-light: #334155;
+  --color-text-meta: #64748b;
   --color-white: #ffffff;
-  --color-border: #e2e8f0;
+  --color-border: #dbeafe;
   --color-card-bg: #ffffff;
-  --color-header-bg: rgba(255, 255, 255, 0.75);
+  --color-header-bg: rgba(237, 245, 253, 0.85);
   --color-footer-bg: #0f172a;
-  --color-hero-bg: linear-gradient(180deg, rgba(248, 250, 252, 0.8) 0%, rgba(37, 99, 235, 0.04) 100%);
-  --color-download-bg: linear-gradient(180deg, rgba(248, 250, 252, 0.8) 0%, rgba(37, 99, 235, 0.04) 100%);
+  --color-hero-bg: linear-gradient(135deg, #f0f7ff 0%, #e0effe 45%, #ede9fe 100%);
+  --color-download-bg: linear-gradient(135deg, #f0f7ff 0%, #e0effe 60%, rgba(124, 58, 237, 0.08) 100%);
   
   /* Navigation Slider Colors */
   --color-nav-slider-start: rgba(37, 99, 235, 0.12);
@@ -51,8 +51,10 @@
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2rem;
+  --space-5: 2.5rem;
   --space-6: 3rem;
   --space-8: 4rem;
+  --space-10: 5rem;
   --space-12: 6rem;
   --space-16: 8rem;
   
@@ -64,11 +66,11 @@
   --radius-xxxl: 3rem;
 
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.09), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  /* Shadows - Enhanced Floating Elevation */
+  --shadow-sm: 0 2px 6px -1px rgba(37, 99, 235, 0.06), 0 1px 3px -1px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 8px 24px -4px rgba(37, 99, 235, 0.1), 0 3px 8px -2px rgba(15, 23, 42, 0.05);
+  --shadow-lg: 0 16px 36px -6px rgba(37, 99, 235, 0.14), 0 6px 14px -3px rgba(15, 23, 42, 0.05);
+  --shadow-xl: 0 24px 48px -8px rgba(37, 99, 235, 0.18), 0 10px 20px -5px rgba(15, 23, 42, 0.05);
 
   /* Blur */
   --blur-lg: blur(10px);

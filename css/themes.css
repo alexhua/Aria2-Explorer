@@ -10,7 +10,7 @@
   --color-text-light: #94a3b8;
   --color-text-meta: #64748b;
   --color-white: #1e293b;
-  --color-border: #334155;
+  --color-border: #243044;
   --color-card-bg: #1e293b;
   --color-header-bg: rgba(15, 23, 42, 0.75);
   --color-footer-bg: #020617;
@@ -37,7 +37,7 @@
     --color-text-light: #94a3b8;
     --color-text-meta: #64748b;
     --color-white: #1e293b;
-    --color-border: #334155;
+    --color-border: #243044;
     --color-card-bg: #1e293b;
     --color-header-bg: rgba(15, 23, 42, 0.75);
     --color-footer-bg: #020617;
@@ -104,18 +104,119 @@
   }
 }
 
-/* Dark Mode Card Elevation */
+/* Dark Mode Card Background, Border & Elevation */
 [data-theme="dark"] .feature-card,
 [data-theme="dark"] .download-section,
+[data-theme="dark"] .step-card,
 [data-theme="dark"] .version-section {
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(175deg, #1e293b 0%, rgba(15, 23, 42, 0.85) 100%);
+  border-color: rgba(148, 163, 184, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .version-section.version-section-premium {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(49, 46, 129, 0.35) 100%);
+  border-color: rgba(99, 102, 241, 0.22);
 }
 
 @media (prefers-color-scheme: dark) {
   [data-theme="auto"] .feature-card,
   [data-theme="auto"] .download-section,
+  [data-theme="auto"] .step-card,
   [data-theme="auto"] .version-section {
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(175deg, #1e293b 0%, rgba(15, 23, 42, 0.85) 100%);
+    border-color: rgba(148, 163, 184, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  }
+
+  [data-theme="auto"] .version-section.version-section-premium {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(49, 46, 129, 0.35) 100%);
+    border-color: rgba(99, 102, 241, 0.22);
+  }
+}
+
+/* Dark Mode Tag Styling - Modern refined styling without harsh inset highlight */
+[data-theme="dark"] .tag {
+  background: rgba(59, 130, 246, 0.12);
+  color: #93c5fd;
+  border-color: rgba(96, 165, 250, 0.22);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .tag:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(96, 165, 250, 0.45);
+  color: #bfdbfe;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] .tag {
+    background: rgba(59, 130, 246, 0.12);
+    color: #93c5fd;
+    border-color: rgba(96, 165, 250, 0.22);
+    box-shadow: none;
+  }
+
+  [data-theme="auto"] .tag:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(96, 165, 250, 0.45);
+    color: #bfdbfe;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.18);
+  }
+}
+
+/* Dark Mode Header Elevation */
+[data-theme="dark"] .header {
+  box-shadow: none;
+}
+
+[data-theme="dark"] .header.scrolled {
+  box-shadow: 0 8px 28px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] .header {
+    box-shadow: none;
+  }
+
+  [data-theme="auto"] .header.scrolled {
+    box-shadow: 0 8px 28px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* Dark Mode Aurora Mesh */
+[data-theme="dark"] .aurora-blob-1 {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.40) 0%, rgba(37, 99, 235, 0.15) 50%, transparent 70%);
+}
+
+[data-theme="dark"] .aurora-blob-2 {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.32) 0%, rgba(99, 102, 241, 0.12) 50%, transparent 70%);
+}
+
+[data-theme="dark"] .aurora-blob-3 {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.30) 0%, rgba(14, 165, 233, 0.10) 50%, transparent 70%);
+}
+
+[data-theme="dark"] .aurora-blob-4 {
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.35) 0%, rgba(99, 102, 241, 0.12) 50%, transparent 70%);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] .aurora-blob-1 {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.40) 0%, rgba(37, 99, 235, 0.15) 50%, transparent 70%);
+  }
+
+  [data-theme="auto"] .aurora-blob-2 {
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.32) 0%, rgba(99, 102, 241, 0.12) 50%, transparent 70%);
+  }
+
+  [data-theme="auto"] .aurora-blob-3 {
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.30) 0%, rgba(14, 165, 233, 0.10) 50%, transparent 70%);
+  }
+
+  [data-theme="auto"] .aurora-blob-4 {
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.35) 0%, rgba(99, 102, 241, 0.12) 50%, transparent 70%);
   }
 }
 

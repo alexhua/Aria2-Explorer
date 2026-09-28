@@ -132,22 +132,18 @@ class UIComponents {
      */
     initScrollEffects() {
         const header = document.getElementById('header');
-        let lastScrollY = window.scrollY;
+        if (!header) return;
 
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-
-            // Header background opacity based on scroll
-            if (header) {
-                if (currentScrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
+        const updateScroll = () => {
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
+        };
 
-            lastScrollY = currentScrollY;
-        });
+        window.addEventListener('scroll', updateScroll, { passive: true });
+        updateScroll();
     }
 
     /**

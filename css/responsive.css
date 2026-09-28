@@ -33,8 +33,8 @@
 
   .github-link,
   .theme-toggle {
-    font-size: var(--font-size-xl);
-    width: 44px;
+    font-size: var(--font-size-base);
+    width: 36px;
     height: 36px;
   }
 
@@ -47,7 +47,7 @@
   }
 
   .section {
-    padding: var(--space-12) 0;
+    padding: var(--space-10) 0;
   }
 
   .section-title {
@@ -70,12 +70,13 @@
 /* Large screens (1024px and up) */
 @media (min-width: 1024px) {
   .hero {
-    padding: var(--space-16) 0;
+    padding: var(--space-12) 0;
   }
 
   .hero-content {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-12);
+    grid-template-columns: 0.92fr 1.22fr;
+    gap: var(--space-8);
+    align-items: center;
   }
 
   .hero-text {
@@ -182,7 +183,7 @@
   /* Mobile Menu */
   .nav-menu {
     position: fixed;
-    top: 64px;
+    top: 58px;
     right: var(--space-2);
     left: auto;
     width: min(50vw, 200px);

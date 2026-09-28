@@ -118,7 +118,7 @@
     <header id="header" class="header">
         <nav class="navbar container">
             <div class="nav-brand">
-                <a href="#" class="brand-link">
+                <a href="#hero" class="brand-link">
                     <img src="image/logo64.png" alt="Download Suite Logo" class="brand-logo">
                     <span class="brand-text" data-i18n="brand.name">Download Suite</span>
                 </a>
@@ -156,6 +156,12 @@
     <main>
         <!-- Hero Section -->
         <section id="hero" class="hero section">
+            <div class="hero-aurora" aria-hidden="true">
+                <div class="aurora-blob aurora-blob-1"></div>
+                <div class="aurora-blob aurora-blob-2"></div>
+                <div class="aurora-blob aurora-blob-3"></div>
+                <div class="aurora-blob aurora-blob-4"></div>
+            </div>
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-text">
@@ -411,18 +417,23 @@
                         <p class="product-description" data-i18n="products.extension.description">
                             A powerful browser extension that integrates seamlessly with Aria2 download manager
                         </p>
-                        <ul class="product-features">
-                            <li data-i18n="products.extension.features.capture">Auto capture browser download tasks</li>
-                            <li data-i18n="products.extension.features.integration">Support magnet links and
-                                notifications</li>
-                            <li data-i18n="products.extension.features.management">Toggle auto-capture by shortcut
-                                (Alt+A)</li>
-                            <li data-i18n="products.extension.features.monitoring">Filter by domain, extensions, file
-                                sizes</li>
-                            <li data-i18n="products.extension.features.batch">Batch export webpage resources</li>
-                            <li data-i18n="products.extension.features.api">Receive download requests from other
-                                extensions</li>
-                        </ul>
+                        <div class="product-versions">
+                            <div class="version-section">
+                                <h4 data-i18n="products.extension.features_title">✨ Core Features - Browser Integration</h4>
+                                <ul class="product-features">
+                                    <li data-i18n="products.extension.features.capture">Auto capture browser download tasks</li>
+                                    <li data-i18n="products.extension.features.integration">Support magnet links and
+                                        notifications</li>
+                                    <li data-i18n="products.extension.features.management">Toggle auto-capture by shortcut
+                                        (Alt+A)</li>
+                                    <li data-i18n="products.extension.features.monitoring">Filter by domain, extensions, file
+                                        sizes</li>
+                                    <li data-i18n="products.extension.features.batch">Batch export webpage resources</li>
+                                    <li data-i18n="products.extension.features.api">Receive download requests from other
+                                        extensions</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="product-visual">
                         <div class="product-image">
@@ -453,7 +464,7 @@
                                     <li data-i18n="products.desktop.trial.basic">Basic torrent and magnet link handling</li>
                                 </ul>
                             </div>
-                            <div class="version-section">
+                            <div class="version-section version-section-premium">
                                 <h4 data-i18n="products.desktop.premium.title">⭐ Premium Version - Enhanced Features</h4>
                                 <ul class="product-features">
                                     <li data-i18n="products.desktop.premium.management"><strong>Advanced File Management:</strong> Organize and manage downloads efficiently</li>
@@ -475,14 +486,19 @@
                         <p class="product-description" data-i18n="products.downcenter.description">
                             Modern Chrome extension that beautifies the default downloads page with a clean UI, adds a direct file deletion button, and provides smart category filtering.
                         </p>
-                        <ul class="product-features">
-                            <li data-i18n="products.downcenter.features.ui">Modern UI Redesign: Clean, beautiful download interface replacing default chrome://downloads with dark and light mode</li>
-                            <li data-i18n="products.downcenter.features.delete">Delete Downloaded Files: Real "Delete file from disk" button, overcoming Chrome's limitation of only clearing records</li>
-                            <li data-i18n="products.downcenter.features.category">Smart File Classification: Easily filter downloads by documents, media, archives, installers, and custom types</li>
-                            <li data-i18n="products.downcenter.features.popup">Modern-Style Quick Popup: Compact popup panel to view and manage recent downloads via shortcut (Alt+J)</li>
-                            <li data-i18n="products.downcenter.features.realtime">Live Status Tracking: Real-time progress monitoring with one-click open, pause, and reveal in folder</li>
-                            <li data-i18n="products.downcenter.features.privacy">Lightweight & Safe: Fast startup with zero external runtime dependencies and strict privacy protection</li>
-                        </ul>
+                        <div class="product-versions">
+                            <div class="version-section">
+                                <h4 data-i18n="products.downcenter.features_title">🚀 Key Features - Enhanced Downloads Experience</h4>
+                                <ul class="product-features">
+                                    <li data-i18n="products.downcenter.features.ui">Modern UI Redesign: Clean, beautiful download interface replacing default chrome://downloads with dark and light mode</li>
+                                    <li data-i18n="products.downcenter.features.delete">Delete Downloaded Files: Real "Delete file from disk" button, overcoming Chrome's limitation of only clearing records</li>
+                                    <li data-i18n="products.downcenter.features.category">Smart File Classification: Easily filter downloads by documents, media, archives, installers, and custom types</li>
+                                    <li data-i18n="products.downcenter.features.popup">Modern-Style Quick Popup: Compact popup panel to view and manage recent downloads via shortcut (Alt+J)</li>
+                                    <li data-i18n="products.downcenter.features.realtime">Live Status Tracking: Real-time progress monitoring with one-click open, pause, and reveal in folder</li>
+                                    <li data-i18n="products.downcenter.features.privacy">Lightweight & Safe: Fast startup with zero external runtime dependencies and strict privacy protection</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="product-visual">
                         <div class="product-image">
