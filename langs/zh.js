@@ -15,7 +15,7 @@ export default {
     },
     "hero": {
         "headline": "完整下载解决方案",
-        "description": "全能下载解决方案：集结 Aria2 Explorer、DownCenter 与 Aria2 Manager。涵盖浏览器任务智能拦截、Chrome 下载页面美化与直接删除本地文件，以及专业级 BT/磁力与多协议极速下载体验。",
+        "description": "全能下载解决方案：集结 Aria2 Explorer、DownCenter 与 Aria2 Manager。涵盖浏览器任务智能拦截、Chrome 下载页面美化与功能增强，及删除下载文件能力，并提供业级 HTTP/BT/磁力链接与多协议极速下载体验。",
         "stats": {
             "protocols": "6+",
             "protocols_label": "协议支持",
@@ -177,8 +177,8 @@ export default {
         "extension": {
             "title": "浏览器扩展",
             "description": "从浏览器扩展商店安装",
-            "chrome_title": "Chrome 网上应用店下载",
-            "edge_title": "Microsoft Edge 加载项下载",
+            "chrome_title": "从 Google Chrome 应用商店安装",
+            "edge_title": "从 Microsoft Edge 扩展商店安装",
             "edge_alt": "Microsoft Edge 加载项",
             "manual_install_title": "手动下载安装"
         },

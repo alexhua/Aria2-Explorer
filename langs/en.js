@@ -15,7 +15,7 @@ export default {
   },
   "hero": {
     "headline": "Complete Download Solution",
-    "description": "All-in-one download suite featuring Aria2 Explorer, DownCenter, and Aria2 Manager. Seamlessly combine browser auto-capture, modern Chrome downloads management with direct file deletion, and powerful BT/HTTP torrent downloading.",
+    "description": "All-in-one download suite featuring Aria2 Explorer, DownCenter, and Aria2 Manager. Seamlessly combine browser auto-capture, modern Chrome downloads management enhance with refined UI and download file deletion, and powerful BT/HTTP torrent downloading.",
     "stats": {
       "protocols": "6+",
       "protocols_label": "Protocols",
@@ -177,8 +177,8 @@ export default {
     "extension": {
       "title": "Browser Extension",
       "description": "Install from your browser's extension store",
-      "chrome_title": "Available on Chrome Web Store",
-      "edge_title": "Available on Microsoft Edge Add-ons",
+      "chrome_title": "Available on Google Chrome Web Store",
+      "edge_title": "Available on Microsoft Edge Add-ons Store",
       "edge_alt": "Microsoft Edge Add-ons",
       "manual_install_title": "Manual Install"
     },
