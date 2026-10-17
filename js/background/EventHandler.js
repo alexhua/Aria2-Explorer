@@ -8,7 +8,6 @@ export class EventHandler {
     constructor(managers) {
         this.managers = managers;
         this.configService = ConfigService.getInstance();
-        this.initClickChecker();
     }
 
     /**

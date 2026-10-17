@@ -30,6 +30,9 @@ export class ConfigService {
         // Setup storage listener
         this.#setupStorageListener();
 
+        // Self-hydrate from storage in the background without blocking callers
+        this.readyPromise = this.#hydrate();
+
         ConfigService.#instance = this;
     }
 
@@ -44,23 +47,55 @@ export class ConfigService {
     }
 
     /**
-     * Initialize configuration from storage
+     * Internal hydration from storage
      */
-    async init() {
+    async #hydrate() {
         if (this.initialized) {
             return this.config;
         }
 
         try {
             const data = await chrome.storage.local.get();
+            const updates = {};
+            const oldValues = {};
+
+            for (const [key, value] of Object.entries(data)) {
+                if (JSON.stringify(value) !== JSON.stringify(DefaultConfigs[key])) {
+                    updates[key] = value;
+                    oldValues[key] = DefaultConfigs[key];
+                }
+            }
+
             this.config = { ...DefaultConfigs, ...data };
             this.initialized = true;
-            Logger.log('[ConfigService] Initialized with config:', this.config);
+            Logger.log('[ConfigService] Hydrated config from storage:', this.config);
+
+            // Notify listeners if storage holds values different from defaults
+            if (Object.keys(updates).length > 0) {
+                this.#notifyListeners(updates, oldValues);
+            }
+
             return this.config;
         } catch (error) {
-            Logger.error('[ConfigService] Init error:', error);
+            Logger.error('[ConfigService] Hydration error:', error);
             throw error;
         }
+    }
+
+    /**
+     * Wait for configuration to be fully initialized from storage
+     * Backward-compatible with existing callers like options.js
+     */
+    async init() {
+        return this.readyPromise;
+    }
+
+    /**
+     * Check if configuration has been hydrated from storage
+     * @returns {boolean}
+     */
+    isReady() {
+        return this.initialized;
     }
 
     /**
@@ -254,8 +289,7 @@ export class ConfigService {
                 return;
             }
 
-            // Notify all listeners (both local and external changes)
-            // This is the ONLY place where notifications happen
+            // Notify all listeners for storage updates (external changes and local persistence)
             this.#notifyListeners(updates, oldValues);
 
             Logger.log('[ConfigService] Storage changed, notifying listeners:', updates);

@@ -76,6 +76,7 @@ export function exportAllLinks(allowedExts, blockedExts) {
             filename: '',
             url: links.join('\n'),
             referrer: window.location.href,
+            askBeforeDownload: true,
             multiTask: true
         };
         chrome.runtime.sendMessage({ type: "EXPORT_ALL", data: downloadItem });

@@ -20,32 +20,20 @@ class Application {
     constructor() {
         this.managers = {};
         this.initialized = false;
-    }
 
-    /**
-     * Initialize application
-     */
-    async init() {
-        if (this.initialized) return;
-
-        // Create context menu instance
+        // 1. Synchronously create context menu and config instances
         const contextMenus = new ContextMenu();
-
-        // Need to register as early as possible before any await
-        this.#setupInstallListener();
-
-        // Create config service (singleton)
         const configService = ConfigService.getInstance();
-        await configService.init();
 
+        // 2. Synchronously create all managers
         const notificationManager = new NotificationManager();
-        const monitorManager = new MonitorManager(notificationManager, contextMenus);
+        const monitorManager = new MonitorManager(notificationManager);
         const uiManager = new UIManager();
         const downloadManager = new DownloadManager(uiManager, notificationManager);
-        const captureManager = new CaptureManager(downloadManager, contextMenus);
+        const captureManager = new CaptureManager(downloadManager);
         const menuManager = new MenuManager(contextMenus, downloadManager, uiManager, monitorManager);
 
-        // Create and register event handler
+        // 3. Create event handler
         const eventHandler = new EventHandler({
             configService,
             contextMenus,
@@ -70,28 +58,52 @@ class Application {
             eventHandler
         };
 
-        // Initialize remote Aria2 list
-        monitorManager.initRemoteAria2List();
-
-        // Setup config change listeners (BEFORE initial state)
-        this.#setupConfigListeners();
-
-        // Setup initial state
-        await this.#setupInitialState();
-
-        // Register event listeners
+        // 4. Synchronously register all core event listeners in Turn 0 (MV3 requirement)
+        this.#setupInstallListener();
         eventHandler.registerAll();
+
+        // 5. Synchronously enable download capture if enabled in config snapshot
+        if (configService.get('integration')) {
+            captureManager.enable();
+        }
+
+        // 6. Setup reactive configuration listeners
+        this.#setupConfigListeners();
+    }
+
+    /**
+     * Initialize asynchronous states (UI, monitoring, dynamic scripts)
+     */
+    async init() {
+        if (this.initialized) return;
+
+        // Ensure configuration is fully hydrated from storage before UI and RPC initialization
+        await this.managers.configService.init();
+
+        const config = this.managers.configService.get();
+
+        // Initialize remote Aria2 list
+        this.managers.monitorManager.initRemoteAria2List();
+
+        // Initialize UI states (popup, sidepanel, context menus)
+        await this.#setupInitialUIState();
+
+        // Enable monitoring if configured
+        if (config.monitorAria2) {
+            this.managers.monitorManager.enable();
+        }
+
+        // Initialize dynamic click checker content script
+        await this.managers.eventHandler.initClickChecker();
 
         this.initialized = true;
         Logger.log("Aria2 Explorer initialized successfully");
     }
 
-
-
     /**
      * Handle installed event
      */
-    async #setupInstallListener() {
+    #setupInstallListener() {
         chrome.runtime.onInstalled.addListener((details) => {
             if (details.reason === "install") {
                 const url = chrome.runtime.getURL("options.html?welcome");
@@ -104,7 +116,7 @@ class Application {
 
     /**
      * Setup configuration change listeners
-     * This is the central place for handling config-driven side effects
+     * Handles service-level side effects (menu-specific effects are handled inside MenuManager)
      */
     #setupConfigListeners() {
         const configService = this.managers.configService;
@@ -169,60 +181,34 @@ class Application {
             await this.managers.eventHandler.initClickChecker();
         });
 
-        // Listen for changes that require menu rebuild and changes of rpc list
-        configService.subscribe((changes) => {
-            const needRebuildMenu = 'rpcList' in changes ||
-                'contextMenus' in changes ||
-                'askBeforeExport' in changes ||
-                'exportAll' in changes;
-
-            if (needRebuildMenu) {
-                Logger.log('[App] Rebuilding menus due to config changes');
-                this.managers.menuManager.createAllMenus();
-            }
-
-            if ('rpcList' in changes) {
-                Logger.log('[App] Rebuilding remote Aria2 list due to config changes');
-                this.managers.monitorManager.initRemoteAria2List();
-            }
+        // Listen for RPC list changes to refresh monitor (Aria2 connection pool).
+        // Note: MenuManager also subscribes to rpcList independently for rebuilding UI context menus.
+        configService.subscribe('rpcList', () => {
+            Logger.log('[App] Refreshing remote Aria2 list due to rpcList change');
+            this.managers.monitorManager.initRemoteAria2List();
         });
     }
 
     /**
-     * Setup initial state
+     * Setup initial UI state
      */
-    async #setupInitialState() {
+    async #setupInitialUIState() {
         const config = this.managers.configService.get();
 
-        // Setup popup
+        // Setup popup style
         const popupUrl = config.webUIOpenStyle === "popup"
             ? chrome.runtime.getURL('ui/ariang/popup.html')
             : '';
         await chrome.action.setPopup({ popup: popupUrl });
 
-        // Create menus and wait for completion
-        await this.managers.menuManager.createAllMenus();
-
-        // Enable/disable capture
-        if (config.integration) {
-            this.managers.captureManager.enable();
-        } else {
-            this.managers.captureManager.disable();
-        }
-
-        // Enable/disable monitoring
-        if (config.monitorAria2) {
-            this.managers.monitorManager.enable();
-        } else {
-            this.managers.monitorManager.disable();
-        }
-
         // Set side panel behavior
         await chrome.sidePanel.setPanelBehavior({
             openPanelOnActionClick: config.webUIOpenStyle === "sidePanel"
         });
-    }
 
+        // Create menus
+        await this.managers.menuManager.createAllMenus();
+    }
 }
 
 // Create and initialize application

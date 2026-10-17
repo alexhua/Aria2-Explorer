@@ -7,10 +7,9 @@ import { IconManager } from "../IconUtils/IconManager.js";
 import { ConfigService } from "../services/ConfigService.js";
 
 export class CaptureManager {
-    constructor(downloadManager, contextMenus) {
+    constructor(downloadManager) {
         this.configService = ConfigService.getInstance();
         this.downloadManager = downloadManager;
-        this.contextMenus = contextMenus;
         this.altKeyPressed = false;
         this.currentTabUrl = "about:blank";
 
@@ -26,12 +25,6 @@ export class CaptureManager {
             chrome.downloads.onDeterminingFilename.addListener(this.captureDownload);
         }
         IconManager.turnOn();
-        // Only update menu if it exists
-        try {
-            this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: true });
-        } catch (error) {
-            Logger.warn("Menu item MENU_CAPTURE_DOWNLOAD not found:", error);
-        }
     }
 
     /**
@@ -43,12 +36,6 @@ export class CaptureManager {
         }
         const iconOffStyle = this.configService.get('iconOffStyle');
         IconManager.turnOff(iconOffStyle);
-        // Only update menu if it exists
-        try {
-            this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: false });
-        } catch (error) {
-            Logger.warn("Menu item MENU_CAPTURE_DOWNLOAD not found:", error);
-        }
     }
 
     /**
@@ -73,26 +60,36 @@ export class CaptureManager {
     }
 
     /**
-     * Capture download
+     * Capture download listener (synchronous entry to conform to Chrome event dispatch)
      */
-    async captureDownload(downloadItem, suggest) {
+    captureDownload(downloadItem, suggest) {
         const config = this.configService.get();
 
-        suggest();
+        suggest({ filename: downloadItem.filename });
+
+        // Use finalUrl if available before rule evaluation
+        if (downloadItem.finalUrl && downloadItem.finalUrl !== "about:blank") {
+            downloadItem.url = downloadItem.finalUrl;
+        }
+
+        // Fast-path bypass if capture disabled or download should not be intercepted
+        if (!config.integration || !this.#shouldCapture(downloadItem)) {
+            return;
+        }
+
         // Handle extension download reminder
         if (downloadItem.byExtensionId) {
             this.#showCaptureReminder(downloadItem);
         }
 
-        // Use finalUrl if available
-        if (downloadItem.finalUrl && downloadItem.finalUrl !== "about:blank") {
-            downloadItem.url = downloadItem.finalUrl;
-        }
+        // Handle download capture asynchronously
+        this.#handleCaptureAsync(downloadItem);
+    }
 
-        if (!config.integration || !this.#shouldCapture(downloadItem)) {
-            return;
-        }
-
+    /**
+     * Handle download capture asynchronously
+     */
+    async #handleCaptureAsync(downloadItem) {
         // Cancel Chrome download
         chrome.downloads.cancel(downloadItem.id).then(() => {
             if (chrome.runtime.lastError) {

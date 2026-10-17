@@ -14,6 +14,39 @@ export class MenuManager {
         this.uiManager = uiManager;
         this.monitorManager = monitorManager;
         this.currentTabUrl = "about:blank";
+        this.lastHostname = "";
+
+        // Setup reactive subscriptions to configuration changes
+        this.#setupConfigSubscriptions();
+    }
+
+    /**
+     * Setup subscriptions to automatically update menus when config changes
+     */
+    #setupConfigSubscriptions() {
+        // 1. Reactive checkbox updates
+        this.configService.subscribe('integration', (value) => {
+            this.contextMenus.update("MENU_CAPTURE_DOWNLOAD", { checked: Boolean(value) })
+                .catch(error => Logger.warn("Menu item MENU_CAPTURE_DOWNLOAD not found:", error));
+        });
+
+        this.configService.subscribe('monitorAria2', (value) => {
+            this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: Boolean(value) })
+                .catch(error => Logger.warn("Menu item MENU_MONITOR_ARIA2 not found:", error));
+        });
+
+        // 2. Reactive menu tree rebuild on structural config changes
+        this.configService.subscribe((changes) => {
+            const needRebuildMenu = 'rpcList' in changes ||
+                'contextMenus' in changes ||
+                'askBeforeExport' in changes ||
+                'exportAll' in changes;
+
+            if (needRebuildMenu) {
+                Logger.log('[MenuManager] Rebuilding menus due to config changes');
+                this.createAllMenus().catch(error => Logger.error('[MenuManager] Failed to rebuild menus:', error));
+            }
+        });
     }
 
     /**
@@ -30,7 +63,7 @@ export class MenuManager {
         await this.contextMenus.removeAll();
         this.#createOptionMenu();
         this.#createContextMenu();
-        this.updateOptionMenu({ url: this.currentTabUrl, active: true });
+        this.updateOptionMenu({ url: this.currentTabUrl, active: true }, true);
     }
 
     /**
@@ -195,9 +228,11 @@ export class MenuManager {
     }
 
     /**
-     * Update option menu
+     * Update option menu based on active tab
+     * @param {Object} tab - Active tab object
+     * @param {boolean} [force=false] - Force update even if hostname hasn't changed
      */
-    updateOptionMenu(tab) {
+    updateOptionMenu(tab, force = false) {
         if (!tab?.active) {
             if (!tab) {
                 Logger.warn("Could not get active tab, update option menu failed.");
@@ -205,8 +240,13 @@ export class MenuManager {
             return;
         }
 
-        const config = this.configService.get();
         const url = new URL(tab.url || "about:blank");
+        if (!force && url.hostname === this.lastHostname) {
+            return;
+        }
+        this.lastHostname = url.hostname;
+
+        const config = this.configService.get();
         const blockedSitesSet = new Set(config.blockedSites);
         const allowedSitesSet = new Set(config.allowedSites);
 
@@ -215,14 +255,20 @@ export class MenuManager {
         title += allowedSitesSet.has(url.hostname)
             ? chrome.i18n.getMessage("removeFromWhiteListStr")
             : chrome.i18n.getMessage("addToWhiteListStr");
-        this.contextMenus.update("MENU_UPDATE_ALLOW_SITE", { title });
+        this.contextMenus.update("MENU_UPDATE_ALLOW_SITE", { title })
+            .catch(() => {
+                // Menu item might not exist yet
+            });
 
         // Update blacklist menu
         title = '🚫 ';
         title += blockedSitesSet.has(url.hostname)
             ? chrome.i18n.getMessage("removeFromBlackListStr")
             : chrome.i18n.getMessage("addToBlackListStr");
-        this.contextMenus.update("MENU_UPDATE_BLOCK_SITE", { title });
+        this.contextMenus.update("MENU_UPDATE_BLOCK_SITE", { title })
+            .catch(() => {
+                // Menu item might not exist yet
+            });
     }
 
     /**
@@ -248,12 +294,12 @@ export class MenuManager {
 
             case info.menuItemId === "MENU_UPDATE_BLOCK_SITE":
                 this.#updateBlockedSites(tab);
-                this.updateOptionMenu(tab);
+                this.updateOptionMenu(tab, true);
                 break;
 
             case info.menuItemId === "MENU_UPDATE_ALLOW_SITE":
                 this.#updateAllowedSites(tab);
-                this.updateOptionMenu(tab);
+                this.updateOptionMenu(tab, true);
                 break;
 
             case info.menuItemId.startsWith("MENU_RPC_LIST-"):

@@ -10,10 +10,9 @@ const INTERVAL_SHORT = 1000;
 const INTERVAL_LONG = 3000;
 
 export class MonitorManager {
-    constructor(notificationManager, contextMenus) {
+    constructor(notificationManager) {
         this.configService = ConfigService.getInstance();
         this.notificationManager = notificationManager;
-        this.contextMenus = contextMenus;
         this.monitorId = null;
         this.monitorInterval = INTERVAL_LONG;
         this.remoteAria2List = [];
@@ -72,12 +71,6 @@ export class MonitorManager {
 
         this.#monitor();
         this.monitorId = setInterval(() => this.#monitor(), this.monitorInterval);
-        // Only update menu if it exists
-        try {
-            this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: true });
-        } catch (error) {
-            Logger.warn("Menu item MENU_MONITOR_ARIA2 not found:", error);
-        }
     }
 
     /**
@@ -92,12 +85,6 @@ export class MonitorManager {
         this.remoteAria2List.forEach(aria2 => aria2.closeSocket());
         chrome.action.setBadgeText({ text: "" });
         chrome.action.setTitle({ title: "" });
-        // Only update menu if it exists
-        try {
-            this.contextMenus.update("MENU_MONITOR_ARIA2", { checked: false });
-        } catch (error) {
-            Logger.warn("Menu item MENU_MONITOR_ARIA2 not found:", error);
-        }
         chrome.power.releaseKeepAwake();
     }
 
