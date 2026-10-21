@@ -125,8 +125,7 @@ export class EventHandler {
 
         // Internal message listener
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-            this.#handleMessage(message, sender, sendResponse);
-            return true; // Keep message channel open
+            return this.#handleMessage(message, sender, sendResponse);
         });
 
         // Context menu click listener
@@ -139,27 +138,40 @@ export class EventHandler {
      * Handle message
      */
     #handleMessage(message, sender, sendResponse) {
+        if (!message || typeof message !== "object") {
+            return false;
+        }
+
         switch (message.type) {
             case "DOWNLOAD":
             case "EXPORT_ALL":
-                this.managers.downloadManager.download(message.data);
-                break;
+                this.managers.downloadManager.download(message.data)
+                    .then(success => sendResponse({ success }))
+                    .catch(error => sendResponse({ success: false, error: error.message }));
+                return true;
 
             case "DOWNLOAD_VIA_BROWSER":
                 const downloadItem = message.data || {};
                 downloadItem.type = "DOWNLOAD_VIA_BROWSER";
-                this.managers.downloadManager.download(downloadItem);
-                break;
+                this.managers.downloadManager.download(downloadItem)
+                    .then(success => sendResponse({ success }))
+                    .catch(error => sendResponse({ success: false, error: error.message }));
+                return true;
 
             case "QUERY_WINDOW_STATE":
                 chrome.windows.get(message.data).then((window) => {
                     sendResponse({ data: window });
+                }).catch(error => {
+                    sendResponse({ error: error.message });
                 });
-                break;
+                return true;
 
             case "CLICK_EVENT":
-                this.managers.captureManager.setAltKeyPressed(message.data.altKeyPressed);
-                break;
+                this.managers.captureManager.setAltKeyPressed(message.data?.altKeyPressed);
+                return false;
+
+            default:
+                return false;
         }
     }
 
