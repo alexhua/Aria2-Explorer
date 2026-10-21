@@ -218,6 +218,7 @@ Updating Task Information Interval=Интервал обновления инф�
 Keyboard Shortcuts=Горячие клавиши
 Supported Keyboard Shortcuts=Поддерживаемые горячие клавиши
 Set Focus On Search Box=Установить фокус на поисковое поле
+Task List Floating Action Buttons=Плавающие кнопки действий в списке задач
 Swipe Gesture=Жест смахивания
 Change Tasks Order by Drag-and-drop=Изменить порядок задач перетаскиванием
 Action After Creating New Tasks=Действие после создания новых задач

@@ -262,6 +262,7 @@ Navigate to Downloading Tasks Page=轉到正在下載工作頁面
 Stay on Current Page=留在目前頁面
 Remove Old Tasks After Retrying=重試工作後刪除原工作
 Confirm Task Removal=工作刪除前確認
+Task List Floating Action Buttons=工作列表浮動按鈕
 Remove downloaded file(s) simultaneously=同時刪除下載檔案
 Include Prefix When Copying From Task Details=工作詳情頁複製時包括前綴
 Show Pieces Info In Task Detail Page=工作詳情頁顯示區塊資訊
@@ -376,6 +377,7 @@ Need Enhanced Version=需要增強版
 Version=版本
 Download Settings=下載設定
 Downloader Information=引擎資訊
+N/A=無法使用
 
 [error]
 unknown=不詳錯誤.

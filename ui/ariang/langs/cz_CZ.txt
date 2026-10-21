@@ -218,6 +218,7 @@ Updating Task Information Interval=Interval aktualizace informací o úloze
 Keyboard Shortcuts=Klávesové zkratky
 Supported Keyboard Shortcuts=Podporované klávesové zkratky
 Set Focus On Search Box=Umístit kurzor na vyhledávací pole
+Task List Floating Action Buttons=Plovoucí akční tlačítka v seznamu úloh
 Swipe Gesture=Gesto přejetí
 Change Tasks Order by Drag-and-drop=Změnit pořadí úloh pomocí přetahování
 Action After Creating New Tasks=Akce po vytvoření nových úloh

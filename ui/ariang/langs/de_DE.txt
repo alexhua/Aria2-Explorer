@@ -261,6 +261,7 @@ Updating Task Information Interval=Intervall für Aufgabeninfo-Aktualisierung
 Keyboard Shortcuts=Tastenkombinationen
 Supported Keyboard Shortcuts=Unterstützte Tastenkombinationen
 Set Focus On Search Box=Fokus auf Suchfeld setzen
+Task List Floating Action Buttons=Schwebende Aktionsschaltflächen in der Aufgabenliste
 Swipe Gesture=Wischgeste
 Change Tasks Order by Drag-and-drop=Aufgabenreihenfolge per Drag-and-drop ändern
 Action After Creating New Tasks=Aktion nach Erstellung neuer Aufgaben

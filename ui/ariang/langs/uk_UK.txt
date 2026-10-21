@@ -247,6 +247,7 @@ Keyboard Shortcuts And Multi-Select Mode=Швидкі клавіші та реж
 Task List Multi-Select Mode=Режим багатовибору списку завдань
 Supported Keyboard Shortcuts=Підтримувані комбінації клавіш
 Set Focus On Search Box=Перемістити фокус на поле пошуку
+Task List Floating Action Buttons=Плаваючі кнопки дій у списку завдань
 Swipe Gesture=Жест прокручування
 Change Tasks Order by Drag-and-drop=Зміна порядку завдань перетягуванням
 Action After Creating New Tasks=Дії після створення нового завдання

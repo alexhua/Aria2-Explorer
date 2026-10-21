@@ -218,6 +218,7 @@ Updating Task Information Interval=Actualisation de l'intervalle de la tâche d'
 Keyboard Shortcuts=Raccourcis clavier
 Supported Keyboard Shortcuts=Raccourcis clavier supportés
 Set Focus On Search Box=Mettre focus sur la la barre de recherche
+Task List Floating Action Buttons=Boutons d'action flottants dans la liste des tâches
 Swipe Gesture=Geste de balayage
 Change Tasks Order by Drag-and-drop=Changer l'ordre des tâches par glisser-déposer
 Action After Creating New Tasks=Action après la création de nouvelles tâches

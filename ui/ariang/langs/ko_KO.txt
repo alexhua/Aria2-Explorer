@@ -247,6 +247,7 @@ Keyboard Shortcuts And Multi-Select Mode=키보드 단축키 및 다중 선택 �
 Task List Multi-Select Mode=작업 목록 다중 선택 모드
 Supported Keyboard Shortcuts=지원되는 키보드 단축키
 Set Focus On Search Box=검색 상자에 포커스 설정
+Task List Floating Action Buttons=작업 목록 플로팅 동작 버튼
 Swipe Gesture=스와이프 제스처
 Change Tasks Order by Drag-and-drop=드래그 앤 드롭으로 작업 순서 변경
 Action After Creating New Tasks=새 작업 생성 후 수행할 작업

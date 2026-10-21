@@ -245,6 +245,7 @@ Updating Task Information Interval=
 Keyboard Shortcuts=
 Supported Keyboard Shortcuts=
 Set Focus On Search Box=
+Task List Floating Action Buttons=Pulsanti di azione fluttuanti nell'elenco delle attività
 Swipe Gesture=
 Change Tasks Order by Drag-and-drop=
 Action After Creating New Tasks=

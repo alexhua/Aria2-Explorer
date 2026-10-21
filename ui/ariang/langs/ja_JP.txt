@@ -247,6 +247,7 @@ Keyboard Shortcuts And Multi-Select Mode=キーボードショートカットと
 Task List Multi-Select Mode=タスクリスト複数選択モード
 Supported Keyboard Shortcuts=サポートされているキーボードショートカット
 Set Focus On Search Box=検索ボックスにフォーカスを設定
+Task List Floating Action Buttons=タスクリストのフローティングアクションボタン
 Swipe Gesture=スワイプジェスチャー
 Change Tasks Order by Drag-and-drop=ドラッグ＆ドロップでタスクの順序を変更
 Action After Creating New Tasks=新しいタスク作成後のアクション
