@@ -200,6 +200,9 @@
    "WebUIOpenStyle4": {
       "message": "Boční panel"
    },
+   "windowBlurCloseDes": {
+      "message": "Automaticky zavřít okno při ztrátě fokusu"
+   },
    "openWebUIStr": {
       "message": "Otevřít webové rozhraní"
    },

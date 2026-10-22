@@ -200,6 +200,9 @@
    "WebUIOpenStyle4": {
       "message": "бічна панель"
    },
+   "windowBlurCloseDes": {
+      "message": "Автоматично закривати вікно при втраті фокусу"
+   },
    "openWebUIStr": {
       "message": "Відкрити веб-інтерфейс"
    },

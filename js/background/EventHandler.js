@@ -62,7 +62,7 @@ export class EventHandler {
      */
     #registerWindowListeners() {
         chrome.windows.onFocusChanged.addListener((windowId) => {
-            this.managers.uiManager.setCurrentWindowId(windowId);
+            this.managers.uiManager.handleWindowFocusChange(windowId);
             chrome.tabs.query({ windowId: windowId, active: true }).then((tabs) => {
                 if (tabs?.length > 0) {
                     const url = tabs[0].url || "about:blank";

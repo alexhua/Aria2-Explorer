@@ -14,6 +14,9 @@ export class UIManager {
     #currentWindowId = 0;
     #uiWindowId = 0;    // track the popup window opened by openInWindow
     #uiWindowBounds = null; // cache last known bounds before window close
+    #isOpeningWindow = false; // flag to prevent race conditions during window creation
+    #uiWindowFocused = false; // whether the UI window has been focused at least once
+    #isClosingWindow = false; // flag to prevent duplicate close calls
 
     // Hold listener references so they can be removed later
     #boundsChangedListener = null;
@@ -22,6 +25,7 @@ export class UIManager {
     constructor() {
         this.configService = ConfigService.getInstance();
         this.#initWindowListeners();
+        this.#restoreUIWindowState();
     }
 
     /**
@@ -43,6 +47,68 @@ export class UIManager {
      */
     getCurrentWindowId() {
         return this.#currentWindowId;
+    }
+
+    /**
+     * Restore UI window state on service worker wake-up
+     */
+    async #restoreUIWindowState() {
+        try {
+            const indexUrl = chrome.runtime.getURL(DEFAULT_UI_INDEX);
+            const tabs = await chrome.tabs.query({ url: [indexUrl, indexUrl + '*'] });
+            if (tabs?.length > 0) {
+                const win = await chrome.windows.get(tabs[0].windowId);
+                if (win.type === 'popup') {
+                    this.#uiWindowId = win.id;
+                    this.#uiWindowFocused = win.focused;
+                }
+            }
+        } catch {
+            // Ignore if window lookup fails
+        }
+    }
+
+    /**
+     * Handle window focus change and auto-close UI window if configured
+     * @param {number} windowId - Newly focused window ID or WINDOW_ID_NONE
+     */
+    async handleWindowFocusChange(windowId) {
+        this.setCurrentWindowId(windowId);
+
+        const config = this.configService.get();
+        if (config.webUIOpenStyle !== "window" || !config.windowBlurClose) {
+            return;
+        }
+
+        // If the UI window gained focus, confirm focused and release opening lock immediately
+        if (this.#uiWindowId && windowId === this.#uiWindowId) {
+            this.#uiWindowFocused = true;
+            this.#isOpeningWindow = false;
+            return;
+        }
+
+        // Skip other focus events during initial window opening
+        if (this.#isOpeningWindow) {
+            return;
+        }
+
+        // Fallback: If #uiWindowId is not set (e.g. after SW restart), attempt recovery
+        if (!this.#uiWindowId) {
+            await this.#restoreUIWindowState();
+        }
+
+        // If UI window had been focused and now focus changed to another window or desktop
+        if (this.#uiWindowId && this.#uiWindowFocused && windowId !== this.#uiWindowId) {
+            if (this.#isClosingWindow) return;
+            this.#isClosingWindow = true;
+            try {
+                await chrome.windows.remove(this.#uiWindowId);
+            } catch (error) {
+                Logger.warn("Failed to close UI window on blur:", error);
+            } finally {
+                this.#isClosingWindow = false;
+            }
+        }
     }
 
     /**
@@ -211,6 +277,10 @@ export class UIManager {
             const prop = { active: true };
             if (webUiUrl !== index) prop.url = webUiUrl;
             await chrome.tabs.update(tabs[0].id, prop);
+            if (config.webUIOpenStyle === "window") {
+                this.#uiWindowId = tabs[0].windowId;
+                this.#uiWindowFocused = true;
+            }
             return;
         }
 
@@ -249,6 +319,9 @@ export class UIManager {
         const defaultProps = { url, type: 'popup', focused: false, width: 1024, height: 600 };
         const windowProps = validBounds ? { ...defaultProps, ...validBounds } : defaultProps;
 
+        this.#isOpeningWindow = true;
+        this.#uiWindowFocused = false;
+
         let win;
         try {
             win = await chrome.windows.create(windowProps);
@@ -257,12 +330,19 @@ export class UIManager {
             try {
                 win = await chrome.windows.create(defaultProps);
             } catch (error) {
+                this.#isOpeningWindow = false;
                 Logger.error("Failed to create UI window:", error);
                 throw error;
             }
         }
         this.#uiWindowId = win.id;
         await chrome.windows.update(win.id, { focused: true });
+
+        // Short debounce to ensure window has opened, focused, and settled
+        setTimeout(() => {
+            this.#isOpeningWindow = false;
+            this.#uiWindowFocused = true;
+        }, 150);
     }
 
     /**
@@ -325,8 +405,11 @@ export class UIManager {
             if (this.#uiWindowBounds) {
                 this.configService.set({ uiWindowBounds: this.#uiWindowBounds });
             }
-            this.#uiWindowId = null;
+            this.#uiWindowId = 0;
             this.#uiWindowBounds = null;
+            this.#uiWindowFocused = false;
+            this.#isOpeningWindow = false;
+            this.#isClosingWindow = false;
         };
         chrome.windows.onRemoved.addListener(this.#windowRemovedListener);
     }

@@ -200,6 +200,9 @@
    "WebUIOpenStyle4": {
       "message": "Side Panel"
    },
+   "windowBlurCloseDes": {
+      "message": "Close window automatically when focus is lost"
+   },
    "openWebUIStr": {
       "message": "Open Web UI"
    },

@@ -462,6 +462,46 @@ a {
   min-height: 28px;
 }
 
+.setting-row.sub-row {
+  padding-left: calc(0.25rem + 0.9rem);
+}
+
+/* --------------------------------------------------------------------------
+   Expandable Sub-Option (Smooth height & opacity transition)
+   -------------------------------------------------------------------------- */
+.settings-card:has(.expandable-sub-row) .card-body {
+  gap: 0;
+}
+
+.expandable-sub-row {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  margin-top: 0;
+  overflow: hidden;
+  transition: grid-template-rows 0.25s cubic-bezier(0.2, 0, 0, 1),
+              opacity 0.2s cubic-bezier(0.2, 0, 0, 1),
+              margin-top 0.25s cubic-bezier(0.2, 0, 0, 1),
+              visibility 0.25s;
+}
+
+.expandable-sub-row.is-visible {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  margin-top: 0.5rem;
+}
+
+.expandable-sub-row.no-transition {
+  transition: none !important;
+}
+
+.expandable-sub-row > .setting-row {
+  min-height: 0;
+  overflow: hidden;
+}
+
 .custom-control.custom-switch {
   position: relative;
   display: inline-flex;

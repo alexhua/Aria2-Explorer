@@ -200,6 +200,9 @@
    "WebUIOpenStyle4": {
       "message": "サイドパネル"
    },
+   "windowBlurCloseDes": {
+      "message": "フォーカスを失ったときに自動的にウィンドウを閉じる"
+   },
    "openWebUIStr": {
       "message": "メイン画面を開く"
    },

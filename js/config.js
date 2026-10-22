@@ -64,6 +64,7 @@ export const DefaultConfigs = {
     rpcList: [{ "name": "Aria2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }],
     webUIOpenStyle: "window",   // window, popup, tab, sidePanel
     uiWindowBounds: null,       // { left, top, width, height } - persisted popup window geometry
+    windowBlurClose: false,
     iconOffStyle: "Dusk",   // Dusk, Dark, Grey
     colorModeId: 2,
     allowedSites: [],

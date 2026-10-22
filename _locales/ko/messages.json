@@ -200,6 +200,9 @@
    "WebUIOpenStyle4": {
       "message": "측면 패널"
    },
+   "windowBlurCloseDes": {
+      "message": "포커스를 잃으면 자동으로 창 닫기"
+   },
    "openWebUIStr": {
       "message": "메인 UI 열기"
    },

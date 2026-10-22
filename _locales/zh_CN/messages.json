@@ -200,6 +200,9 @@
    "WebUIOpenStyle4": {
       "message": "侧边栏"
    },
+   "windowBlurCloseDes": {
+      "message": "失去焦点时自动关闭窗口"
+   },
    "openWebUIStr": {
       "message": "打开主界面"
    },

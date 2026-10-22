@@ -200,6 +200,9 @@
    "WebUIOpenStyle4": {
       "message": "Panneau latéral"
    },
+   "windowBlurCloseDes": {
+      "message": "Fermer automatiquement la fenêtre en cas de perte de focus"
+   },
    "openWebUIStr": {
       "message": "Ouvrir l'interface principale"
    },

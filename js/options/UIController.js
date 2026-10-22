@@ -94,6 +94,9 @@ export class UIController {
         // Show/hide monitor-all option
         QS("#monitor-all").style.display = config.rpcList.length > 1 ? "" : "none";
 
+        // Show/hide window-blur-close option (no animation during initial hydration)
+        this.#setWindowBlurCloseVisible(config.webUIOpenStyle === "window", false);
+
         this.#updateDependencyState(config);
     }
 
@@ -191,6 +194,32 @@ export class UIController {
         // WebStore link
         const storeLink = QS("#webStoreUrl");
         if (storeLink) storeLink.href = Utils.getWebStoreUrl();
+
+        // WebUI open style change listener to toggle windowBlurClose option smoothly
+        QSA("input[name=webUIOpenStyle]").forEach(radio => {
+            radio.addEventListener("change", (e) => {
+                this.#setWindowBlurCloseVisible(e.target.value === "window", true);
+            });
+        });
+    }
+
+    /**
+     * Toggle visibility of window-blur-close option with optional transition
+     * @param {boolean} visible - Whether the option should be visible
+     * @param {boolean} [animate=true] - Whether to animate the transition
+     */
+    #setWindowBlurCloseVisible(visible, animate = true) {
+        const wrapper = QS("#window-blur-close-wrapper");
+        if (!wrapper) return;
+        if (!animate) {
+            wrapper.classList.add("no-transition");
+            wrapper.classList.toggle("is-visible", visible);
+            // Force synchronous reflow to apply state instantly without animation
+            void wrapper.offsetHeight;
+            wrapper.classList.remove("no-transition");
+        } else {
+            wrapper.classList.toggle("is-visible", visible);
+        }
     }
 
     /**
