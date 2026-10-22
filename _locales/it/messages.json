@@ -186,7 +186,7 @@
       "message": "Icona dello stato di intercettazione disattivata"
    },
    "WebUIOpenStyleStr": {
-      "message": "Apri AriaNG in"
+      "message": "Modalità di visualizzazione dell'interfaccia"
    },
    "WebUIOpenStyle1": {
       "message": "Popup"
@@ -201,7 +201,7 @@
       "message": "Pannello laterale"
    },
    "openWebUIStr": {
-      "message": "Apri AriaNG"
+      "message": "Apri interfaccia principale"
    },
    "startAria2Str": {
       "message": "Avvia Aria2"
@@ -213,7 +213,7 @@
       "message": "Sincronizzazione cloud"
    },
    "configCloudSyncDes": {
-      "message": "Sincronizza le configurazioni di AriaNg e dell'estensione con l'account browser attualmente connesso"
+      "message": "Sincronizza le configurazioni dell'interfaccia e dell'estensione con l'account browser attualmente connesso"
    },
    "uploadConfigWarn": {
       "message": "Dati di configurazione locali non validi o vuoti, continuare?"
@@ -264,7 +264,7 @@
       "message": "Riconoscimenti"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "Le impostazioni RPC sono cambiate. Sincronizzare queste modifiche con AriaNG e sovrascrivere?"
+      "message": "Le impostazioni RPC sono cambiate. Sincronizzare queste modifiche con l'interfaccia principale e sovrascrivere?"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "Creare un'attività di download su protocollo HTTP/WebSocket non sicuro potrebbe esporre la chiave segreta e i relativi cookie del sito sulla rete pubblica."
@@ -366,12 +366,15 @@
       "message": "Cartella di download"
    },
    "tourStep2Body": {
-      "message": "Imposta dove salvare i file intercettati. Se lasciato vuoto, l'estensione risolve il percorso in ordine: <b>Impostazioni AriaNG</b> (<code>dir</code>) → <b>Configurazione Aria2</b> (<code>dir</code>) → <b>Cartella dell'eseguibile di Aria2</b>."
+      "message": "Imposta dove salvare i file intercettati. Se lasciato vuoto, l'estensione risolve il percorso in ordine: <b>Impostazioni interfaccia</b> (<code>dir</code>) → <b>Configurazione Aria2</b> (<code>dir</code>) → <b>Cartella dell'eseguibile di Aria2</b>."
    },
    "tourStep3Title": {
       "message": "Instradamento intelligente"
    },
    "tourStep3Body": {
       "message": "Aggiungi altri server RPC e imposta un <b>Pattern URL</b> per ciascuno (es. <code>*youtube*</code>, <code>*.iso*</code>). Quando un URL di download corrisponde al pattern, l'estensione lo instrada automaticamente a quel server — smistamento automatico dei file senza sforzo."
+   },
+   "mainUI": {
+      "message": "interfaccia principale"
    }
-}
+}

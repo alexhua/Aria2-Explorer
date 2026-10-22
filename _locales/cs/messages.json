@@ -186,7 +186,7 @@
       "message": "Ikona stavu vypnutí odposlechu"
    },
    "WebUIOpenStyleStr": {
-      "message": "Otevřít AriaNG v"
+      "message": "Režim zobrazení webového rozhraní"
    },
    "WebUIOpenStyle1": {
       "message": "Vyskakovací okno"
@@ -201,7 +201,7 @@
       "message": "Boční panel"
    },
    "openWebUIStr": {
-      "message": "Otevřít AriaNG"
+      "message": "Otevřít webové rozhraní"
    },
    "startAria2Str": {
       "message": "Spustit Aria2"
@@ -213,7 +213,7 @@
       "message": "Synchronizace s cloudem"
    },
    "configCloudSyncDes": {
-      "message": "Synchronizovat nastavení AriaNg a rozšíření s aktuálním přihlášeným účtem prohlížeče"
+      "message": "Synchronizovat nastavení webového rozhraní a rozšíření s aktuálním přihlášeným účtem prohlížeče"
    },
    "uploadConfigWarn": {
       "message": "Neplatná nebo prázdná data místní konfigurace, přesto pokračovat?"
@@ -264,7 +264,7 @@
       "message": "Potvrzení"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "Nastavení RPC se změnilo. Synchronizovat tyto změny s AriaNG a přepsat?"
+      "message": "Nastavení RPC se změnilo. Synchronizovat tyto změny s webovým rozhraním a přepsat?"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "Vytvoření úlohy ke stažení přes nezabezpečený protokol HTTP/WebSocket může potenciálně vystavit tajný klíč a související cookies webových stránek na veřejné síti."
@@ -366,12 +366,15 @@
       "message": "Složka pro stahování"
    },
    "tourStep2Body": {
-      "message": "Nastavte, kam se mají zachycené soubory ukládat. Pokud zůstane prázdné, rozšíření určí cestu v tomto pořadí: <b>Nastavení AriaNG</b> (<code>dir</code>) → <b>Konfigurace Aria2</b> (<code>dir</code>) → <b>Složka se spustitelným souborem Aria2</b>."
+      "message": "Nastavte, kam se mají zachycené soubory ukládat. Pokud zůstane prázdné, rozšíření určí cestu v tomto pořadí: <b>Nastavení webového rozhraní</b> (<code>dir</code>) → <b>Konfigurace Aria2</b> (<code>dir</code>) → <b>Složka se spustitelným souborem Aria2</b>."
    },
    "tourStep3Title": {
       "message": "Chytré směrování"
    },
    "tourStep3Body": {
       "message": "Přidejte další RPC servery a pro každý nastavte <b>Vzor URL</b> (např. <code>*youtube*</code>, <code>*.iso*</code>). Pokud URL stahování odpovídá vzoru, rozšíření jej automaticky přesměruje na daný server — snadné třídění souborů podle zdroje nebo typu."
+   },
+   "mainUI": {
+      "message": "webové rozhraní"
    }
-}
+}

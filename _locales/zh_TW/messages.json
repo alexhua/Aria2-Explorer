@@ -186,7 +186,7 @@
       "message": "攔截關閉狀態圖示"
    },
    "WebUIOpenStyleStr": {
-      "message": "AriaNG打開樣式"
+      "message": "主界面呈現方式"
    },
    "WebUIOpenStyle1": {
       "message": "彈出視窗"
@@ -201,7 +201,7 @@
       "message": "側邊面板"
    },
    "openWebUIStr": {
-      "message": "打開AriaNG"
+      "message": "打開主界面"
    },
    "startAria2Str": {
       "message": "啓動Aria2"
@@ -213,7 +213,7 @@
       "message": "雲端同步設定"
    },
    "configCloudSyncDes": {
-      "message": "同步AriaNG和擴充功能設定到當前瀏覽器登入帳號"
+      "message": "同步主界面和擴充功能設定到當前瀏覽器登入帳號"
    },
    "uploadConfigWarn": {
       "message": "本機設定為空或無效，仍然繼續？"
@@ -264,7 +264,7 @@
       "message": "致謝"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "RPC設定已更改，同步更改到AriaNG并覆蓋？"
+      "message": "RPC設定已更改，同步更改到主界面并覆蓋？"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "使用不安全的HTTP/WebSocket協定創建下載工作可能會導致Secret Key和相關網站的Cookies資訊暴露於公共網絡。"
@@ -366,12 +366,15 @@
       "message": "下載目錄"
    },
    "tourStep2Body": {
-      "message": "設定攔截下載的默認保存位置。留空時，擴充功能將按順序讀取：<b>AriaNG 設定</b>（<code>dir</code>）→ <b>Aria2 設定檔</b>（<code>dir</code>）→ <b>Aria2 所在目錄</b>。"
+      "message": "設定攔截下載的默認保存位置。留空時，擴充功能將按順序讀取：<b>主界面設定</b>（<code>dir</code>）→ <b>Aria2 設定檔</b>（<code>dir</code>）→ <b>Aria2 所在目錄</b>。"
    },
    "tourStep3Title": {
       "message": "智慧下載路由"
    },
    "tourStep3Body": {
       "message": "點擊 <b>＋ RPC Server</b> 新增更多伺服器，並為每個設定 <b>URL Pattern</b>（如 <code>*youtube*</code>、<code>*.iso*</code>）。當下載連結匹配到對應 Pattern 時，擴充功能會自動選擇該伺服器並保存到對應目錄——輕鬆實現按來源或檔案類型自動分類保存。"
+   },
+   "mainUI": {
+      "message": "主界面"
    }
-}
+}

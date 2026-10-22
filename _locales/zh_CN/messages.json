@@ -186,7 +186,7 @@
       "message": "拦截关闭状态图标"
    },
    "WebUIOpenStyleStr": {
-      "message": "AriaNG打开方式"
+      "message": "主界面呈现方式"
    },
    "WebUIOpenStyle1": {
       "message": "弹窗"
@@ -201,7 +201,7 @@
       "message": "侧边栏"
    },
    "openWebUIStr": {
-      "message": "打开AriaNG"
+      "message": "打开主界面"
    },
    "startAria2Str": {
       "message": "启动Aria2"
@@ -213,7 +213,7 @@
       "message": "配置云端同步"
    },
    "configCloudSyncDes": {
-      "message": "同步AriaNG和扩展配置到当前浏览器登陆的账号"
+      "message": "同步主界面和扩展配置到当前浏览器登陆的账号"
    },
    "uploadConfigWarn": {
       "message": "本地配置为空或无效，仍然继续？"
@@ -264,7 +264,7 @@
       "message": "致谢"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "RPC设置已更改，同步到AriaNG并覆盖？"
+      "message": "RPC设置已更改，同步到主界面并覆盖？"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "通过不安全的 HTTP/WebSocket 协议创建下载任务可能会导致 Secret Key 和相关网站的 Cookies 信息暴露于公共网络。"
@@ -366,12 +366,15 @@
       "message": "下载目录"
    },
    "tourStep2Body": {
-      "message": "设置拦截下载的默认保存位置。留空时，扩展将按顺序读取：<b>AriaNG 设置</b>（<code>dir</code>）→ <b>Aria2 配置文件</b>（<code>dir</code>）→ <b>Aria2 所在目录</b>。"
+      "message": "设置拦截下载的默认保存位置。留空时，扩展将按顺序读取：<b>主界面设置</b>（<code>dir</code>）→ <b>Aria2 配置文件</b>（<code>dir</code>）→ <b>Aria2 所在目录</b>。"
    },
    "tourStep3Title": {
       "message": "智能下载路由"
    },
    "tourStep3Body": {
       "message": "点击 <b>＋ RPC Server</b> 添加更多服务器，并为每个设置 <b>URL Pattern</b>（如 <code>*youtube*</code>、<code>*.iso*</code>）。当下载链接匹配到对应 Pattern 时，扩展会自动选择该服务器并保存到对应目录——轻松实现按来源或文件类型自动分类保存。"
+   },
+   "mainUI": {
+      "message": "主界面"
    }
-}
+}

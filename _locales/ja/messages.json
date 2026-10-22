@@ -186,7 +186,7 @@
       "message": "インターセプトオフ状態アイコン"
    },
    "WebUIOpenStyleStr": {
-      "message": "AriaNGで開く"
+      "message": "メイン画面の表示方式"
    },
    "WebUIOpenStyle1": {
       "message": "ポップアップ"
@@ -201,7 +201,7 @@
       "message": "サイドパネル"
    },
    "openWebUIStr": {
-      "message": "AriaNGを開く"
+      "message": "メイン画面を開く"
    },
    "startAria2Str": {
       "message": "スタートAria2"
@@ -213,7 +213,7 @@
       "message": "クラウド同期"
    },
    "configCloudSyncDes": {
-      "message": "AriaNgと拡張機能の設定を現在ログインしているブラウザアカウントに同期する"
+      "message": "メイン画面と拡張機能の設定を現在ログインしているブラウザアカウントに同期する"
    },
    "uploadConfigWarn": {
       "message": "ローカルの設定データが無効または空ですが、続行しますか？"
@@ -264,7 +264,7 @@
       "message": "謝辞"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "RPC設定が変更されました。AriaNGに同期しますか？"
+      "message": "RPC設定が変更されました。メイン画面に同期しますか？"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "セキュリティキーおよび関連するウェブサイトのクッキーが公共ネットワーク上で潜在的にさらされる可能性があるため、安全でないHTTP/WebSocketプロトコルを使用してダウンロードすることは避けるべきです。"
@@ -366,12 +366,15 @@
       "message": "ダウンロードディレクトリ"
    },
    "tourStep2Body": {
-      "message": "インターセプトしたファイルの保存先を設定します。空のままにすると、拡張機能は次の順序でパスを解決します：<b>AriaNG 設定</b>（<code>dir</code>）→ <b>Aria2 設定</b>（<code>dir</code>）→ <b>Aria2 実行ファイルのあるフォルダ</b>。"
+      "message": "インターセプトしたファイルの保存先を設定します。空のままにすると、拡張機能は次の順序でパスを解決します：<b>メイン画面の設定</b>（<code>dir</code>）→ <b>Aria2 設定</b>（<code>dir</code>）→ <b>Aria2 実行ファイルのあるフォルダ</b>。"
    },
    "tourStep3Title": {
       "message": "スマート・ダウンロード・ルーティング"
    },
    "tourStep3Body": {
       "message": "RPC サーバーをさらに追加し、それぞれに <b>URL Pattern</b>（例：<code>*youtube*</code>、<code>*.iso*</code>）を設定できます。ダウンロード URL がパターンに一致すると、拡張機能は自動的にそのサーバーを選択して保存します。ソースやファイルタイプ別に簡単に自動分類できます。"
+   },
+   "mainUI": {
+      "message": "メイン画面"
    }
-}
+}

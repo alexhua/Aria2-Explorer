@@ -5,6 +5,6 @@ This extension makes use of the following third party open source project:
 AriaNG (https://github.com/mayswind/AriaNg)
 Licensed under MIT License: https://github.com/mayswind/AriaNg/blob/master/LICENSE
 
-Bootstrap (https://getbootstrap.com/)
-Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-Licensed under MIT
+Font Awesome Free (https://fontawesome.com/)
+Copyright 2023 Fonticons, Inc.
+Licensed under SIL OFL 1.1, CC BY 4.0, and MIT License: https://fontawesome.com/license/free

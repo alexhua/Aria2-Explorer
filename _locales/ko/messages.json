@@ -186,7 +186,7 @@
       "message": "차단 해제 상태 아이콘"
    },
    "WebUIOpenStyleStr": {
-      "message": "AriaNG 켜기"
+      "message": "메인 UI 표시 방식"
    },
    "WebUIOpenStyle1": {
       "message": "팝업창"
@@ -201,7 +201,7 @@
       "message": "측면 패널"
    },
    "openWebUIStr": {
-      "message": "AriaNG 열기"
+      "message": "메인 UI 열기"
    },
    "startAria2Str": {
       "message": "Aria2 시작"
@@ -213,7 +213,7 @@
       "message": "클라우드 동기화 설정"
    },
    "configCloudSyncDes": {
-      "message": "AriaNG 동기화 및 현재 브라우저가 로그인한 계정으로 확장 구성"
+      "message": "메인 UI 동기화 및 현재 브라우저가 로그인한 계정으로 확장 구성"
    },
    "uploadConfigWarn": {
       "message": "로컬 구성이 비어 있거나 유효하지 않은데도 계속하시겠습니까?"
@@ -264,7 +264,7 @@
       "message": "감사합니다"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "RPC 설정이 변경되었습니다. AriaNG로 동기화됩니까?"
+      "message": "RPC 설정이 변경되었습니다. 메인 UI로 동기화됩니까?"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "비안전한 HTTP/WebSocket 프로토콜을 통한 다운로드는 보안 키 및 관련 웹 사이트 쿠키가 공공 네트워크에서 잠재적으로 노출될 수 있으므로 피해야 합니다."
@@ -366,12 +366,15 @@
       "message": "다운로드 위치"
    },
    "tourStep2Body": {
-      "message": "가로챈 파일이 저장될 위치를 설정합니다. 비워 두면 확장 프로그램은 <b>AriaNG 설정</b>（<code>dir</code>）→ <b>Aria2 설정</b>（<code>dir</code>）→ <b>Aria2 실행 파일 폴더</b> 순으로 경로를 확인합니다."
+      "message": "가로챈 파일이 저장될 위치를 설정합니다. 비워 두면 확장 프로그램은 <b>메인 UI 설정</b>（<code>dir</code>）→ <b>Aria2 설정</b>（<code>dir</code>）→ <b>Aria2 실행 파일 폴더</b> 순으로 경로를 확인합니다."
    },
    "tourStep3Title": {
       "message": "스마트 다운로드 라우팅"
    },
    "tourStep3Body": {
       "message": "RPC 서버를 더 추가하고 각각에 대해 <b>URL Pattern</b>（예: <code>*youtube*</code>, <code>*.iso*</code>)을 설정할 수 있습니다. 다운로드 URL이 패턴과 일치하면 확장 프로그램이 자동으로 해당 서버로 라우팅하고 저장합니다. 출처나 파일 유형별로 파일을 쉽게 자동 분류할 수 있습니다."
+   },
+   "mainUI": {
+      "message": "메인 UI"
    }
-}
+}

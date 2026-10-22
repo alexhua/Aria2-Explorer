@@ -206,7 +206,7 @@ export class MenuManager {
         if (config.askBeforeExport) {
             this.contextMenus.create({
                 id: "MENU_EXPORT_TO",
-                title: strExport + "AriaNG",
+                title: strExport + chrome.i18n.getMessage("mainUI"),
                 contexts: ['link', 'selection']
             });
         } else {
