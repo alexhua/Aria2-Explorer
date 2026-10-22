@@ -78,12 +78,14 @@ class OptionsApp {
         bind("#save", "click", async () => {
             const formData = this.uiController.collectFormData();
             await this.configService.set(formData);
+            this.uiController.showSaveSuccess();
         });
 
         // Reset button
         bind("#reset", "click", async () => {
             if (!confirm(chrome.i18n.getMessage("ResetSettingsDes"))) return;
             await this.configService.reset();
+            this.uiController.captureSnapshot();
         });
 
         // Upload button

@@ -31,6 +31,8 @@ export class UIController {
         this.mediaQueryList = null;
         // Store bound listener refs for clean removal
         this._keyupHandler = (e) => this.#handleKeyboardShortcuts(e);
+        this._scrollHandler = null;
+        this._savedSnapshot = "";
     }
 
     /**
@@ -47,7 +49,10 @@ export class UIController {
         this.#setupDependencies(config);
         this.rpcManager.render();
         this.#bindEvents();
+        this.#setupSegmentedControls();
         this.#setupVersionInfo();
+        this.captureSnapshot();
+        this.#bindChangeWatcher();
     }
 
     /**
@@ -155,7 +160,29 @@ export class UIController {
 
         // Keyboard shortcuts
         window.removeEventListener("keyup", this._keyupHandler);
+        if (this._scrollHandler) {
+            window.removeEventListener("scroll", this._scrollHandler);
+            this._scrollHandler = null;
+        }
         window.addEventListener("keyup", this._keyupHandler);
+
+        // Auto-hide header on scroll down, restore on scroll up
+        if (this._scrollHandler) {
+            window.removeEventListener("scroll", this._scrollHandler);
+        }
+        let lastScrollY = window.scrollY;
+        this._scrollHandler = () => {
+            const currentScrollY = window.scrollY;
+            const header = QS(".app-header");
+            if (!header) return;
+            if (currentScrollY > 40 && currentScrollY > lastScrollY) {
+                header.classList.add("header-hidden");
+            } else {
+                header.classList.remove("header-hidden");
+            }
+            lastScrollY = currentScrollY;
+        };
+        window.addEventListener("scroll", this._scrollHandler, { passive: true });
 
         // System color scheme listener
         this.mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
@@ -257,6 +284,7 @@ export class UIController {
         this.#setColorMode();
         this.#fillFormData(config);
         this.rpcManager.render();
+        this.captureSnapshot();
     }
 
     /**
@@ -305,6 +333,144 @@ export class UIController {
             el.textContent = "";
             el.classList.remove(style);
         }, timeout);
+    }
+
+    /**
+     * Capture current form snapshot as reference
+     */
+    captureSnapshot() {
+        this._savedSnapshot = JSON.stringify(this.collectFormData());
+        this.checkChanges();
+    }
+
+    /**
+     * Check if form data differs from last saved snapshot
+     */
+    checkChanges() {
+        const current = JSON.stringify(this.collectFormData());
+        const hasChanges = (current !== this._savedSnapshot);
+        const saveBtn = QS("#save");
+        if (saveBtn) {
+            saveBtn.classList.toggle("has-changes", hasChanges);
+        }
+        return hasChanges;
+    }
+
+    /**
+     * Bind form change watcher
+     */
+    #bindChangeWatcher() {
+        const container = QS(".main-container");
+        if (container) {
+            container.addEventListener("input", () => this.checkChanges());
+            container.addEventListener("change", () => this.checkChanges());
+        }
+        window.addEventListener("formChange", () => this.checkChanges());
+    }
+
+    /**
+     * Show save success visual feedback
+     */
+    showSaveSuccess() {
+        this.captureSnapshot();
+        const saveBtn = QS("#save");
+        if (!saveBtn) return;
+
+        const icon = QS("i", saveBtn);
+        saveBtn.classList.remove("has-changes");
+        saveBtn.classList.add("is-saved");
+
+        if (icon) {
+            const originalClass = icon.className;
+            icon.className = "fa-solid fa-check";
+            setTimeout(() => {
+                saveBtn.classList.remove("is-saved");
+                icon.className = originalClass;
+            }, 1200);
+        } else {
+            setTimeout(() => {
+                saveBtn.classList.remove("is-saved");
+            }, 1200);
+        }
+    }
+
+    /**
+     * Setup sliding active & hover indicators for segmented controls
+     */
+    #setupSegmentedControls() {
+        QSA(".segmented-control").forEach(control => {
+            // 1. Sliding active indicator (white card pill)
+            let activeIndicator = QS(".segmented-active-indicator", control);
+            if (!activeIndicator) {
+                activeIndicator = document.createElement("div");
+                activeIndicator.className = "segmented-active-indicator";
+                activeIndicator.setAttribute("aria-hidden", "true");
+                control.prepend(activeIndicator);
+            }
+
+            // 2. Sliding hover indicator (subtle glow pill)
+            let hoverIndicator = QS(".segmented-hover-indicator", control);
+            if (!hoverIndicator) {
+                hoverIndicator = document.createElement("div");
+                hoverIndicator.className = "segmented-hover-indicator";
+                hoverIndicator.setAttribute("aria-hidden", "true");
+                control.prepend(hoverIndicator);
+            }
+
+            // Function to smoothly slide active indicator to current checked option
+            const updateActive = (animate = true) => {
+                const checkedRadio = QS("input[type=radio]:checked", control);
+                if (!checkedRadio) return;
+                const checkedLabel = QS(`label[for="${checkedRadio.id}"]`, control);
+                if (!checkedLabel) return;
+
+                const actRect = checkedLabel.getBoundingClientRect();
+                const ctrlRect = control.getBoundingClientRect();
+
+                const left = actRect.left - ctrlRect.left;
+                const top = actRect.top - ctrlRect.top;
+
+                if (!animate) {
+                    activeIndicator.style.transition = "none";
+                }
+                activeIndicator.style.width = `${actRect.width}px`;
+                activeIndicator.style.height = `${actRect.height}px`;
+                activeIndicator.style.transform = `translate3d(${left}px, ${top}px, 0)`;
+
+                if (!animate) {
+                    activeIndicator.offsetHeight;
+                    activeIndicator.style.transition = "";
+                }
+            };
+
+            // Slide active pill when user selects another option
+            control.addEventListener("change", () => updateActive(true));
+
+            // Initial positioning & window resize handling
+            requestAnimationFrame(() => updateActive(false));
+            window.addEventListener("resize", () => updateActive(false));
+
+            // Hover interactions
+            const options = QSA(".segmented-option label", control);
+            options.forEach(label => {
+                label.addEventListener("pointerenter", () => {
+                    const optRect = label.getBoundingClientRect();
+                    const ctrlRect = control.getBoundingClientRect();
+
+                    const left = optRect.left - ctrlRect.left;
+                    const top = optRect.top - ctrlRect.top;
+
+                    hoverIndicator.style.width = `${optRect.width}px`;
+                    hoverIndicator.style.height = `${optRect.height}px`;
+                    hoverIndicator.style.transform = `translate3d(${left}px, ${top}px, 0)`;
+                    hoverIndicator.style.opacity = "1";
+                });
+            });
+
+            control.addEventListener("pointerleave", () => {
+                hoverIndicator.style.opacity = "0";
+            });
+        });
     }
 
     /**

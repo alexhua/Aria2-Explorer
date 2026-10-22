@@ -1,63 +1,275 @@
-html.dark-mode body{
-    color: gainsboro;
-    color-scheme: dark;
-    background-color: #1a1a1a;
-    transition: background-color .36s;
+/* ==========================================================================
+   Aria2 Explorer - Dark Theme Stylesheet
+   Pure Native Slate-Blue Palette (aria2e.com inspired)
+   ========================================================================== */
+
+html.dark-mode {
+  --color-primary: #3b82f6;
+  --color-primary-hover: #60a5fa;
+  --color-primary-light: rgba(59, 130, 246, 0.16);
+  --color-primary-glow: rgba(59, 130, 246, 0.32);
+  --color-accent: #38bdf8;
+
+  --bg-page: #0f172a; /* Deep slate background */
+  --bg-badge: #162133; /* Balanced transition between --bg-page (#0f172a) and --bg-card (#1e293b) */
+  --bg-card: #1e293b; /* Elevated slate card */
+  --bg-input: #0f172a;
+  --bg-subtle: #172133;
+
+  --border-color: #2b394f;
+  --border-badge: #2d415e;
+  --border-textarea: #3b4e6b; /* Deeper slate border for textarea depth */
+  --border-textarea-hover: #4b6388;
+  --border-color-focus: #3b82f6;
+  --border-light: rgba(59, 130, 246, 0.12);
+
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-heading: #93c5fd;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-float: 0 14px 36px -4px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  color-scheme: dark;
 }
 
-html.dark-mode .navbar-inner {
-    background-image: linear-gradient(to bottom, #505050, #2a2a2a);
-    border: 1px solid #3a3a3a;
+html.dark-mode .app-header {
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.96) 0%, rgba(22, 33, 51, 0.92) 55%, rgba(15, 23, 42, 0.88) 100%);
+  border-bottom-color: var(--border-color);
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-html.dark-mode form fieldset {
-    background-color: #2a2a2a;
+html.dark-mode .settings-card {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
 }
 
-html.dark-mode .form-control {
-    color: gainsboro;
-    border: 1px solid #7b7f83;
-    background-color: #2c2c2c;
+html.dark-mode .settings-card:hover {
+  border-color: rgba(59, 130, 246, 0.35);
 }
 
-html.dark-mode .input-group-text {
-    color: gainsboro;
-    background-color: #989898;
-    border-color: #9c9c9c;
+/* Floating Tag Badge in Dark Mode */
+html.dark-mode .card-badge {
+  background-color: var(--bg-badge);
+  border-color: var(--border-badge);
+  color: #93c5fd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
 }
 
-html.dark-mode .custom-control-label::before,
-html.dark-mode .custom-control-input:checked~.custom-control-label::after {
-    background-color: #111;
+html.dark-mode .card-badge i {
+  color: #60a5fa;
 }
 
-html.dark-mode .form-group>label {
-    color: rgb(110, 130, 160) !important;
+/* Switch Controls in Dark Mode */
+html.dark-mode .custom-control.custom-switch .custom-control-label::before {
+  background-color: #334155;
 }
 
-html.dark-mode textarea::placeholder {
-    color: gainsboro;
+html.dark-mode .custom-control.custom-switch .custom-control-label::after {
+  background-color: #f1f5f9;
 }
 
+html.dark-mode .custom-control.custom-switch .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: var(--color-primary);
+}
+
+html.dark-mode .custom-control.custom-switch .custom-control-input:disabled ~ .custom-control-label::before {
+  background-color: #1e293b;
+}
+
+/* Segmented Control in Dark Mode */
+html.dark-mode .segmented-control {
+  background-color: #131c2e;
+  border-color: var(--border-color);
+}
+
+html.dark-mode .segmented-active-indicator {
+  background-color: #243248;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-mode .segmented-hover-indicator {
+  background-color: rgba(59, 130, 246, 0.14);
+  border-color: rgba(59, 130, 246, 0.28);
+}
+
+html.dark-mode .segmented-option input[type="radio"]:checked + label {
+  color: #60a5fa;
+}
+
+/* Icon selection in Dark Mode */
+html.dark-mode .icon-style-option label {
+  background-color: #131c2e;
+  border-color: var(--border-color);
+}
+
+html.dark-mode .icon-style-option input[type="radio"]:checked + label {
+  background-color: rgba(59, 130, 246, 0.18);
+  border-color: var(--color-primary);
+}
+
+/* Filter Textareas in Dark Mode */
+html.dark-mode .filter-textarea {
+  background-color: #101928;
+  color: #f1f5f9;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+html.dark-mode .filter-textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow), inset 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+html.dark-mode .filter-textarea::placeholder {
+  color: #64748b;
+}
+
+/* RPC Group in Dark Mode */
+html.dark-mode .rpcGroup {
+  background-color: #152033;
+  border-color: var(--border-color);
+}
+
+html.dark-mode .rpcGroup input.form-control {
+  background-color: #0d1522;
+  color: #f1f5f9;
+  border-color: #2b394f;
+}
+
+/* Wide Floating Frosted Glass Footer in Dark Mode */
 html.dark-mode .footer {
-    background-color: #5d606460;
-    box-shadow: inset 0 1px 0 #7e7e7e;
-    border-top: 1px solid #838383;
+  background: rgba(30, 41, 59, 0.65);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-color: rgba(148, 163, 184, 0.22);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-html.dark-mode .btn-primary {
-    color: rgb(238, 238, 238);
-    background-color: #005fc4;
-    border-color: #005fc4;
+/* Tooltips in Dark Mode (Classic warm yellow with dark text) */
+html.dark-mode .tool-tip::before {
+  color: #3b1d03;
+  background-color: #fcd86ee6;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-html.dark-mode .tool-tip-icon::after {
-    color: #6d8ebe;
+/* Validation Highlights in Dark Mode */
+html.dark-mode .is-warning,
+html.dark-mode .is-warning:focus {
+  border-color: #d97706;
+  background-color: #451a03;
 }
 
-html.dark-mode .is-warning {
-    color: #856404;
-    border-color: #ebb103 !important;
-    background-color: #ffc107 !important;
-    z-index: 5;
+html.dark-mode .is-invalid,
+html.dark-mode .is-invalid:focus {
+  border-color: #dc2626;
+  background-color: #450a0a;
+}
+
+html.dark-mode .alert-success {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+html.dark-mode .alert-danger {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Secondary Button in Dark Mode (Cool Slate Grey for exportConfig) */
+html.dark-mode .btn-secondary,
+html.dark-mode .btn-action-secondary {
+  color: #f1f5f9;
+  background-color: #475569;
+  border-color: #475569;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-mode .btn-secondary:hover,
+html.dark-mode .btn-action-secondary:hover {
+  background-color: #334155;
+  border-color: #334155;
+}
+
+/* Success Button in Dark Mode (Muted Emerald for importConfig) */
+html.dark-mode .btn-success,
+html.dark-mode .btn-action-success {
+  background-color: #059669;
+  border-color: #059669;
+  color: #f1f5f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+html.dark-mode .btn-success:hover,
+html.dark-mode .btn-action-success:hover {
+  background-color: #047857;
+  border-color: #047857;
+}
+
+/* Primary Button in Dark Mode - Lower brightness for dark background */
+html.dark-mode .btn-primary,
+html.dark-mode .btn-action-primary {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: #f1f5f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+html.dark-mode .btn-primary:hover,
+html.dark-mode .btn-action-primary:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+/* Footer Action Buttons in Dark Mode (Muted emerald & amber) */
+html.dark-mode .footer-btn-save {
+  background-color: #059669;
+  border-color: #059669;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+html.dark-mode .footer-btn-save:hover {
+  background-color: #047857;
+  border-color: #047857;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+html.dark-mode .footer-btn-save.has-changes {
+  animation: savePulseDark 2.2s infinite ease-in-out;
+}
+
+@keyframes savePulseDark {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(5, 150, 105, 0), 0 4px 14px rgba(5, 150, 105, 0.5);
+    transform: translateY(-1px);
+  }
+}
+
+html.dark-mode .footer-btn-reset {
+  background-color: #d97706;
+  border-color: #d97706;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+html.dark-mode .footer-btn-reset:hover {
+  background-color: #b45309;
+  border-color: #b45309;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Rate badge in Dark Mode */
+html.dark-mode #rate a {
+  background-color: rgba(59, 130, 246, 0.14);
+  color: #93c5fd;
+}
+
+html.dark-mode #rate a:hover {
+  background-color: #2563eb;
+  color: #ffffff;
 }

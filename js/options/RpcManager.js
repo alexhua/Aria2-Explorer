@@ -69,7 +69,7 @@ export class RpcManager {
     #buildRpcItemHtml(index, enableRequired) {
         const required = (enableRequired || index == 0) ? "required" : "";
         const addBtnOrPattern = index == 0
-            ? `<button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-circle-plus"></i> RPC Server</button>`
+            ? `<div class="add-rpc-wrapper"><button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-circle-plus"></i> RPC Server</button></div>`
             : `<input id="pattern-${index}" type="text" class="form-control col-sm-3 pattern" placeholder="URL Pattern(s) splitted by ,">`;
 
         return `<div class="form-group row rpcGroup">
@@ -140,6 +140,7 @@ export class RpcManager {
                 QS(`#rpcUrl-${i}`).addEventListener("input", this.validateInput);
                 QS(`#location-${i}`).addEventListener("input", this.validateInput);
                 QS(`#markRpc-${i}`).addEventListener("click", e => this.markRpc(e));
+                window.dispatchEvent(new CustomEvent("formChange"));
             });
         }
 
