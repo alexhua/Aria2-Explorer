@@ -328,11 +328,11 @@
         </div>
         <div class="card-body">
           <div class="action-btn-group">
-            <button type="button" class="btn btn-primary tool-tip" id="upload" tooltip-content="⌨: Alt + U">
+            <button type="button" class="btn btn-primary tool-tip" id="upload" tooltip-content="⌨: U">
               <i class="fa-solid fa-cloud-arrow-up"></i>
               __MSG_upload__
             </button>
-            <button type="button" class="btn btn-primary tool-tip" id="download" tooltip-content="⌨: Alt + J">
+            <button type="button" class="btn btn-primary tool-tip" id="download" tooltip-content="⌨: J">
               <i class="fa-solid fa-cloud-arrow-down"></i>
               __MSG_download__
             </button>
@@ -350,11 +350,11 @@
         </div>
         <div class="card-body">
           <div class="action-btn-group">
-            <button type="button" class="btn btn-success tool-tip" id="importConfig" tooltip-content="⌨: Alt + I">
+            <button type="button" class="btn btn-success tool-tip" id="importConfig" tooltip-content="⌨: I">
               <i class="fa-solid fa-file-import"></i>
               __MSG_importConfig__
             </button>
-            <button type="button" class="btn btn-secondary tool-tip" id="exportConfig" tooltip-content="⌨: Alt + E">
+            <button type="button" class="btn btn-secondary tool-tip" id="exportConfig" tooltip-content="⌨: E">
               <i class="fa-solid fa-file-export"></i>
               __MSG_exportConfig__
             </button>
@@ -383,11 +383,11 @@
         </div>
 
         <div class="footer-center">
-          <button type="submit" class="footer-btn footer-btn-save tool-tip" id="save" tooltip-content="⌨: Alt + S">
+          <button type="submit" class="footer-btn footer-btn-save tool-tip" id="save" tooltip-content="⌨: S">
             <i class="fa-regular fa-circle-check"></i>
             __MSG_Save__
           </button>
-          <button type="reset" class="footer-btn footer-btn-reset tool-tip" id="reset" tooltip-content="⌨: Alt + R">
+          <button type="reset" class="footer-btn footer-btn-reset tool-tip" id="reset" tooltip-content="⌨: R">
             <i class="fa-regular fa-circle-xmark"></i>
             __MSG_Reset__
           </button>
@@ -438,11 +438,11 @@
           <div class="help-shortcut-grid">
             <div class="help-shortcut-item">
               <span class="help-shortcut-desc">__MSG_toggleCapture__</span>
-              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>A</kbd></span>
+              <span class="help-shortcut-keys" id="helpShortcutToggleCapture"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>A</kbd></span>
             </div>
             <div class="help-shortcut-item">
               <span class="help-shortcut-desc">__MSG_startAria2Str__</span>
-              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>X</kbd></span>
+              <span class="help-shortcut-keys" id="helpShortcutLaunchAria2"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>X</kbd></span>
             </div>
           </div>
         </div>
@@ -452,27 +452,35 @@
           <div class="help-shortcut-grid">
             <div class="help-shortcut-item">
               <span class="help-shortcut-desc">__MSG_Save__</span>
-              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>S</kbd></span>
+              <span class="help-shortcut-keys"><kbd>S</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>S</kbd></span>
             </div>
             <div class="help-shortcut-item">
               <span class="help-shortcut-desc">__MSG_Reset__</span>
-              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>R</kbd></span>
+              <span class="help-shortcut-keys"><kbd>R</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>R</kbd></span>
             </div>
             <div class="help-shortcut-item">
               <span class="help-shortcut-desc">__MSG_shortcutUploadConfig__</span>
-              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>U</kbd></span>
+              <span class="help-shortcut-keys"><kbd>U</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>U</kbd></span>
             </div>
             <div class="help-shortcut-item">
               <span class="help-shortcut-desc">__MSG_shortcutDownloadConfig__</span>
-              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>J</kbd></span>
+              <span class="help-shortcut-keys"><kbd>J</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>J</kbd></span>
             </div>
             <div class="help-shortcut-item">
               <span class="help-shortcut-desc">__MSG_importConfig__</span>
-              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>I</kbd></span>
+              <span class="help-shortcut-keys"><kbd>I</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>I</kbd></span>
             </div>
             <div class="help-shortcut-item">
               <span class="help-shortcut-desc">__MSG_exportConfig__</span>
-              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>E</kbd></span>
+              <span class="help-shortcut-keys"><kbd>E</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>E</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_helpTitle__</span>
+              <span class="help-shortcut-keys"><kbd>?</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_closeDialog__</span>
+              <span class="help-shortcut-keys"><kbd>Esc</kbd></span>
             </div>
           </div>
         </div>

@@ -421,5 +421,8 @@
    },
    "helpIntroDes": {
       "message": "This extension consists of two parts: Download Interception and Task Management. This page handles settings related to download interception. Click the toolbar icon to open the main Web UI, where you can manage tasks and configure download engines."
+   },
+   "shortcutNotSet": {
+      "message": "Not set"
    }
 }

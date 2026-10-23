@@ -62,12 +62,16 @@ export class HelpDialog {
             HelpDialog.open();
         });
 
-        // Keyboard shortcut: '?' to open help dialog when not typing in text fields
+        // Keyboard shortcut: '?' to toggle help dialog when not typing in text fields
         document.addEventListener("keydown", (e) => {
             if (e.key === "?" && !e.ctrlKey && !e.altKey && !e.metaKey &&
-                !e.target.closest('input, textarea, [contenteditable="true"]')) {
+                !e.target.closest('input:not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable="true"]')) {
                 e.preventDefault();
-                HelpDialog.open();
+                if (dialog.open) {
+                    HelpDialog.close();
+                } else {
+                    HelpDialog.open();
+                }
             }
         });
     }

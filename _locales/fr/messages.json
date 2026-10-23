@@ -421,5 +421,8 @@
    },
    "helpIntroDes": {
       "message": "L'extension se compose de deux parties : l'interception des téléchargements et la gestion des tâches. Cette page gère la configuration liée à l'interception. Cliquez sur l'icône de la barre d'outils pour ouvrir l'interface principale, où vous pouvez gérer les tâches et configurer les moteurs de téléchargement."
+   },
+   "shortcutNotSet": {
+      "message": "Non défini"
    }
 }

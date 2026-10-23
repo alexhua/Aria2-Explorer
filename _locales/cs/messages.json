@@ -421,5 +421,8 @@
    },
    "helpIntroDes": {
       "message": "Rozšíření se skládá ze dvou částí: zachytávání stahování a správy úloh. Tato stránka slouží ke konfiguraci zachytávání stahování. Kliknutím na ikonu na panelu nástrojů otevřete webové rozhraní, kde můžete spravovat úlohy a konfigurovat stahovací moduly."
+   },
+   "shortcutNotSet": {
+      "message": "Nenastaveno"
    }
 }

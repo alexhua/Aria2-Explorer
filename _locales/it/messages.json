@@ -421,5 +421,8 @@
    },
    "helpIntroDes": {
       "message": "L'estensione è composta da due parti: cattura dei download e gestione delle attività. Questa pagina gestisce le impostazioni relative alla cattura dei download. Fai clic sull'icona della barra degli strumenti per aprire l'interfaccia principale, dove puoi gestire le attività e configurare i motori di download."
+   },
+   "shortcutNotSet": {
+      "message": "Non impostato"
    }
 }
