@@ -186,7 +186,7 @@
       "message": "Icône d'état d'interception désactivée"
    },
    "WebUIOpenStyleStr": {
-      "message": "Ouvrir AriaNG dans"
+      "message": "Mode d'affichage de l'interface"
    },
    "WebUIOpenStyle1": {
       "message": "Popup"
@@ -200,8 +200,11 @@
    "WebUIOpenStyle4": {
       "message": "Panneau latéral"
    },
+   "windowBlurCloseDes": {
+      "message": "Fermer automatiquement la fenêtre en cas de perte de focus"
+   },
    "openWebUIStr": {
-      "message": "Ouvrir AriaNG"
+      "message": "Ouvrir l'interface principale"
    },
    "startAria2Str": {
       "message": "Démarrer Aria2"
@@ -213,7 +216,7 @@
       "message": "Synchronisation cloud"
    },
    "configCloudSyncDes": {
-      "message": "Synchroniser les configurations d'AriaNg et de l'extension avec le compte navigateur actuellement connecté"
+      "message": "Synchroniser les configurations de l'interface et de l'extension avec le compte navigateur actuellement connecté"
    },
    "uploadConfigWarn": {
       "message": "Données de configuration locales invalides ou vides, continuer ?"
@@ -264,7 +267,7 @@
       "message": "Reconnaissance"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "Les paramètres RPC ont changé. Synchroniser ces changements avec AriaNG et les écraser ?"
+      "message": "Les paramètres RPC ont changé. Synchroniser ces changements avec l'interface principale et les écraser ?"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "Créer une tâche de téléchargement via un protocole HTTP/WebSocket non sécurisé pourrait exposer la clé secrète et les cookies associés sur le réseau public."
@@ -278,8 +281,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "Il semble qu'Aria2 Manager ne soit pas installé, souhaitez-vous accéder au canal \"Alex Recommends\" pour plus d'informations ?"
    },
-   "ClearSettingsDes": {
-      "message": "Confirmer pour effacer tous les paramètres ?"
+   "ResetSettingsDes": {
+      "message": "Confirmer la réinitialisation de la configuration de l'extension aux valeurs par défaut ?"
    },
    "ColorMode": {
       "message": "Mode couleur"
@@ -318,7 +321,7 @@
       "message": "Marquer"
    },
    "MarkAsSecureTip": {
-      "message": "Marquer comme RPC sécurisé"
+      "message": "Marquer comme protocole RPC sécurisé, toujours inclure les Cookies."
    },
    "MarkAsInsecureTip": {
       "message": "Marquer comme protocole RPC non sécurisé"
@@ -346,5 +349,80 @@
    },
    "configImportExportDes": {
       "message": "Sauvegarder et restaurer les paramètres d'extension"
+   },
+   "tourSkip": {
+      "message": "Passer"
+   },
+   "tourNext": {
+      "message": "Suivant →"
+   },
+   "tourDone": {
+      "message": "C'est parti !"
+   },
+   "tourStep1Title": {
+      "message": "Connexion à Aria2"
+   },
+   "tourStep1Body": {
+      "message": "Entrez votre adresse RPC Aria2. L'extension envoie et exporte les tâches de téléchargement interceptées via cette connexion."
+   },
+   "tourStep2Title": {
+      "message": "Répertoire de téléchargement"
+   },
+   "tourStep2Body": {
+      "message": "Définissez l'emplacement de sauvegarde des fichiers interceptés. Si laissé vide, l'extension résout le chemin dans l'ordre suivant : <b>Paramètres de l'interface</b> (<code>dir</code>) → <b>Configuration Aria2</b> (<code>dir</code>) → <b>Dossier de l'exécutable Aria2</b>."
+   },
+   "tourStep3Title": {
+      "message": "Routage intelligent"
+   },
+   "tourStep3Body": {
+      "message": "Ajoutez d'autres serveurs RPC et définissez un <b>Modèle d'URL</b> pour chacun (ex: <code>*youtube*</code>, <code>*.iso*</code>). Lorsqu'une URL de téléchargement correspond au modèle, l'extension la dirige automatiquement vers ce serveur — tri automatique des fichiers par source ou par type sans effort."
+   },
+   "mainUI": {
+      "message": "l'interface principale"
+   },
+   "rpcServerListStr": {
+      "message": "Liste des moteurs de téléchargement"
+   },
+   "addEngineConfigStr": {
+      "message": "Config. du moteur"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "Modèle d'URL séparé par virgule"
+   },
+   "helpTitle": {
+      "message": "Aide"
+   },
+   "shortcutsTitle": {
+      "message": "Raccourcis clavier"
+   },
+   "closeDialog": {
+      "message": "Fermer"
+   },
+   "shortcutGroupExtension": {
+      "message": "Extension"
+   },
+   "shortcutGroupPage": {
+      "message": "Cette page"
+   },
+   "shortcutUploadConfig": {
+      "message": "Envoyer la config. vers le cloud"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Télécharger la config. du cloud"
+   },
+   "moreWorks": {
+      "message": "Autres réalisations"
+   },
+   "downCenterDesc": {
+      "message": "Historique et gestion des téléchargements améliorés"
+   },
+   "goldIndexDesc": {
+      "message": "Suivi des métaux précieux et du prix de l'or"
+   },
+   "helpIntroDes": {
+      "message": "L'extension se compose de deux parties : l'interception des téléchargements et la gestion des tâches. Cette page gère la configuration liée à l'interception. Cliquez sur l'icône de la barre d'outils pour ouvrir l'interface principale, où vous pouvez gérer les tâches et configurer les moteurs de téléchargement."
+   },
+   "shortcutNotSet": {
+      "message": "Non défini"
    }
 }

@@ -1,0 +1,414 @@
+/* ==========================================================================
+   Aria2 Explorer - Help Dialog (Shortcuts cheatsheet + More works)
+   Relies on the design tokens from options.css / options.dark.css
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Header help button
+   -------------------------------------------------------------------------- */
+.header-actions .help-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  border-radius: var(--radius-full);
+  transition: color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.header-actions .help-btn:hover {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  transform: scale(1.08);
+}
+
+.header-actions .help-btn:active {
+  transform: scale(0.94);
+}
+
+.header-actions .help-btn:focus-visible {
+  outline: none;
+  color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+
+/* --------------------------------------------------------------------------
+   Dialog shell - Harmonic 3-Tier Transition with Translucent Outer Bezel
+   -------------------------------------------------------------------------- */
+.help-dialog {
+  max-width: 656px;
+  width: 92%;
+  max-height: 86vh;
+  /* Global reset zeroes the margin, so position the modal manually */
+  inset-block: 7vh auto;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  color: var(--text-main);
+  background: var(--bg-card) !important;
+  background-clip: padding-box !important;
+  border: 12px solid rgba(255, 255, 255, 0.65) !important;
+  border-radius: 22px;
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.dark-mode .help-dialog {
+  background: var(--bg-card) !important;
+  background-clip: padding-box !important;
+  border: 12px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+}
+
+.help-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  animation: helpScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.help-dialog[open]::backdrop {
+  background: rgba(0, 0, 0, 0.42) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  animation: helpFadeIn 0.2s ease-out both;
+}
+
+.help-dialog.is-closing {
+  animation: helpScaleOut 0.16s cubic-bezier(0.4, 0, 1, 1) both !important;
+}
+
+.help-dialog.is-closing::backdrop {
+  animation: helpFadeOut 0.16s ease-in both !important;
+}
+
+@keyframes helpFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes helpFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes helpScaleIn {
+  from { opacity: 0; transform: scale(0.96) translateY(4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes helpScaleOut {
+  from { opacity: 1; transform: scale(1) translateY(0); }
+  to { opacity: 0; transform: scale(0.96) translateY(4px); }
+}
+
+.help-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px 24px 24px;
+  overflow-y: auto;
+}
+
+.help-dialog-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.help-dialog-body::-webkit-scrollbar-thumb {
+  background: var(--border-badge);
+  border-radius: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Header & Section titles & close button
+   -------------------------------------------------------------------------- */
+.help-dialog-header,
+.help-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.help-dialog-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.help-dialog-title i {
+  color: var(--color-primary);
+}
+
+.help-section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.help-section-title i {
+  color: var(--color-primary);
+}
+
+.help-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.help-close-btn:hover {
+  color: var(--text-main);
+  background-color: var(--bg-subtle);
+}
+
+.help-close-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+
+/* --------------------------------------------------------------------------
+   Help Intro Banner
+   -------------------------------------------------------------------------- */
+.help-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.help-intro-icon {
+  margin-top: 0.18rem;
+  font-size: 0.95rem;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.help-intro-text {
+  flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Shortcuts
+   -------------------------------------------------------------------------- */
+.help-shortcuts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.help-group-title {
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.help-shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem 0.75rem;
+}
+
+.help-shortcut-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.82rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.help-shortcut-item:hover {
+  border-color: var(--border-color-focus);
+  box-shadow: var(--shadow-sm);
+}
+
+.help-shortcut-desc {
+  overflow: hidden;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.help-shortcut-keys {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.help-shortcut-keys kbd {
+  min-width: 22px;
+  padding: 2px 7px;
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--text-main);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+}
+
+.help-key-plus {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.help-key-sep {
+  margin: 0 2px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.help-key-not-set {
+  font-size: 0.74rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   More works showcase
+   -------------------------------------------------------------------------- */
+.help-works {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+}
+
+.help-works-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.help-work-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.2s ease;
+}
+
+.help-work-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-color-focus);
+  box-shadow: var(--shadow-float);
+}
+
+.help-work-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  background: var(--bg-page);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.help-work-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+}
+
+.help-work-card:hover .help-work-badge {
+  transform: scale(1.06);
+}
+
+.help-work-badge.gold {
+  color: #d97706;
+}
+
+html.dark-mode .help-work-badge.gold {
+  color: #fbbf24;
+}
+
+.help-work-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0.7rem 0.9rem;
+}
+
+.help-work-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.help-work-title i {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.help-work-card:hover .help-work-title i {
+  color: var(--color-primary);
+  transform: translate(2px, -2px);
+}
+
+.help-work-desc {
+  overflow: hidden;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 580px) {
+  .help-shortcut-grid,
+  .help-works-grid {
+    grid-template-columns: 1fr;
+  }
+}

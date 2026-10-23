@@ -1,7 +1,7 @@
 {
    "name": "__MSG_appName__",
    "short_name": "A2E",
-   "version": "2.8.3",
+   "version": "3.0.0",
    "manifest_version": 3,
    "minimum_chrome_version": "116.0.0",
    "default_locale": "en",
@@ -29,9 +29,10 @@
    "incognito": "split",
    "action": {
       "default_icon": {
-         "16": "images/logo16.png",
          "32": "images/logo32.png",
-         "48": "images/logo48.png"
+         "48": "images/logo48.png",
+         "64": "images/logo64.png",
+         "128": "images/logo128.png"
       },
       "default_title": "__MSG_appName__"
    },
@@ -42,9 +43,9 @@
       "extension_pages": "script-src 'self';object-src 'self';frame-src 'self' aria2://* https://*.aria2e.com/;"
    },
    "icons": {
-      "16": "images/logo16.png",
       "32": "images/logo32.png",
       "48": "images/logo48.png",
+      "64": "images/logo64.png",
       "128": "images/logo128.png"
    },
    "commands": {

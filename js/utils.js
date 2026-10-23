@@ -1,4 +1,10 @@
 import { DefaultAriaNgOptions } from "./config.js";
+import Logger from "./logger.js";
+
+const EXTENSION_ID = {
+    'Chrome': 'mpkodccbngfoacfalldjimigbofkhgjn',
+    'Edge': 'ngojgbdekanmijaphecgpmfoegoanffi'
+}
 
 class Utils {
     /**
@@ -37,7 +43,7 @@ class Utils {
                     ariaNgOptions.extendRpcServers.push(target);
             }
         } catch (error) {
-            console.warn(`exportRpcToAriaNg: error = ${error}`);
+            Logger.warn(`exportRpcToAriaNg: error = ${error}`);
         }
 
         return ariaNgOptions;
@@ -119,7 +125,7 @@ class Utils {
             rpcUrl = urlObject.origin + urlObject.pathname;
             secretKey = decodeURIComponent(urlObject.password);
         } catch (error) {
-            console.warn('Stored Rpc Url is invalid! URL ="' + url + '"');
+            Logger.warn('Stored Rpc Url is invalid! URL ="' + url + '"');
         }
         return { rpcUrl, secretKey };
     }
@@ -140,7 +146,7 @@ class Utils {
                 url.password = encodeURIComponent(secretKey);
             }
         } catch (error) {
-            console.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');
+            Logger.warn('Input a invalid RPC URL! URL ="' + rpcUrl + '"');
             return '';
         }
         return url.toString();
@@ -251,11 +257,10 @@ class Utils {
     }
 
     static getWebStoreUrl() {
-        let id = chrome.runtime.id;
-        if (/Edg/.test(navigator.userAgent))
-            return "https://microsoftedge.microsoft.com/addons/detail/" + id;
+        if (chrome.runtime.id === EXTENSION_ID.Edge)
+            return "https://microsoftedge.microsoft.com/addons/detail/" + EXTENSION_ID.Edge;
         else
-            return "https://chromewebstore.google.com/detail/" + id;
+            return "https://chromewebstore.google.com/detail/" + EXTENSION_ID.Chrome;
     }
 
     /**
@@ -294,6 +299,31 @@ class Utils {
      */
     static getPlatform() {
         return navigator.userAgentData.platform;
+    }
+
+    /**
+     * Get combined cookies
+     * @param {Object} downloadItem 
+     * @returns {Promise<Array<string>>}
+     */
+    static async getCookies(downloadItem) {
+        try {
+            const storeId = chrome.extension.inIncognitoContext ? "1" : "0";
+            const url = downloadItem.multiTask ? downloadItem.referrer : downloadItem.url;
+            const cookies = await chrome.cookies.getAll({ url, storeId });
+
+            let pCookies = [];
+            try {
+                pCookies = await chrome.cookies.getAll({ url, storeId, partitionKey: {} });
+            } catch (e) {
+                // 忽略不支持 partitionKey 的旧版本浏览器
+            }
+
+            const cookieMap = new Map([...cookies, ...pCookies].map(c => [c.name, c.value]));
+            return Array.from(cookieMap.entries()).map(([name, value]) => `${name}=${value}`);
+        } catch {
+            return [];
+        }
     }
 }
 

@@ -186,7 +186,7 @@
       "message": "Icona dello stato di intercettazione disattivata"
    },
    "WebUIOpenStyleStr": {
-      "message": "Apri AriaNG in"
+      "message": "Modalità di visualizzazione dell'interfaccia"
    },
    "WebUIOpenStyle1": {
       "message": "Popup"
@@ -200,8 +200,11 @@
    "WebUIOpenStyle4": {
       "message": "Pannello laterale"
    },
+   "windowBlurCloseDes": {
+      "message": "Chiudi automaticamente la finestra quando perde il focus"
+   },
    "openWebUIStr": {
-      "message": "Apri AriaNG"
+      "message": "Apri interfaccia principale"
    },
    "startAria2Str": {
       "message": "Avvia Aria2"
@@ -213,7 +216,7 @@
       "message": "Sincronizzazione cloud"
    },
    "configCloudSyncDes": {
-      "message": "Sincronizza le configurazioni di AriaNg e dell'estensione con l'account browser attualmente connesso"
+      "message": "Sincronizza le configurazioni dell'interfaccia e dell'estensione con l'account browser attualmente connesso"
    },
    "uploadConfigWarn": {
       "message": "Dati di configurazione locali non validi o vuoti, continuare?"
@@ -264,7 +267,7 @@
       "message": "Riconoscimenti"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "Le impostazioni RPC sono cambiate. Sincronizzare queste modifiche con AriaNG e sovrascrivere?"
+      "message": "Le impostazioni RPC sono cambiate. Sincronizzare queste modifiche con l'interfaccia principale e sovrascrivere?"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "Creare un'attività di download su protocollo HTTP/WebSocket non sicuro potrebbe esporre la chiave segreta e i relativi cookie del sito sulla rete pubblica."
@@ -278,8 +281,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "Sembra che Aria2 Manager non sia installato, vuoi accedere al canale 'Alex Recommends' per maggiori informazioni?"
    },
-   "ClearSettingsDes": {
-      "message": "Confermi di voler cancellare tutte le impostazioni?"
+   "ResetSettingsDes": {
+      "message": "Confermare il ripristino della configurazione dell'estensione ai valori predefiniti?"
    },
    "ColorMode": {
       "message": "Modalità colore"
@@ -318,7 +321,7 @@
       "message": "Segna"
    },
    "MarkAsSecureTip": {
-      "message": "Segna come RPC sicuro"
+      "message": "Contrassegna come protocollo RPC sicuro, includi sempre i Cookie."
    },
    "MarkAsInsecureTip": {
       "message": "Segna come protocollo RPC non sicuro"
@@ -346,5 +349,80 @@
    },
    "configImportExportDes": {
       "message": "Backup e ripristino delle impostazioni dell'estensione"
+   },
+   "tourSkip": {
+      "message": "Salta"
+   },
+   "tourNext": {
+      "message": "Avanti →"
+   },
+   "tourDone": {
+      "message": "Inizia!"
+   },
+   "tourStep1Title": {
+      "message": "Connettiti ad Aria2"
+   },
+   "tourStep1Body": {
+      "message": "Inserisci l'indirizzo RPC di Aria2. L'estensione invia ed esporta le attività di download intercettate tramite questa connessione."
+   },
+   "tourStep2Title": {
+      "message": "Cartella di download"
+   },
+   "tourStep2Body": {
+      "message": "Imposta dove salvare i file intercettati. Se lasciato vuoto, l'estensione risolve il percorso in ordine: <b>Impostazioni interfaccia</b> (<code>dir</code>) → <b>Configurazione Aria2</b> (<code>dir</code>) → <b>Cartella dell'eseguibile di Aria2</b>."
+   },
+   "tourStep3Title": {
+      "message": "Instradamento intelligente"
+   },
+   "tourStep3Body": {
+      "message": "Aggiungi altri server RPC e imposta un <b>Pattern URL</b> per ciascuno (es. <code>*youtube*</code>, <code>*.iso*</code>). Quando un URL di download corrisponde al pattern, l'estensione lo instrada automaticamente a quel server — smistamento automatico dei file senza sforzo."
+   },
+   "mainUI": {
+      "message": "interfaccia principale"
+   },
+   "rpcServerListStr": {
+      "message": "Elenco motori di download"
+   },
+   "addEngineConfigStr": {
+      "message": "Config. motore"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "Pattern URL separati da virgola"
+   },
+   "helpTitle": {
+      "message": "Guida"
+   },
+   "shortcutsTitle": {
+      "message": "Scorciatoie da tastiera"
+   },
+   "closeDialog": {
+      "message": "Chiudi"
+   },
+   "shortcutGroupExtension": {
+      "message": "Estensione"
+   },
+   "shortcutGroupPage": {
+      "message": "Questa pagina"
+   },
+   "shortcutUploadConfig": {
+      "message": "Carica config. nel cloud"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Scarica config. dal cloud"
+   },
+   "moreWorks": {
+      "message": "Altri progetti"
+   },
+   "downCenterDesc": {
+      "message": "Cronologia e gestione download avanzate"
+   },
+   "goldIndexDesc": {
+      "message": "Monitoraggio metalli preziosi e prezzo dell'oro"
+   },
+   "helpIntroDes": {
+      "message": "L'estensione è composta da due parti: cattura dei download e gestione delle attività. Questa pagina gestisce le impostazioni relative alla cattura dei download. Fai clic sull'icona della barra degli strumenti per aprire l'interfaccia principale, dove puoi gestire le attività e configurare i motori di download."
+   },
+   "shortcutNotSet": {
+      "message": "Non impostato"
    }
 }

@@ -186,7 +186,7 @@
       "message": "攔截關閉狀態圖示"
    },
    "WebUIOpenStyleStr": {
-      "message": "AriaNG打開樣式"
+      "message": "主界面呈現方式"
    },
    "WebUIOpenStyle1": {
       "message": "彈出視窗"
@@ -200,8 +200,11 @@
    "WebUIOpenStyle4": {
       "message": "側邊面板"
    },
+   "windowBlurCloseDes": {
+      "message": "失去焦點時自動關閉視窗"
+   },
    "openWebUIStr": {
-      "message": "打開AriaNG"
+      "message": "打開主界面"
    },
    "startAria2Str": {
       "message": "啓動Aria2"
@@ -213,7 +216,7 @@
       "message": "雲端同步設定"
    },
    "configCloudSyncDes": {
-      "message": "同步AriaNG和擴充功能設定到當前瀏覽器登入帳號"
+      "message": "同步主界面和擴充功能設定到當前瀏覽器登入帳號"
    },
    "uploadConfigWarn": {
       "message": "本機設定為空或無效，仍然繼續？"
@@ -264,7 +267,7 @@
       "message": "致謝"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "RPC設定已更改，同步更改到AriaNG并覆蓋？"
+      "message": "RPC設定已更改，同步更改到主界面并覆蓋？"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "使用不安全的HTTP/WebSocket協定創建下載工作可能會導致Secret Key和相關網站的Cookies資訊暴露於公共網絡。"
@@ -278,8 +281,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "好像沒有安裝Aria2 Manager，訪問“Alex推薦”頻道瞭解更多資訊？"
    },
-   "ClearSettingsDes": {
-      "message": "確認清除所有設定？"
+   "ResetSettingsDes": {
+      "message": "確定重置擴充功能的配置為預設值？"
    },
    "ColorMode": {
       "message": "顔色模式"
@@ -318,7 +321,7 @@
       "message": "標記"
    },
    "MarkAsSecureTip": {
-      "message": "標記為安全的RPC協議"
+      "message": "標記為安全的RPC協議，總是附帶Cookies資訊。"
    },
    "MarkAsInsecureTip": {
       "message": "標記為不安全的RPC協議"
@@ -346,5 +349,80 @@
    },
    "importConfigConfirm": {
       "message": "確認匯入設定？這將覆蓋目前所有設定。"
+   },
+   "tourSkip": {
+      "message": "跳過"
+   },
+   "tourNext": {
+      "message": "下一步 →"
+   },
+   "tourDone": {
+      "message": "開始使用！"
+   },
+   "tourStep1Title": {
+      "message": "連接 Aria2"
+   },
+   "tourStep1Body": {
+      "message": "填寫 Aria2 的 RPC 地址，擴充功能透過它發送或匯出攔截到的下載任務。"
+   },
+   "tourStep2Title": {
+      "message": "下載目錄"
+   },
+   "tourStep2Body": {
+      "message": "設定攔截下載的默認保存位置。留空時，擴充功能將按順序讀取：<b>主界面：下載設定</b>（<code>dir</code>）→ <b>Aria2 設定檔</b>（<code>dir</code>）→ <b>Aria2 所在目錄</b>。"
+   },
+   "tourStep3Title": {
+      "message": "智慧下載路由"
+   },
+   "tourStep3Body": {
+      "message": "點擊 <b>＋引擎配置</b> 新增更多伺服器，並為每個設定 <b>URL Pattern</b>（如 <code>*youtube*</code>, <code>*.iso*</code>）。當下載連結匹配到對應 Pattern 時，擴充功能會自動選擇該伺服器並保存到對應目錄——輕鬆實現按來源或檔案類型自動分類保存。"
+   },
+   "mainUI": {
+      "message": "主界面"
+   },
+   "rpcServerListStr": {
+      "message": "下載引擎列表"
+   },
+   "addEngineConfigStr": {
+      "message": "引擎配置"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "URL Pattern，逗號分隔"
+   },
+   "helpTitle": {
+      "message": "說明"
+   },
+   "shortcutsTitle": {
+      "message": "快速鍵"
+   },
+   "closeDialog": {
+      "message": "關閉"
+   },
+   "shortcutGroupExtension": {
+      "message": "擴充功能"
+   },
+   "shortcutGroupPage": {
+      "message": "本頁面"
+   },
+   "shortcutUploadConfig": {
+      "message": "上傳配置到雲端"
+   },
+   "shortcutDownloadConfig": {
+      "message": "從雲端下載配置"
+   },
+   "moreWorks": {
+      "message": "更多作品"
+   },
+   "downCenterDesc": {
+      "message": "增強的下載記錄與管理"
+   },
+   "goldIndexDesc": {
+      "message": "貴金屬行情與即時金價監控"
+   },
+   "helpIntroDes": {
+      "message": "擴充功能包含兩部分功能：下載攔截和任務管理。本頁面負責下載攔截相關的設定。透過工具列圖示開啟主介面，可以對任務管理介面和下載引擎進行相關設定。"
+   },
+   "shortcutNotSet": {
+      "message": "未設定"
    }
 }

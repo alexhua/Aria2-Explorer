@@ -1,3 +1,6 @@
+// Debug mode flag - set to true to enable console logging
+export const DEBUG = false;
+
 export const DefaultAriaNgOptions = {
     language: 'TBD',
     theme: 'system',
@@ -46,7 +49,7 @@ export const DefaultConfigs = {
     askBeforeExport: false,
     exportAll: true,
     integration: true,
-    fileSize: "100",
+    fileSize: 100,
     checkClick: false,
     askBeforeDownload: false,
     allowExternalRequest: false,
@@ -60,6 +63,8 @@ export const DefaultConfigs = {
     remindCaptureTip: true,
     rpcList: [{ "name": "Aria2", "url": "http://localhost:6800/jsonrpc", "pattern": "" }],
     webUIOpenStyle: "window",   // window, popup, tab, sidePanel
+    uiWindowBounds: null,       // { left, top, width, height } - persisted popup window geometry
+    windowBlurClose: false,
     iconOffStyle: "Dusk",   // Dusk, Dark, Grey
     colorModeId: 2,
     allowedSites: [],

@@ -1,44 +1,82 @@
-# Aria2 Explorer <span style="float:right">[[中文]](README.cn.md)</span>
+# Aria2 Explorer
 
-**Aria2 Explorer** is an extension that could export URLs to Aria2 to complete downloads and imports [AriaNG](https://www.github.com/mayswind/AriaNg/) as a built-in management frontend.
+<div align="center">
 
-## 📑How to use
+![Logo](images/logo128.png)
 
-Procedures:
+**A powerful Chrome extension for seamless Aria2 integration**
 
-1. For Windows, please download <span style="vertical-align:middle;">[![Download Aria2 Manager](https://img.shields.io/github/downloads/alexhua/aria2-manager/total?color=blue&label=Aria2%20Manager)](https://github.com/alexhua/aria2-manager/)</span>. Other platform, please download Aria2 utility: <span style="vertical-align:middle;">[![Download Aria2](https://img.shields.io/github/downloads/aria2/aria2/total?color=blue&label=Aria2)](https://github.com/aria2/aria2/releases)</span>
-2. For Windows, please run **Aria2Manager.exe**. Other platform, please run Aria2 in the **Terminal** with typing `aria2c --enable-rpc`.
-3. Install extension from [web store](#-installation).
-4. Enable `auto-capture` on the extension options page and configure others as you need.
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-red?logo=google-chrome)](https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn)
+[![License](https://img.shields.io/badge/license-BSD--3--Clause-green.svg)](LICENSE)
+[![Version](https://img.shields.io/github/v/release/alexhua/Aria2-Explorer.svg?color=gold)](manifest.json)
 
-After completing these steps, the extension will take over the download process, leading you to a high-speed download experience.
+[English](#english) | [中文](./README.cn.md)
 
-## ⭐ Features
+</div>
 
-1. Auto capture browser download tasks
-    - Capture notification
-    - Support magnet links
-    - Toggle auto-capture by shortcut (Default: <kbd>Alt</kbd>+<kbd>A</kbd>)
-    - Configure each Aria2 option manually before download
-    - Filter intercepted task by the domain, file extensions or file sizes
-    > Filter priority: domain > file-ext > file-size, white-list > black-list
-2. Auto-select Aria2 RPC server and download location by matching downloading URL with preset URL pattern
+---
 
-3. Built-in Aria2 frontend: AriaNG **Enhanced Version**. Multiple present styles: popup, new tab, new window, side panel
+## 📖 Overview
 
-4. Synchronize and store all the settings (extension and AriaNG) on the cloud
+Aria2 Explorer is a feature-rich Chrome extension that seamlessly integrates Aria2 download manager into your browser. It automatically captures downloads, monitors Aria2 status, and provides a beautiful web UI for managing your downloads.
 
-5. Support for zh-CN/zh-TW/en/fr/ja/ko/it/ru/uk/cs/es languages
+## ✨ Key Features
 
-6. Monitor Aria2 download status via extension badge icon
+### 🎯 Smart Download Capture
+- **Automatic Interception**: Captures browser downloads based on file size and type
+- **Flexible Filtering**: Whitelist/blacklist by domain and file extension
+- **Alt-Key Override**: Hold Alt while clicking to bypass capture
+- **Multi-URL Support**: Handle multiple download URLs simultaneously
 
-7. Batch export webpage resources (Image·Audio·Video·Magnet) links from context menu
+### 📊 Real-time Monitoring
+- **Live Status**: Monitor active, waiting, and completed tasks
+- **Speed Display**: Real-time upload/download speed in badge
+- **Multi-Server**: Support monitoring multiple Aria2 servers
+- **Smart Intervals**: Adaptive polling based on activity
 
-8. Receive Aria2 download requests from other extensions
+### 🎨 Beautiful Interface
+- **Integrated WebUI**: Built-in AriaNg interface
+- **Multiple Modes**: Open as popup, tab, window, or side panel
+- **Dark Mode**: System-aware theme switching
+- **Animated Icons**: Visual feedback for download states
 
-9. Support shortcuts in the options page (Save:<kbd>Alt</kbd>+<kbd>S</kbd> Reset:<kbd>Alt</kbd>+<kbd>R</kbd> Download:<kbd>Alt</kbd>+<kbd>J</kbd> Upload:<kbd>Alt</kbd>+<kbd>U</kbd>)
+### 🔧 Advanced Configuration
+- **Multiple RPC Servers**: Configure and switch between servers
+- **Pattern Matching**: Auto-select server based on URL patterns
+- **Cookie Support**: Automatic cookie forwarding for authenticated downloads
+- **Custom Headers**: Add custom headers to download requests
 
-10. Support downloading URLs via browser automatically if aria2 is disconnected
+### 🌐 Context Menu Integration
+- **Quick Export**: Right-click links to send to Aria2
+- **Batch Export**: Export all links from current page
+- **Site Filtering**: Quick add/remove sites from whitelist/blacklist
+- **Server Selection**: Choose target server from context menu
+
+### 🔔 Smart Notifications
+- **Task Status**: Get notified on download complete/error
+- **Silent Mode**: Optional silent notifications
+- **Custom Messages**: Detailed context in notifications
+- **Click Actions**: Click notification to open WebUI
+
+## 🚀 Installation
+
+### From Web Store (Recommended)
+
+[![Chrome Web Store](https://aria2e.com/assets/badges/chrome-web-store.png)](https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn)
+<a href="https://microsoftedge.microsoft.com/addons/detail/ngojgbdekanmijaphecgpmfoegoanffi"><img src="https://aria2e.com/assets/badges/microsoft-en-light.svg" alt="Edge Add-ons Store" height="59"></a>
+
+### From GitHub
+1. Visit the [Releases page](https://github.com/alexhua/Aria2-Explorer/releases) and download the latest `.crx` file
+2. Open Chrome and navigate to `chrome://extensions/`
+3. Enable "Developer mode" (toggle in the top right corner)
+4. Drag and drop the downloaded `.crx` file onto the extensions page to install
+
+## 🔑 Keyboard Shortcuts
+
+- **Alt + A**: Toggle download capture
+- **Alt + X**: Launch Aria2 (Windows only)
+
+*Customize shortcuts at `chrome://extensions/shortcuts`*
 
 ## 🧩 Integration
 
@@ -59,26 +97,31 @@ const downloadItem = {
 chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ```
-## 🔀 Flow Chart
 
-![Flow Chart](FlowChart-EN.SVG)
+## 📝 License
 
-## 📥 Installation
+This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICENSE) file for details.
 
-[![Chrome Web Store](https://developer.chrome.com/static/docs/webstore/branding/image/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/mpkodccbngfoacfalldjimigbofkhgjn "Aria2 Explorer")
-[<img src="https://get.microsoft.com/images/zh-cn%20light.svg" height=58 >](https://microsoftedge.microsoft.com/addons/detail/ngojgbdekanmijaphecgpmfoegoanffi "Aria2 Explorer")
+## 🙏 Acknowledgments
 
+- [Aria2](https://aria2.github.io/) - The amazing download utility
+- [AriaNg](https://github.com/mayswind/AriaNg) - Modern web frontend for Aria2
+- All contributors and users
 
-## 💡 Tips & FAQs
+## 📮 Support
 
-[https://github.com/alexhua/aria2-explorer/issues?q=label:faq](https://github.com/alexhua/aria2-explorer/issues?q=label%3AFAQ)
+- **Issues**: [GitHub Issues](https://github.com/alexhua/Aria2-Explorer/issues)
+- **Website**: [https://aria2e.com](https://aria2e.com)
+- **Email**: Contact through GitHub
 
-## 🔒 Privacy policy
+---
 
-This extension just captures download tasks and related website cookies from the user's browser for the purpose of connecting to the user's Aria2 server to download the network resources. Any connection and configuration information for Aria2 will be stored locally or can be optionally uploaded to the user's logged-in cloud. This extension does not collect any personal data or network activity from the user, nor will it share any such data with 3rd parties.
+<div align="center">
 
-## 📜 License
+**Made with ❤️ by Alex Hua**
 
-![BSD](https://i0.wp.com/opensource.org/wp-content/uploads/2006/07/OSI_Approved_License.png?w=90&ssl=1)
+⭐ Star us on GitHub — it helps!
 
-Aria2-Explorer is licensed under [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/).
+[🇨🇳 中文文档](./README.cn.md)
+
+</div>

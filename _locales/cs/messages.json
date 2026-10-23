@@ -186,7 +186,7 @@
       "message": "Ikona stavu vypnutí odposlechu"
    },
    "WebUIOpenStyleStr": {
-      "message": "Otevřít AriaNG v"
+      "message": "Režim zobrazení webového rozhraní"
    },
    "WebUIOpenStyle1": {
       "message": "Vyskakovací okno"
@@ -200,8 +200,11 @@
    "WebUIOpenStyle4": {
       "message": "Boční panel"
    },
+   "windowBlurCloseDes": {
+      "message": "Automaticky zavřít okno při ztrátě fokusu"
+   },
    "openWebUIStr": {
-      "message": "Otevřít AriaNG"
+      "message": "Otevřít webové rozhraní"
    },
    "startAria2Str": {
       "message": "Spustit Aria2"
@@ -213,7 +216,7 @@
       "message": "Synchronizace s cloudem"
    },
    "configCloudSyncDes": {
-      "message": "Synchronizovat nastavení AriaNg a rozšíření s aktuálním přihlášeným účtem prohlížeče"
+      "message": "Synchronizovat nastavení webového rozhraní a rozšíření s aktuálním přihlášeným účtem prohlížeče"
    },
    "uploadConfigWarn": {
       "message": "Neplatná nebo prázdná data místní konfigurace, přesto pokračovat?"
@@ -264,7 +267,7 @@
       "message": "Potvrzení"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "Nastavení RPC se změnilo. Synchronizovat tyto změny s AriaNG a přepsat?"
+      "message": "Nastavení RPC se změnilo. Synchronizovat tyto změny s webovým rozhraním a přepsat?"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "Vytvoření úlohy ke stažení přes nezabezpečený protokol HTTP/WebSocket může potenciálně vystavit tajný klíč a související cookies webových stránek na veřejné síti."
@@ -278,8 +281,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "Zdá se, že Aria2 Manager není nainstalován, přístup k kanálu \"Alex Recommends\" pro více informací?"
    },
-   "ClearSettingsDes": {
-      "message": "Potvrdit vymazání všech nastavení?"
+   "ResetSettingsDes": {
+      "message": "Potvrdit resetování konfigurace rozšíření na výchozí hodnoty?"
    },
    "ColorMode": {
       "message": "Barevný režim"
@@ -318,7 +321,7 @@
       "message": "Označit"
    },
    "MarkAsSecureTip": {
-      "message": "Označit jako zabezpečené RPC"
+      "message": "Označit jako bezpečný protokol RPC, vždy zahrnout Cookies."
    },
    "MarkAsInsecureTip": {
       "message": "Označit jako nezabezpečený protokol RPC"
@@ -346,5 +349,80 @@
    },
    "importConfigConfirm": {
       "message": "Potvrdit import konfigurace? Tím se přepíší všechna aktuální nastavení."
+   },
+   "tourSkip": {
+      "message": "Přeskočit"
+   },
+   "tourNext": {
+      "message": "Další →"
+   },
+   "tourDone": {
+      "message": "Začít!"
+   },
+   "tourStep1Title": {
+      "message": "Připojení k Aria2"
+   },
+   "tourStep1Body": {
+      "message": "Zadejte svou RPC adresu Aria2. Rozšíření odesílá a exportuje zachycené stahování prostřednictvím tohoto připojení."
+   },
+   "tourStep2Title": {
+      "message": "Složka pro stahování"
+   },
+   "tourStep2Body": {
+      "message": "Nastavte, kam se mají zachycené soubory ukládat. Pokud zůstane prázdné, rozšíření určí cestu v tomto pořadí: <b>Nastavení webového rozhraní</b> (<code>dir</code>) → <b>Konfigurace Aria2</b> (<code>dir</code>) → <b>Složka se spustitelným souborem Aria2</b>."
+   },
+   "tourStep3Title": {
+      "message": "Chytré směrování"
+   },
+   "tourStep3Body": {
+      "message": "Přidejte další RPC servery a pro každý nastavte <b>Vzor URL</b> (např. <code>*youtube*</code>, <code>*.iso*</code>). Pokud URL stahování odpovídá vzoru, rozšíření jej automaticky přesměruje na daný server — snadné třídění souborů podle zdroje nebo typu."
+   },
+   "mainUI": {
+      "message": "webové rozhraní"
+   },
+   "rpcServerListStr": {
+      "message": "Seznam stahovacích modulů"
+   },
+   "addEngineConfigStr": {
+      "message": "Konfigurace stahovače"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "Vzor URL (oddělené čárkou)"
+   },
+   "helpTitle": {
+      "message": "Nápověda"
+   },
+   "shortcutsTitle": {
+      "message": "Klávesové zkratky"
+   },
+   "closeDialog": {
+      "message": "Zavřít"
+   },
+   "shortcutGroupExtension": {
+      "message": "Rozšíření"
+   },
+   "shortcutGroupPage": {
+      "message": "Tato stránka"
+   },
+   "shortcutUploadConfig": {
+      "message": "Nahrát konfiguraci do cloudu"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Stáhnout konfiguraci z cloudu"
+   },
+   "moreWorks": {
+      "message": "Další projekty"
+   },
+   "downCenterDesc": {
+      "message": "Vylepšená historie a správa stahování"
+   },
+   "goldIndexDesc": {
+      "message": "Sledování cen drahých kovů a zlata"
+   },
+   "helpIntroDes": {
+      "message": "Rozšíření se skládá ze dvou částí: zachytávání stahování a správy úloh. Tato stránka slouží ke konfiguraci zachytávání stahování. Kliknutím na ikonu na panelu nástrojů otevřete webové rozhraní, kde můžete spravovat úlohy a konfigurovat stahovací moduly."
+   },
+   "shortcutNotSet": {
+      "message": "Nenastaveno"
    }
 }

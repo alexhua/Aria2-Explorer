@@ -1,75 +1,58 @@
-// Track configurations
-const configs = {
-    integration: false,
-    captureMagnet: false,
-    checkClick: false
-};
-
-// Initialize settings from storage
-chrome.storage.local.get(['integration', 'captureMagnet', 'checkClick']).then((res) => {
-    Object.assign(configs, res);
-});
-
-// Keep settings in sync
-chrome.storage.onChanged.addListener((changes, area) => {
-    if (area === 'local') {
-        for (const [key, { newValue }] of Object.entries(changes)) {
-            if (key in configs) {
-                configs[key] = newValue;
-            }
-        }
-    }
-});
-
 /**
- * Extract magnet URL from click event target or its ancestors
- *
- * @param {MouseEvent} event
- * @returns {string|null}
+ * Click Checker — ISOLATED world content script
+ * Handles Alt+Click state reporting and magnet link click interception.
  */
-function getMagnetUrl(event) {
-    const path = typeof event.composedPath === 'function' ? event.composedPath() : [];
-    for (const el of path) {
-        if (!el || el.nodeType !== Node.ELEMENT_NODE) continue;
-        const href = el.getAttribute?.('href') || (typeof el.href === 'string' ? el.href : el.href?.baseVal);
-        if (href && /^magnet:/i.test(href.trim())) {
-            return href.trim();
-        }
-    }
-    const anchor = event.target?.closest ? event.target.closest('a[href], area[href]') : null;
-    if (anchor) {
-        const href = anchor.getAttribute('href') || (typeof anchor.href === 'string' ? anchor.href : anchor.href?.baseVal);
-        if (href && /^magnet:/i.test(href.trim())) {
-            return href.trim();
-        }
-    }
-    return null;
-}
+(() => {
+    'use strict';
 
-document.addEventListener('click', (event) => {
-    if (configs.checkClick) {
-        chrome.runtime.sendMessage({
-            type: "CLICK_EVENT",
-            data: { altKeyPressed: event.altKey }
-        }).catch(() => { });
+    let captureMagnet = false;
+    let checkClick = false;
+
+    function updateConfig(config) {
+        captureMagnet = Boolean(config?.captureMagnet);
+        checkClick = Boolean((config?.integration !== false) && config?.checkClick);
     }
 
-    const magnetUrl = getMagnetUrl(event);
-    if (magnetUrl && configs.integration && configs.captureMagnet) {
-        if (configs.checkClick && event.altKey) {
-            // Bypass capture when Alt key is pressed
-            return;
-        }
-        event.preventDefault();
-        event.stopPropagation();
+    // Load initial configuration from storage
+    chrome.storage.local.get(['captureMagnet', 'checkClick', 'integration'], (config) => {
+        updateConfig(config);
+    });
 
-        chrome.runtime.sendMessage({
-            type: "DOWNLOAD",
-            data: {
-                url: magnetUrl,
-                filename: '',
-                referrer: window.location.href
+    // Listen for real-time config updates
+    chrome.storage.onChanged.addListener((changes, area) => {
+        if (area !== 'local') return;
+        if ('captureMagnet' in changes || 'checkClick' in changes || 'integration' in changes) {
+            chrome.storage.local.get(['captureMagnet', 'checkClick', 'integration'], (config) => {
+                updateConfig(config);
+            });
+        }
+    });
+
+    // Intercept click in the capture phase to precede host page handlers
+    document.addEventListener('click', (event) => {
+        if (captureMagnet) {
+            const anchor = event.target.closest?.('a[href]');
+            if (anchor) {
+                const href = (anchor.getAttribute('href') || anchor.href || '').trim();
+                if (/^magnet:/i.test(href)) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+
+                    chrome.runtime.sendMessage({
+                        type: "DOWNLOAD",
+                        data: { filename: '', url: anchor.href || href }
+                    });
+                    return;
+                }
             }
-        }).catch(() => { });
-    }
-}, true);
+        }
+
+        if (checkClick) {
+            chrome.runtime.sendMessage({
+                type: "CLICK_EVENT",
+                data: { altKeyPressed: event.altKey }
+            });
+        }
+    }, true);
+})();

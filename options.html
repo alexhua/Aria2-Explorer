@@ -2,294 +2,503 @@
 <html lang="en">
 
 <head>
-  <meta charset=utf-8 />
+  <meta charset="utf-8" />
   <title>__MSG_configPageTitle__</title>
-  <meta name="viewport" content="initial-scale=1, width=device-width">
+  <meta name="viewport" content="initial-scale=1, width=device-width, initial-scale=1">
   <link href="images/favicon.ico" rel="shortcut icon" type="image/ico" />
-  <script src="js/initTheme.js"></script>
-  <link href="css/bootstrap.min.css" rel="stylesheet" />
+  <script src="js/options/initTheme.js"></script>
   <link href="css/fontawesome.min.css" rel="stylesheet" />
   <link href="css/options.css" rel="stylesheet" />
   <link href="css/options.dark.css" rel="stylesheet" />
+  <link href="css/welcome-tour.css" rel="stylesheet" />
+  <link href="css/help-dialog.css" rel="stylesheet" />
 </head>
 
 <body>
-  <nav class="navbar-inner">
-    <div class="container">
-      <span id="logo"><img src="images/logo64.png" alt="logo"> __MSG_configPageTitle__</span>
-      <span id="version"></span>
+  <!-- Header with Brand and Version -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-wrapper">
+        <span id="logo">
+          <img src="images/logo64.png" alt="logo">
+          <span class="brand-title-group">
+            <span>__MSG_configPageTitle__</span>
+            <span id="version"></span>
+          </span>
+        </span>
+      </div>
+      <div class="header-actions">
+        <button type="button" id="helpBtn" class="help-btn" title="__MSG_helpTitle__" aria-label="__MSG_helpTitle__">
+          <i class="fa-regular fa-circle-question"></i>
+        </button>
+      </div>
     </div>
-  </nav>
+  </header>
+
   <form>
-    <fieldset class="container">
-      <legend></legend>
-      <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="fa-solid fa-rectangle-list"></i>
-          __MSG_contextmenuStr__</label>
-        <div class="col-sm-10">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="contextMenus">
-            <label class="custom-control-label" for="contextMenus">__MSG_contextmenuDes__</label>
-          </div>
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="askBeforeExport">
-            <label class="custom-control-label" for="askBeforeExport">__MSG_askBeforeExportDes__</label>
-          </div>
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="exportAll">
-            <label class="custom-control-label" for="exportAll">__MSG_exportAllDes__</label>
-          </div>
+    <main class="main-container">
+
+      <!-- Section 1: Context Menu -->
+      <section class="settings-card">
+        <div class="card-badge">
+          <i class="fa-solid fa-rectangle-list"></i>
+          <span>__MSG_contextmenuStr__</span>
         </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="fa-solid fa-download"></i>
-          __MSG_downloadCaptureStr__</label>
-        <div class="col-sm-10">
-          <div class="input-group custom-control-inline custom-switch">
-            <input class="custom-control-input" type="checkbox" id="integration">
-            <label class="custom-control-label" for="integration">
-              __MSG_downloadCaptureDes__
-            </label>
-            <div class="input-group-prepend">
-              <span class="-input-group-text- form-control-sm">≥</span>
-            </div>
-            <input type="number" min="0" class="form-control form-control-sm col-1" id="fileSize" required>
-            <div class="input-group-append">
-              <span class="input-group-text form-control-sm">MB</span>
-            </div>
-            <div id="shortcuts-setting" class="clickable tool-tip" tooltip-content="⌨: Alt + A">
-              <i class="fa fa-gear mx-2 text-primary"></i>
+        <div class="card-body card-grid">
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="contextMenus">
+              <label class="custom-control-label" for="contextMenus">__MSG_contextmenuDes__</label>
             </div>
           </div>
-          <div class="custom-control custom-switch  tool-tip tool-tip-icon" tooltip-content="__MSG_checkAltClickTip__">
-            <input class="custom-control-input" type="checkbox" id="checkClick">
-            <label class="custom-control-label" for="checkClick">
-              __MSG_checkAltClickDes__
-            </label>
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="askBeforeExport">
+              <label class="custom-control-label" for="askBeforeExport">__MSG_askBeforeExportDes__</label>
+            </div>
           </div>
-          <div class="custom-control custom-switch">
-            <input class="custom-control-input" type="checkbox" id="askBeforeDownload">
-            <label class="custom-control-label" for="askBeforeDownload">
-              __MSG_askBeforeDownloadDes__
-            </label>
-          </div>
-          <div class="custom-control custom-switch">
-            <input class="custom-control-input" type="checkbox" id="allowExternalRequest">
-            <label class="custom-control-label" for="allowExternalRequest">
-              __MSG_allowExternalRequestDes__
-            </label>
-          </div>
-          <div class="custom-control custom-switch">
-            <input class="custom-control-input" type="checkbox" id="captureMagnet">
-            <label class="custom-control-label" for="captureMagnet">
-              __MSG_captureMagnetDes__
-            </label>
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="exportAll">
+              <label class="custom-control-label" for="exportAll">__MSG_exportAllDes__</label>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="fa-solid fa-heart-pulse"></i>
-          __MSG_monitorAria2Str__</label>
-        <div class="col-sm-10">
-          <div class="custom-control custom-switch">
-            <input class="custom-control-input" type="checkbox" id="monitorAria2">
-            <label class="custom-control-label" for="monitorAria2">
-              __MSG_monitorAria2Des__
-            </label>
-          </div>
-          <div id="monitor-all" class="custom-control custom-switch tool-tip tool-tip-icon"
-            tooltip-content="__MSG_monitorAllTip__">
-            <input class="custom-control-input" type="checkbox" id="monitorAll">
-            <label class="custom-control-label" for="monitorAll">
-              __MSG_monitorAllDes__
-            </label>
-          </div>
-          <div class="custom-control custom-switch">
-            <input class="custom-control-input" type="checkbox" id="keepAwake">
-            <label class="custom-control-label" for="keepAwake">
-              __MSG_keepAwakeDes__
-            </label>
-          </div>
-          <div class="custom-control custom-switch">
-            <input class="custom-control-input" type="checkbox" id="badgeText">
-            <label class="custom-control-label" for="badgeText">
-              __MSG_badgeTextDes__
-            </label>
-          </div>
-          <div class="custom-control custom-switch">
-            <input class="custom-control-input" type="checkbox" id="allowNotification">
-            <label class="custom-control-label" for="allowNotification">
-              __MSG_allowNotificationDes__
-            </label>
-          </div>
-          <div class="custom-control custom-switch">
-            <input class="custom-control-input" type="checkbox" id="keepSilent">
-            <label class="custom-control-label" for="keepSilent">
-              __MSG_keepSilentDes__
-            </label>
-          </div>
-        </div>
-      </div>
-      <div id="rpcList">
-      </div>
-      <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="fa-solid fa-window-restore"></i>
-          __MSG_WebUIOpenStyleStr__</label>
-        <div class="col-sm-10">
-          <div class="form-check">
-            <input class="form-check-input" type="radio" id="popup" name="webUIOpenStyle" value="popup">
-            <label for="popup">
-              __MSG_WebUIOpenStyle1__
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" id="tab" name="webUIOpenStyle" value="tab">
-            <label for="tab">
-              __MSG_WebUIOpenStyle2__
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" id="window" name="webUIOpenStyle" value="window">
-            <label for="window">
-              __MSG_WebUIOpenStyle3__
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" id="sidePanel" name="webUIOpenStyle" value="sidePanel">
-            <label for="sidePanel">
-              __MSG_WebUIOpenStyle4__ (Beta)
-            </label>
-          </div>
-        </div>
-      </div>
+      </section>
 
-      <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="fa-solid fa-image"></i>
-          __MSG_IconOffStyleStr__</label>
-        <div class="col-sm-10 input-group">
-          <div class="form-check col-sm-1">
-            <input class="form-check-input" type="radio" id="Dark" name="iconOffStyle" value="Dark">
-            <label for="Dark">
-              <img src="images/logo32-dark.png" alt="logo">
-            </label>
+      <!-- Section 2: Browser Download Interception -->
+      <section class="settings-card">
+        <div class="card-badge">
+          <i class="fa-solid fa-download"></i>
+          <span>__MSG_downloadCaptureStr__</span>
+        </div>
+        <div class="card-body card-grid">
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input class="custom-control-input" type="checkbox" id="integration">
+              <label class="custom-control-label" for="integration">
+                __MSG_downloadCaptureDes__
+              </label>
+              <div class="threshold-group">
+                <span class="threshold-symbol">≥</span>
+                <input type="number" min="0" class="threshold-input" id="fileSize" required>
+                <span class="threshold-unit">MB</span>
+                <div id="shortcuts-setting" class="tool-tip clickable" tooltip-content="⌨: Alt + A">
+                  <i class="fa fa-gear text-primary"></i>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="form-check col-sm-1">
-            <input class="form-check-input" type="radio" id="Dusk" name="iconOffStyle" value="Dusk">
-            <label for="Dusk">
-              <img src="images/logo32-dusk.png" alt="logo">
-            </label>
+          <div class="setting-row">
+            <div class="custom-control custom-switch tool-tip tool-tip-icon" tooltip-content="__MSG_checkAltClickTip__">
+              <input class="custom-control-input" type="checkbox" id="checkClick">
+              <label class="custom-control-label" for="checkClick">
+                __MSG_checkAltClickDes__
+              </label>
+            </div>
           </div>
-          <div class="form-check col-sm-1">
-            <input class="form-check-input" type="radio" id="Grey" name="iconOffStyle" value="Grey">
-            <label for="Grey">
-              <img src="images/logo32-grey.png" alt="logo">
-            </label>
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input class="custom-control-input" type="checkbox" id="askBeforeDownload">
+              <label class="custom-control-label" for="askBeforeDownload">
+                __MSG_askBeforeDownloadDes__
+              </label>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input class="custom-control-input" type="checkbox" id="allowExternalRequest">
+              <label class="custom-control-label" for="allowExternalRequest">
+                __MSG_allowExternalRequestDes__
+              </label>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input class="custom-control-input" type="checkbox" id="captureMagnet">
+              <label class="custom-control-label" for="captureMagnet">
+                __MSG_captureMagnetDes__
+              </label>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="fa-solid fa-file-lines"></i> __MSG_fileExtStr__</label>
-        <div class="col-sm-10 row">
-          <div class="col-sm-4">
-            <label for="allowedExts">__MSG_whiteListStr__</label>
-            <textarea class="form-control" rows="8" id="allowedExts" name="allowedExts"
-              placeholder="__MSG_allowedExtsPlaceholderDes__"></textarea>
+      <!-- Section 3: Aria2 Status Monitor & Notifications -->
+      <section class="settings-card">
+        <div class="card-badge">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>__MSG_monitorAria2Str__</span>
+        </div>
+        <div class="card-body card-grid">
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input class="custom-control-input" type="checkbox" id="monitorAria2">
+              <label class="custom-control-label" for="monitorAria2">
+                __MSG_monitorAria2Des__
+              </label>
+            </div>
           </div>
-          <div class="col-sm-4">
-            <label for="blockedExts">__MSG_blackListStr__</label>
-            <textarea class="form-control" rows="8" id="blockedExts" name="blockedExts"
-              placeholder="__MSG_blockedExtsPlaceholderDes__"></textarea>
+          <div class="setting-row" id="monitor-all-row">
+            <div id="monitor-all" class="custom-control custom-switch tool-tip tool-tip-icon"
+              tooltip-content="__MSG_monitorAllTip__">
+              <input class="custom-control-input" type="checkbox" id="monitorAll">
+              <label class="custom-control-label" for="monitorAll">
+                __MSG_monitorAllDes__
+              </label>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input class="custom-control-input" type="checkbox" id="keepAwake">
+              <label class="custom-control-label" for="keepAwake">
+                __MSG_keepAwakeDes__
+              </label>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input class="custom-control-input" type="checkbox" id="badgeText">
+              <label class="custom-control-label" for="badgeText">
+                __MSG_badgeTextDes__
+              </label>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input class="custom-control-input" type="checkbox" id="allowNotification">
+              <label class="custom-control-label" for="allowNotification">
+                __MSG_allowNotificationDes__
+              </label>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="custom-control custom-switch">
+              <input class="custom-control-input" type="checkbox" id="keepSilent">
+              <label class="custom-control-label" for="keepSilent">
+                __MSG_keepSilentDes__
+              </label>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="fa-solid fa-globe"></i> __MSG_websiteStr__</label>
-        <div class="col-sm-10 row">
-          <div class="col-sm-5">
-            <label for="allowedSites">__MSG_whiteListStr__</label>
-            <textarea class="form-control" rows="7" id="allowedSites" name="allowedSites"
-              placeholder="__MSG_allowedSitesPlaceholderDes__"></textarea>
-          </div>
-          <div class="col-sm-5">
-            <label for="blockedSites">__MSG_blackListStr__</label>
-            <textarea class="form-control" rows="7" id="blockedSites" name="blockedSites"
-              placeholder="__MSG_blockedSitesPlaceholderDes__"></textarea>
+      <!-- Section 4: Aria2 RPC Server Management -->
+      <section class="settings-card">
+        <div class="card-badge">
+          <i class="fa-solid fa-server"></i>
+          <span>__MSG_rpcServerListStr__</span>
+        </div>
+        <div class="card-body">
+          <div id="rpcList">
+            <!-- Dynamically populated by RpcManager.js -->
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="fa-solid fa-rotate"></i>
-          __MSG_configCloudSync__</label>
-        <div class="col-sm-auto">
-          <button type="button" class="btn btn-primary mx-1 tool-tip" id="upload" tooltip-content="⌨: Alt + U"><i
-              class="fa-solid fa-cloud-arrow-up"></i>
-            __MSG_upload__</button>
-          <button type="button" class="btn btn-primary mx-1 tool-tip" id="download" tooltip-content="⌨: Alt + J"><i
-              class="fa-solid fa-cloud-arrow-down"></i>
-            __MSG_download__</button>
-          <em>(__MSG_configCloudSyncDes__)</em>
-          <span class="alert" id="sync-result"></span>
+      <!-- Section 5: WebUI Open Style (Independent Card) -->
+      <section class="settings-card">
+        <div class="card-badge">
+          <i class="fa-solid fa-window-restore"></i>
+          <span>__MSG_WebUIOpenStyleStr__</span>
         </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="col-sm-2 text-info"><i class="fa-solid fa-file-arrow-up"></i>
-          __MSG_configImportExportStr__</label>
-        <div class="col-sm-auto">
-          <button type="button" class="btn btn-success mx-1 tool-tip" id="importConfig"
-            tooltip-content="⌨: Alt + I"><i class="fa-solid fa-file-import"></i>
-            __MSG_importConfig__</button>
-          <button type="button" class="btn btn-secondary mx-1 tool-tip" id="exportConfig"
-            tooltip-content="⌨: Alt + E"><i class="fa-solid fa-file-export"></i>
-            __MSG_exportConfig__</button>
-          <em>(__MSG_configImportExportDes__)</em>
-          <input type="file" id="configFileInput" accept=".json" style="display: none;">
-          <span class="alert" id="import-export-result"></span>
+        <div class="card-body">
+          <div class="segmented-control">
+            <div class="segmented-option">
+              <input type="radio" id="popup" name="webUIOpenStyle" value="popup">
+              <label for="popup">__MSG_WebUIOpenStyle1__</label>
+            </div>
+            <div class="segmented-option">
+              <input type="radio" id="tab" name="webUIOpenStyle" value="tab">
+              <label for="tab">__MSG_WebUIOpenStyle2__</label>
+            </div>
+            <div class="segmented-option">
+              <input type="radio" id="window" name="webUIOpenStyle" value="window">
+              <label for="window">__MSG_WebUIOpenStyle3__</label>
+            </div>
+            <div class="segmented-option">
+              <input type="radio" id="sidePanel" name="webUIOpenStyle" value="sidePanel">
+              <label for="sidePanel">__MSG_WebUIOpenStyle4__ (Beta)</label>
+            </div>
+          </div>
+          <div class="expandable-sub-row" id="window-blur-close-wrapper">
+            <div class="setting-row sub-row" id="window-blur-close-row">
+              <div class="custom-control custom-switch">
+                <input class="custom-control-input" type="checkbox" id="windowBlurClose">
+                <label class="custom-control-label" for="windowBlurClose">
+                  __MSG_windowBlurCloseDes__
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </fieldset>
+      </section>
 
+      <!-- Section 6: Icon Off Style (Independent Card) -->
+      <section class="settings-card">
+        <div class="card-badge">
+          <i class="fa-solid fa-image"></i>
+          <span>__MSG_IconOffStyleStr__</span>
+        </div>
+        <div class="card-body">
+          <div class="icon-style-group segmented-control">
+            <div class="icon-style-option segmented-option">
+              <input type="radio" id="Dark" name="iconOffStyle" value="Dark">
+              <label for="Dark" title="Dark">
+                <img src="images/logo32-dark.png" alt="Dark">
+              </label>
+            </div>
+            <div class="icon-style-option segmented-option">
+              <input type="radio" id="Dusk" name="iconOffStyle" value="Dusk">
+              <label for="Dusk" title="Dusk">
+                <img src="images/logo32-dusk.png" alt="Dusk">
+              </label>
+            </div>
+            <div class="icon-style-option segmented-option">
+              <input type="radio" id="Grey" name="iconOffStyle" value="Grey">
+              <label for="Grey" title="Grey">
+                <img src="images/logo32-grey.png" alt="Grey">
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: File Extensions Filter (Independent Card) -->
+      <section class="settings-card">
+        <div class="card-badge">
+          <i class="fa-solid fa-file-lines"></i>
+          <span>__MSG_fileExtStr__</span>
+        </div>
+        <div class="card-body">
+          <div class="filter-grid">
+            <div class="filter-box">
+              <label class="filter-label" for="allowedExts">
+                <i class="fa-solid fa-file-circle-check" style="color: #10b981;"></i>
+                __MSG_whiteListStr__
+              </label>
+              <textarea class="filter-textarea" rows="8" id="allowedExts" name="allowedExts"
+                placeholder="__MSG_allowedExtsPlaceholderDes__"></textarea>
+            </div>
+            <div class="filter-box">
+              <label class="filter-label" for="blockedExts">
+                <i class="fa-solid fa-file-circle-xmark" style="color: #ef4444;"></i>
+                __MSG_blackListStr__
+              </label>
+              <textarea class="filter-textarea" rows="8" id="blockedExts" name="blockedExts"
+                placeholder="__MSG_blockedExtsPlaceholderDes__"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8: Websites Filter (Independent Card) -->
+      <section class="settings-card">
+        <div class="card-badge">
+          <i class="fa-solid fa-globe"></i>
+          <span>__MSG_websiteStr__</span>
+        </div>
+        <div class="card-body">
+          <div class="filter-grid">
+            <div class="filter-box">
+              <label class="filter-label" for="allowedSites">
+                <i class="fa-solid fa-globe" style="color: #10b981;"></i>
+                __MSG_whiteListStr__
+              </label>
+              <textarea class="filter-textarea" rows="8" id="allowedSites" name="allowedSites"
+                placeholder="__MSG_allowedSitesPlaceholderDes__"></textarea>
+            </div>
+            <div class="filter-box">
+              <label class="filter-label" for="blockedSites">
+                <i class="fa-solid fa-ban" style="color: #ef4444;"></i>
+                __MSG_blackListStr__
+              </label>
+              <textarea class="filter-textarea" rows="8" id="blockedSites" name="blockedSites"
+                placeholder="__MSG_blockedSitesPlaceholderDes__"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 9: Cloud Sync (Independent Card) -->
+      <section class="settings-card">
+        <div class="card-badge">
+          <i class="fa-solid fa-rotate"></i>
+          <span>__MSG_configCloudSync__</span>
+        </div>
+        <div class="card-body">
+          <div class="action-btn-group">
+            <button type="button" class="btn btn-primary tool-tip" id="upload" tooltip-content="⌨: U">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              __MSG_upload__
+            </button>
+            <button type="button" class="btn btn-primary tool-tip" id="download" tooltip-content="⌨: J">
+              <i class="fa-solid fa-cloud-arrow-down"></i>
+              __MSG_download__
+            </button>
+            <span class="action-hint">(__MSG_configCloudSyncDes__)</span>
+            <span class="alert-inline" id="sync-result"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 10: Import / Export Config (Independent Card) -->
+      <section class="settings-card">
+        <div class="card-badge">
+          <i class="fa-solid fa-file-arrow-up"></i>
+          <span>__MSG_configImportExportStr__</span>
+        </div>
+        <div class="card-body">
+          <div class="action-btn-group">
+            <button type="button" class="btn btn-success tool-tip" id="importConfig" tooltip-content="⌨: I">
+              <i class="fa-solid fa-file-import"></i>
+              __MSG_importConfig__
+            </button>
+            <button type="button" class="btn btn-secondary tool-tip" id="exportConfig" tooltip-content="⌨: E">
+              <i class="fa-solid fa-file-export"></i>
+              __MSG_exportConfig__
+            </button>
+            <span class="action-hint">(__MSG_configImportExportDes__)</span>
+            <input type="file" id="configFileInput" accept=".json" style="display: none;">
+            <span class="alert-inline" id="import-export-result"></span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Modern Wide Floating Action Bar -->
     <footer class="footer">
       <div class="footer-content">
-        <div id="colorMode" class="clickable" title="__MSG_ColorMode__"><i class="fa"></i></div>
-        <div class="container footer-content">
+        <div class="footer-left">
+          <div id="colorMode" class="clickable" title="__MSG_ColorMode__">
+            <i class="fa"></i>
+          </div>
           <span id="copyright">
-            <a target="_blank" href="https://www.aria2e.com">
+            <a target="_blank" href="https://www.aria2e.com" title="Aria2 Explorer Website">
               <i class="fa-regular fa-copyright"></i>
-              Copyright 2023 Alex Hua
+              2023 Alex Hua
             </a>
           </span>
-
-          <span class="text-center">
-            <button type="submit" class="btn btn-success mr-5 tool-tip" id="save" tooltip-content="⌨: Alt + S"><i
-                class="fa-regular fa-circle-check"></i>
-              __MSG_Save__</button>
-            <button type="reset" class="btn btn-warning mx-5 tool-tip" id="reset" tooltip-content="⌨: Alt + R"><i
-                class="fa-regular fa-circle-xmark"></i>
-              __MSG_Reset__</button>
-          </span>
-
-          <span class="text-right" id="acknowledgment">
-            <a href="acknowledgment.txt">
-              <i class="fa-regular fa-lightbulb"></i> __MSG_Acknowledgment__</a>
-          </span>
-
         </div>
-        <span id="rate" class="text-center">
-          <a id="webStoreUrl" class="btn btn-primary" href="" target="_blank">
-            <i class="fa-regular fa-thumbs-up"></i> __MSG_reviewDes__
-          </a>
-        </span>
+
+        <div class="footer-center">
+          <button type="submit" class="footer-btn footer-btn-save tool-tip" id="save" tooltip-content="⌨: S">
+            <i class="fa-regular fa-circle-check"></i>
+            __MSG_Save__
+          </button>
+          <button type="reset" class="footer-btn footer-btn-reset tool-tip" id="reset" tooltip-content="⌨: R">
+            <i class="fa-regular fa-circle-xmark"></i>
+            __MSG_Reset__
+          </button>
+        </div>
+
+        <div class="footer-right">
+          <span id="acknowledgment">
+            <a href="acknowledgment.txt" target="_blank">
+              <i class="fa-regular fa-lightbulb"></i> __MSG_Acknowledgment__
+            </a>
+          </span>
+          <span id="rate">
+            <a id="webStoreUrl" href="" target="_blank">
+              <i class="fa-regular fa-thumbs-up"></i> __MSG_reviewDes__
+            </a>
+          </span>
+        </div>
       </div>
     </footer>
   </form>
 
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/options.js" type="module"></script>
+  <!-- Help Dialog: intro banner on top, shortcuts cheatsheet and more works below -->
+  <dialog id="helpDialog" class="help-dialog" aria-labelledby="helpDialogTitle">
+    <div class="help-dialog-body">
+      <div class="help-dialog-header">
+        <h3 id="helpDialogTitle" class="help-dialog-title">
+          <i class="fa-regular fa-circle-question"></i>
+          <span>__MSG_helpTitle__</span>
+        </h3>
+        <button type="button" id="helpCloseBtn" class="help-close-btn" title="__MSG_closeDialog__" aria-label="__MSG_closeDialog__">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="help-intro">
+        <i class="fa-solid fa-circle-info help-intro-icon"></i>
+        <div class="help-intro-text">__MSG_helpIntroDes__</div>
+      </div>
+
+      <section class="help-shortcuts" id="helpShortcuts">
+        <h3 id="helpShortcutsTitle" class="help-section-title">
+          <i class="fa-regular fa-keyboard"></i>
+          <span>__MSG_shortcutsTitle__</span>
+        </h3>
+
+        <div>
+          <h4 class="help-group-title">__MSG_shortcutGroupExtension__</h4>
+          <div class="help-shortcut-grid">
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_toggleCapture__</span>
+              <span class="help-shortcut-keys" id="helpShortcutToggleCapture"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>A</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_startAria2Str__</span>
+              <span class="help-shortcut-keys" id="helpShortcutLaunchAria2"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>X</kbd></span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="help-group-title">__MSG_shortcutGroupPage__</h4>
+          <div class="help-shortcut-grid">
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_Save__</span>
+              <span class="help-shortcut-keys"><kbd>S</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>S</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_Reset__</span>
+              <span class="help-shortcut-keys"><kbd>R</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>R</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_shortcutUploadConfig__</span>
+              <span class="help-shortcut-keys"><kbd>U</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>U</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_shortcutDownloadConfig__</span>
+              <span class="help-shortcut-keys"><kbd>J</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>J</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_importConfig__</span>
+              <span class="help-shortcut-keys"><kbd>I</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>I</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_exportConfig__</span>
+              <span class="help-shortcut-keys"><kbd>E</kbd><span class="help-key-sep">/</span><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>E</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_helpTitle__</span>
+              <span class="help-shortcut-keys"><kbd>?</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_closeDialog__</span>
+              <span class="help-shortcut-keys"><kbd>Esc</kbd></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="help-works">
+        <h3 class="help-section-title">
+          <i class="fa-solid fa-table-cells-large"></i>
+          <span>__MSG_moreWorks__</span>
+        </h3>
+        <div id="helpWorks" class="help-works-grid">
+          <!-- Dynamically populated by HelpDialog.js -->
+        </div>
+      </section>
+    </div>
+  </dialog>
+
+  <script src="js/options/options.js" type="module"></script>
 </body>
 
 </html>

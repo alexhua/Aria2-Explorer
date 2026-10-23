@@ -186,7 +186,7 @@
       "message": "インターセプトオフ状態アイコン"
    },
    "WebUIOpenStyleStr": {
-      "message": "AriaNGで開く"
+      "message": "メイン画面の表示方式"
    },
    "WebUIOpenStyle1": {
       "message": "ポップアップ"
@@ -200,8 +200,11 @@
    "WebUIOpenStyle4": {
       "message": "サイドパネル"
    },
+   "windowBlurCloseDes": {
+      "message": "フォーカスを失ったときに自動的にウィンドウを閉じる"
+   },
    "openWebUIStr": {
-      "message": "AriaNGを開く"
+      "message": "メイン画面を開く"
    },
    "startAria2Str": {
       "message": "スタートAria2"
@@ -213,7 +216,7 @@
       "message": "クラウド同期"
    },
    "configCloudSyncDes": {
-      "message": "AriaNgと拡張機能の設定を現在ログインしているブラウザアカウントに同期する"
+      "message": "メイン画面と拡張機能の設定を現在ログインしているブラウザアカウントに同期する"
    },
    "uploadConfigWarn": {
       "message": "ローカルの設定データが無効または空ですが、続行しますか？"
@@ -264,7 +267,7 @@
       "message": "謝辞"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "RPC設定が変更されました。AriaNGに同期しますか？"
+      "message": "RPC設定が変更されました。メイン画面に同期しますか？"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "セキュリティキーおよび関連するウェブサイトのクッキーが公共ネットワーク上で潜在的にさらされる可能性があるため、安全でないHTTP/WebSocketプロトコルを使用してダウンロードすることは避けるべきです。"
@@ -278,8 +281,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "Aria2 Managerはインストールされていないようですが、詳細については、Alex推奨チャネルにアクセスしてください？"
    },
-   "ClearSettingsDes": {
-      "message": "すべての設定をクリアすることを確認しますか？"
+   "ResetSettingsDes": {
+      "message": "拡張機能の設定をデフォルト値にリセットしますか？"
    },
    "ColorMode": {
       "message": "カラーモード"
@@ -318,7 +321,7 @@
       "message": "マークする"
    },
    "MarkAsSecureTip": {
-      "message": "安全なRPCプロトコルとしてマークする"
+      "message": "安全なRPCプロトコルとしてマークし、常にCookieを含めます。"
    },
    "MarkAsInsecureTip": {
       "message": "安全でないRPCプロトコルとしてマークする"
@@ -346,5 +349,80 @@
    },
    "configImportExportDes": {
       "message": "拡張機能の設定をバックアップ・復元"
+   },
+   "tourSkip": {
+      "message": "スキップ"
+   },
+   "tourNext": {
+      "message": "次へ →"
+   },
+   "tourDone": {
+      "message": "使ってみる！"
+   },
+   "tourStep1Title": {
+      "message": "Aria2 に接続"
+   },
+   "tourStep1Body": {
+      "message": "Aria2 の RPC アドレスを入力してください。拡張機能はこの接続を介して、インターセプトしたダウンロードタスクを送信またはエクスポートします。"
+   },
+   "tourStep2Title": {
+      "message": "ダウンロードディレクトリ"
+   },
+   "tourStep2Body": {
+      "message": "インターセプトしたファイルの保存先を設定します。空のままにすると、拡張機能は次の順序でパスを解決します：<b>メイン画面の設定</b>（<code>dir</code>）→ <b>Aria2 設定</b>（<code>dir</code>）→ <b>Aria2 実行ファイルのあるフォルダ</b>。"
+   },
+   "tourStep3Title": {
+      "message": "スマート・ダウンロード・ルーティング"
+   },
+   "tourStep3Body": {
+      "message": "RPC サーバーをさらに追加し、それぞれに <b>URL Pattern</b>（例：<code>*youtube*</code>, <code>*.iso*</code>）を設定できます。ダウンロード URL がパターンに一致すると、拡張機能は自動的にそのサーバーを選択して保存します。ソースやファイルタイプ別に簡単に自動分類できます。"
+   },
+   "mainUI": {
+      "message": "メイン画面"
+   },
+   "rpcServerListStr": {
+      "message": "ダウンロードエンジン一覧"
+   },
+   "addEngineConfigStr": {
+      "message": "エンジン設定"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "URLパターン（カンマ区切り）"
+   },
+   "helpTitle": {
+      "message": "ヘルプ"
+   },
+   "shortcutsTitle": {
+      "message": "キーボードショートカット"
+   },
+   "closeDialog": {
+      "message": "閉じる"
+   },
+   "shortcutGroupExtension": {
+      "message": "拡張機能"
+   },
+   "shortcutGroupPage": {
+      "message": "このページ"
+   },
+   "shortcutUploadConfig": {
+      "message": "設定をクラウドへアップロード"
+   },
+   "shortcutDownloadConfig": {
+      "message": "クラウドから設定をダウンロード"
+   },
+   "moreWorks": {
+      "message": "その他の作品"
+   },
+   "downCenterDesc": {
+      "message": "ダウンロード履歴と管理を強化"
+   },
+   "goldIndexDesc": {
+      "message": "貴金属相場と金価格トラッカー"
+   },
+   "helpIntroDes": {
+      "message": "本拡張機能は「ダウンロードキャプチャ」と「タスク管理」の2つの部分で構成されています。このページではダウンロードキャプチャ関連の設定を行います。ツールバーアイコンをクリックしてメイン画面を開くと、タスク管理やダウンロードエンジンの設定が可能です。"
+   },
+   "shortcutNotSet": {
+      "message": "未設定"
    }
 }

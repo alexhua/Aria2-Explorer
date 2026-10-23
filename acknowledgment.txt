@@ -1,6 +1,10 @@
 ACKNOWLEDGEMENT
 
-This extension makes use of the following third party aria2 frontend solutions:
+This extension makes use of the following third party open source project:
 
-https://github.com/mayswind/AriaNg
-MIT License: https://github.com/mayswind/AriaNg/blob/master/LICENSE
+AriaNG (https://github.com/mayswind/AriaNg)
+Licensed under MIT License: https://github.com/mayswind/AriaNg/blob/master/LICENSE
+
+Font Awesome Free (https://fontawesome.com/)
+Copyright 2023 Fonticons, Inc.
+Licensed under SIL OFL 1.1, CC BY 4.0, and MIT License: https://fontawesome.com/license/free

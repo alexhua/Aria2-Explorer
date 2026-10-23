@@ -186,7 +186,7 @@
       "message": "Icono de estado de intercepción desactivada"
    },
    "WebUIOpenStyleStr": {
-      "message": "AriaNG Abrir en"
+      "message": "Modo de visualización de la interfaz"
    },
    "WebUIOpenStyle1": {
       "message": "Ventana emergente"
@@ -200,8 +200,11 @@
    "WebUIOpenStyle4": {
       "message": "Panel lateral"
    },
+   "windowBlurCloseDes": {
+      "message": "Cerrar ventana automáticamente al perder el foco"
+   },
    "openWebUIStr": {
-      "message": "Abrir AriaNG"
+      "message": "Abrir la interfaz principal"
    },
    "startAria2Str": {
       "message": "Iniciar Aria2"
@@ -213,7 +216,7 @@
       "message": "Sincronización en la nube"
    },
    "configCloudSyncDes": {
-      "message": "Sincronizar la configuración de AriaNg y la extensión con la cuenta del navegador actualmente iniciada"
+      "message": "Sincronizar la configuración de la interfaz y la extensión con la cuenta del navegador actualmente iniciada"
    },
    "uploadConfigWarn": {
       "message": "Datos de configuración local no válidos o vacíos, ¿desea continuar?"
@@ -264,7 +267,7 @@
       "message": "Agradecimiento"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "La configuración de RPC ha cambiado. ¿Sincronizar estos cambios con AriaNG y sobrescribir?"
+      "message": "La configuración de RPC ha cambiado. ¿Sincronizar estos cambios con la interfaz principal y sobrescribir?"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "Crear una tarea de descarga a través del protocolo HTTP/WebSocket inseguro puede exponer potencialmente la Clave Secreta y las Cookies del sitio web relacionado en la red pública."
@@ -278,8 +281,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "Parece que Aria2 Manager no está instalado, ¿acceder al canal \"Recomendaciones de Alex\" para obtener más información?"
    },
-   "ClearSettingsDes": {
-      "message": "¿Confirmar para borrar toda la configuración?"
+   "ResetSettingsDes": {
+      "message": "¿Confirmar el restablecimiento de la configuración de la extensión a los valores predeterminados?"
    },
    "ColorMode": {
       "message": "Modo de color"
@@ -318,7 +321,7 @@
       "message": "Marcar"
    },
    "MarkAsSecureTip": {
-      "message": "Marcar como RPC seguro"
+      "message": "Marcar como protocolo RPC seguro, siempre incluir Cookies."
    },
    "MarkAsInsecureTip": {
       "message": "Marcar como protocolo RPC inseguro"
@@ -346,5 +349,80 @@
    },
    "configImportExportDes": {
       "message": "Respaldar y restaurar configuraciones de extensión"
+   },
+   "tourSkip": {
+      "message": "Omitir"
+   },
+   "tourNext": {
+      "message": "Siguiente →"
+   },
+   "tourDone": {
+      "message": "¡Empezar!"
+   },
+   "tourStep1Title": {
+      "message": "Conectar a Aria2"
+   },
+   "tourStep1Body": {
+      "message": "Ingrese su dirección RPC de Aria2. La extensión envía y exporta las tareas de descarga interceptadas a través de esta conexión."
+   },
+   "tourStep2Title": {
+      "message": "Directorio de descarga"
+   },
+   "tourStep2Body": {
+      "message": "Establezca dónde se guardan los archivos interceptados. Si se deja vacío, la extensión resuelve la ruta en orden: <b>Ajustes de la interfaz</b> (<code>dir</code>) → <b>Configuración de Aria2</b> (<code>dir</code>) → <b>Carpeta del ejecutable de Aria2</b>."
+   },
+   "tourStep3Title": {
+      "message": "Enrutamiento inteligente"
+   },
+   "tourStep3Body": {
+      "message": "Añada más servidores RPC y configure un <b>Patrón de URL</b> para cada uno (ej. <code>*youtube*</code>, <code>*.iso*</code>). Cuando una URL de descarga coincide con el patrón, la extensión la enruta automáticamente a ese servidor y la guarda en su directorio — clasificación automática de archivos sin esfuerzo."
+   },
+   "mainUI": {
+      "message": "la interfaz principal"
+   },
+   "rpcServerListStr": {
+      "message": "Lista de motores de descarga"
+   },
+   "addEngineConfigStr": {
+      "message": "Conf. de motor"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "Patrón de URL sep. por comas"
+   },
+   "helpTitle": {
+      "message": "Ayuda"
+   },
+   "shortcutsTitle": {
+      "message": "Atajos de teclado"
+   },
+   "closeDialog": {
+      "message": "Cerrar"
+   },
+   "shortcutGroupExtension": {
+      "message": "Extensión"
+   },
+   "shortcutGroupPage": {
+      "message": "Esta página"
+   },
+   "shortcutUploadConfig": {
+      "message": "Subir configuración a la nube"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Descargar configuración de la nube"
+   },
+   "moreWorks": {
+      "message": "Más proyectos"
+   },
+   "downCenterDesc": {
+      "message": "Historial y gestión de descargas mejorados"
+   },
+   "goldIndexDesc": {
+      "message": "Seguimiento de metales preciosos y precio del oro"
+   },
+   "helpIntroDes": {
+      "message": "La extensión consta de dos partes: captura de descargas y administración de tareas. Esta página gestiona la configuración de la captura de descargas. Haga clic en el icono de la barra de herramientas para abrir la interfaz principal, donde puede administrar tareas y configurar los motores de descarga."
+   },
+   "shortcutNotSet": {
+      "message": "No configurado"
    }
 }

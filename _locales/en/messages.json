@@ -186,7 +186,7 @@
       "message": "Capture-off state icon"
    },
    "WebUIOpenStyleStr": {
-      "message": "AriaNG Open in"
+      "message": "Web UI Display Mode"
    },
    "WebUIOpenStyle1": {
       "message": "Popup"
@@ -200,8 +200,11 @@
    "WebUIOpenStyle4": {
       "message": "Side Panel"
    },
+   "windowBlurCloseDes": {
+      "message": "Close window automatically when focus is lost"
+   },
    "openWebUIStr": {
-      "message": "Open AriaNG"
+      "message": "Open Web UI"
    },
    "startAria2Str": {
       "message": "Start Aria2"
@@ -213,7 +216,7 @@
       "message": "Cloud Sync"
    },
    "configCloudSyncDes": {
-      "message": "Sync AriaNg and extension configs to current logged-in Browser account"
+      "message": "Sync Web UI and extension configs to current logged-in Browser account"
    },
    "uploadConfigWarn": {
       "message": "Invalid or empty local config data, still continue?"
@@ -264,7 +267,7 @@
       "message": "Acknowledgment"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "RPC settings have changed. Synchronize these changes to AriaNG and overwrite?"
+      "message": "RPC settings have changed. Synchronize these changes to Web UI and overwrite?"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "Creating download task over insecure HTTP/WebSocket protocol can potentially expose Secret Key and related website Cookies on the public network."
@@ -278,8 +281,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "It seems Aria2 Manager is not installed, access \"Alex Recommends\" channel for more information?"
    },
-   "ClearSettingsDes": {
-      "message": "Confirm to clear all settings?"
+   "ResetSettingsDes": {
+      "message": "Confirm to reset the extension configuration to default values?"
    },
    "ColorMode": {
       "message": "Color Mode"
@@ -318,7 +321,7 @@
       "message": "Mark"
    },
    "MarkAsSecureTip": {
-      "message": "Mark as secure RPC"
+      "message": "Mark as secure RPC protocol, always include Cookies."
    },
    "MarkAsInsecureTip": {
       "message": "Mark as insecure RPC protocol"
@@ -346,5 +349,80 @@
    },
    "configImportExportDes": {
       "message": "Backup and restore extension settings"
+   },
+   "tourSkip": {
+      "message": "Skip"
+   },
+   "tourNext": {
+      "message": "Next →"
+   },
+   "tourDone": {
+      "message": "Get Started!"
+   },
+   "tourStep1Title": {
+      "message": "Connect to Aria2"
+   },
+   "tourStep1Body": {
+      "message": "Enter your Aria2 RPC address. The extension sends and exports intercepted download tasks through this connection."
+   },
+   "tourStep2Title": {
+      "message": "Download Directory"
+   },
+   "tourStep2Body": {
+      "message": "Set where intercepted files are saved. If left empty, the extension resolves the path in order: <b>Web UI settings</b> (<code>dir</code>) → <b>Aria2 config</b> (<code>dir</code>) → <b>Aria2 executable folder</b>."
+   },
+   "tourStep3Title": {
+      "message": "Smart Download Routing"
+   },
+   "tourStep3Body": {
+      "message": "Add more RPC servers and set a <b>URL Pattern</b> for each (e.g. <code>*youtube*</code>, <code>*.iso*</code>). When a download URL matches the pattern, the extension automatically routes it to that server and saves to its directory — effortless file auto-sorting by source or type."
+   },
+   "mainUI": {
+      "message": "Web UI"
+   },
+   "rpcServerListStr": {
+      "message": "Download Engine List"
+   },
+   "addEngineConfigStr": {
+      "message": "Engine Config"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "URL pattern(s) separated by ,"
+   },
+   "helpTitle": {
+      "message": "Help"
+   },
+   "shortcutsTitle": {
+      "message": "Keyboard shortcuts"
+   },
+   "closeDialog": {
+      "message": "Close"
+   },
+   "shortcutGroupExtension": {
+      "message": "Extension"
+   },
+   "shortcutGroupPage": {
+      "message": "This page"
+   },
+   "shortcutUploadConfig": {
+      "message": "Upload config to cloud"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Download config from cloud"
+   },
+   "moreWorks": {
+      "message": "More works"
+   },
+   "downCenterDesc": {
+      "message": "Enhanced downloads history & management"
+   },
+   "goldIndexDesc": {
+      "message": "Precious metals & gold price tracker"
+   },
+   "helpIntroDes": {
+      "message": "This extension consists of two parts: Download Interception and Task Management. This page handles settings related to download interception. Click the toolbar icon to open the main Web UI, where you can manage tasks and configure download engines."
+   },
+   "shortcutNotSet": {
+      "message": "Not set"
    }
 }

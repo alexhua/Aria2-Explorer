@@ -186,7 +186,7 @@
       "message": "차단 해제 상태 아이콘"
    },
    "WebUIOpenStyleStr": {
-      "message": "AriaNG 켜기"
+      "message": "메인 UI 표시 방식"
    },
    "WebUIOpenStyle1": {
       "message": "팝업창"
@@ -200,8 +200,11 @@
    "WebUIOpenStyle4": {
       "message": "측면 패널"
    },
+   "windowBlurCloseDes": {
+      "message": "포커스를 잃으면 자동으로 창 닫기"
+   },
    "openWebUIStr": {
-      "message": "AriaNG 열기"
+      "message": "메인 UI 열기"
    },
    "startAria2Str": {
       "message": "Aria2 시작"
@@ -213,7 +216,7 @@
       "message": "클라우드 동기화 설정"
    },
    "configCloudSyncDes": {
-      "message": "AriaNG 동기화 및 현재 브라우저가 로그인한 계정으로 확장 구성"
+      "message": "메인 UI 동기화 및 현재 브라우저가 로그인한 계정으로 확장 구성"
    },
    "uploadConfigWarn": {
       "message": "로컬 구성이 비어 있거나 유효하지 않은데도 계속하시겠습니까?"
@@ -264,7 +267,7 @@
       "message": "감사합니다"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "RPC 설정이 변경되었습니다. AriaNG로 동기화됩니까?"
+      "message": "RPC 설정이 변경되었습니다. 메인 UI로 동기화됩니까?"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "비안전한 HTTP/WebSocket 프로토콜을 통한 다운로드는 보안 키 및 관련 웹 사이트 쿠키가 공공 네트워크에서 잠재적으로 노출될 수 있으므로 피해야 합니다."
@@ -278,8 +281,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "Aria2 Manager가 설치되어 있지 않은 것 같습니다.\"Alex 추천\"채널을 방문하여 자세한 내용을 확인하시겠습니까?"
    },
-   "ClearSettingsDes": {
-      "message": "모든 설정을 지우십니까?"
+   "ResetSettingsDes": {
+      "message": "확장 프로그램의 구성을 기본값으로 재설정하시겠습니까?"
    },
    "ColorMode": {
       "message": "컬러 모드"
@@ -318,7 +321,7 @@
       "message": "표시하다"
    },
    "MarkAsSecureTip": {
-      "message": "안전한 RPC 프로토콜로 표시하다"
+      "message": "안전한 RPC 프로토콜로 표시, 항상 쿠키 포함."
    },
    "MarkAsInsecureTip": {
       "message": "안전하지 않은 RPC 프로토콜로 표시하다"
@@ -346,5 +349,80 @@
    },
    "configImportExportDes": {
       "message": "확장 프로그램 설정 백업 및 복원"
+   },
+   "tourSkip": {
+      "message": "건너뛰기"
+   },
+   "tourNext": {
+      "message": "다음 →"
+   },
+   "tourDone": {
+      "message": "시작하기!"
+   },
+   "tourStep1Title": {
+      "message": "Aria2 연결"
+   },
+   "tourStep1Body": {
+      "message": "Aria2 RPC 주소를 입력하세요. 확장 프로그램은 이 연결을 통해 가로챈 다운로드 작업을 전송하거나 내보냅니다."
+   },
+   "tourStep2Title": {
+      "message": "다운로드 위치"
+   },
+   "tourStep2Body": {
+      "message": "가로챈 파일이 저장될 위치를 설정합니다. 비워 두면 확장 프로그램은 <b>메인 UI 설정</b>（<code>dir</code>）→ <b>Aria2 설정</b>（<code>dir</code>）→ <b>Aria2 실행 파일 폴더</b> 순으로 경로를 확인합니다."
+   },
+   "tourStep3Title": {
+      "message": "스마트 다운로드 라우팅"
+   },
+   "tourStep3Body": {
+      "message": "RPC 서버를 더 추가하고 각각에 대해 <b>URL Pattern</b>（예: <code>*youtube*</code>, <code>*.iso*</code>)을 설정할 수 있습니다. 다운로드 URL이 패턴과 일치하면 확장 프로그램이 자동으로 해당 서버로 라우팅하고 저장합니다. 출처나 파일 유형별로 파일을 쉽게 자동 분류할 수 있습니다."
+   },
+   "mainUI": {
+      "message": "메인 UI"
+   },
+   "rpcServerListStr": {
+      "message": "다운로드 엔진 목록"
+   },
+   "addEngineConfigStr": {
+      "message": "엔진 설정"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "URL 패턴 (쉼표로 구분)"
+   },
+   "helpTitle": {
+      "message": "도움말"
+   },
+   "shortcutsTitle": {
+      "message": "키보드 단축키"
+   },
+   "closeDialog": {
+      "message": "닫기"
+   },
+   "shortcutGroupExtension": {
+      "message": "확장 프로그램"
+   },
+   "shortcutGroupPage": {
+      "message": "이 페이지"
+   },
+   "shortcutUploadConfig": {
+      "message": "설정을 클라우드에 업로드"
+   },
+   "shortcutDownloadConfig": {
+      "message": "클라우드에서 설정 다운로드"
+   },
+   "moreWorks": {
+      "message": "다른 작품"
+   },
+   "downCenterDesc": {
+      "message": "향상된 다운로드 기록 및 관리"
+   },
+   "goldIndexDesc": {
+      "message": "귀금속 시세 및 금 가격 추적"
+   },
+   "helpIntroDes": {
+      "message": "이 확장 프로그램은 다운로드 캡처와 작업 관리의 두 부분으로 구성됩니다. 이 페이지에서는 다운로드 캡처 관련 설정을 구성합니다. 툴바 아이콘을 클릭하여 메인 UI를 열면 작업 관리 및 다운로드 엔진 설정을 진행할 수 있습니다."
+   },
+   "shortcutNotSet": {
+      "message": "설정되지 않음"
    }
 }

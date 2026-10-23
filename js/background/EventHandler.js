@@ -1,0 +1,201 @@
+/**
+ * EventHandler - Event handler, manages all Chrome event listeners
+ */
+import { NID_TASK_NEW, NID_TASK_STOPPED, NID_CAPTURED_OTHERS } from "./NotificationManager.js";
+import { ConfigService } from "../services/ConfigService.js";
+
+export class EventHandler {
+    constructor(managers) {
+        this.managers = managers;
+        this.configService = ConfigService.getInstance();
+    }
+
+    /**
+     * Register all event listeners
+     */
+    registerAll() {
+        this.#registerActionListeners();
+        this.#registerTabListeners();
+        this.#registerWindowListeners();
+        this.#registerNotificationListeners();
+        this.#registerCommandListeners();
+        this.#registerRuntimeListeners();
+        // Note: Storage listeners removed - ConfigService handles config changes
+    }
+
+    /**
+     * Register action listeners
+     */
+    #registerActionListeners() {
+        chrome.action.onClicked.addListener((tab) => {
+            this.managers.uiManager.launchUI(tab);
+        });
+    }
+
+    /**
+     * Register tab listeners
+     */
+    #registerTabListeners() {
+        chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+            if (changeInfo.status === "loading" && tab?.active) {
+                const url = tab?.url || "about:blank";
+                this.managers.uiManager.setCurrentTabId(tabId);
+                this.managers.captureManager.setCurrentTabUrl(url);
+                this.managers.menuManager.setCurrentTabUrl(url);
+                this.managers.menuManager.updateOptionMenu(tab);
+            }
+        });
+
+        chrome.tabs.onActivated.addListener((activeInfo) => {
+            chrome.tabs.get(activeInfo.tabId).then((tab) => {
+                const url = tab?.url || "about:blank";
+                tab && this.managers.uiManager.setCurrentTabId(tab.id);
+                this.managers.captureManager.setCurrentTabUrl(url);
+                this.managers.menuManager.setCurrentTabUrl(url);
+                this.managers.menuManager.updateOptionMenu(tab);
+            });
+        });
+    }
+
+    /**
+     * Register window listeners
+     */
+    #registerWindowListeners() {
+        chrome.windows.onFocusChanged.addListener((windowId) => {
+            this.managers.uiManager.handleWindowFocusChange(windowId);
+            chrome.tabs.query({ windowId: windowId, active: true }).then((tabs) => {
+                if (tabs?.length > 0) {
+                    const url = tabs[0].url || "about:blank";
+                    this.managers.uiManager.setCurrentTabId(tabs[0].id);
+                    this.managers.captureManager.setCurrentTabUrl(url);
+                    this.managers.menuManager.setCurrentTabUrl(url);
+                    this.managers.menuManager.updateOptionMenu(tabs[0]);
+                }
+            });
+        });
+    }
+
+    /**
+     * Register notification listeners
+     */
+    #registerNotificationListeners() {
+        chrome.notifications.onClicked.addListener((id) => {
+            if (id.startsWith(NID_TASK_NEW) || id.startsWith(NID_TASK_STOPPED)) {
+                this.managers.uiManager.launchUI(id);
+            }
+            chrome.notifications.clear(id);
+        });
+
+        chrome.notifications.onButtonClicked.addListener(async (nid, buttonIndex) => {
+            if (nid === NID_CAPTURED_OTHERS) {
+                if (buttonIndex === 1) {
+                    await this.configService.set({ remindCaptureTip: false });
+                }
+            }
+            chrome.notifications.clear(nid);
+        });
+    }
+
+    /**
+     * Register command listeners
+     */
+    #registerCommandListeners() {
+        chrome.commands.onCommand.addListener(async (command) => {
+            if (command === "toggle-capture") {
+                const current = this.configService.get('integration');
+                await this.configService.set({ integration: !current });
+            } else if (command === "launch-aria2") {
+                const url = chrome.runtime.getURL('aria2.html');
+                chrome.tabs.create({ url });
+            }
+        });
+    }
+
+    /**
+     * Register runtime listeners
+     */
+    #registerRuntimeListeners() {
+        // External message listener
+        chrome.runtime.onMessageExternal.addListener((downloadItem) => {
+            const config = this.configService.get();
+            if (config.allowExternalRequest) {
+                this.managers.downloadManager.download(downloadItem);
+            }
+        });
+
+        // Internal message listener
+        chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+            return this.#handleMessage(message, sender, sendResponse);
+        });
+
+        // Context menu click listener
+        this.managers.contextMenus.onClicked.addListener((info, tab) => {
+            this.managers.menuManager.handleMenuClick(info, tab);
+        });
+    }
+
+    /**
+     * Handle message
+     */
+    #handleMessage(message, sender, sendResponse) {
+        if (!message || typeof message !== "object") {
+            return false;
+        }
+
+        switch (message.type) {
+            case "DOWNLOAD":
+            case "EXPORT_ALL":
+                this.managers.downloadManager.download(message.data)
+                    .then(success => sendResponse({ success }))
+                    .catch(error => sendResponse({ success: false, error: error.message }));
+                return true;
+
+            case "DOWNLOAD_VIA_BROWSER":
+                const downloadItem = message.data || {};
+                downloadItem.type = "DOWNLOAD_VIA_BROWSER";
+                this.managers.downloadManager.download(downloadItem)
+                    .then(success => sendResponse({ success }))
+                    .catch(error => sendResponse({ success: false, error: error.message }));
+                return true;
+
+            case "QUERY_WINDOW_STATE":
+                chrome.windows.get(message.data).then((window) => {
+                    sendResponse({ data: window });
+                }).catch(error => {
+                    sendResponse({ error: error.message });
+                });
+                return true;
+
+            case "CLICK_EVENT":
+                this.managers.captureManager.setAltKeyPressed(message.data?.altKeyPressed);
+                return false;
+
+            default:
+                return false;
+        }
+    }
+
+
+
+    /**
+     * Initialize click checker (supports Alt+Click state reporting and magnet link interception)
+     */
+    async initClickChecker() {
+        const config = this.configService.get();
+        const CS_ID = 'ALT_CLICK_CHECKER';
+        const scripts = await chrome.scripting.getRegisteredContentScripts({ ids: [CS_ID] });
+        const shouldRegister = Boolean(config.captureMagnet || (config.integration && config.checkClick));
+
+        if (shouldRegister && scripts.length === 0) {
+            await chrome.scripting.registerContentScripts([{
+                id: CS_ID,
+                matches: ['<all_urls>'],
+                js: ['js/content/clickChecker.js'],
+                runAt: 'document_end',
+                allFrames: true
+            }]);
+        } else if (!shouldRegister && scripts.length !== 0) {
+            await chrome.scripting.unregisterContentScripts({ ids: [CS_ID] });
+        }
+    }
+}

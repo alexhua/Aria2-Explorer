@@ -9,7 +9,7 @@
       "message": "导出到 "
    },
    "configPageTitle": {
-      "message": "扩展配置页面"
+      "message": "扩展选项配置页面"
    },
    "contextmenuStr": {
       "message": "右键菜单"
@@ -186,7 +186,7 @@
       "message": "拦截关闭状态图标"
    },
    "WebUIOpenStyleStr": {
-      "message": "AriaNG打开方式"
+      "message": "主界面呈现方式"
    },
    "WebUIOpenStyle1": {
       "message": "弹窗"
@@ -200,8 +200,11 @@
    "WebUIOpenStyle4": {
       "message": "侧边栏"
    },
+   "windowBlurCloseDes": {
+      "message": "失去焦点时自动关闭窗口"
+   },
    "openWebUIStr": {
-      "message": "打开AriaNG"
+      "message": "打开主界面"
    },
    "startAria2Str": {
       "message": "启动Aria2"
@@ -213,7 +216,7 @@
       "message": "配置云端同步"
    },
    "configCloudSyncDes": {
-      "message": "同步AriaNG和扩展配置到当前浏览器登陆的账号"
+      "message": "同步主界面和扩展配置到当前浏览器登陆的账号"
    },
    "uploadConfigWarn": {
       "message": "本地配置为空或无效，仍然继续？"
@@ -264,7 +267,7 @@
       "message": "致谢"
    },
    "OverwriteAriaNgRpcWarn": {
-      "message": "RPC设置已更改，同步到AriaNG并覆盖？"
+      "message": "RPC设置已更改，同步到主界面并覆盖？"
    },
    "RpcUrlTooltipWarnDes": {
       "message": "通过不安全的 HTTP/WebSocket 协议创建下载任务可能会导致 Secret Key 和相关网站的 Cookies 信息暴露于公共网络。"
@@ -278,8 +281,8 @@
    "Aria2ManagerPromotionDes": {
       "message": "好像没有安装Aria2 Manager，访问“Alex推荐”频道了解更多信息？"
    },
-   "ClearSettingsDes": {
-      "message": "确认清除所有设置？"
+   "ResetSettingsDes": {
+      "message": "确定重置扩展的配置为默认值？"
    },
    "ColorMode": {
       "message": "颜色模式"
@@ -318,7 +321,7 @@
       "message": "标记"
    },
    "MarkAsSecureTip": {
-      "message": "标记为安全的RPC协议"
+      "message": "标记为安全的RPC协议，总是附带Cookies信息。"
    },
    "MarkAsInsecureTip": {
       "message": "标记为不安全的RPC协议"
@@ -346,5 +349,80 @@
    },
    "configImportExportDes": {
       "message": "备份和恢复扩展设置"
+   },
+   "tourSkip": {
+      "message": "跳过"
+   },
+   "tourNext": {
+      "message": "下一步 →"
+   },
+   "tourDone": {
+      "message": "开始使用！"
+   },
+   "tourStep1Title": {
+      "message": "连接 Aria2"
+   },
+   "tourStep1Body": {
+      "message": "填写 Aria2 的 RPC 地址，扩展通过它发送或导出拦截到的下载任务。"
+   },
+   "tourStep2Title": {
+      "message": "下载目录"
+   },
+   "tourStep2Body": {
+      "message": "设置拦截下载的默认保存位置。留空时，扩展将按顺序读取：<b>主界面：下载设置</b>（<code>dir</code>）→ <b>Aria2 配置文件</b>（<code>dir</code>）→ <b>Aria2 所在目录</b>。"
+   },
+   "tourStep3Title": {
+      "message": "智能下载路由"
+   },
+   "tourStep3Body": {
+      "message": "点击 <b>＋引擎配置</b> 添加更多服务器，并为每个设置 <b>URL Pattern</b>（如 <code>*youtube*</code>, <code>*.iso*</code>）。当下载链接匹配到对应 Pattern 时，扩展会自动选择该服务器并保存到对应目录——轻松实现按来源或文件类型自动分类保存。"
+   },
+   "mainUI": {
+      "message": "主界面"
+   },
+   "rpcServerListStr": {
+      "message": "下载引擎列表"
+   },
+   "addEngineConfigStr": {
+      "message": "引擎配置"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "URL Pattern，逗号分隔"
+   },
+   "helpTitle": {
+      "message": "帮助"
+   },
+   "shortcutsTitle": {
+      "message": "快捷键"
+   },
+   "closeDialog": {
+      "message": "关闭"
+   },
+   "shortcutGroupExtension": {
+      "message": "扩展"
+   },
+   "shortcutGroupPage": {
+      "message": "本页面"
+   },
+   "shortcutUploadConfig": {
+      "message": "上传配置到云端"
+   },
+   "shortcutDownloadConfig": {
+      "message": "从云端下载配置"
+   },
+   "moreWorks": {
+      "message": "更多作品"
+   },
+   "downCenterDesc": {
+      "message": "增强的下载记录与管理"
+   },
+   "goldIndexDesc": {
+      "message": "贵金属行情与实时金价监控"
+   },
+   "helpIntroDes": {
+      "message": "扩展包含两部分功能：下载拦截和任务管理。本页面负责下载拦截相关的配置。通过工具栏图标打开主界面，可以对任务管理界面和下载引擎进行相关配置。"
+   },
+   "shortcutNotSet": {
+      "message": "未设置"
    }
 }

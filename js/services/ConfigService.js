@@ -1,0 +1,444 @@
+/**
+ * ConfigService - Unified configuration management service
+ * Singleton pattern with event-driven architecture
+ * 
+ * Features:
+ * - Single source of truth for all configuration
+ * - Automatic synchronization across contexts
+ * - Event-driven updates
+ * - Configuration validation
+ * - Type safety
+ */
+
+import Logger from "../logger.js";
+import DefaultConfigs from "../config.js";
+
+export class ConfigService {
+    static #instance = null;
+
+    constructor() {
+        // Enforce singleton
+        if (ConfigService.#instance) {
+            return ConfigService.#instance;
+        }
+
+        this.config = { ...DefaultConfigs };
+        this.listeners = new Map(); // key -> Set<listener>
+        this.globalListeners = new Set();
+        this.initialized = false;
+
+        // Setup storage listener
+        this.#setupStorageListener();
+
+        // Self-hydrate from storage in the background without blocking callers
+        this.readyPromise = this.#hydrate();
+
+        ConfigService.#instance = this;
+    }
+
+    /**
+     * Get singleton instance
+     */
+    static getInstance() {
+        if (!ConfigService.#instance) {
+            ConfigService.#instance = new ConfigService();
+        }
+        return ConfigService.#instance;
+    }
+
+    /**
+     * Internal hydration from storage
+     */
+    async #hydrate() {
+        if (this.initialized) {
+            return this.config;
+        }
+
+        try {
+            const data = await chrome.storage.local.get();
+            const updates = {};
+            const oldValues = {};
+
+            for (const [key, value] of Object.entries(data)) {
+                if (JSON.stringify(value) !== JSON.stringify(DefaultConfigs[key])) {
+                    updates[key] = value;
+                    oldValues[key] = DefaultConfigs[key];
+                }
+            }
+
+            this.config = { ...DefaultConfigs, ...data };
+            this.initialized = true;
+            Logger.log('[ConfigService] Hydrated config from storage:', this.config);
+
+            // Notify listeners if storage holds values different from defaults
+            if (Object.keys(updates).length > 0) {
+                this.#notifyListeners(updates, oldValues);
+            }
+
+            return this.config;
+        } catch (error) {
+            Logger.error('[ConfigService] Hydration error:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Wait for configuration to be fully initialized from storage
+     * Backward-compatible with existing callers like options.js
+     */
+    async init() {
+        return this.readyPromise;
+    }
+
+    /**
+     * Check if configuration has been hydrated from storage
+     * @returns {boolean}
+     */
+    isReady() {
+        return this.initialized;
+    }
+
+    /**
+     * Get configuration value(s)
+     * @param {string} [key] - Optional key to get specific value
+     * @returns {any} Configuration value or entire config object
+     */
+    get(key) {
+        if (key !== undefined) {
+            return this.config[key];
+        }
+        // Return a shallow copy to prevent replacing the entire config object
+        // but allow modification of nested objects/arrays for performance
+        return { ...this.config };
+    }
+
+    /**
+     * Set configuration value(s)
+     * This is the ONLY method that should modify configuration
+     * @param {Object} updates - Configuration updates
+     * @param {Object} options - Optional settings
+     * @returns {Promise<boolean>} Success status
+     */
+    async set(updates, options = {}) {
+        if (!updates || typeof updates !== 'object') {
+            Logger.error('[ConfigService] Invalid updates:', updates);
+            return false;
+        }
+
+        try {
+            // Validate updates
+            const validated = this.#validate(updates);
+
+            if (Object.keys(validated).length === 0) {
+                Logger.warn('[ConfigService] No valid updates to apply');
+                return false;
+            }
+
+            // Update memory immediately for synchronous access
+            Object.assign(this.config, validated);
+
+            // Save to storage (this will trigger storage.onChanged listener which handles notifications)
+            await chrome.storage.local.set(validated);
+
+            Logger.log('[ConfigService] Config updated:', validated);
+            return true;
+        } catch (error) {
+            Logger.error('[ConfigService] Set error:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Subscribe to configuration changes
+     * @param {Function|string} keyOrListener - Key to watch or listener function
+     * @param {Function} [listener] - Listener function if first param is key
+     * @returns {Function} Unsubscribe function
+     */
+    subscribe(keyOrListener, listener) {
+        // subscribe(listener) - global listener
+        if (typeof keyOrListener === 'function') {
+            this.globalListeners.add(keyOrListener);
+            return () => {
+                this.globalListeners.delete(keyOrListener);
+            };
+        }
+
+        // subscribe(key, listener) - key-specific listener
+        if (typeof keyOrListener === 'string' && typeof listener === 'function') {
+            const key = keyOrListener;
+            if (!this.listeners.has(key)) {
+                this.listeners.set(key, new Set());
+            }
+            this.listeners.get(key).add(listener);
+
+            return () => {
+                const keyListeners = this.listeners.get(key);
+                if (keyListeners) {
+                    keyListeners.delete(listener);
+                    if (keyListeners.size === 0) {
+                        this.listeners.delete(key);
+                    }
+                }
+            };
+        }
+
+        Logger.error('[ConfigService] Invalid subscribe arguments');
+        return () => { };
+    }
+
+    /**
+     * Reset configuration to defaults
+     */
+    async reset() {
+        try {
+            // Update memory immediately
+            this.config = { ...DefaultConfigs };
+
+            // Clear all and set defaults
+            await chrome.storage.local.clear();
+            await chrome.storage.local.set(DefaultConfigs);
+
+            Logger.log('[ConfigService] Config reset to defaults');
+            return true;
+        } catch (error) {
+            Logger.error('[ConfigService] Reset error:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Export configuration as JSON string
+     */
+    export() {
+        const exportData = {};
+
+        // Copy all non-function properties
+        for (const key in this.config) {
+            if (typeof this.config[key] !== 'function') {
+                exportData[key] = this.config[key];
+            }
+        }
+
+        return JSON.stringify(exportData, null, 2);
+    }
+
+    /**
+     * Import configuration from JSON string or object
+     */
+    async import(data) {
+        try {
+            const parsed = typeof data === 'string' ? JSON.parse(data) : data;
+
+            if (!parsed || typeof parsed !== 'object') {
+                throw new Error('Invalid import data');
+            }
+
+            // Handle AriaNG options (similar to downloadConfig)
+            // Note: localStorage is only available in HTML pages (options.html), not in service worker
+            if ('ariaNgOptions' in parsed && typeof localStorage !== 'undefined') {
+                try {
+                    const ariaNgOptionsValue = typeof parsed.ariaNgOptions === 'string'
+                        ? parsed.ariaNgOptions
+                        : JSON.stringify(parsed.ariaNgOptions);
+                    localStorage.setItem('AriaNg.Options', ariaNgOptionsValue);
+                    Logger.log('[ConfigService] AriaNG options imported to localStorage');
+                } catch (error) {
+                    Logger.warn('[ConfigService] Failed to import AriaNG options:', error);
+                }
+            } else if ('ariaNgOptions' in parsed) {
+                Logger.warn('[ConfigService] localStorage not available (service worker context), skipping AriaNG options');
+            }
+
+            delete parsed.ariaNgOptions;
+
+            await this.set(parsed);
+            Logger.log('[ConfigService] Config imported successfully');
+            return true;
+        } catch (error) {
+            Logger.error('[ConfigService] Import error:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Setup storage change listener
+     * Handles changes from other contexts (e.g., options page -> background)
+     */
+    #setupStorageListener() {
+        chrome.storage.onChanged.addListener((changes, area) => {
+            if (area !== 'local') return;
+
+            const updates = {};
+            const oldValues = {};
+
+            for (const [key, { newValue, oldValue }] of Object.entries(changes)) {
+                // Skip removed keys (newValue is undefined)
+                if (newValue === undefined) {
+                    delete this.config[key];
+                    continue;
+                }
+
+                // Update memory (for external changes, this is the only update)
+                // For local changes, this is redundant but harmless
+                this.config[key] = newValue;
+                updates[key] = newValue;
+                oldValues[key] = oldValue;
+            }
+
+            if (Object.keys(updates).length === 0) {
+                return;
+            }
+
+            // Notify all listeners for storage updates (external changes and local persistence)
+            this.#notifyListeners(updates, oldValues);
+
+            Logger.log('[ConfigService] Storage changed, notifying listeners:', updates);
+        });
+    }
+
+    /**
+     * Notify all relevant listeners
+     */
+    #notifyListeners(changes, oldValues = {}) {
+        // Notify global listeners
+        for (const listener of this.globalListeners) {
+            try {
+                listener(changes, this.config, oldValues);
+            } catch (error) {
+                Logger.error('[ConfigService] Global listener error:', error);
+            }
+        }
+
+        // Notify key-specific listeners
+        for (const [key, value] of Object.entries(changes)) {
+            const keyListeners = this.listeners.get(key);
+            if (keyListeners) {
+                for (const listener of keyListeners) {
+                    try {
+                        listener(value, key, this.config, oldValues[key]);
+                    } catch (error) {
+                        Logger.error(`[ConfigService] Listener error for key "${key}":`, error);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Validate configuration updates
+     */
+    #validate(updates) {
+        const validated = {};
+
+        for (const [key, value] of Object.entries(updates)) {
+            // Skip if not in default config (unknown key)
+            if (!(key in DefaultConfigs)) {
+                Logger.warn(`[ConfigService] Unknown config key: ${key}`);
+                continue;
+            }
+
+            // Type validation
+            if (!this.#isValidType(key, value)) {
+                Logger.warn(`[ConfigService] Invalid type for ${key}:`, value);
+                continue;
+            }
+
+            // Custom validation
+            if (!this.#isValidValue(key, value)) {
+                Logger.warn(`[ConfigService] Invalid value for ${key}:`, value);
+                continue;
+            }
+
+            validated[key] = value;
+        }
+
+        return validated;
+    }
+
+    /**
+     * Check if value type matches expected type
+     */
+    #isValidType(key, value) {
+        // Allow null to pass for any key (null is a valid "clear" value)
+        if (value === null) return true;
+
+        const expected = DefaultConfigs[key];
+        const expectedType = Array.isArray(expected) ? 'array' : typeof expected;
+        const actualType = Array.isArray(value) ? 'array' : typeof value;
+
+        // Allow string for number type (will be converted later)
+        if (expectedType === 'number' && actualType === 'string') {
+            return true;
+        }
+
+        return expectedType === actualType;
+    }
+
+    /**
+     * Custom validation rules for specific keys
+     */
+    #isValidValue(key, value) {
+        const schema = ConfigService.getSchema();
+        const rule = schema[key];
+
+        if (!rule) return true;
+
+        // Validate Number (min/max) with type coercion
+        if (rule.type === 'number') {
+            const numValue = Number(value);
+            // Check if conversion is valid (not NaN)
+            if (isNaN(numValue)) return false;
+            if (rule.min !== undefined && numValue < rule.min) return false;
+            if (rule.max !== undefined && numValue > rule.max) return false;
+        }
+
+        // Validate Enum
+        if (rule.enum && !rule.enum.includes(value)) {
+            return false;
+        }
+
+        // Special validation for rpcList structure
+        if (key === 'rpcList') {
+            return Array.isArray(value) && value.every(rpc =>
+                rpc && typeof rpc === 'object' && rpc.url && rpc.name
+            );
+        }
+
+        return true;
+    }
+
+    /**
+     * Get configuration schema (for documentation/validation)
+     */
+    static getSchema() {
+        return {
+            integration: { type: 'boolean', description: 'Enable download capture' },
+            monitorAria2: { type: 'boolean', description: 'Enable Aria2 monitoring' },
+            contextMenus: { type: 'boolean', description: 'Show context menus' },
+            askBeforeExport: { type: 'boolean', description: 'Ask before exporting' },
+            exportAll: { type: 'boolean', description: 'Enable export all links' },
+            checkClick: { type: 'boolean', description: 'Check Alt+Click' },
+            allowNotification: { type: 'boolean', description: 'Allow notifications' },
+            keepSilent: { type: 'boolean', description: 'Keep silent mode' },
+            keepAwake: { type: 'boolean', description: 'Keep system awake' },
+            monitorAll: { type: 'boolean', description: 'Monitor all RPC servers' },
+            captureMagnet: { type: 'boolean', description: 'Capture magnet links' },
+            allowExternalRequest: { type: 'boolean', description: 'Allow external requests' },
+            remindCaptureTip: { type: 'boolean', description: 'Show capture reminder' },
+            badgeText: { type: 'boolean', description: 'Show badge text' },
+            fileSize: { type: 'number', min: 0, max: 10000, description: 'Minimum file size (MB)' },
+            colorModeId: { type: 'number', min: 0, max: 2, description: 'Color mode (0=light, 1=dark, 2=system)' },
+            webUIOpenStyle: { type: 'string', enum: ['tab', 'window', 'popup', 'sidePanel'], description: 'WebUI open style' },
+            uiWindowBounds: { type: 'object', description: 'Persisted popup window geometry (left/top/width/height), null if unset' },
+            iconOffStyle: { type: 'string', enum: ['Grey', 'Dark', 'Dusk'], description: 'Icon off style' },
+            rpcList: { type: 'array', description: 'RPC server list' },
+            allowedSites: { type: 'array', description: 'Allowed sites whitelist' },
+            blockedSites: { type: 'array', description: 'Blocked sites blacklist' },
+            allowedExts: { type: 'array', description: 'Allowed file extensions' },
+            blockedExts: { type: 'array', description: 'Blocked file extensions' }
+        };
+    }
+}
+
+// Export singleton instance for convenience
+export const configService = ConfigService.getInstance();
