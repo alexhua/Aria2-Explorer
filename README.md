@@ -60,66 +60,16 @@ Aria2 Explorer is a feature-rich Chrome extension that seamlessly integrates Ari
 
 ## 🚀 Installation
 
-### From Chrome Web Store (Recommended)
+### From Web Store (Recommended)
 
 [![Chrome Web Store](https://aria2e.com/assets/badges/chrome-web-store.png)](https://chromewebstore.google.com/detail/mpkodccbngfoacfalldjimigbofkhgjn)
+<a href="https://microsoftedge.microsoft.com/addons/detail/ngojgbdekanmijaphecgpmfoegoanffi"><img src="https://aria2e.com/assets/badges/microsoft-en-light.svg" alt="Edge Add-ons Store" height="59"></a>
 
 ### From GitHub
 1. Visit the [Releases page](https://github.com/alexhua/Aria2-Explorer/releases) and download the latest `.crx` file
 2. Open Chrome and navigate to `chrome://extensions/`
 3. Enable "Developer mode" (toggle in the top right corner)
 4. Drag and drop the downloaded `.crx` file onto the extensions page to install
-
-## ⚙️ Configuration
-
-### Basic Setup
-1. Click the extension icon and select "Options"
-2. Configure your Aria2 RPC server:
-   - **Name**: A friendly name for your server
-   - **RPC URL**: Your Aria2 RPC endpoint (e.g., `http://localhost:6800/jsonrpc`)
-   - **Secret Key**: Your Aria2 RPC secret (if configured)
-   - **Download Location**: Default download directory
-
-### Download Capture
-- **Enable/Disable**: Toggle automatic download capture
-- **File Size**: Minimum file size to capture (MB)
-- **Check Alt-Click**: Detect Alt key to bypass capture
-- **Ask Before Download**: Show UI before sending to Aria2
-
-### Monitoring
-- **Enable Monitoring**: Toggle Aria2 status monitoring
-- **Monitor All**: Monitor all configured servers
-- **Keep Awake**: Prevent system sleep during downloads
-- **Badge Text**: Show active downloads in badge
-
-### Filtering
-- **Allowed Sites**: Whitelist domains (one per line)
-- **Blocked Sites**: Blacklist domains (one per line)
-- **Allowed Extensions**: Whitelist file types (e.g., `zip`, `mp4`)
-- **Blocked Extensions**: Blacklist file types
-
-## 🎯 Usage
-
-### Automatic Capture
-1. Enable "Download Capture" in options
-2. Click any download link
-3. Extension automatically sends to Aria2
-
-### Manual Export
-1. Right-click any link
-2. Select "Export to Aria2"
-3. Choose target server (if multiple configured)
-
-### Batch Export
-1. Right-click on page
-2. Select "Export All Links"
-3. Extension scans and exports all valid links
-
-### Monitor Status
-1. Enable "Monitor Aria2" in options
-2. Badge shows active download count
-3. Hover icon to see detailed status
-4. Click icon to open WebUI
 
 ## 🔑 Keyboard Shortcuts
 
@@ -147,73 +97,6 @@ const downloadItem = {
 chrome.runtime.sendMessage(`Aria2-Explorer extension ID`, downloadItem)
 
 ```
-
-## 🏗️ Architecture
-
-The extension follows a modular architecture for better maintainability:
-
-<details> <summary>Directory Content</summary>
-
-```
-├── background.js              # Service worker entry point
-├── manifest.json              # Extension manifest
-├── options.html               # Options page
-├── aria2.html                 # Aria2 WebUI page
-├── css/                       # Stylesheets
-│   ├── options.css            # Options page styles
-│   ├── options.dark.css       # Dark mode styles
-│   └── ...
-├── images/                    # Icon assets
-├── js/
-│   ├── background/            # Background modules
-│   │   ├── DownloadManager.js    # Download handling
-│   │   ├── CaptureManager.js     # Capture logic
-│   │   ├── MonitorManager.js     # Aria2 monitoring
-│   │   ├── NotificationManager.js # Notification management
-│   │   ├── MenuManager.js        # Context menus
-│   │   ├── UIManager.js          # UI management
-│   │   └── EventHandler.js       # Event handling
-│   ├── content/               # Content scripts
-│   │   ├── clickChecker.js       # Click detection
-│   │   └── exportAll.js          # Batch export
-│   ├── options/               # Options page modules
-│   │   ├── ConfigManager.js      # Config CRUD
-│   │   ├── UIController.js       # UI control
-│   │   ├── RpcManager.js         # RPC list management
-│   │   ├── options.js            # Options page main logic
-│   │   └── initTheme.js          # Theme initialization
-│   ├── IconUtils/             # Icon animation utilities
-│   │   ├── IconManager.js        # Icon manager
-│   │   ├── AnimationController.js # Animation controller
-│   │   ├── Animation.js          # Animation implementation
-│   │   ├── TransitionManager.js  # Transition management
-│   │   ├── Canvas.js             # Canvas rendering
-│   │   ├── Easing.js             # Easing functions
-│   │   └── Constants.js          # Constants definition
-│   ├── aria2.js               # Aria2 RPC client
-│   ├── aria2Options.js        # Aria2 options handler
-│   ├── config.js              # Configuration definitions
-│   ├── contextMenu.js         # Context menu configuration
-│   ├── startAria2.js          # Aria2 launcher
-│   └── utils.js               # Utility functions
-├── ui/ariang/                 # Integrated AriaNg WebUI
-└── _locales/                  # Internationalization files
-    ├── zh_CN/                 # Simplified Chinese
-    ├── en/                    # English
-    └── ...                    # Other languages
-```
-
-</details>
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## 📝 License
 
