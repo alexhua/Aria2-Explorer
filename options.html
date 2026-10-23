@@ -11,6 +11,7 @@
   <link href="css/options.css" rel="stylesheet" />
   <link href="css/options.dark.css" rel="stylesheet" />
   <link href="css/welcome-tour.css" rel="stylesheet" />
+  <link href="css/help-dialog.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -25,6 +26,11 @@
             <span id="version"></span>
           </span>
         </span>
+      </div>
+      <div class="header-actions">
+        <button type="button" id="helpBtn" class="help-btn" title="__MSG_helpTitle__" aria-label="__MSG_helpTitle__">
+          <i class="fa-regular fa-circle-question"></i>
+        </button>
       </div>
     </div>
   </header>
@@ -402,6 +408,87 @@
       </div>
     </footer>
   </form>
+
+  <!-- Help Dialog: intro banner on top, shortcuts cheatsheet and more works below -->
+  <dialog id="helpDialog" class="help-dialog" aria-labelledby="helpDialogTitle">
+    <div class="help-dialog-body">
+      <div class="help-dialog-header">
+        <h3 id="helpDialogTitle" class="help-dialog-title">
+          <i class="fa-regular fa-circle-question"></i>
+          <span>__MSG_helpTitle__</span>
+        </h3>
+        <button type="button" id="helpCloseBtn" class="help-close-btn" title="__MSG_closeDialog__" aria-label="__MSG_closeDialog__">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="help-intro">
+        <i class="fa-solid fa-circle-info help-intro-icon"></i>
+        <div class="help-intro-text">__MSG_helpIntroDes__</div>
+      </div>
+
+      <section class="help-shortcuts" id="helpShortcuts">
+        <h3 id="helpShortcutsTitle" class="help-section-title">
+          <i class="fa-regular fa-keyboard"></i>
+          <span>__MSG_shortcutsTitle__</span>
+        </h3>
+
+        <div>
+          <h4 class="help-group-title">__MSG_shortcutGroupExtension__</h4>
+          <div class="help-shortcut-grid">
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_toggleCapture__</span>
+              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>A</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_startAria2Str__</span>
+              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>X</kbd></span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="help-group-title">__MSG_shortcutGroupPage__</h4>
+          <div class="help-shortcut-grid">
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_Save__</span>
+              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>S</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_Reset__</span>
+              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>R</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_shortcutUploadConfig__</span>
+              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>U</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_shortcutDownloadConfig__</span>
+              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>J</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_importConfig__</span>
+              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>I</kbd></span>
+            </div>
+            <div class="help-shortcut-item">
+              <span class="help-shortcut-desc">__MSG_exportConfig__</span>
+              <span class="help-shortcut-keys"><kbd>Alt</kbd><span class="help-key-plus">+</span><kbd>E</kbd></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="help-works">
+        <h3 class="help-section-title">
+          <i class="fa-solid fa-table-cells-large"></i>
+          <span>__MSG_moreWorks__</span>
+        </h3>
+        <div id="helpWorks" class="help-works-grid">
+          <!-- Dynamically populated by HelpDialog.js -->
+        </div>
+      </section>
+    </div>
+  </dialog>
 
   <script src="js/options/options.js" type="module"></script>
 </body>

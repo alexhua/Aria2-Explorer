@@ -1,6 +1,11 @@
 import { DefaultAriaNgOptions } from "./config.js";
 import Logger from "./logger.js";
 
+const EXTENSION_ID = {
+    'Chrome': 'mpkodccbngfoacfalldjimigbofkhgjn',
+    'Edge': 'ngojgbdekanmijaphecgpmfoegoanffi'
+}
+
 class Utils {
     /**
     * export rpc list to ariaNG options
@@ -252,11 +257,10 @@ class Utils {
     }
 
     static getWebStoreUrl() {
-        let id = chrome.runtime.id;
-        if (/Edg/.test(navigator.userAgent))
-            return "https://microsoftedge.microsoft.com/addons/detail/" + id;
+        if (chrome.runtime.id === EXTENSION_ID.Edge)
+            return "https://microsoftedge.microsoft.com/addons/detail/" + EXTENSION_ID.Edge;
         else
-            return "https://chromewebstore.google.com/detail/" + id;
+            return "https://chromewebstore.google.com/detail/" + EXTENSION_ID.Chrome;
     }
 
     /**

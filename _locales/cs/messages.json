@@ -388,5 +388,38 @@
    },
    "urlPatternPlaceholderDes": {
       "message": "Vzor URL (oddělené čárkou)"
+   },
+   "helpTitle": {
+      "message": "Nápověda"
+   },
+   "shortcutsTitle": {
+      "message": "Klávesové zkratky"
+   },
+   "closeDialog": {
+      "message": "Zavřít"
+   },
+   "shortcutGroupExtension": {
+      "message": "Rozšíření"
+   },
+   "shortcutGroupPage": {
+      "message": "Tato stránka"
+   },
+   "shortcutUploadConfig": {
+      "message": "Nahrát konfiguraci do cloudu"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Stáhnout konfiguraci z cloudu"
+   },
+   "moreWorks": {
+      "message": "Další projekty"
+   },
+   "downCenterDesc": {
+      "message": "Vylepšená historie a správa stahování"
+   },
+   "goldIndexDesc": {
+      "message": "Sledování cen drahých kovů a zlata"
+   },
+   "helpIntroDes": {
+      "message": "Rozšíření se skládá ze dvou částí: zachytávání stahování a správy úloh. Tato stránka slouží ke konfiguraci zachytávání stahování. Kliknutím na ikonu na panelu nástrojů otevřete webové rozhraní, kde můžete spravovat úlohy a konfigurovat stahovací moduly."
    }
 }

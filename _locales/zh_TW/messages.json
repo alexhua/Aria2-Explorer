@@ -388,5 +388,38 @@
    },
    "urlPatternPlaceholderDes": {
       "message": "URL Pattern，逗號分隔"
+   },
+   "helpTitle": {
+      "message": "說明"
+   },
+   "shortcutsTitle": {
+      "message": "快速鍵"
+   },
+   "closeDialog": {
+      "message": "關閉"
+   },
+   "shortcutGroupExtension": {
+      "message": "擴充功能"
+   },
+   "shortcutGroupPage": {
+      "message": "本頁面"
+   },
+   "shortcutUploadConfig": {
+      "message": "上傳配置到雲端"
+   },
+   "shortcutDownloadConfig": {
+      "message": "從雲端下載配置"
+   },
+   "moreWorks": {
+      "message": "更多作品"
+   },
+   "downCenterDesc": {
+      "message": "增強的下載記錄與管理"
+   },
+   "goldIndexDesc": {
+      "message": "貴金屬行情與即時金價監控"
+   },
+   "helpIntroDes": {
+      "message": "擴充功能包含兩部分：下載攔截和任務管理。本頁面負責下載攔截相關的設定。透過工具列圖示開啟主介面，可以對任務管理介面和下載引擎進行相關設定。"
    }
 }

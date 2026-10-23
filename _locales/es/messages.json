@@ -388,5 +388,38 @@
    },
    "urlPatternPlaceholderDes": {
       "message": "Patrón de URL sep. por comas"
+   },
+   "helpTitle": {
+      "message": "Ayuda"
+   },
+   "shortcutsTitle": {
+      "message": "Atajos de teclado"
+   },
+   "closeDialog": {
+      "message": "Cerrar"
+   },
+   "shortcutGroupExtension": {
+      "message": "Extensión"
+   },
+   "shortcutGroupPage": {
+      "message": "Esta página"
+   },
+   "shortcutUploadConfig": {
+      "message": "Subir configuración a la nube"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Descargar configuración de la nube"
+   },
+   "moreWorks": {
+      "message": "Más proyectos"
+   },
+   "downCenterDesc": {
+      "message": "Historial y gestión de descargas mejorados"
+   },
+   "goldIndexDesc": {
+      "message": "Seguimiento de metales preciosos y precio del oro"
+   },
+   "helpIntroDes": {
+      "message": "La extensión consta de dos partes: captura de descargas y administración de tareas. Esta página gestiona la configuración de la captura de descargas. Haga clic en el icono de la barra de herramientas para abrir la interfaz principal, donde puede administrar tareas y configurar los motores de descarga."
    }
 }

@@ -388,5 +388,38 @@
    },
    "urlPatternPlaceholderDes": {
       "message": "URLパターン（カンマ区切り）"
+   },
+   "helpTitle": {
+      "message": "ヘルプ"
+   },
+   "shortcutsTitle": {
+      "message": "キーボードショートカット"
+   },
+   "closeDialog": {
+      "message": "閉じる"
+   },
+   "shortcutGroupExtension": {
+      "message": "拡張機能"
+   },
+   "shortcutGroupPage": {
+      "message": "このページ"
+   },
+   "shortcutUploadConfig": {
+      "message": "設定をクラウドへアップロード"
+   },
+   "shortcutDownloadConfig": {
+      "message": "クラウドから設定をダウンロード"
+   },
+   "moreWorks": {
+      "message": "その他の作品"
+   },
+   "downCenterDesc": {
+      "message": "ダウンロード履歴と管理を強化"
+   },
+   "goldIndexDesc": {
+      "message": "貴金属相場と金価格トラッカー"
+   },
+   "helpIntroDes": {
+      "message": "本拡張機能は「ダウンロードキャプチャ」と「タスク管理」の2つの部分で構成されています。このページではダウンロードキャプチャ関連の設定を行います。ツールバーアイコンをクリックしてメイン画面を開くと、タスク管理やダウンロードエンジンの設定が可能です。"
    }
 }

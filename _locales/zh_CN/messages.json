@@ -9,7 +9,7 @@
       "message": "导出到 "
    },
    "configPageTitle": {
-      "message": "扩展选项页面"
+      "message": "扩展选项配置页面"
    },
    "contextmenuStr": {
       "message": "右键菜单"
@@ -388,5 +388,38 @@
    },
    "urlPatternPlaceholderDes": {
       "message": "URL Pattern，逗号分隔"
+   },
+   "helpTitle": {
+      "message": "帮助"
+   },
+   "shortcutsTitle": {
+      "message": "快捷键"
+   },
+   "closeDialog": {
+      "message": "关闭"
+   },
+   "shortcutGroupExtension": {
+      "message": "扩展"
+   },
+   "shortcutGroupPage": {
+      "message": "本页面"
+   },
+   "shortcutUploadConfig": {
+      "message": "上传配置到云端"
+   },
+   "shortcutDownloadConfig": {
+      "message": "从云端下载配置"
+   },
+   "moreWorks": {
+      "message": "更多作品"
+   },
+   "downCenterDesc": {
+      "message": "增强的下载记录与管理"
+   },
+   "goldIndexDesc": {
+      "message": "贵金属行情与实时金价监控"
+   },
+   "helpIntroDes": {
+      "message": "扩展包含两部分：下载拦截和任务管理。本页面负责下载拦截相关的配置。通过工具栏图标打开主界面，可以对任务管理界面和下载引擎进行相关配置。"
    }
 }

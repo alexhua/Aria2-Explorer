@@ -388,5 +388,38 @@
    },
    "urlPatternPlaceholderDes": {
       "message": "URL pattern(s) separated by ,"
+   },
+   "helpTitle": {
+      "message": "Help"
+   },
+   "shortcutsTitle": {
+      "message": "Keyboard shortcuts"
+   },
+   "closeDialog": {
+      "message": "Close"
+   },
+   "shortcutGroupExtension": {
+      "message": "Extension"
+   },
+   "shortcutGroupPage": {
+      "message": "This page"
+   },
+   "shortcutUploadConfig": {
+      "message": "Upload config to cloud"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Download config from cloud"
+   },
+   "moreWorks": {
+      "message": "More works"
+   },
+   "downCenterDesc": {
+      "message": "Enhanced downloads history & management"
+   },
+   "goldIndexDesc": {
+      "message": "Precious metals & gold price tracker"
+   },
+   "helpIntroDes": {
+      "message": "This extension consists of two parts: Download Interception and Task Management. This page handles settings related to download interception. Click the toolbar icon to open the main Web UI, where you can manage tasks and configure download engines."
    }
 }

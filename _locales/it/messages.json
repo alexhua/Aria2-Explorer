@@ -388,5 +388,38 @@
    },
    "urlPatternPlaceholderDes": {
       "message": "Pattern URL separati da virgola"
+   },
+   "helpTitle": {
+      "message": "Guida"
+   },
+   "shortcutsTitle": {
+      "message": "Scorciatoie da tastiera"
+   },
+   "closeDialog": {
+      "message": "Chiudi"
+   },
+   "shortcutGroupExtension": {
+      "message": "Estensione"
+   },
+   "shortcutGroupPage": {
+      "message": "Questa pagina"
+   },
+   "shortcutUploadConfig": {
+      "message": "Carica config. nel cloud"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Scarica config. dal cloud"
+   },
+   "moreWorks": {
+      "message": "Altri progetti"
+   },
+   "downCenterDesc": {
+      "message": "Cronologia e gestione download avanzate"
+   },
+   "goldIndexDesc": {
+      "message": "Monitoraggio metalli preziosi e prezzo dell'oro"
+   },
+   "helpIntroDes": {
+      "message": "L'estensione è composta da due parti: cattura dei download e gestione delle attività. Questa pagina gestisce le impostazioni relative alla cattura dei download. Fai clic sull'icona della barra degli strumenti per aprire l'interfaccia principale, dove puoi gestire le attività e configurare i motori di download."
    }
 }

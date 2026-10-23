@@ -388,5 +388,38 @@
    },
    "urlPatternPlaceholderDes": {
       "message": "Шаблоны URL через запятую"
+   },
+   "helpTitle": {
+      "message": "Справка"
+   },
+   "shortcutsTitle": {
+      "message": "Горячие клавиши"
+   },
+   "closeDialog": {
+      "message": "Закрыть"
+   },
+   "shortcutGroupExtension": {
+      "message": "Расширение"
+   },
+   "shortcutGroupPage": {
+      "message": "Эта страница"
+   },
+   "shortcutUploadConfig": {
+      "message": "Загрузить настройки в облако"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Скачать настройки из облака"
+   },
+   "moreWorks": {
+      "message": "Другие работы"
+   },
+   "downCenterDesc": {
+      "message": "Улучшенная история и управление загрузками"
+   },
+   "goldIndexDesc": {
+      "message": "Цены на драгоценные металлы и золото"
+   },
+   "helpIntroDes": {
+      "message": "Расширение состоит из двух частей: перехват загрузок и управление задачами. Эта страница отвечает за настройки перехвата загрузок. Нажмите на значок на панели инструментов, чтобы открыть веб-интерфейс, где можно управлять задачами и настраивать движки загрузки."
    }
 }

@@ -413,7 +413,7 @@ a {
 .card-body.card-grid {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 0.2rem;
 }
 
 @media (min-width: 820px) {
@@ -424,7 +424,7 @@ a {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: repeat(2, auto);
     column-gap: 3rem;
-    row-gap: 0.55rem;
+    row-gap: 0.2rem;
   }
 
   /* Automatically scale rows: ceil(total / 2) */

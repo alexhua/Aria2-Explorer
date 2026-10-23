@@ -388,5 +388,38 @@
    },
    "urlPatternPlaceholderDes": {
       "message": "URL 패턴 (쉼표로 구분)"
+   },
+   "helpTitle": {
+      "message": "도움말"
+   },
+   "shortcutsTitle": {
+      "message": "키보드 단축키"
+   },
+   "closeDialog": {
+      "message": "닫기"
+   },
+   "shortcutGroupExtension": {
+      "message": "확장 프로그램"
+   },
+   "shortcutGroupPage": {
+      "message": "이 페이지"
+   },
+   "shortcutUploadConfig": {
+      "message": "설정을 클라우드에 업로드"
+   },
+   "shortcutDownloadConfig": {
+      "message": "클라우드에서 설정 다운로드"
+   },
+   "moreWorks": {
+      "message": "다른 작품"
+   },
+   "downCenterDesc": {
+      "message": "향상된 다운로드 기록 및 관리"
+   },
+   "goldIndexDesc": {
+      "message": "귀금속 시세 및 금 가격 추적"
+   },
+   "helpIntroDes": {
+      "message": "이 확장 프로그램은 다운로드 캡처와 작업 관리의 두 부분으로 구성됩니다. 이 페이지에서는 다운로드 캡처 관련 설정을 구성합니다. 툴바 아이콘을 클릭하여 메인 UI를 열면 작업 관리 및 다운로드 엔진 설정을 진행할 수 있습니다."
    }
 }

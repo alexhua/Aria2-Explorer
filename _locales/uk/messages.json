@@ -388,5 +388,38 @@
    },
    "urlPatternPlaceholderDes": {
       "message": "Шаблони URL через кому"
+   },
+   "helpTitle": {
+      "message": "Довідка"
+   },
+   "shortcutsTitle": {
+      "message": "Гарячі клавіші"
+   },
+   "closeDialog": {
+      "message": "Закрити"
+   },
+   "shortcutGroupExtension": {
+      "message": "Розширення"
+   },
+   "shortcutGroupPage": {
+      "message": "Ця сторінка"
+   },
+   "shortcutUploadConfig": {
+      "message": "Завантажити налаштування в хмару"
+   },
+   "shortcutDownloadConfig": {
+      "message": "Отримати налаштування з хмари"
+   },
+   "moreWorks": {
+      "message": "Інші роботи"
+   },
+   "downCenterDesc": {
+      "message": "Покращена історія та керування завантаженнями"
+   },
+   "goldIndexDesc": {
+      "message": "Ціни на дорогоцінні метали та золото"
+   },
+   "helpIntroDes": {
+      "message": "Розширення складається з двох частин: перехоплення завантажень та керування завданнями. Ця сторінка відповідає за налаштування перехоплення. Натисніть на піктограму на панелі інструментів, щоб відкрити веб-інтерфейс, де можна керувати завданнями та налаштовувати рушії завантаження."
    }
 }
