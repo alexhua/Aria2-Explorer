@@ -379,5 +379,14 @@
    },
    "mainUI": {
       "message": "la interfaz principal"
+   },
+   "rpcServerListStr": {
+      "message": "Lista de motores de descarga"
+   },
+   "addEngineConfigStr": {
+      "message": "Conf. de motor"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "Patrón de URL sep. por comas"
    }
-}
+}

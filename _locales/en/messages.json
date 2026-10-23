@@ -379,5 +379,14 @@
    },
    "mainUI": {
       "message": "Web UI"
+   },
+   "rpcServerListStr": {
+      "message": "Download Engine List"
+   },
+   "addEngineConfigStr": {
+      "message": "Engine Config"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "URL pattern(s) separated by ,"
    }
-}
+}

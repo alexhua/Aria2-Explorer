@@ -379,5 +379,14 @@
    },
    "mainUI": {
       "message": "webové rozhraní"
+   },
+   "rpcServerListStr": {
+      "message": "Seznam stahovacích modulů"
+   },
+   "addEngineConfigStr": {
+      "message": "Konfigurace stahovače"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "Vzor URL (oddělené čárkou)"
    }
-}
+}

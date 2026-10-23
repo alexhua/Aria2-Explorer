@@ -379,5 +379,14 @@
    },
    "mainUI": {
       "message": "веб-інтерфейс"
+   },
+   "rpcServerListStr": {
+      "message": "Список рушіїв завантаження"
+   },
+   "addEngineConfigStr": {
+      "message": "Конфігурація рушія"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "Шаблони URL через кому"
    }
-}
+}

@@ -11,6 +11,9 @@ const SecretKeyStr = chrome.i18n.getMessage("SecretKey");
 const DownloadLocationStr = chrome.i18n.getMessage("DownloadLocation");
 const MarkAsSecureTip = chrome.i18n.getMessage("MarkAsSecureTip");
 const MarkAsInsecureTip = chrome.i18n.getMessage("MarkAsInsecureTip");
+const RpcServerListStr = chrome.i18n.getMessage("rpcServerListStr");
+const AddEngineConfigStr = chrome.i18n.getMessage("addEngineConfigStr");
+const UrlPatternPlaceholderDes = chrome.i18n.getMessage("urlPatternPlaceholderDes");
 
 import { ConfigService } from "../services/ConfigService.js";
 
@@ -69,12 +72,12 @@ export class RpcManager {
     #buildRpcItemHtml(index, enableRequired) {
         const required = (enableRequired || index == 0) ? "required" : "";
         const addBtnOrPattern = index == 0
-            ? `<div class="add-rpc-wrapper"><button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-circle-plus"></i> RPC Server</button></div>`
-            : `<input id="pattern-${index}" type="text" class="form-control col-sm-3 pattern" placeholder="URL Pattern(s) splitted by ,">`;
+            ? `<div class="add-rpc-wrapper"><button class="btn btn-primary" id="add-rpc"><i class="fa-solid fa-plus"></i> ${AddEngineConfigStr}</button></div>`
+            : `<input id="pattern-${index}" type="text" class="form-control col-sm-3 pattern" placeholder="${UrlPatternPlaceholderDes}">`;
 
         return `<div class="form-group row rpcGroup">
             <label class="col-form-label col-sm-2 text-info">
-                ${index == 0 ? '<i class="fa-solid fa-server"></i> Aria2-RPC-Server' : ''}
+                ${index == 0 ? '<i class="fa-solid fa-server"></i> ' + RpcServerListStr : ''}
             </label>
             <div id="rpcItem-${index}" class="input-group col-sm-10">
                 <input id="name-${index}" type="text" class="form-control col-sm-1 name"

@@ -9,7 +9,7 @@
       "message": "导出到 "
    },
    "configPageTitle": {
-      "message": "扩展配置页面"
+      "message": "扩展选项页面"
    },
    "contextmenuStr": {
       "message": "右键菜单"
@@ -369,15 +369,24 @@
       "message": "下载目录"
    },
    "tourStep2Body": {
-      "message": "设置拦截下载的默认保存位置。留空时，扩展将按顺序读取：<b>主界面设置</b>（<code>dir</code>）→ <b>Aria2 配置文件</b>（<code>dir</code>）→ <b>Aria2 所在目录</b>。"
+      "message": "设置拦截下载的默认保存位置。留空时，扩展将按顺序读取：<b>主界面：下载设置</b>（<code>dir</code>）→ <b>Aria2 配置文件</b>（<code>dir</code>）→ <b>Aria2 所在目录</b>。"
    },
    "tourStep3Title": {
       "message": "智能下载路由"
    },
    "tourStep3Body": {
-      "message": "点击 <b>＋ RPC Server</b> 添加更多服务器，并为每个设置 <b>URL Pattern</b>（如 <code>*youtube*</code>、<code>*.iso*</code>）。当下载链接匹配到对应 Pattern 时，扩展会自动选择该服务器并保存到对应目录——轻松实现按来源或文件类型自动分类保存。"
+      "message": "点击 <b>＋引擎配置</b> 添加更多服务器，并为每个设置 <b>URL Pattern</b>（如 <code>*youtube*</code>, code>*.iso*</code>）。当下载链接匹配到对应 Pattern 时，扩展会自动选择该服务器并保存到对应目录——轻松实现按来源或文件类型自动分类保存。"
    },
    "mainUI": {
       "message": "主界面"
+   },
+   "rpcServerListStr": {
+      "message": "下载引擎列表"
+   },
+   "addEngineConfigStr": {
+      "message": "引擎配置"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "URL Pattern，逗号分隔"
    }
-}
+}

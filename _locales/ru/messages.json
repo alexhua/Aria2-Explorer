@@ -379,5 +379,14 @@
    },
    "mainUI": {
       "message": "веб-интерфейс"
+   },
+   "rpcServerListStr": {
+      "message": "Список движков загрузки"
+   },
+   "addEngineConfigStr": {
+      "message": "Конфигурация движка"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "Шаблоны URL через запятую"
    }
-}
+}

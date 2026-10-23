@@ -12,9 +12,19 @@ const ColorModeList = [
 ];
 
 const OptionDeps = {
+    // Section 1: Context Menu
     askBeforeExport: 'contextMenus',
+
+    // Section 2: Browser Download Interception
+    fileSize: 'integration',
     checkClick: 'integration',
+    askBeforeDownload: 'integration',
+
+    // Section 3: Aria2 Status Monitor & Notifications
+    monitorAll: 'monitorAria2',
     keepAwake: 'monitorAria2',
+    badgeText: 'monitorAria2',
+    allowNotification: 'monitorAria2',
     keepSilent: 'allowNotification'
 };
 
@@ -103,34 +113,33 @@ export class UIController {
     /**
      * Setup dependency listeners
      */
-    #setupDependencies(config) {
-        this.#updateDependencyState(config);
+    #setupDependencies() {
+        this.#updateDependencyState();
 
-        for (const [dependent, dependency] of Object.entries(OptionDeps)) {
-            const depEl = QS(`#${dependency}`);
-            if (!depEl) continue;
-            // Replace with clone to clear previous listeners safely
-            const fresh = depEl.cloneNode(true);
-            depEl.replaceWith(fresh);
-            fresh.addEventListener("change", () => {
-                const target = QS(`#${dependent}`);
-                if (target) target.disabled = !fresh.checked;
-            });
-        }
+        // Bind change listener once per unique dependency
+        const uniqueDependencies = new Set(Object.values(OptionDeps));
+        uniqueDependencies.forEach(depId => {
+            const depEl = QS(`#${depId}`);
+            if (depEl) {
+                depEl.addEventListener("change", () => this.#updateDependencyState());
+            }
+        });
     }
 
     /**
-     * Update dependency state (enable/disable inputs)
+     * Update dependency state (enable/disable inputs with cascade support)
      */
-    #updateDependencyState(config) {
-        for (const [dependent, dependency] of Object.entries(OptionDeps)) {
-            const depEl = QS(`#${dependency}`);
-            const target = QS(`#${dependent}`);
-            if (!target) continue;
-            const isEnabled = config[dependency] !== undefined
-                ? config[dependency]
-                : depEl?.checked ?? false;
-            target.disabled = !isEnabled;
+    #updateDependencyState() {
+        // Run passes to propagate multi-level cascading dependencies
+        for (let pass = 0; pass < 2; pass++) {
+            for (const [dependent, dependency] of Object.entries(OptionDeps)) {
+                const depEl = QS(`#${dependency}`);
+                const target = QS(`#${dependent}`);
+                if (!target || !depEl) continue;
+
+                const isEnabled = !depEl.disabled && Boolean(depEl.checked);
+                target.disabled = !isEnabled;
+            }
         }
     }
 
@@ -313,6 +322,7 @@ export class UIController {
         this.#setColorMode();
         this.#fillFormData(config);
         this.rpcManager.render();
+        this.#updateSegmentedControls(false);
         this.captureSnapshot();
     }
 
@@ -424,6 +434,17 @@ export class UIController {
     }
 
     /**
+     * Refresh active indicators for all segmented controls
+     */
+    #updateSegmentedControls(animate = false) {
+        QSA(".segmented-control").forEach(control => {
+            if (typeof control._updateActive === "function") {
+                control._updateActive(animate);
+            }
+        });
+    }
+
+    /**
      * Setup sliding active & hover indicators for segmented controls
      */
     #setupSegmentedControls() {
@@ -471,6 +492,9 @@ export class UIController {
                     activeIndicator.style.transition = "";
                 }
             };
+
+            // Expose updateActive on control for programmatic refresh
+            control._updateActive = updateActive;
 
             // Slide active pill when user selects another option
             control.addEventListener("change", () => updateActive(true));

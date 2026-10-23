@@ -369,15 +369,24 @@
       "message": "下載目錄"
    },
    "tourStep2Body": {
-      "message": "設定攔截下載的默認保存位置。留空時，擴充功能將按順序讀取：<b>主界面設定</b>（<code>dir</code>）→ <b>Aria2 設定檔</b>（<code>dir</code>）→ <b>Aria2 所在目錄</b>。"
+      "message": "設定攔截下載的默認保存位置。留空時，擴充功能將按順序讀取：<b>主界面：下載設定</b>（<code>dir</code>）→ <b>Aria2 設定檔</b>（<code>dir</code>）→ <b>Aria2 所在目錄</b>。"
    },
    "tourStep3Title": {
       "message": "智慧下載路由"
    },
    "tourStep3Body": {
-      "message": "點擊 <b>＋ RPC Server</b> 新增更多伺服器，並為每個設定 <b>URL Pattern</b>（如 <code>*youtube*</code>、<code>*.iso*</code>）。當下載連結匹配到對應 Pattern 時，擴充功能會自動選擇該伺服器並保存到對應目錄——輕鬆實現按來源或檔案類型自動分類保存。"
+      "message": "點擊 <b>＋引擎配置</b> 新增更多伺服器，並為每個設定 <b>URL Pattern</b>（如 <code>*youtube*</code>, code>*.iso*</code>）。當下載連結匹配到對應 Pattern 時，擴充功能會自動選擇該伺服器並保存到對應目錄——輕鬆實現按來源或檔案類型自動分類保存。"
    },
    "mainUI": {
       "message": "主界面"
+   },
+   "rpcServerListStr": {
+      "message": "下載引擎列表"
+   },
+   "addEngineConfigStr": {
+      "message": "引擎配置"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "URL Pattern，逗號分隔"
    }
-}
+}

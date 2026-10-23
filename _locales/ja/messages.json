@@ -375,9 +375,18 @@
       "message": "スマート・ダウンロード・ルーティング"
    },
    "tourStep3Body": {
-      "message": "RPC サーバーをさらに追加し、それぞれに <b>URL Pattern</b>（例：<code>*youtube*</code>、<code>*.iso*</code>）を設定できます。ダウンロード URL がパターンに一致すると、拡張機能は自動的にそのサーバーを選択して保存します。ソースやファイルタイプ別に簡単に自動分類できます。"
+      "message": "RPC サーバーをさらに追加し、それぞれに <b>URL Pattern</b>（例：<code>*youtube*</code>, code>*.iso*</code>）を設定できます。ダウンロード URL がパターンに一致すると、拡張機能は自動的にそのサーバーを選択して保存します。ソースやファイルタイプ別に簡単に自動分類できます。"
    },
    "mainUI": {
       "message": "メイン画面"
+   },
+   "rpcServerListStr": {
+      "message": "ダウンロードエンジン一覧"
+   },
+   "addEngineConfigStr": {
+      "message": "エンジン設定"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "URLパターン（カンマ区切り）"
    }
-}
+}

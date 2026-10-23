@@ -379,5 +379,14 @@
    },
    "mainUI": {
       "message": "메인 UI"
+   },
+   "rpcServerListStr": {
+      "message": "다운로드 엔진 목록"
+   },
+   "addEngineConfigStr": {
+      "message": "엔진 설정"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "URL 패턴 (쉼표로 구분)"
    }
-}
+}

@@ -86,7 +86,7 @@ html.dark-mode .segmented-control {
 
 html.dark-mode .segmented-active-indicator {
   background-color: #243248;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.45), 0 2px 6px -1px rgba(0, 0, 0, 0.35);
 }
 
 html.dark-mode .segmented-hover-indicator {
@@ -96,17 +96,6 @@ html.dark-mode .segmented-hover-indicator {
 
 html.dark-mode .segmented-option input[type="radio"]:checked + label {
   color: #60a5fa;
-}
-
-/* Icon selection in Dark Mode */
-html.dark-mode .icon-style-option label {
-  background-color: #131c2e;
-  border-color: var(--border-color);
-}
-
-html.dark-mode .icon-style-option input[type="radio"]:checked + label {
-  background-color: rgba(59, 130, 246, 0.18);
-  border-color: var(--color-primary);
 }
 
 /* Filter Textareas in Dark Mode */

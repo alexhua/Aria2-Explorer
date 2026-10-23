@@ -379,5 +379,14 @@
    },
    "mainUI": {
       "message": "l'interface principale"
+   },
+   "rpcServerListStr": {
+      "message": "Liste des moteurs de téléchargement"
+   },
+   "addEngineConfigStr": {
+      "message": "Config. du moteur"
+   },
+   "urlPatternPlaceholderDes": {
+      "message": "Modèle d'URL séparé par virgule"
    }
-}
+}
