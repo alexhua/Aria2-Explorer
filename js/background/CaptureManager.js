@@ -91,7 +91,7 @@ export class CaptureManager {
      */
     async #handleCaptureAsync(downloadItem) {
         // Cancel Chrome download
-        chrome.downloads.cancel(downloadItem.id).then(() => {
+        const cancelled = chrome.downloads.cancel(downloadItem.id).then(() => {
             if (chrome.runtime.lastError) {
                 chrome.runtime.lastError = null;
             }
@@ -103,6 +103,10 @@ export class CaptureManager {
 
         const rpcItem = this.downloadManager.getRpcServer(downloadItem.url + downloadItem.filename);
         const successful = await this.downloadManager.download(downloadItem, rpcItem);
+
+        if (successful) {
+            cancelled.then(() => chrome.downloads.erase({ id: downloadItem.id })).catch(() => { });
+        }
 
         // If failed and is localhost, temporarily disable capture and use browser download
         if (!successful && Utils.isLocalhost(rpcItem.url)) {
